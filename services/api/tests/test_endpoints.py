@@ -295,3 +295,43 @@ def test_chunked_oversized_body_gets_413(make_client):
 def test_interactive_docs_disabled_by_default(make_client):
     c = make_client()
     assert c.get("/docs").status_code == 404 and c.get("/openapi.json").status_code == 404
+
+
+async def test_undeclared_small_body_then_disconnect_polling_works():
+    # Reviewer N-1: after replaying a buffered body, further receive() calls (Request.is_disconnected
+    # polling during generation) must reach the real channel, not recurse.
+    from smartcity_api.middleware import SmartCityMiddleware
+
+    seen: list[str] = []
+
+    async def app(scope, receive, send):
+        first = await receive()
+        seen.append(first["type"] + ":" + first["body"].decode())
+        second = await receive()  # what is_disconnected() does
+        seen.append(second["type"])
+        await send({"type": "http.response.start", "status": 200, "headers": []})
+        await send({"type": "http.response.body", "body": b"ok"})
+
+    mw = SmartCityMiddleware(
+        app, max_body_bytes=1024, recommend_limit="100/minute", general_limit="100/minute"
+    )
+    msgs = iter(
+        [
+            {"type": "http.request", "body": b"ab", "more_body": True},
+            {"type": "http.request", "body": b"c", "more_body": False},
+            {"type": "http.disconnect"},
+        ]
+    )
+
+    async def receive():
+        return next(msgs)
+
+    sent: list[dict] = []
+
+    async def send(m):
+        sent.append(m)
+
+    scope = {"type": "http", "method": "POST", "path": "/api/x", "headers": [], "client": ("1.2.3.4", 1)}
+    await mw(scope, receive, send)
+    assert seen == ["http.request:abc", "http.disconnect"]
+    assert sent[0]["status"] == 200

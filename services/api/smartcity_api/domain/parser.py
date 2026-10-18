@@ -165,6 +165,8 @@ def parse_query(text: str) -> ParsedQuery:
                 rf"(?<!\w)не\s+(?:хочу|хотим|надо|нужно|пойду|пойдем)\s+(?:\S+\s+)?(?:в\s+|на\s+)?(?:{words})",
                 t_no_air,
             )
+            or re.search(rf"\bникаки[хм]\s+(?:{words})", t_no_air)
+            or re.search(rf"(?<!\w)(?:но\s+)?не\s+в\s+(?:{words})", t_no_air)
         )
         if excluded:
             _add(out.exclude_categories, cat)
@@ -176,7 +178,9 @@ def parse_query(text: str) -> ParsedQuery:
             _add(out.soft_categories, cat)
 
     out.near = bool(_NEAR_RE.search(t_no_air))
-    out.must_be_open = bool(_OPEN_RE.search(t_no_air)) and not re.search(r"не важно.{0,20}открыт", t_no_air)
+    out.must_be_open = bool(_OPEN_RE.search(t_no_air)) and not re.search(
+        r"(?:не важно|неважно|вс[её] равно|без разницы).{0,25}открыт|открыт\w*\s+или\s+нет", t_no_air
+    )
     out.quiet = bool(_QUIET_RE.search(t_no_air))
     out.budget_min = _parse_budget(t_no_air)
     if _RETURN_NO_RE.search(t_no_air):

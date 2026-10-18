@@ -203,13 +203,14 @@ class SmartCityMiddleware:
                 more = message.get("more_body", False)
             buffered = b"".join(chunks)
             replayed = False
+            original_receive = receive  # keep the real channel: later calls (disconnect polling) use it
 
             async def replay_receive() -> Message:
                 nonlocal replayed
                 if not replayed:
                     replayed = True
                     return {"type": "http.request", "body": buffered, "more_body": False}
-                return await receive()
+                return await original_receive()
 
             receive = replay_receive  # noqa: PLW2901 - the app reads the buffered body
 

@@ -51,7 +51,7 @@ FEATURE_CLAIM_RE: dict[str, re.Pattern[str]] = {
     ),
     "wheelchair": re.compile(r"колясочн|инвалид|пандус|маломобил|безбарьер", re.IGNORECASE),
     "indoor": re.compile(r"в помещени|под крыш|в здании|внутри (?:помещ|здан|торгов|тц)", re.IGNORECASE),
-    "kids": re.compile(r"\bдет(и|ей|ям|ьми|ск\w*)\b|реб[её]н|малыш", re.IGNORECASE),
+    "kids": re.compile(r"\bдет(и|ей|ям|ьми|ск\w*)\b|реб[её]н|ребят|малыш", re.IGNORECASE),
 }
 # Amenity / quality claims that need a basis in the candidate's own factual text.
 GROUNDED_TERMS: tuple[str, ...] = (

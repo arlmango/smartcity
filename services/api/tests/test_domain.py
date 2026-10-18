@@ -401,3 +401,18 @@ def test_open_hours_markers_still_detected():
 def test_P3_open_ended_hours_unknown():
     assert evaluate_opening("Mo-Su 10:00+", at(12), 30).status == "unknown"
     assert evaluate_opening("Mo-Su 10:00-22:00", at(12), 30).status == "open"
+
+
+@pytest.mark.parametrize(
+    ("text", "exclude_cafe", "must_open"),
+    [
+        ("Никаких кафе, просто погулять", True, False),
+        ("Хочу кофе, но не в кафе", True, False),
+        ("Мне всё равно, открыто или нет", False, False),
+        ("чтобы было открыто", False, True),
+    ],
+)
+def test_parser_reviewer_residuals(text, exclude_cafe, must_open):
+    p = parse_query(text)
+    assert ("cafe" in p.exclude_categories) is exclude_cafe
+    assert p.must_be_open is must_open
