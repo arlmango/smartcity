@@ -1,8 +1,0 @@
-# Optional override for networks behind a TLS-intercepting proxy: trust an extra CA bundle
-# and pass the proxy to Ollama model pulls. Usage: OLLAMA_EXTRA_CA_BUNDLE=/path/ca.crt make models
-services:
-  ollama:
-    environment:
-      HTTPS_PROXY: ${HTTPS_PROXY:-}
-    volumes:
-      - ${OLLAMA_EXTRA_CA_BUNDLE}:/etc/ssl/certs/ca-certificates.crt:ro

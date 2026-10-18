@@ -8,7 +8,7 @@
 ## Тома и бэкапы
 - `smartcity_dbdata` — PostgreSQL. `make backup` → data/backups/*.dump (+sha256). Проверка: `make backup-test`.
 - `make restore BACKUP=…` восстанавливает в НОВУЮ БД; `FORCE=1` заменяет `smartcity` только после автоматического бэкапа, старая БД остаётся как `smartcity_replaced_*`.
-- `smartcity_ollama` — модели (воспроизводимо через `CONFIRM=1 make models`).
+- `smartcity_ollama` — модели (воспроизводимо через `CONFIRM=1 make models`; за TLS-перехватывающим прокси: `OLLAMA_EXTRA_CA_BUNDLE=/path/ca.crt`).
 
 ## Reverse proxy / TLS
 Публиковать только web (порт 3000) за reverse proxy (Caddy/nginx) с TLS. API и БД слушают 127.0.0.1. `CORS_ORIGINS` = публичный origin. Браузер обращается к API через same-origin прокси Next.js.
