@@ -1,0 +1,348 @@
+[22:30:57] smartcity-ingest all  -> artifacts/ingest/20261018T223057Z-all.txt
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+2026-10-18 22:30:58,138 INFO smartcity_ingest.snapshot: fetch group poi_cafe_food
+2026-10-18 22:30:59,427 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:30:59,427 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:31:23,817 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:31:23,820 INFO smartcity_ingest.snapshot: group poi_cafe_food: 51 elements, 24888 bytes
+2026-10-18 22:31:23,820 INFO smartcity_ingest.snapshot: fetch group poi_culture
+2026-10-18 22:31:26,287 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:31:26,287 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:32:24,836 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 22:32:24,836 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 22:32:56,064 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:32:56,064 WARNING smartcity_ingest.overpass: overpass attempt 3/3 failed: HTTP 504
+2026-10-18 22:32:56,065 ERROR smartcity_ingest.snapshot: group poi_culture failed: HTTP 504
+2026-10-18 22:32:56,065 INFO smartcity_ingest.snapshot: fetch group poi_attraction
+2026-10-18 22:33:47,477 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 22:33:47,478 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:33:58,655 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:33:58,655 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 22:35:23,102 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 22:35:23,103 WARNING smartcity_ingest.overpass: overpass attempt 3/3 failed: HTTP 504
+2026-10-18 22:35:23,103 ERROR smartcity_ingest.snapshot: group poi_attraction failed: HTTP 504
+2026-10-18 22:35:23,103 INFO smartcity_ingest.snapshot: fetch group poi_park_playground
+2026-10-18 22:35:25,573 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:35:25,574 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:36:28,293 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 22:36:28,293 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 22:37:15,895 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:37:15,910 INFO smartcity_ingest.snapshot: group poi_park_playground: 75 elements, 80697 bytes
+2026-10-18 22:37:15,910 INFO smartcity_ingest.snapshot: fetch group poi_mall
+2026-10-18 22:37:18,349 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:37:18,349 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:37:42,431 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:37:42,433 INFO smartcity_ingest.snapshot: group poi_mall: 2 elements, 5430 bytes
+2026-10-18 22:37:42,433 INFO smartcity_ingest.snapshot: fetch group map_buildings
+2026-10-18 22:37:44,893 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:37:44,893 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:38:10,852 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:38:11,455 INFO smartcity_ingest.snapshot: group map_buildings: 1812 elements, 1677795 bytes
+2026-10-18 22:38:11,455 INFO smartcity_ingest.snapshot: fetch group map_roads
+2026-10-18 22:38:13,702 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:38:13,703 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:38:40,762 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:38:41,850 INFO smartcity_ingest.snapshot: group map_roads: 5310 elements, 3617555 bytes
+2026-10-18 22:38:41,850 INFO smartcity_ingest.snapshot: fetch group map_water
+2026-10-18 22:38:43,826 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:38:43,826 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 22:38:54,930 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:38:54,931 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 22:39:26,065 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 22:39:26,065 WARNING smartcity_ingest.overpass: overpass attempt 3/3 failed: HTTP 504
+2026-10-18 22:39:26,065 ERROR smartcity_ingest.snapshot: group map_water failed: HTTP 504
+2026-10-18 22:39:26,065 INFO smartcity_ingest.snapshot: fetch group map_green
+2026-10-18 22:39:45,190 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:39:45,753 INFO smartcity_ingest.snapshot: group map_green: 1784 elements, 1601947 bytes
+2026-10-18 22:39:45,756 INFO smartcity_ingest.snapshot: fetch group map_landmarks
+2026-10-18 22:40:02,123 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 22:40:02,124 INFO smartcity_ingest.snapshot: group map_landmarks: 42 elements, 12436 bytes
+{
+  "snapshot": "/tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/data/snapshots/osm-20261018T223058Z",
+  "status": "partial",
+  "osm_base": "2026-10-18T22:37:58Z",
+  "groups": {
+    "poi_cafe_food": {
+      "status": "ok",
+      "elements": 51,
+      "bytes": 24888,
+      "error": null
+    },
+    "poi_culture": {
+      "status": "failed",
+      "elements": null,
+      "bytes": null,
+      "error": "HTTP 504"
+    },
+    "poi_attraction": {
+      "status": "failed",
+      "elements": null,
+      "bytes": null,
+      "error": "HTTP 504"
+    },
+    "poi_park_playground": {
+      "status": "ok",
+      "elements": 75,
+      "bytes": 80697,
+      "error": null
+    },
+    "poi_mall": {
+      "status": "ok",
+      "elements": 2,
+      "bytes": 5430,
+      "error": null
+    },
+    "map_buildings": {
+      "status": "ok",
+      "elements": 1812,
+      "bytes": 1677795,
+      "error": null
+    },
+    "map_roads": {
+      "status": "ok",
+      "elements": 5310,
+      "bytes": 3617555,
+      "error": null
+    },
+    "map_water": {
+      "status": "failed",
+      "elements": null,
+      "bytes": null,
+      "error": "HTTP 504"
+    },
+    "map_green": {
+      "status": "ok",
+      "elements": 1784,
+      "bytes": 1601947,
+      "error": null
+    },
+    "map_landmarks": {
+      "status": "ok",
+      "elements": 42,
+      "bytes": 12436,
+      "error": null
+    }
+  }
+}
+{
+  "run_id": "2c25db21-9440-4976-b147-77d401bbc828",
+  "status": "partial",
+  "snapshot": "osm-20261018T223058Z",
+  "counts": {
+    "groups_ok": [
+      "poi_cafe_food",
+      "poi_park_playground",
+      "poi_mall",
+      "map_buildings",
+      "map_roads",
+      "map_green",
+      "map_landmarks"
+    ],
+    "groups_failed": [
+      "poi_culture",
+      "poi_attraction",
+      "map_water"
+    ],
+    "snapshot_complete": false,
+    "inserted": 119,
+    "merged_into_alias": 0,
+    "deactivated": 0,
+    "deactivation_skipped_reason": "snapshot not complete",
+    "records": 119,
+    "active_places": 119,
+    "by_category": {
+      "cafe": 22,
+      "food": 25,
+      "mall": 1,
+      "park": 5,
+      "playground": 66
+    },
+    "skipped_unnamed": 7,
+    "skipped_no_geometry": 0,
+    "skipped_outside_coverage": 1,
+    "website_rejected": 0,
+    "dedup_merges": 1,
+    "dedup_rejected": [
+      {
+        "a": "node/5878572885",
+        "b": "node/8121843217",
+        "distance_m": 6.1,
+        "reason": "nodes <=15 m apart, no common name/phone/website/address"
+      },
+      {
+        "a": "node/12093489321",
+        "b": "node/13397061028",
+        "distance_m": 12.8,
+        "reason": "nodes <=15 m apart, no common name/phone/website/address"
+      }
+    ],
+    "poi_groups_failed": [
+      "poi_culture",
+      "poi_attraction"
+    ]
+  },
+  "error": null
+}
+build-map skipped, existing data/map left unchanged: map groups missing in snapshot: ['map_water']; map not rebuilt
+index failed (committed batches kept; rerun `index`): ProviderUnavailable: ollama tags: ConnectError
+{
+  "found": 7,
+  "checks": [
+    {
+      "from": "nur_alem",
+      "to": "expo_site",
+      "distance_m": 538.2,
+      "bearing_deg": 43.0,
+      "direction": "NE"
+    },
+    {
+      "from": "nur_alem",
+      "to": "expo_quarter",
+      "distance_m": 244.6,
+      "bearing_deg": 323.3,
+      "direction": "NW"
+    },
+    {
+      "from": "nur_alem",
+      "to": "mega_silk_way",
+      "distance_m": 611.4,
+      "bearing_deg": 268.2,
+      "direction": "W"
+    },
+    {
+      "from": "nur_alem",
+      "to": "botanical_garden",
+      "distance_m": 1875.5,
+      "bearing_deg": 0.8,
+      "direction": "N"
+    },
+    {
+      "from": "nur_alem",
+      "to": "nazarbayev_university",
+      "distance_m": 1335.4,
+      "bearing_deg": 285.8,
+      "direction": "WNW"
+    },
+    {
+      "from": "expo_site",
+      "to": "expo_quarter",
+      "distance_m": 549.9,
+      "bearing_deg": 248.9,
+      "direction": "WSW"
+    },
+    {
+      "from": "expo_site",
+      "to": "mega_silk_way",
+      "distance_m": 1061.4,
+      "bearing_deg": 247.1,
+      "direction": "WSW"
+    },
+    {
+      "from": "expo_site",
+      "to": "botanical_garden",
+      "distance_m": 1520.2,
+      "bearing_deg": 347.0,
+      "direction": "NNW"
+    },
+    {
+      "from": "expo_site",
+      "to": "nazarbayev_university",
+      "distance_m": 1652.0,
+      "bearing_deg": 268.9,
+      "direction": "W"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "mega_silk_way",
+      "distance_m": 512.1,
+      "bearing_deg": 245.2,
+      "direction": "WSW"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "botanical_garden",
+      "distance_m": 1688.0,
+      "bearing_deg": 5.8,
+      "direction": "N"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "nazarbayev_university",
+      "distance_m": 1150.9,
+      "bearing_deg": 278.4,
+      "direction": "W"
+    },
+    {
+      "from": "mega_silk_way",
+      "to": "botanical_garden",
+      "distance_m": 1998.4,
+      "bearing_deg": 18.6,
+      "direction": "NNE"
+    },
+    {
+      "from": "mega_silk_way",
+      "to": "nazarbayev_university",
+      "distance_m": 774.8,
+      "bearing_deg": 299.6,
+      "direction": "WNW"
+    },
+    {
+      "from": "botanical_garden",
+      "to": "nazarbayev_university",
+      "distance_m": 2000.9,
+      "bearing_deg": 220.9,
+      "direction": "SW"
+    },
+    {
+      "from": "nur_alem",
+      "to": "mangilik_el",
+      "distance_to_line_m": 605.2,
+      "side": "right of line direction 194°"
+    },
+    {
+      "from": "expo_site",
+      "to": "mangilik_el",
+      "distance_to_line_m": 315.5,
+      "side": "right of line direction 193°"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "mangilik_el",
+      "distance_to_line_m": 788.8,
+      "side": "right of line direction 192°"
+    },
+    {
+      "from": "mega_silk_way",
+      "to": "mangilik_el",
+      "distance_to_line_m": 1217.6,
+      "side": "right of line direction 193°"
+    },
+    {
+      "from": "botanical_garden",
+      "to": "mangilik_el",
+      "distance_to_line_m": 936.0,
+      "side": "right of line direction 188°"
+    },
+    {
+      "from": "nazarbayev_university",
+      "to": "mangilik_el",
+      "distance_to_line_m": 1993.1,
+      "side": "right of line direction 193°"
+    }
+  ]
+}
+{
+  "dataset_manifest": "/tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/data/manifests/dataset_manifest.json",
+  "docs": "/tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/docs/DATA.md",
+  "active_places": 119,
+  "by_category": {
+    "cafe": 22,
+    "food": 25,
+    "mall": 1,
+    "park": 5,
+    "playground": 66
+  }
+}
+exit_code=4
+make: *** [Makefile:22: ingest] Error 4
+exit=2

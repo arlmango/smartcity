@@ -1,0 +1,54 @@
+[22:42:07] starting compose ollama for embeddings
+ Container smartcityclean-ollama-1 Recreate 
+ Container smartcityclean-ollama-1 Recreated 
+ Container smartcityclean-ollama-1 Starting 
+ Container smartcityclean-ollama-1 Started 
+ Container smartcityclean-ollama-1 Waiting 
+ Container smartcityclean-ollama-1 Healthy 
+[22:42:13] smartcity-ingest index  -> artifacts/ingest/20261018T224213Z-index.txt
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+2026-10-18 22:42:14,124 INFO httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-10-18 22:42:16,940 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:18,521 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:18,539 INFO smartcity_ingest.indexer: embedded 8/126
+2026-10-18 22:42:19,690 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:19,703 INFO smartcity_ingest.indexer: embedded 16/126
+2026-10-18 22:42:20,720 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:20,732 INFO smartcity_ingest.indexer: embedded 24/126
+2026-10-18 22:42:21,723 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:21,737 INFO smartcity_ingest.indexer: embedded 32/126
+2026-10-18 22:42:23,369 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:23,381 INFO smartcity_ingest.indexer: embedded 40/126
+2026-10-18 22:42:24,354 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:24,364 INFO smartcity_ingest.indexer: embedded 48/126
+2026-10-18 22:42:25,674 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:25,688 INFO smartcity_ingest.indexer: embedded 56/126
+2026-10-18 22:42:26,638 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:26,652 INFO smartcity_ingest.indexer: embedded 64/126
+2026-10-18 22:42:27,672 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:27,687 INFO smartcity_ingest.indexer: embedded 72/126
+2026-10-18 22:42:28,639 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:28,654 INFO smartcity_ingest.indexer: embedded 80/126
+2026-10-18 22:42:29,742 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:29,755 INFO smartcity_ingest.indexer: embedded 88/126
+2026-10-18 22:42:31,011 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:31,024 INFO smartcity_ingest.indexer: embedded 96/126
+2026-10-18 22:42:32,170 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:32,182 INFO smartcity_ingest.indexer: embedded 104/126
+2026-10-18 22:42:33,738 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:33,753 INFO smartcity_ingest.indexer: embedded 112/126
+2026-10-18 22:42:35,406 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:35,422 INFO smartcity_ingest.indexer: embedded 120/126
+2026-10-18 22:42:36,201 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 22:42:36,211 INFO smartcity_ingest.indexer: embedded 126/126
+{
+  "model_id": "ollama:bge-m3@790764642607",
+  "dim": 1024,
+  "embedded": 126,
+  "skipped": 0,
+  "pruned_other_models": 0,
+  "total_rows_for_model": 126,
+  "other_model_rows": 0
+}
+exit_code=0
+exit=0

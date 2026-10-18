@@ -1,0 +1,28 @@
+Tools:
+  docker   Docker version 29.8.2, build 7fc2dff
+  uv       uv 0.11.32 (x86_64-unknown-linux-gnu)
+  node     v22.22.0
+  pnpm     10.28.0
+  make     GNU Make 4.3
+  compose  5.6.0
+  dockerd  running
+Resources:
+  cpu      4 cores
+  memory   15 GiB total, 14 GiB available
+  disk     18G free
+  gpu      none (CPU inference only)
+Env:
+  .env     missing (make bootstrap copies .env.example)
+  AI_API_KEY empty
+  EMBEDDING_API_KEY empty
+  AI_PROVIDER=ollama AI_MODEL=qwen2.5:3b EMBEDDING_MODEL=bge-m3 ROUTING_PROVIDER=none
+Ports (127.0.0.1):
+  5433 free
+  8000 free
+  3000 free
+  11434 free
+Providers:
+  ollama http://localhost:11434 -> HTTP 000
+  ollama models: none (need qwen2.5:3b and bge-m3; see make models)
+  overpass https://maps.mail.ru/osm/tools/overpass/api/interpreter -> HTTP 504
+exit=0
