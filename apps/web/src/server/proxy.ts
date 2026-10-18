@@ -52,8 +52,21 @@ const json = (status: number, error: string, message: string): Response =>
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
 
-// x-forwarded-for lets the API rate-limit per client (API trusts only the last hop).
-const FORWARD_REQ_HEADERS = ["accept", "content-type", "if-none-match", "accept-language", "x-forwarded-for"];
+const FORWARD_REQ_HEADERS = ["accept", "content-type", "if-none-match", "accept-language"];
+
+/**
+ * X-Forwarded-For for the API's per-client rate limit (API trusts only the last hop).
+ * The value is trustworthy only when server-preload.cjs replaced the client header with the
+ * socket address in this process; otherwise nothing is forwarded (the API then sees the web
+ * server's address — a shared limit, but never a client-chosen one).
+ */
+export function forwardedForToSend(incoming: string | null): string | null {
+  if ((globalThis as { __smartcityXffNormalized?: boolean }).__smartcityXffNormalized !== true) return null;
+  if (!incoming) return null;
+  const v = incoming.trim();
+  // The preload always leaves exactly one address; anything else is not forwarded.
+  return /^[0-9A-Fa-f.:]{2,45}$/.test(v) ? v : null;
+}
 const FORWARD_RES_HEADERS = ["content-type", "etag", "cache-control", "retry-after", "x-request-id", "last-modified"];
 
 /** Optional dev-only override: serve map layers from local GeoJSON files (never in production). */
@@ -97,6 +110,8 @@ export async function proxy(request: Request, segments: string[]): Promise<Respo
     const v = request.headers.get(h);
     if (v) headers.set(h, v);
   }
+  const xff = forwardedForToSend(request.headers.get("x-forwarded-for"));
+  if (xff) headers.set("x-forwarded-for", xff);
 
   let body: ArrayBuffer | undefined;
   if (method === "POST") {

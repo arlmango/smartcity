@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { CoverageResponse, ReadyResponse } from "@/lib/contracts";
 import { formatDate, formatDateTime } from "@/lib/format";
 import type { HeightStats } from "@/lib/mapData";
+import type { ProviderLine } from "@/lib/providers";
 
 interface Props {
   coverage: CoverageResponse | undefined;
@@ -11,6 +12,7 @@ interface Props {
   ready: ReadyResponse | undefined;
   heights: HeightStats;
   buildingsLoaded: boolean;
+  providerLines: ProviderLine[];
 }
 
 const COMPONENT_LABEL: Record<string, string> = {
@@ -28,7 +30,7 @@ const STATUS_LABEL: Record<string, string> = {
   not_configured: "не подключено",
 };
 
-export function Header({ coverage, coverageError, ready, heights, buildingsLoaded }: Props) {
+export function Header({ coverage, coverageError, ready, heights, buildingsLoaded, providerLines }: Props) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -127,6 +129,18 @@ export function Header({ coverage, coverageError, ready, heights, buildingsLoade
             Расстояния считаются по прямой, время — приблизительно. Часы работы из OSM могут быть устаревшими. Данные не
             обновляются в реальном времени.
           </p>
+          {providerLines.length > 0 && (
+            <div className="mt-3" data-testid="provider-disclosure">
+              <h3 className="sc-label mb-1">Кто обрабатывает запрос</h3>
+              <ul className="space-y-1 text-[13px] leading-snug">
+                {providerLines.map((l) => (
+                  <li key={l.role} className={l.external ? "rounded-control bg-warn-bg p-2 font-semibold text-warn-fg" : ""}>
+                    {l.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {ready && (
             <div className="mt-3">
               <h3 className="sc-label mb-1">Состояние сервиса</h3>

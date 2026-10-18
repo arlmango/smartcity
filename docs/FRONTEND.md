@@ -22,7 +22,7 @@ Node 22, pnpm 10.28.0, Next.js 15.5.28 (App Router, `output: "standalone"`), Rea
 Docker: `docker build -f infra/docker/web.Dockerfile -t smartcity-web:0.1.0 .` из корня репозитория
 (multi-stage `node:22.22.0-slim`, `pnpm install --frozen-lockfile`, `next build` standalone, пользователь `node`, порт 3000).
 Контекст ограничен файлом `infra/docker/web.Dockerfile.dockerignore` (только `apps/web`, без node_modules/.next/tests).
-За TLS-перехватывающим прокси: `--network host --build-arg HTTPS_PROXY=... --secret id=npm_ca,src=<ca.crt>`
+За TLS-перехватывающим прокси: `--network host --build-arg HTTPS_PROXY=... --secret id=build_ca,src=<ca.crt>`
 (сертификат монтируется как BuildKit secret и не попадает в слои).
 
 ## Связь с API
@@ -37,6 +37,23 @@ Docker: `docker build -f infra/docker/web.Dockerfile -t smartcity-web:0.1.0 .` �
 - upstream недоступен → 502 `api_unreachable`, таймаут → 504.
 - `WEB_DEV_MAP_DIR` (только не-production): отдавать `/api/map/{layer}` из локальных GeoJSON — для проверки рендера карты
   на файлах data-pipeline до появления API.
+
+### X-Forwarded-For (защита rate-limit от подмены)
+Next.js сохраняет клиентский `X-Forwarded-For`, поэтому сервер запускается с preload-модулем
+(`node -r ./server-preload.cjs server.js` в Docker, `pnpm start`, `pnpm dev` через `NODE_OPTIONS`). Он на событии
+`request` у `http.Server` заменяет XFF одним адресом (`forwarded-for.cjs`): по умолчанию — адрес TCP-сокета
+(клиентский XFF отбрасывается); при `WEB_TRUSTED_PROXY_HOPS=N` — адрес перед N последними доверенными hop'ами
+(цепочка `[...XFF, сокет]`); `Forwarded`/`X-Real-IP` удаляются. Прокси `/api` пересылает XFF только если preload
+активен в процессе и значение — один IP; иначе XFF не пересылается вовсе. Проверено unit-тестами, E2E
+`tests/e2e/xff.spec.ts` (заглушка upstream получает `127.0.0.1` при подделанном `6.6.6.6`) и в Docker-образе.
+
+### Заголовки безопасности
+`next.config.ts`: `Content-Security-Policy` (`default-src 'self'`; `script-src 'self' 'unsafe-inline'` — Next без nonce
+вставляет inline bootstrap-скрипты; `'unsafe-eval'` и `ws:` только в `next dev`; `style-src 'self' 'unsafe-inline'`;
+`img-src 'self' data: blob:`; `worker-src/child-src 'self' blob:` для воркеров MapLibre; `connect-src 'self'`;
+`object-src 'none'`; `frame-ancestors 'none'`), `X-Content-Type-Options: nosniff`, `Referrer-Policy`,
+`X-Frame-Options: DENY`, `Permissions-Policy`. E2E `tests/e2e/csp.spec.ts` проверяет заголовки и отсутствие нарушений
+CSP при загрузке карты и подборе (production-сборка).
 
 Контракт: `src/lib/contracts.ts` — Zod-зеркало `services/api/smartcity_api/contracts.py`. Запросы `.strict()`; ответы
 проверяются целиком (неизвестные поля отбрасываются, все используемые поля обязательны и типизированы; дубли `place_id`,
@@ -70,7 +87,9 @@ Docker: `docker build -f infra/docker/web.Dockerfile -t smartcity-web:0.1.0 .` �
 
 ## Интерфейс и состояния
 - Десктоп: шапка (SmartCity, «Астана», формулировка задачи, поповер «О данных»: покрытие, число мест, дата снимка OSM,
-  обновление, версия, OSM/ODbL, приблизительность высот, состояние компонентов из `/api/ready`), левая панель 392 px,
+  обновление, версия, OSM/ODbL, приблизительность высот, состояние компонентов из `/api/ready`, «Кто обрабатывает
+  запрос»: Ollama → «локальная модель — текст не покидает сервер», openai_compatible → предупреждение, что текст
+  отправляется внешнему провайдеру (+ заметка под CTA); данные из `/api/ready` detail и `providers` последнего ответа), левая панель 392 px,
   карта на остальной площади. Мобильный (<1024 px): карта сверху, нижняя шторка в 3 состояниях (свернута/половина/полная),
   переключатель «Карта / Список», safe areas, контролы ≥44 px.
 - Форма: точка старта (клик по карте в режиме выбора / «Центр карты» для клавиатуры; «Моё местоположение» — сначала
@@ -78,7 +97,10 @@ Docker: `docker build -f infra/docker/web.Dockerfile -t smartcity-web:0.1.0 .` �
   `/api/coverage.default_origin` с явной подписью; поиск по своей базе `/api/search`). Точка вне полигона покрытия не
   принимается: «Вне зоны покрытия данных…». Текст ≤2000 со счётчиком, 9 интересов-чипов, время 20/40/60/90 или 10–180,
   «Вернуться сюда», «Только пешком» (информация), раскрывающиеся обязательные условия (розетки, Wi‑Fi, в помещении,
-  коляски, для детей, открыто во время визита, без кафе и еды). Условия из быстрых уточнений показываются чипами и снимаются.
+  коляски, для детей, открыто во время визита, без кафе и еды). «Начало: Сейчас / Указать время» — datetime в пределах
+  [сейчас, +7 дней] по времени Астаны, отправляется как ISO с `+05:00` (Казахстан с 2024 — единый UTC+5 без перехода;
+  смещение зафиксировано, чтобы не зависеть от устаревшей tzdata браузера); по умолчанию `start_time` не отправляется.
+  В результате: «Часы работы проверены на время прибытия при старте …». Условия из быстрых уточнений показываются чипами и снимаются.
 - Запрос: прогресс с примерными этапами и секундомером (сервер не стримит прогресс — это сказано в UI), «Отменить»
   (AbortController). Защита от гонок: редьюсер `src/lib/recommendState.ts` применяет ответ/ошибку только для активного
   `client_request_id`; новый запрос абортит предыдущий. «Повторить» после сетевой/5xx/429 ошибки отправляет тот же

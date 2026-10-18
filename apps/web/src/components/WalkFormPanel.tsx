@@ -25,6 +25,7 @@ import {
   TIME_PRESETS,
 } from "@/lib/labels";
 import { OriginSection } from "./OriginSection";
+import { StartTimeControl } from "./StartTimeControl";
 
 interface Props {
   form: WalkForm;
@@ -36,6 +37,7 @@ interface Props {
   onStartPick: () => void;
   onSubmit: () => void;
   blockedReason: string | null;
+  externalProvider?: boolean;
 }
 
 export function WalkFormPanel(props: Props) {
@@ -61,7 +63,9 @@ export function WalkFormPanel(props: Props) {
         ? `Время должно быть от ${TIME_MIN} до ${TIME_MAX} минут.`
         : problems.includes("query_too_long")
           ? `Текст длиннее ${QUERY_MAX} символов.`
-          : null);
+          : problems.includes("bad_start")
+            ? "Проверьте время начала прогулки."
+            : null);
 
   return (
     <form
@@ -173,6 +177,8 @@ export function WalkFormPanel(props: Props) {
         </div>
       </fieldset>
 
+      <StartTimeControl value={form.startTime} onChange={(v) => setForm((s) => ({ ...s, startTime: v }))} />
+
       <section className="space-y-3">
         <label className="flex min-h-[44px] cursor-pointer items-center justify-between gap-3">
           <span>
@@ -254,6 +260,11 @@ export function WalkFormPanel(props: Props) {
         {submitHint && (
           <p id={hintId} className="text-sm text-muted">
             {submitHint}
+          </p>
+        )}
+        {props.externalProvider && (
+          <p className="rounded-control bg-warn-bg p-2 text-xs font-semibold text-warn-fg" data-testid="external-provider-note">
+            Текст запроса и выбранная точка обрабатываются внешним ИИ-провайдером (см. «О данных»).
           </p>
         )}
         <p className="text-xs text-muted">Только места из собранной базы OSM, без выдуманных фактов. Время — оценка.</p>

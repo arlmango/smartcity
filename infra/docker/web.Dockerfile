@@ -30,13 +30,16 @@ RUN node node_modules/next/dist/bin/next build
 
 # ---------------------------------------------------------------- runtime
 FROM ${NODE_IMAGE} AS runtime
-ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0 API_INTERNAL_URL=http://api:8000
+# WEB_TRUSTED_PROXY_HOPS: number of trusted reverse proxies in front of this container (0 = none).
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0 API_INTERNAL_URL=http://api:8000 WEB_TRUSTED_PROXY_HOPS=0
 WORKDIR /app
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
 COPY --from=build --chown=node:node /app/public ./public
+COPY --from=build --chown=node:node /app/server-preload.cjs /app/forwarded-for.cjs ./
 USER node
 EXPOSE 3000
 HEALTHCHECK --interval=10s --timeout=3s --retries=6 \
   CMD node -e "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-CMD ["node", "server.js"]
+# The preload rewrites X-Forwarded-For to the real client address before Next.js sees it.
+CMD ["node", "-r", "./server-preload.cjs", "server.js"]
