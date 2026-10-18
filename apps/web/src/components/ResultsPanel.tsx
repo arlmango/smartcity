@@ -68,7 +68,7 @@ export function ResultsPanel(props: Props) {
           </p>
         )}
 
-        {r.message && !(retrievalOnly && r.message === bannerText) && (
+        {r.message && !(retrievalOnly && (r.message === bannerText || r.message.startsWith("ИИ временно недоступен"))) && (
           <p className="text-[15px] leading-relaxed">{r.message}</p>
         )}
 

@@ -97,6 +97,14 @@ describe("ResultsPanel", () => {
     expect(screen.getAllByText(busyMsg)).toHaveLength(1);
   });
 
+  it("server 'AI unavailable' message is not repeated under the banner", () => {
+    const base = retrievalOnlyResponse("abcdefgh-4");
+    const resp = { ...base, message: "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений." };
+    render(<ResultsPanel {...common} response={resp} onRelax={() => {}} />);
+    expect(screen.queryByText(resp.message)).toBeNull();
+    expect(screen.getByTestId("retrieval-only")).toBeInTheDocument();
+  });
+
   it("no_match in retrieval_only mode (no generation needed) does not claim AI is unavailable", () => {
     const resp = { ...noMatchResponse("abcdefgh-2"), mode: "retrieval_only" as const };
     render(<ResultsPanel {...common} response={resp} onRelax={() => {}} />);
