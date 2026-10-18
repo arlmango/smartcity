@@ -20,7 +20,9 @@ from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_vali
 
 Category = Literal["cafe", "food", "park", "culture", "attraction", "playground", "mall"]
 Feature = Literal["socket", "wifi", "outdoor_seating", "wheelchair", "indoor", "kids"]
-Interest = Literal["coffee", "food", "nature", "culture", "architecture", "kids", "quiet", "indoor", "shopping"]
+Interest = Literal[
+    "coffee", "food", "nature", "culture", "architecture", "kids", "quiet", "indoor", "shopping"
+]
 OpeningStatus = Literal["open", "closed", "unknown"]
 DistanceMethod = Literal["pedestrian_route", "geodesic"]
 ResponseStatus = Literal["ok", "no_match", "needs_clarification", "degraded"]
@@ -85,6 +87,7 @@ class RecommendRequest(StrictModel):
         if v is not None and (v.tzinfo is None or v.utcoffset() is None):
             raise ValueError("start_time must include a timezone offset")
         return v
+
     # include/exclude overlap is not a validation error: the service answers needs_clarification.
 
 

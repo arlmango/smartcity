@@ -49,8 +49,12 @@ class Place(Base):
     name: Mapped[str] = mapped_column(Text, nullable=False)
     # True when OSM has no name and the server shows a generic label (e.g. playgrounds).
     name_is_generic: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    names: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)  # {"ru": ..., "kk": ..., "en": ...}
-    aliases: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)  # merged duplicates [{source_type, source_id}]
+    names: Mapped[dict] = mapped_column(
+        JSONB, nullable=False, default=dict
+    )  # {"ru": ..., "kk": ..., "en": ...}
+    aliases: Mapped[list] = mapped_column(
+        JSONB, nullable=False, default=list
+    )  # merged duplicates [{source_type, source_id}]
 
     geom = mapped_column(Geometry("GEOMETRY", srid=4326), nullable=True)
     location = mapped_column(Geography("POINT", srid=4326), nullable=False)
@@ -59,7 +63,9 @@ class Place(Base):
     category: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     subcategory: Mapped[str] = mapped_column(String(64), nullable=False)  # raw OSM value, e.g. "fast_food"
     tags: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
-    description: Mapped[str] = mapped_column(Text, nullable=False, default="")  # built from factual fields only
+    description: Mapped[str] = mapped_column(
+        Text, nullable=False, default=""
+    )  # built from factual fields only
     address: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     opening_hours_raw: Mapped[str | None] = mapped_column(Text, nullable=True)
     timezone: Mapped[str] = mapped_column(String(64), nullable=False, default="Asia/Almaty")
@@ -92,7 +98,9 @@ class PlaceEvidence(Base):
     source_url: Mapped[str] = mapped_column(Text, nullable=False)  # https://www.openstreetmap.org/{type}/{id}
     source_license: Mapped[str] = mapped_column(String(64), nullable=False, default="ODbL-1.0")
     collected_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    source_value: Mapped[str] = mapped_column(Text, nullable=False)  # short tag excerpt, e.g. "power_supply=yes"
+    source_value: Mapped[str] = mapped_column(
+        Text, nullable=False
+    )  # short tag excerpt, e.g. "power_supply=yes"
 
     place: Mapped[Place] = relationship(back_populates="evidence")
 
