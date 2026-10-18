@@ -27,6 +27,8 @@ def compute_stats(engine: Engine) -> dict:
         n_evidence = len(list(s.scalars(select(PlaceEvidence.id))))
         runs = list(s.scalars(select(IngestRun).order_by(IngestRun.started_at.desc()).limit(10)))
     active = [p for p in places if p.active]
+    alias_keys = {(a["source_type"], int(a["source_id"])) for p in active for a in (p.aliases or [])}
+    inactive_keys = {(p.source_type, p.source_id) for p in places if not p.active}
     by_cat = Counter(p.category for p in active)
     by_sub = Counter(f"{p.category}/{p.subcategory}" for p in active)
     feat: dict[str, Counter] = defaultdict(Counter)
@@ -55,7 +57,8 @@ def compute_stats(engine: Engine) -> dict:
     return {
         "total_rows": len(places),
         "active": len(active),
-        "inactive_tombstones": len(places) - len(active),
+        "inactive_merged_aliases": len(alias_keys & inactive_keys),
+        "inactive_tombstones": len(inactive_keys - alias_keys),
         "by_category": dict(sorted(by_cat.items())),
         "by_subcategory": dict(sorted(by_sub.items())),
         "per_category": per_cat,
@@ -80,12 +83,17 @@ def compute_stats(engine: Engine) -> dict:
                 "status": r.status,
                 "started_at": r.started_at.isoformat(),
                 "dataset_version": r.dataset_version,
-                "counts": {k: v for k, v in (r.counts or {}).items() if k != "dedup_merge_list"},
+                "counts": {
+                    k: v
+                    for k, v in (r.counts or {}).items()
+                    if k not in ("dedup_merge_list", "dedup_rejected")
+                },
                 "error": r.error_summary,
             }
             for r in runs[:5]
         ],
         "dedup_merges": (last_complete.counts or {}).get("dedup_merge_list", []) if last_complete else [],
+        "dedup_rejected": (last_complete.counts or {}).get("dedup_rejected", []) if last_complete else [],
     }
 
 
@@ -243,7 +251,7 @@ def render_markdown(m: dict, lm: dict | None) -> str:
     L.append("## Места (таблица places, active=true)")
     L.append(
         f"Всего активных мест: **{st['active']}** (строк всего {st['total_rows']}, "
-        f"tombstone {st['inactive_tombstones']})."
+        f"неактивных: слитых в alias {st['inactive_merged_aliases']}, tombstone {st['inactive_tombstones']})."
     )
     L.append("")
     L.append(_row("категория", "мест", "с часами", "с сайтом", "с адресом", "generic name", "полигон"))
@@ -296,13 +304,46 @@ def render_markdown(m: dict, lm: dict | None) -> str:
         "Правила — docs/CONTRACTS.md §2. `unknown` означает отсутствие данных в OSM, а не «нет». "
         "Тишина/уют/розетки в большинстве мест в OSM не отмечены."
     )
+    L.append("")
+    L.append("### Дедупликация node ↔ way/relation")
+    L.append(
+        "Правило: та же категория; node внутри полигона или ≤60 м от него; совпадает любое имя из "
+        "name, name:ru, name:kk, name:en, alt_name, official_name, old_name, short_name (после нормализации: "
+        "регистр, ё→е, кавычки/пунктуация), либо одно имя без пробелов — префикс другого (≥8 символов). "
+        "Транслитерация не применяется. Полигон остаётся основной записью; node записывается в `aliases` "
+        "(тип, id, URL, имя, расстояние, причина) и дополняет только отсутствующие у полигона теги — "
+        "evidence "
+        "этих тегов ссылается на node."
+    )
+    L.append(
+        "Решение по статусу alias: если node раньше был отдельной записью, при слиянии он получает "
+        "active=false в той же транзакции импорта (это merge, а не tombstone: оба объекта присутствуют в "
+        "текущем снимке, поэтому выполняется и для partial-снимка). Исчезнувшие из снимка объекты "
+        "деактивируются только после complete-снимка. Если слияние в новых данных пропадёт, node снова "
+        "станет записью и будет реактивирован."
+    )
     if st["dedup_merges"]:
         L.append("")
-        L.append("### Объединённые дубликаты (последний complete-импорт)")
-        L.append(_row("primary", "merged", "name", "distance, м"))
-        L.append(_row("---", "---", "---", "---:"))
+        L.append(_row("primary", "merged", "имя node", "имя primary", "distance, м", "причина"))
+        L.append(_row("---", "---", "---", "---", "---:", "---"))
         for d in st["dedup_merges"]:
-            L.append(_row(d["primary"], d["merged"], d["name"], d["distance_m"]))
+            L.append(
+                _row(
+                    d["primary"],
+                    d["merged"],
+                    d["name"],
+                    d.get("primary_name", ""),
+                    d["distance_m"],
+                    d.get("reason", ""),
+                )
+            )
+    if st.get("dedup_rejected"):
+        L.append("")
+        L.append("Близкие пары, которые НЕ объединены (нет общего имени/телефона/сайта/адреса в данных):")
+        L.append(_row("объект A", "объект B", "distance, м", "причина"))
+        L.append(_row("---", "---", "---:", "---"))
+        for d in st["dedup_rejected"]:
+            L.append(_row(d["a"], d["b"], d["distance_m"], d["reason"]))
     mp = m.get("map")
     if mp:
         L.append("")

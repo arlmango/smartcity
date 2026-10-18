@@ -25,7 +25,7 @@
 | map_landmarks | ok | 42 | 12436 | `3bc73c5fdba6a7a4…` |
 
 ## Места (таблица places, active=true)
-Всего активных мест: **127** (строк всего 127, tombstone 0).
+Всего активных мест: **126** (строк всего 127, неактивных: слитых в alias 1, tombstone 0).
 
 | категория | мест | с часами | с сайтом | с адресом | generic name | полигон |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -35,28 +35,42 @@
 | culture (Культура) | 3 | 1 | 1 | 2 | 0 | 2 |
 | attraction (Достопримечательность) | 4 | 0 | 0 | 1 | 0 | 3 |
 | playground (Детская площадка) | 66 | 0 | 0 | 0 | 66 | 65 |
-| mall (Торговый центр) | 2 | 1 | 0 | 1 | 0 | 1 |
+| mall (Торговый центр) | 1 | 1 | 0 | 1 | 0 | 1 |
 
-Подкатегории: attraction/attraction: 2, attraction/fountain: 1, attraction/memorial: 1, cafe/cafe: 22, culture/cinema: 1, culture/museum: 1, culture/theatre: 1, food/fast_food: 6, food/restaurant: 19, mall/mall: 2, park/garden: 1, park/park: 4, playground/playground: 66.
+Подкатегории: attraction/attraction: 2, attraction/fountain: 1, attraction/memorial: 1, cafe/cafe: 22, culture/cinema: 1, culture/museum: 1, culture/theatre: 1, food/fast_food: 6, food/restaurant: 19, mall/mall: 1, park/garden: 1, park/park: 4, playground/playground: 66.
 
-- С opening_hours: 29; без: 98.
+- С opening_hours: 29; без: 97.
 - С website (только http/https): 21; с адресом addr:*: 17; с тегом description: 0.
 - Безымянные детские площадки с серверной подписью «Детская площадка» (name_is_generic=true): 66.
-- Тип исходного объекта: {'node': 51, 'way': 76}. Объединено дубликатов node→way/relation: 0; мест с aliases: 0.
-- Строк evidence (place_evidence): 405. Диапазон source_updated_at: 2017-07-21T15:24:09+00:00 … 2026-10-12T06:17:00+00:00.
+- Тип исходного объекта: {'node': 50, 'way': 76}. Объединено дубликатов node→way/relation: 1; мест с aliases: 1.
+- Строк evidence (place_evidence): 405. Диапазон source_updated_at: 2018-07-14T19:26:51+00:00 … 2026-10-12T06:17:00+00:00.
 
 ### Признаки (amenities) по активным местам
 | признак | true | false | unknown |
 | --- | ---: | ---: | ---: |
-| socket | 0 | 0 | 127 |
-| wifi | 8 | 0 | 119 |
-| outdoor_seating | 0 | 2 | 125 |
-| wheelchair | 1 | 0 | 126 |
-| indoor | 22 | 68 | 37 |
-| kids | 66 | 0 | 61 |
+| socket | 0 | 0 | 126 |
+| wifi | 8 | 0 | 118 |
+| outdoor_seating | 0 | 2 | 124 |
+| wheelchair | 1 | 0 | 125 |
+| indoor | 21 | 68 | 37 |
+| kids | 66 | 0 | 60 |
 
-Основание (basis) непустых значений: indoor:category_rule: 87, indoor:tag: 3, kids:tag: 66, outdoor_seating:tag: 2, wheelchair:tag: 1, wifi:tag: 8.
+Основание (basis) непустых значений: indoor:category_rule: 86, indoor:tag: 3, kids:tag: 66, outdoor_seating:tag: 2, wheelchair:tag: 1, wifi:tag: 8.
 Правила — docs/CONTRACTS.md §2. `unknown` означает отсутствие данных в OSM, а не «нет». Тишина/уют/розетки в большинстве мест в OSM не отмечены.
+
+### Дедупликация node ↔ way/relation
+Правило: та же категория; node внутри полигона или ≤60 м от него; совпадает любое имя из name, name:ru, name:kk, name:en, alt_name, official_name, old_name, short_name (после нормализации: регистр, ё→е, кавычки/пунктуация), либо одно имя без пробелов — префикс другого (≥8 символов). Транслитерация не применяется. Полигон остаётся основной записью; node записывается в `aliases` (тип, id, URL, имя, расстояние, причина) и дополняет только отсутствующие у полигона теги — evidence этих тегов ссылается на node.
+Решение по статусу alias: если node раньше был отдельной записью, при слиянии он получает active=false в той же транзакции импорта (это merge, а не tombstone: оба объекта присутствуют в текущем снимке, поэтому выполняется и для partial-снимка). Исчезнувшие из снимка объекты деактивируются только после complete-снимка. Если слияние в новых данных пропадёт, node снова станет записью и будет реактивирован.
+
+| primary | merged | имя node | имя primary | distance, м | причина |
+| --- | --- | --- | --- | ---: | --- |
+| way/499328514 | node/4965336822 | Мега Силк Вей | Mega Silk Way | 0.0 | name prefix: 'mega silkway astana' ~ 'mega silk way' |
+
+Близкие пары, которые НЕ объединены (нет общего имени/телефона/сайта/адреса в данных):
+| объект A | объект B | distance, м | причина |
+| --- | --- | ---: | --- |
+| node/5878572885 | node/8121843217 | 6.1 | nodes <=15 m apart, no common name/phone/website/address |
+| node/12093489321 | node/13397061028 | 12.8 | nodes <=15 m apart, no common name/phone/website/address |
 
 ## Слои карты (data/map)
 | слой | объектов | байт | sha256 |
@@ -72,7 +86,7 @@
 
 ## Embeddings
 - Модель: `ollama:bge-m3@790764642607` (provider ollama, model bge-m3, dim 1024); строк для модели: 127; строк других моделей: 0.
-- Последний запуск 2026-10-18T20:13:27.657825+00:00: переиндексировано 0, пропущено без изменений 127.
+- Последний запуск 2026-10-18T20:36:51.331564+00:00: переиндексировано 1, пропущено без изменений 125.
 - Текст: имя, категория, подкатегория, кухня, адрес, описание из фактических полей. Инкрементальность: пропуск при совпадении content_hash и embedded_text_hash для активной модели; векторы разных моделей не смешиваются (model_id+dim).
 
 ## Ориентиры (A04, data/manifests/landmarks.json)

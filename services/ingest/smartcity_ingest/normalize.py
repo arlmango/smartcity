@@ -333,35 +333,89 @@ def candidates_from_elements(elements: list[dict], coverage: BaseGeometry, stats
     return list(out.values())
 
 
+NAME_KEYS = ("name", "name:ru", "name:kk", "name:en", "alt_name", "official_name", "old_name", "short_name")
+MIN_PREFIX_LEN = 8
+
+
+def name_set(tags: dict) -> set[str]:
+    """All normalized names of an object (several values in one tag are split on ';')."""
+    out: set[str] = set()
+    for k in NAME_KEYS:
+        for v in (tags.get(k) or "").split(";"):
+            n = normalize_name(v)
+            if n:
+                out.add(n)
+    return out
+
+
+def _compact(n: str) -> str:
+    return n.replace(" ", "")
+
+
+def names_match(a: set[str], b: set[str]) -> str | None:
+    """Return the reason if two name sets denote the same object, else None.
+
+    - any shared normalized name (any of NAME_KEYS on either side);
+    - or, compacted (spaces removed), one name is a prefix of the other and the shorter has at least
+      MIN_PREFIX_LEN characters ("Mega Silk Way" vs "Mega SilkWay Astana"). No transliteration."""
+    shared = a & b
+    if shared:
+        return f"shared name: {sorted(shared)[0]}"
+    for x in a:
+        for y in b:
+            cx, cy = _compact(x), _compact(y)
+            short, long_ = sorted((cx, cy), key=len)
+            if len(short) >= MIN_PREFIX_LEN and long_.startswith(short):
+                return f"name prefix: {x!r} ~ {y!r}"
+    return None
+
+
 def deduplicate(cands: list[Candidate], stats: dict) -> list[Candidate]:
-    """Merge a node into a way/relation of the same category with the same normalized name when
-    the node lies inside the polygon or within DEDUP_MAX_DISTANCE_M. The polygon is kept as the
-    primary record; the node becomes an alias and fills only tags the polygon lacks."""
+    """Merge a node into a way/relation of the same category when their name sets match
+    (see names_match) and the node lies inside the polygon or within DEDUP_MAX_DISTANCE_M.
+
+    The polygon is kept as the primary record; the node becomes an alias (with its URL, names and
+    distance) and fills only tags the polygon lacks (evidence for those tags points to the node).
+    Pairs that are close but have no matching name are reported in stats["dedup_rejected"]."""
     areas = [c for c in cands if c.source_type in ("way", "relation") and c.name]
-    by_key: dict[tuple[str, str], list[Candidate]] = {}
-    for a in areas:
-        by_key.setdefault((a.category, normalize_name(a.name or "")), []).append(a)
+    names = {id(c): name_set(c.tags) for c in cands}
     merged_nodes: set[tuple[str, int]] = set()
     merges: list[dict] = []
-    for c in cands:
-        if c.source_type != "node" or not c.name:
-            continue
-        options = by_key.get((c.category, normalize_name(c.name)), [])
-        best: tuple[float, Candidate] | None = None
-        for a in options:
+    rejected: list[dict] = []
+    nodes = [c for c in cands if c.source_type == "node" and c.name]
+    for c in nodes:
+        best: tuple[float, Candidate, str] | None = None
+        for a in areas:
+            if a.category != c.category:
+                continue
             d = 0.0 if a.geom.covers(c.location) else distance_m(a.geom, c.location)
-            if d <= DEDUP_MAX_DISTANCE_M and (best is None or d < best[0]):
-                best = (d, a)
+            if d > DEDUP_MAX_DISTANCE_M:
+                continue
+            reason = names_match(names[id(c)], names[id(a)])
+            if reason is None:
+                rejected.append(
+                    {
+                        "a": a.ref,
+                        "b": c.ref,
+                        "distance_m": round(d, 1),
+                        "reason": "same category within 60 m, but no common name",
+                    }
+                )
+                continue
+            if best is None or d < best[0]:
+                best = (d, a, reason)
         if best is None:
             continue
-        d, a = best
+        d, a, reason = best
         a.aliases.append(
             {
                 "source_type": c.source_type,
                 "source_id": c.source_id,
                 "url": osm_url(c.source_type, c.source_id),
+                "name": c.name,
                 "distance_m": round(d, 1),
-                "reason": "same category and normalized name",
+                "inside_polygon": d == 0.0,
+                "reason": f"same category; {reason}",
             }
         )
         for k, v in c.tags.items():
@@ -370,8 +424,37 @@ def deduplicate(cands: list[Candidate], stats: dict) -> list[Candidate]:
                 a.tag_origin[k] = c.ref
         a.timestamps.extend(c.timestamps)
         merged_nodes.add((c.source_type, c.source_id))
-        merges.append({"primary": a.ref, "merged": c.ref, "name": c.name, "distance_m": round(d, 1)})
+        merges.append(
+            {
+                "primary": a.ref,
+                "merged": c.ref,
+                "name": c.name,
+                "primary_name": a.name,
+                "distance_m": round(d, 1),
+                "reason": reason,
+            }
+        )
+    # Close same-category node pairs (no polygon involved) are only reported, never merged.
+    for i, x in enumerate(nodes):
+        for y in nodes[i + 1 :]:
+            if x.category == y.category and (x.source_type, x.source_id) not in merged_nodes:
+                d = distance_m(x.location, y.location)
+                if d <= DEDUP_MAX_DISTANCE_M and names_match(names[id(x)], names[id(y)]) is None:
+                    same_contact = any(
+                        x.tags.get(k) and x.tags.get(k) == y.tags.get(k)
+                        for k in ("phone", "website", "contact:phone", "contact:website", "addr:housenumber")
+                    )
+                    if d <= 15 and not same_contact:
+                        rejected.append(
+                            {
+                                "a": x.ref,
+                                "b": y.ref,
+                                "distance_m": round(d, 1),
+                                "reason": "nodes <=15 m apart, no common name/phone/website/address",
+                            }
+                        )
     stats["dedup_merges"] = merges
+    stats["dedup_rejected"] = rejected
     return [c for c in cands if (c.source_type, c.source_id) not in merged_nodes]
 
 

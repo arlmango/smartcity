@@ -2,7 +2,7 @@
   "purpose": "A04: reference objects matched to OSM IDs; positions computed from snapshot geometry",
   "dataset_version": "osm-20261018T200514Z",
   "osm_base_timestamp": "2026-10-18T20:11:41Z",
-  "generated_at": "2026-10-18T20:13:28.599333+00:00",
+  "generated_at": "2026-10-18T20:36:56.311823+00:00",
   "method": "name regex over all snapshot groups; polygon centroid (shapely) or node coordinate; haversine distance (R=6371008.8 m) and initial bearing",
   "coordinate_order": "[lon, lat]",
   "landmarks": [
