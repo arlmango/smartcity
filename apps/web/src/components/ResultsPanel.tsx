@@ -30,6 +30,8 @@ const STATUS_TITLE: Record<RecommendResponse["status"], string> = {
   needs_clarification: "Нужно уточнение",
 };
 
+const AI_DOWN_CODES = new Set(["llm_unavailable", "llm_busy"]);
+
 const SOURCE_LABEL = { ui: "из настроек", text: "из текста" } as const;
 
 const REFINEMENTS: RefinementKind[] = ["closer", "no_cafe", "indoor_only", "other_options"];
@@ -40,6 +42,9 @@ export function ResultsPanel(props: Props) {
   // retrieval_only also marks answers where no generation was needed (no_match, clarification):
   // the "AI unavailable" banner is shown only when places are shown without AI explanations.
   const retrievalOnly = r.mode === "retrieval_only" && recs.length > 0;
+  // A busy local model is a different reason than an outage: say which one it is.
+  const busy = r.warnings.find((w) => w.code === "llm_busy");
+  const bannerText = busy ? busy.message : "ИИ временно недоступен — показаны найденные места без объяснений ИИ.";
 
   return (
     <div className="space-y-4" data-testid="results">
@@ -59,11 +64,13 @@ export function ResultsPanel(props: Props) {
 
         {retrievalOnly && (
           <p role="note" data-testid="retrieval-only" className="rounded-control border border-warn-fg/30 bg-warn-bg p-3 text-sm font-semibold text-warn-fg">
-            ИИ временно недоступен — показаны найденные места без объяснений ИИ.
+            {bannerText}
           </p>
         )}
 
-        {r.message && <p className="text-[15px] leading-relaxed">{r.message}</p>}
+        {r.message && !(retrievalOnly && r.message === bannerText) && (
+          <p className="text-[15px] leading-relaxed">{r.message}</p>
+        )}
 
         <p className="text-sm text-muted" data-testid="hours-checked-at">
           {props.startTime
@@ -74,7 +81,9 @@ export function ResultsPanel(props: Props) {
         {r.warnings.length > 0 && (
           <ul className="space-y-1" aria-label="Предупреждения">
             {r.warnings
-              .filter((w) => !(retrievalOnly && /ИИ временно недоступен/.test(w.message)))
+              // the banner already says it: do not repeat AI-unavailable/busy notices or the message
+              .filter((w) => !(retrievalOnly && (AI_DOWN_CODES.has(w.code) || /ИИ временно недоступен/.test(w.message))))
+              .filter((w) => w.message !== r.message)
               .map((w, i) => (
                 <li key={`${w.code}-${i}`} className="rounded-control bg-warn-bg px-3 py-2 text-sm text-warn-fg">
                   {w.message}

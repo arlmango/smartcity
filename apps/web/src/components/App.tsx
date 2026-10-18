@@ -387,7 +387,8 @@ export function App() {
           </div>
 
           {!mapFatal && (
-            <div className="absolute bottom-9 left-2 z-10">
+            // Mobile: top-left so the collapsed legend never covers the start marker near the sheet.
+            <div className="absolute left-2 top-2 z-10 lg:bottom-9 lg:top-auto">
               <HeightLegend stats={heights} defaultOpen={isDesktop} />
             </div>
           )}

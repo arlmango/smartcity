@@ -88,6 +88,15 @@ describe("ResultsPanel", () => {
     );
   });
 
+  it("llm_busy is said once (banner), not repeated as message and warning", () => {
+    const busyMsg = "ИИ сейчас занят другим запросом — показаны найденные места без объяснений ИИ.";
+    const base = retrievalOnlyResponse("abcdefgh-3");
+    const resp = { ...base, message: busyMsg, warnings: [...base.warnings, { code: "llm_busy", message: busyMsg }] };
+    render(<ResultsPanel {...common} response={resp} onRelax={() => {}} />);
+    expect(screen.getByTestId("retrieval-only").textContent).toBe(busyMsg);
+    expect(screen.getAllByText(busyMsg)).toHaveLength(1);
+  });
+
   it("no_match in retrieval_only mode (no generation needed) does not claim AI is unavailable", () => {
     const resp = { ...noMatchResponse("abcdefgh-2"), mode: "retrieval_only" as const };
     render(<ResultsPanel {...common} response={resp} onRelax={() => {}} />);
