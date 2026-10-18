@@ -58,7 +58,7 @@ def test_coverage(make_client):
     assert j["default_origin"]["lat"] == pytest.approx(51.09) and j["default_origin"]["lon"] == pytest.approx(
         71.415
     )
-    assert "не ваше местоположение" in j["default_origin_label"]
+    assert j["default_origin_label"] == "центр района покрытия"  # UI adds "это не ваше местоположение"
 
 
 def test_map_layer_etag_304_and_cache(make_client):
@@ -276,4 +276,4 @@ def test_coverage_default_origin_from_landmark_manifest(make_client, tmp_path):
     )
     j = make_client(data_dir=tmp_path).get("/api/coverage").json()
     assert j["default_origin"] == {"lat": 51.093, "lon": 71.42}
-    assert "way/1" in j["default_origin_label"] and "не ваше местоположение" in j["default_origin_label"]
+    assert "way/1" in j["default_origin_label"] and "район EXPO" in j["default_origin_label"]

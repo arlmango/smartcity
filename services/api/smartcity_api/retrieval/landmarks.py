@@ -42,7 +42,8 @@ def load_landmark(data_dir: Path, keys: list[str]) -> Landmark | None:
             continue
         return Landmark(
             key=key,
-            name=str(lm.get("name") or lm.get("label") or key)[:120],
+            # Prefer the short OSM `name` tag over descriptive labels (which may contain interpretation).
+            name=str((lm.get("tags_sample") or {}).get("name") or lm.get("name") or key)[:120],
             lat=float(lat),
             lon=float(lon),
             osm=osm,

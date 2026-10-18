@@ -99,6 +99,7 @@ export async function mapIdle(page: Page) {
 }
 
 export async function useDemoOrigin(page: Page) {
+  await expect(page.getByRole("button", { name: /Демо-точка/ })).toContainText("Это не ваше местоположение");
   await page.getByRole("button", { name: /Демо-точка/ }).click();
   await expect(page.getByTestId("origin-label")).toContainText("Демо-точка");
 }

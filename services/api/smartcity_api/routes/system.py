@@ -176,13 +176,13 @@ def coverage(request: Request) -> CoverageResponse:
     lm = None if demo is not None else load_landmark(c.settings.data_dir, ["nur_alem", "expo_site"])
     if demo is not None:
         origin = LatLon(lat=demo.lat, lon=demo.lon)
-        label = f"Демо-точка: {demo.name} (район EXPO) — это не ваше местоположение"
+        label = f"{demo.name}, район EXPO"
     elif lm is not None:
         origin = LatLon(lat=lm.lat, lon=lm.lon)
-        label = f"Демо-точка: {lm.name} (OSM {lm.osm}, центр контура) — это не ваше местоположение"
+        label = f"{lm.name}, район EXPO (OSM {lm.osm})"
     else:
         origin = LatLon(lat=(bbox[1] + bbox[3]) / 2, lon=(bbox[0] + bbox[2]) / 2)
-        label = "Демо-точка: центр района покрытия — это не ваше местоположение"
+        label = "центр района покрытия"
     return CoverageResponse(
         features=features,
         dataset_version=version,

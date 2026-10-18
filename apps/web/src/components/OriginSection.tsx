@@ -138,7 +138,11 @@ export function OriginSection({ origin, coverage, pickActive, warning, onSetOrig
             })
           }
         >
-          <span aria-hidden>★</span> Демо-точка {coverage.default_origin_label}
+          <span aria-hidden>★</span>
+          <span className="text-left">
+            Демо-точка: {coverage.default_origin_label}
+            <span className="block text-xs text-muted">Это не ваше местоположение</span>
+          </span>
         </button>
       )}
 
