@@ -1,0 +1,12 @@
+step	exit	log
+py-lint	0	artifacts/verify/20261018T212250Z/py-lint.log
+py-format	0	artifacts/verify/20261018T212250Z/py-format.log
+py-test-api	0	artifacts/verify/20261018T212250Z/py-test-api.log
+py-test-ingest	0	artifacts/verify/20261018T212250Z/py-test-ingest.log
+web-lint	0	artifacts/verify/20261018T212250Z/web-lint.log
+web-typecheck	0	artifacts/verify/20261018T212250Z/web-typecheck.log
+web-unit	0	artifacts/verify/20261018T212250Z/web-unit.log
+web-build	0	artifacts/verify/20261018T212250Z/web-build.log
+web-e2e	0	artifacts/verify/20261018T212250Z/web-e2e.log
+secret-scan	1	artifacts/verify/20261018T212250Z/secret-scan.log
+contracts-sync	0	artifacts/verify/20261018T212250Z/contracts-sync.log

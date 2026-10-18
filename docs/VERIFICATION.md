@@ -16,6 +16,10 @@
   (настоящий отказ соединения), та же живая БД на чтение.
 - Хост: Linux 6.18, 4 vCPU, 15 GiB, без GPU; Chromium 1194 headless (SwiftShader). Firefox/WebKit не установлены.
 
+Повтор `make verify` на QA-коммите `49671fd` (b4c4eed + только тесты/документы QA): тот же результат — 10/11 шагов exit 0,
+secret-scan exit 1 (тот же тестовый sentinel), итог exit 2; web-lint/typecheck включают новый `apps/web/tests/live`.
+Отчёт: `artifacts/verify/20261018T212250Z/summary.tsv`.
+
 ## Функциональные требования A01–A20
 
 | Requirement | Status | Команда / тест | Среда / provider / dataset / commit | Exit | Доказательство |
