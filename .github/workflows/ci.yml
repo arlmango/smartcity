@@ -40,7 +40,8 @@ jobs:
           for db in smartcity smartcity_test smartcity_test_ingest; do
             DATABASE_URL=postgresql+psycopg://smartcity:smartcity@localhost:5433/$db uv run alembic upgrade head
           done
-      - run: uv run pytest services/api/tests services/ingest/tests -m "not live" -q
+      # Separate invocations: both suites have a top-level conftest module.
+      - run: uv run pytest services/api/tests -m "not live" -q && uv run pytest services/ingest/tests -m "not live" -q
         env:
           SMARTCITY_REQUIRE_DB: "1"
       - run: uv run python -m smartcity_api.export_openapi --check
