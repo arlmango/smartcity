@@ -442,6 +442,17 @@ def test_wanted_category_closed_is_reported(make_client, origin, place_ids):
     assert "wanted_category_closed:food" in warn_codes(j)
 
 
+def test_wanted_category_over_budget_is_reported(make_client, origin, place_ids):
+    # eval D04: coffee wished, cafes only reachable beyond a tight budget -> explain, do not stay silent
+    c = make_client(generator=None)
+    _, j = post(c, body(origin, query="хочу выпить кофе", time_budget_min=20, return_to_start=True))
+    assert j["recommendations"] and "cafe" not in {x["category"] for x in j["recommendations"]}
+    assert "wanted_category_over_budget:cafe" in warn_codes(j)
+    _, j2 = post(c, body(origin, query="хочу выпить кофе", time_budget_min=30, return_to_start=True))
+    assert "cafe" in {x["category"] for x in j2["recommendations"]}
+    assert not any(w.startswith("wanted_category_") for w in warn_codes(j2))
+
+
 def test_T12_past_midnight_local(make_client, origin, place_ids):
     c = make_client(generator=None)
     start = FIXED_NOW.replace(hour=23, minute=30)

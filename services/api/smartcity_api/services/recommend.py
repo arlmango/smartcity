@@ -130,6 +130,7 @@ class Prepared:
     relaxations: list[Relaxation] = field(default_factory=list)
     exclusions: Counter[str] = field(default_factory=Counter)
     closed_by_category: Counter[str] = field(default_factory=Counter)  # closed on arrival, per category
+    over_budget_by_category: Counter[str] = field(default_factory=Counter)  # too far for the budget
     soft_categories_used: list[str] = field(default_factory=list)
     shortlist_size: int = 0
     reach_radius_m: float = 0.0
@@ -625,6 +626,8 @@ def retrieve(container: Container, prep: Prepared) -> None:
             prep.exclusions[why] += 1
             if why == "closed":
                 prep.closed_by_category[c.place.category] += 1
+            elif why == "budget":
+                prep.over_budget_by_category[c.place.category] += 1
             continue
         norm = c.place.name.strip().lower()
         if not c.place.name_is_generic and any(
@@ -990,16 +993,27 @@ def _final_warnings(prep: Prepared, cards: list[Recommendation]) -> None:
     # silently showing other categories (the generated text may otherwise imply e.g. a cafe nearby).
     shown = {c.category for c in cards}
     for cat in prep.soft_categories_used:
-        if cat not in shown and prep.closed_by_category.get(cat):
-            prep.warnings.append(
-                Warning(
-                    code=f"wanted_category_closed:{cat}",
-                    message=(
-                        f"«{category_label(cat)}» поблизости по часам OSM закрыто на время прибытия — "
-                        "показаны другие места. Можно указать другое время старта."
-                    ),
-                )
+        if cat in shown or cat in prep.eff.exclude_categories:
+            continue
+        label = category_label(cat)
+        if prep.closed_by_category.get(cat):
+            code, msg = (
+                f"wanted_category_closed:{cat}",
+                f"«{label}» поблизости по часам OSM закрыто на время прибытия — показаны другие места. "
+                "Можно указать другое время старта.",
             )
+        elif prep.over_budget_by_category.get(cat):
+            code, msg = (
+                f"wanted_category_over_budget:{cat}",
+                f"«{label}» есть рядом, но не помещается в выбранное время с дорогой и запасом — "
+                "показаны другие места. Можно увеличить время.",
+            )
+        else:
+            code, msg = (
+                f"wanted_category_missing:{cat}",
+                f"«{label}» в радиусе досягаемости в нашей базе нет — показаны другие места.",
+            )
+        prep.warnings.append(Warning(code=code, message=msg))
     for f in prep.eff.preferred_features:
         if any(f in c.unknown_features for c in cards):
             prep.warnings.append(

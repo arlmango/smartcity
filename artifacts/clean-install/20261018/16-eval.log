@@ -2,3 +2,22 @@ warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be remo
 D01 ok                   live_rag         75.7s viol=0 miss=0
 D02 no_match             retrieval_only    0.0s viol=0 miss=0
 D03 ok                   live_rag         63.0s viol=0 miss=0
+D04 ok                   live_rag         42.1s viol=0 miss=1
+D05 ok                   live_rag         51.8s viol=0 miss=0
+D06 ok                   live_rag         47.1s viol=0 miss=0
+D07 no_match             retrieval_only    0.2s viol=0 miss=0
+D08 ok                   live_rag         56.8s viol=0 miss=1
+D09 ok                   live_rag         57.9s viol=0 miss=0
+D10 ok                   live_rag         45.9s viol=0 miss=0
+H01 ok                   live_rag         39.2s viol=0 miss=0
+H02 ok                   live_rag         54.3s viol=0 miss=0
+H03 ok                   live_rag         47.8s viol=0 miss=0
+H04 ok                   live_rag         58.8s viol=0 miss=0
+H05 ok                   live_rag         36.2s viol=0 miss=0
+H06 no_match             retrieval_only    0.2s viol=0 miss=0
+H07 ok                   live_rag         24.3s viol=0 miss=0
+H08 no_match             retrieval_only    0.2s viol=0 miss=0
+H09 needs_clarification  retrieval_only    0.0s viol=0 miss=0
+H10 degraded             retrieval_only   79.2s viol=0 miss=0
+report: /tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/artifacts/eval/20261018T232420Z
+exit=0
