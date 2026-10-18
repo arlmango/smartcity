@@ -19,3 +19,4 @@ data/cache/
 data/backups/
 *.log
 .DS_Store
+.claude/worktrees/

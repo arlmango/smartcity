@@ -1,6 +1,7 @@
 # Следующие действия
-1. Прочитать пакет, изучить repo/git status и существующие пользовательские изменения.
-2. Проверить toolchain, Docker, RAM/disk/network, возможность subagents и доступ к реальному AI backend.
-3. Зафиксировать план/ADR и API/data contracts.
-4. Создать минимальный работающий вертикальный срез с настоящим POI.
-5. Продолжить этапы docs/OPERATIONS.md до проверенного DONE либо конкретного внешнего blocker.
+1. Дождаться отчётов агентов data-pipeline, backend-rag, frontend-map; проверить их worktree-ветки (тесты, команды) и слить в `claude/wizardly-bardeen-py0dnc`.
+2. Интеграция: `make up`, ingest/index на живой БД, ручная проверка UI в Chromium (desktop/mobile), live S1–S3.
+3. QA/security агент + independent reviewer по объединённому diff; исправления.
+4. Полный quality gate в чистом окружении (`make verify`, `make smoke-live`), docs/VERIFICATION.md, docs/FINAL_REPORT.md.
+
+Опасности повторного запуска: dockerd в облачной среде запускается вручную (`dockerd &`); контейнер `sc-ollama-probe` (Ollama с моделями в томе smartcity_ollama) использует host network и порт 11434 — не запускать параллельно compose-профиль ollama на том же порту.
