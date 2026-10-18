@@ -1,0 +1,1842 @@
+{
+  "components": {
+    "schemas": {
+      "AppliedConstraint": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "time_budget",
+              "return_to_start",
+              "walking_only",
+              "required_feature",
+              "include_category",
+              "exclude_category",
+              "must_be_open",
+              "max_distance"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "source": {
+            "enum": [
+              "ui",
+              "text"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "kind",
+          "value",
+          "source",
+          "label"
+        ],
+        "title": "AppliedConstraint",
+        "type": "object"
+      },
+      "ComponentStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "degraded",
+              "unavailable",
+              "not_configured"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "detail"
+        ],
+        "title": "ComponentStatus",
+        "type": "object"
+      },
+      "Constraints": {
+        "additionalProperties": false,
+        "description": "Explicit user controls. These are the source of truth and override LLM guesses.",
+        "properties": {
+          "exclude_categories": {
+            "items": {
+              "enum": [
+                "cafe",
+                "food",
+                "park",
+                "culture",
+                "attraction",
+                "playground",
+                "mall"
+              ],
+              "type": "string"
+            },
+            "maxItems": 7,
+            "title": "Exclude Categories",
+            "type": "array"
+          },
+          "exclude_place_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Exclude Place Ids",
+            "type": "array"
+          },
+          "include_categories": {
+            "items": {
+              "enum": [
+                "cafe",
+                "food",
+                "park",
+                "culture",
+                "attraction",
+                "playground",
+                "mall"
+              ],
+              "type": "string"
+            },
+            "maxItems": 7,
+            "title": "Include Categories",
+            "type": "array"
+          },
+          "max_distance_m": {
+            "anyOf": [
+              {
+                "maximum": 10000.0,
+                "minimum": 100.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Distance M"
+          },
+          "must_be_open": {
+            "default": false,
+            "title": "Must Be Open",
+            "type": "boolean"
+          },
+          "preferred_features": {
+            "items": {
+              "enum": [
+                "socket",
+                "wifi",
+                "outdoor_seating",
+                "wheelchair",
+                "indoor",
+                "kids"
+              ],
+              "type": "string"
+            },
+            "maxItems": 6,
+            "title": "Preferred Features",
+            "type": "array"
+          },
+          "required_features": {
+            "items": {
+              "enum": [
+                "socket",
+                "wifi",
+                "outdoor_seating",
+                "wheelchair",
+                "indoor",
+                "kids"
+              ],
+              "type": "string"
+            },
+            "maxItems": 6,
+            "title": "Required Features",
+            "type": "array"
+          }
+        },
+        "title": "Constraints",
+        "type": "object"
+      },
+      "ConstraintsApplied": {
+        "additionalProperties": false,
+        "properties": {
+          "hard": {
+            "items": {
+              "$ref": "#/components/schemas/AppliedConstraint"
+            },
+            "title": "Hard",
+            "type": "array"
+          },
+          "interpreted_query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interpreted Query"
+          },
+          "preferences": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Preferences",
+            "type": "array"
+          }
+        },
+        "required": [
+          "hard",
+          "preferences"
+        ],
+        "title": "ConstraintsApplied",
+        "type": "object"
+      },
+      "ConversationTurn": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 500,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "text"
+        ],
+        "title": "ConversationTurn",
+        "type": "object"
+      },
+      "CoverageResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "bbox": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Bbox",
+            "type": "array"
+          },
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "default_origin": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "default_origin_label": {
+            "title": "Default Origin Label",
+            "type": "string"
+          },
+          "features": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Features",
+            "type": "array"
+          },
+          "freshness": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freshness"
+          },
+          "place_count": {
+            "title": "Place Count",
+            "type": "integer"
+          },
+          "type": {
+            "const": "FeatureCollection",
+            "default": "FeatureCollection",
+            "title": "Type",
+            "type": "string"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "required": [
+          "features",
+          "dataset_version",
+          "place_count",
+          "freshness",
+          "updated_at",
+          "bbox",
+          "default_origin",
+          "default_origin_label"
+        ],
+        "title": "CoverageResponse",
+        "type": "object"
+      },
+      "Distance": {
+        "additionalProperties": false,
+        "properties": {
+          "meters": {
+            "title": "Meters",
+            "type": "integer"
+          },
+          "method": {
+            "enum": [
+              "pedestrian_route",
+              "geodesic"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "meters",
+          "method",
+          "note"
+        ],
+        "title": "Distance",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "title": "Error",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "required": [
+          "error",
+          "message"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "EvidenceItem": {
+        "additionalProperties": false,
+        "properties": {
+          "collected_at": {
+            "format": "date-time",
+            "title": "Collected At",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "license": {
+            "title": "License",
+            "type": "string"
+          },
+          "source_url": {
+            "title": "Source Url",
+            "type": "string"
+          },
+          "source_value": {
+            "title": "Source Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "source_value",
+          "source_url",
+          "license",
+          "collected_at"
+        ],
+        "title": "EvidenceItem",
+        "type": "object"
+      },
+      "FeatureFact": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "enum": [
+              "tag",
+              "category_rule"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "evidence": {
+            "title": "Evidence",
+            "type": "string"
+          },
+          "feature": {
+            "enum": [
+              "socket",
+              "wifi",
+              "outdoor_seating",
+              "wheelchair",
+              "indoor",
+              "kids"
+            ],
+            "title": "Feature",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "feature",
+          "value",
+          "basis",
+          "evidence"
+        ],
+        "title": "FeatureFact",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "service": {
+            "title": "Service",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "service",
+          "version"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "LatLon": {
+        "additionalProperties": false,
+        "properties": {
+          "lat": {
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Lon",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "title": "LatLon",
+        "type": "object"
+      },
+      "PlaceDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "category": {
+            "enum": [
+              "cafe",
+              "food",
+              "park",
+              "culture",
+              "attraction",
+              "playground",
+              "mall"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "category_label": {
+            "title": "Category Label",
+            "type": "string"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItem"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "name_is_generic": {
+            "title": "Name Is Generic",
+            "type": "boolean"
+          },
+          "negative_features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureFact"
+            },
+            "title": "Negative Features",
+            "type": "array"
+          },
+          "opening_hours_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Hours Raw"
+          },
+          "place_id": {
+            "title": "Place Id",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "unknown_features": {
+            "items": {
+              "enum": [
+                "socket",
+                "wifi",
+                "outdoor_seating",
+                "wheelchair",
+                "indoor",
+                "kids"
+              ],
+              "type": "string"
+            },
+            "title": "Unknown Features",
+            "type": "array"
+          },
+          "verified_features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureFact"
+            },
+            "title": "Verified Features",
+            "type": "array"
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website"
+          }
+        },
+        "required": [
+          "place_id",
+          "name",
+          "name_is_generic",
+          "category",
+          "category_label",
+          "coordinates",
+          "address",
+          "description",
+          "opening_hours_raw",
+          "website",
+          "verified_features",
+          "unknown_features",
+          "negative_features",
+          "source",
+          "evidence"
+        ],
+        "title": "PlaceDetail",
+        "type": "object"
+      },
+      "PlaceSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "category": {
+            "enum": [
+              "cafe",
+              "food",
+              "park",
+              "culture",
+              "attraction",
+              "playground",
+              "mall"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "category_label": {
+            "title": "Category Label",
+            "type": "string"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "name_is_generic": {
+            "title": "Name Is Generic",
+            "type": "boolean"
+          },
+          "place_id": {
+            "title": "Place Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "place_id",
+          "name",
+          "name_is_generic",
+          "category",
+          "category_label",
+          "coordinates",
+          "address"
+        ],
+        "title": "PlaceSummary",
+        "type": "object"
+      },
+      "PlacesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PlaceSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "truncated": {
+            "title": "Truncated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "dataset_version",
+          "items",
+          "truncated"
+        ],
+        "title": "PlacesResponse",
+        "type": "object"
+      },
+      "ProviderInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "embedding_dim": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Embedding Dim"
+          },
+          "embedding_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Embedding Model"
+          },
+          "embedding_provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Embedding Provider"
+          },
+          "llm_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Model"
+          },
+          "llm_provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Provider"
+          },
+          "routing": {
+            "enum": [
+              "none",
+              "valhalla"
+            ],
+            "title": "Routing",
+            "type": "string"
+          }
+        },
+        "required": [
+          "llm_provider",
+          "llm_model",
+          "embedding_provider",
+          "embedding_model",
+          "embedding_dim",
+          "routing"
+        ],
+        "title": "ProviderInfo",
+        "type": "object"
+      },
+      "ReadyResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "components": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ComponentStatus"
+            },
+            "title": "Components",
+            "type": "object"
+          },
+          "ready": {
+            "title": "Ready",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ready",
+          "components"
+        ],
+        "title": "ReadyResponse",
+        "type": "object"
+      },
+      "RecommendRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9_-]{8,64}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "constraints": {
+            "$ref": "#/components/schemas/Constraints"
+          },
+          "conversation_context": {
+            "items": {
+              "$ref": "#/components/schemas/ConversationTurn"
+            },
+            "maxItems": 6,
+            "title": "Conversation Context",
+            "type": "array"
+          },
+          "interests": {
+            "items": {
+              "enum": [
+                "coffee",
+                "food",
+                "nature",
+                "culture",
+                "architecture",
+                "kids",
+                "quiet",
+                "indoor",
+                "shopping"
+              ],
+              "type": "string"
+            },
+            "maxItems": 9,
+            "title": "Interests",
+            "type": "array"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "query": {
+            "default": "",
+            "maxLength": 2000,
+            "title": "Query",
+            "type": "string"
+          },
+          "return_to_start": {
+            "default": true,
+            "title": "Return To Start",
+            "type": "boolean"
+          },
+          "start_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Time"
+          },
+          "time_budget_min": {
+            "maximum": 180.0,
+            "minimum": 10.0,
+            "title": "Time Budget Min",
+            "type": "integer"
+          },
+          "travel_mode": {
+            "const": "walking",
+            "default": "walking",
+            "title": "Travel Mode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "origin",
+          "time_budget_min",
+          "client_request_id"
+        ],
+        "title": "RecommendRequest",
+        "type": "object"
+      },
+      "RecommendResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "constraints_applied": {
+            "$ref": "#/components/schemas/ConstraintsApplied"
+          },
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "live_rag",
+              "retrieval_only"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "providers": {
+            "$ref": "#/components/schemas/ProviderInfo"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/Recommendation"
+            },
+            "maxItems": 3,
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "route": {
+            "title": "Route",
+            "type": "null"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "no_match",
+              "needs_clarification",
+              "degraded"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "suggested_relaxations": {
+            "items": {
+              "$ref": "#/components/schemas/Relaxation"
+            },
+            "title": "Suggested Relaxations",
+            "type": "array"
+          },
+          "timings_ms": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Timings Ms",
+            "type": "object"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "request_id",
+          "client_request_id",
+          "status",
+          "mode",
+          "dataset_version",
+          "constraints_applied",
+          "recommendations",
+          "message",
+          "warnings",
+          "suggested_relaxations",
+          "providers",
+          "timings_ms"
+        ],
+        "title": "RecommendResponse",
+        "type": "object"
+      },
+      "Recommendation": {
+        "additionalProperties": false,
+        "properties": {
+          "activity_suggestion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activity Suggestion"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "as_of": {
+            "format": "date-time",
+            "title": "As Of",
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "cafe",
+              "food",
+              "park",
+              "culture",
+              "attraction",
+              "playground",
+              "mall"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "category_label": {
+            "title": "Category Label",
+            "type": "string"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "distance": {
+            "$ref": "#/components/schemas/Distance"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItem"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "name_is_generic": {
+            "title": "Name Is Generic",
+            "type": "boolean"
+          },
+          "negative_features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureFact"
+            },
+            "title": "Negative Features",
+            "type": "array"
+          },
+          "opening_hours_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Hours Raw"
+          },
+          "opening_note": {
+            "title": "Opening Note",
+            "type": "string"
+          },
+          "opening_status": {
+            "enum": [
+              "open",
+              "closed",
+              "unknown"
+            ],
+            "title": "Opening Status",
+            "type": "string"
+          },
+          "place_id": {
+            "title": "Place Id",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "reason_source": {
+            "enum": [
+              "llm",
+              "rules"
+            ],
+            "title": "Reason Source",
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "timing": {
+            "$ref": "#/components/schemas/Timing"
+          },
+          "unknown_features": {
+            "items": {
+              "enum": [
+                "socket",
+                "wifi",
+                "outdoor_seating",
+                "wheelchair",
+                "indoor",
+                "kids"
+              ],
+              "type": "string"
+            },
+            "title": "Unknown Features",
+            "type": "array"
+          },
+          "verified_features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureFact"
+            },
+            "title": "Verified Features",
+            "type": "array"
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website"
+          }
+        },
+        "required": [
+          "place_id",
+          "name",
+          "name_is_generic",
+          "category",
+          "category_label",
+          "coordinates",
+          "address",
+          "reason",
+          "reason_source",
+          "activity_suggestion",
+          "distance",
+          "timing",
+          "opening_status",
+          "opening_hours_raw",
+          "opening_note",
+          "as_of",
+          "verified_features",
+          "unknown_features",
+          "negative_features",
+          "website",
+          "source",
+          "evidence"
+        ],
+        "title": "Recommendation",
+        "type": "object"
+      },
+      "Relaxation": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "patch": {
+            "$ref": "#/components/schemas/Constraints"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "patch"
+        ],
+        "title": "Relaxation",
+        "type": "object"
+      },
+      "SearchResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PlaceSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query",
+          "items",
+          "method"
+        ],
+        "title": "SearchResponse",
+        "type": "object"
+      },
+      "SourceRef": {
+        "additionalProperties": false,
+        "properties": {
+          "fetched_at": {
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "license": {
+            "default": "ODbL-1.0",
+            "title": "License",
+            "type": "string"
+          },
+          "name": {
+            "const": "OpenStreetMap",
+            "default": "OpenStreetMap",
+            "title": "Name",
+            "type": "string"
+          },
+          "osm_id": {
+            "title": "Osm Id",
+            "type": "integer"
+          },
+          "osm_type": {
+            "enum": [
+              "node",
+              "way",
+              "relation"
+            ],
+            "title": "Osm Type",
+            "type": "string"
+          },
+          "source_updated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Updated At"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "osm_type",
+          "osm_id",
+          "url",
+          "fetched_at"
+        ],
+        "title": "SourceRef",
+        "type": "object"
+      },
+      "Timing": {
+        "additionalProperties": false,
+        "properties": {
+          "buffer_min": {
+            "title": "Buffer Min",
+            "type": "integer"
+          },
+          "estimated": {
+            "const": true,
+            "default": true,
+            "title": "Estimated",
+            "type": "boolean"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "outbound_min": {
+            "title": "Outbound Min",
+            "type": "integer"
+          },
+          "return_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Min"
+          },
+          "total_min": {
+            "title": "Total Min",
+            "type": "integer"
+          },
+          "visit_min": {
+            "title": "Visit Min",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "outbound_min",
+          "visit_min",
+          "return_min",
+          "buffer_min",
+          "total_min",
+          "method"
+        ],
+        "title": "Timing",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Warning": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "Warning",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Grounded walk recommendations for Astana (EXPO / MEGA Silk Way area). API v1.",
+    "title": "SmartCity API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/coverage": {
+      "get": {
+        "operationId": "coverage_api_coverage_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoverageResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Coverage"
+      }
+    },
+    "/api/health": {
+      "get": {
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health"
+      }
+    },
+    "/api/map/{layer}": {
+      "get": {
+        "operationId": "map_layer_api_map__layer__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "layer",
+            "required": true,
+            "schema": {
+              "title": "Layer",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/geo+json": {},
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "GeoJSON FeatureCollection"
+          },
+          "304": {
+            "description": "Not modified"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Map Layer"
+      }
+    },
+    "/api/places": {
+      "get": {
+        "operationId": "places_api_places_get",
+        "parameters": [
+          {
+            "description": "minlon,minlat,maxlon,maxlat (WGS84)",
+            "in": "query",
+            "name": "bbox",
+            "required": true,
+            "schema": {
+              "description": "minlon,minlat,maxlon,maxlat (WGS84)",
+              "maxLength": 120,
+              "title": "Bbox",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "cafe",
+                    "food",
+                    "park",
+                    "culture",
+                    "attraction",
+                    "playground",
+                    "mall"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 200,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlacesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Places"
+      }
+    },
+    "/api/places/{place_id}": {
+      "get": {
+        "operationId": "place_api_places__place_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "place_id",
+            "required": true,
+            "schema": {
+              "title": "Place Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaceDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Place"
+      }
+    },
+    "/api/ready": {
+      "get": {
+        "operationId": "ready_api_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadyResponse"
+                }
+              }
+            },
+            "description": "Not ready (db/data/map)"
+          }
+        },
+        "summary": "Ready"
+      }
+    },
+    "/api/recommend": {
+      "post": {
+        "operationId": "recommend_api_recommend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Recommend"
+      }
+    },
+    "/api/route": {
+      "post": {
+        "operationId": "route_api_route_post",
+        "responses": {
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Route"
+      }
+    },
+    "/api/search": {
+      "get": {
+        "operationId": "search_api_search_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Q",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 50,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Search"
+      }
+    }
+  }
+}

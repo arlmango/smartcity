@@ -1,0 +1,207 @@
+{
+  "scenario": "S1",
+  "notes": "origin = DB location of 'Mega Silk Way (landmark way/499328514, polygon centroid from data/manifests/landmarks.json)'",
+  "recorded_at": "2026-10-18T20:00:08+00:00",
+  "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
+  "request": {
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "origin_rounded": [
+      51.09,
+      71.41
+    ],
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "constraints": {}
+  },
+  "providers": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen2.5:3b",
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "params": {
+        "temperature": 0.2,
+        "num_predict": 700
+      },
+      "timeout_s": 300.0
+    },
+    "embedding": {
+      "model_id": "ollama:bge-m3@790764642607",
+      "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+      "dim": 1024
+    },
+    "response_providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    }
+  },
+  "dataset_version": "osm-20261018T193359Z",
+  "retrieval": {
+    "shortlist": 34,
+    "ranked_after_filters": 13,
+    "semantic": "ok",
+    "llm_candidate_ids": [
+      "9f26d759-b6d4-48ff-acac-db42e6771fdd",
+      "6b0c788f-0baf-4392-8152-dcee14de97d7",
+      "bb79ef8d-aff5-4f69-806f-38de485f7e87",
+      "4b6f3bf4-1073-40d3-94d8-e218428721d7",
+      "92383177-df3d-4103-8c99-4dcf6d63f195"
+    ],
+    "exclusions": {
+      "budget": 9,
+      "closed": 12
+    },
+    "llm_attempts": 1,
+    "llm_failure": "provider_timeout",
+    "llm_issues": [],
+    "prompt_version": "rec-v1"
+  },
+  "result": {
+    "status": "degraded",
+    "mode": "retrieval_only",
+    "message": "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений.",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "warnings": [
+      {
+        "code": "llm_unavailable",
+        "message": "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений"
+      },
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "recommendations": [
+      {
+        "place_id": "9f26d759-b6d4-48ff-acac-db42e6771fdd",
+        "name": "NU Park",
+        "category": "park",
+        "source_url": "https://www.openstreetmap.org/way/1467797207",
+        "distance_m": 597,
+        "timing": {
+          "outbound_min": 12,
+          "visit_min": 11,
+          "return_min": 12,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "reason": null,
+        "reason_source": "rules",
+        "activity_suggestion": null
+      },
+      {
+        "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
+        "name": "Детская площадка",
+        "category": "playground",
+        "source_url": "https://www.openstreetmap.org/way/607963090",
+        "distance_m": 189,
+        "timing": {
+          "outbound_min": 4,
+          "visit_min": 25,
+          "return_min": 4,
+          "buffer_min": 5,
+          "total_min": 38,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [
+          "kids"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "reason": null,
+        "reason_source": "rules",
+        "activity_suggestion": null
+      },
+      {
+        "place_id": "bb79ef8d-aff5-4f69-806f-38de485f7e87",
+        "name": "Chaplin Cinema",
+        "category": "culture",
+        "source_url": "https://www.openstreetmap.org/node/5880883097",
+        "distance_m": 180,
+        "timing": {
+          "outbound_min": 4,
+          "visit_min": 27,
+          "return_min": 4,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "open",
+        "verified_features": [
+          "indoor"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "reason": null,
+        "reason_source": "rules",
+        "activity_suggestion": null
+      }
+    ]
+  },
+  "timings_ms": {
+    "parse": 4,
+    "shortlist": 27,
+    "semantic": 398,
+    "rank": 3,
+    "schedule": 1,
+    "generate": 300103,
+    "total": 300538
+  },
+  "wall_ms": 300553
+}
