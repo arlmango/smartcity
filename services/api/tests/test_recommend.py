@@ -433,6 +433,15 @@ def test_T09_closed_before_arrival_relaxation(make_client, origin):
     assert j["status"] == "no_match" and "закрыта" in j["message"]
 
 
+def test_wanted_category_closed_is_reported(make_client, origin, place_ids):
+    # eval D08 at night: the wished-for category exists but is closed at arrival -> say it explicitly
+    c = make_client(generator=None)
+    _, j = post(c, body(origin, query="хочу пообедать", time_budget_min=90))
+    assert place_ids["night_food"] not in [x["place_id"] for x in j["recommendations"]]
+    assert j["recommendations"], "other categories should still be offered"
+    assert "wanted_category_closed:food" in warn_codes(j)
+
+
 def test_T12_past_midnight_local(make_client, origin, place_ids):
     c = make_client(generator=None)
     start = FIXED_NOW.replace(hour=23, minute=30)

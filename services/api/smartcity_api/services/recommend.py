@@ -129,6 +129,8 @@ class Prepared:
     llm_candidates: list[Candidate] = field(default_factory=list)
     relaxations: list[Relaxation] = field(default_factory=list)
     exclusions: Counter[str] = field(default_factory=Counter)
+    closed_by_category: Counter[str] = field(default_factory=Counter)  # closed on arrival, per category
+    soft_categories_used: list[str] = field(default_factory=list)
     shortlist_size: int = 0
     reach_radius_m: float = 0.0
     semantic_status: str = "unused"  # ok | unused | unavailable | mismatch
@@ -596,6 +598,7 @@ def retrieve(container: Container, prep: Prepared) -> None:
         lists["semantic"] = (W_SEMANTIC, [str(pid) for pid, _ in sorted(sem.items(), key=lambda x: -x[1])])
     lists["distance"] = (W_DISTANCE, [c.pid for c in sorted(passed, key=lambda c: (c.distance_m, c.pid))])
     soft_cats = set(eff.soft_categories) | set(prep.extra_soft_categories)
+    prep.soft_categories_used = sorted(soft_cats)
     pref_scores = {}
     for c in passed:
         sc = 2 if c.place.category in soft_cats else 0
@@ -620,6 +623,8 @@ def retrieve(container: Container, prep: Prepared) -> None:
         why = schedule_exclusion(c, eff, prep.start_time, speed, detour)
         if why:
             prep.exclusions[why] += 1
+            if why == "closed":
+                prep.closed_by_category[c.place.category] += 1
             continue
         norm = c.place.name.strip().lower()
         if not c.place.name_is_generic and any(
@@ -981,6 +986,20 @@ def _final_warnings(prep: Prepared, cards: list[Recommendation]) -> None:
                 code="unknown_hours", message="Часы работы части мест неизвестны — уточните перед выходом"
             )
         )
+    # The wished-for category exists nearby but is closed at arrival time: say so instead of
+    # silently showing other categories (the generated text may otherwise imply e.g. a cafe nearby).
+    shown = {c.category for c in cards}
+    for cat in prep.soft_categories_used:
+        if cat not in shown and prep.closed_by_category.get(cat):
+            prep.warnings.append(
+                Warning(
+                    code=f"wanted_category_closed:{cat}",
+                    message=(
+                        f"«{category_label(cat)}» поблизости по часам OSM закрыто на время прибытия — "
+                        "показаны другие места. Можно указать другое время старта."
+                    ),
+                )
+            )
     for f in prep.eff.preferred_features:
         if any(f in c.unknown_features for c in cards):
             prep.warnings.append(
