@@ -27,7 +27,10 @@ def main() -> int:
     root = Path(__file__).resolve().parents[1]
     files = subprocess.run(
         ["git", "ls-files", "--cached", "--others", "--exclude-standard"],
-        cwd=root, capture_output=True, text=True, check=True,
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout.split()
     findings: list[str] = []
     for rel in files:

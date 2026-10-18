@@ -17,12 +17,14 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import httpx
+from smartcity_api.config import get_settings
 from sqlalchemy import create_engine, text
 
-from smartcity_api.config import get_settings
-
 ROOT = Path(__file__).resolve().parents[1]
-ORIGIN_QUERIES = {"mega": ["Mega Silk Way", "Мега Силк Вей"], "expo": ["Нур Алем", "Nur Alem", "EXPO", "Экспо"]}
+ORIGIN_QUERIES = {
+    "mega": ["Mega Silk Way", "Мега Силк Вей"],
+    "expo": ["Нур Алем", "Nur Alem", "EXPO", "Экспо"],
+}
 
 
 def resolve_origins(client: httpx.Client) -> dict[str, dict]:
@@ -32,7 +34,11 @@ def resolve_origins(client: httpx.Client) -> dict[str, dict]:
             r = client.get("/api/search", params={"q": name})
             items = r.json().get("items", []) if r.status_code == 200 else []
             if items:
-                out[key] = {"label": items[0]["name"], "place_id": items[0]["place_id"], **items[0]["coordinates"]}
+                out[key] = {
+                    "label": items[0]["name"],
+                    "place_id": items[0]["place_id"],
+                    **items[0]["coordinates"],
+                }
                 break
     if "expo" not in out:
         cov = client.get("/api/coverage").json()
@@ -52,14 +58,20 @@ def check(q: dict, req: dict, resp: dict, db) -> tuple[list[str], list[str]]:
     hard = {c["value"] for c in resp["constraints_applied"]["hard"] if c["kind"] == "required_feature"}
     for r in recs:
         row = db.execute(
-            text("SELECT name, ST_Y(location::geometry) lat, ST_X(location::geometry) lon, active "
-                 "FROM places WHERE id = :id"), {"id": r["place_id"]},
+            text(
+                "SELECT name, ST_Y(location::geometry) lat, ST_X(location::geometry) lon, active "
+                "FROM places WHERE id = :id"
+            ),
+            {"id": r["place_id"]},
         ).first()
         if row is None or not row.active:
             violations.append(f"{r['place_id']}: not an active DB place")
             continue
-        if row.name != r["name"] or abs(row.lat - r["coordinates"]["lat"]) > 1e-9 or abs(
-            row.lon - r["coordinates"]["lon"]) > 1e-9:
+        if (
+            row.name != r["name"]
+            or abs(row.lat - r["coordinates"]["lat"]) > 1e-9
+            or abs(row.lon - r["coordinates"]["lon"]) > 1e-9
+        ):
             violations.append(f"{r['place_id']}: name/coordinates differ from DB")
         t = r["timing"]
         total = t["outbound_min"] + t["visit_min"] + (t["return_min"] or 0) + t["buffer_min"]
@@ -123,33 +135,68 @@ def main() -> int:
             r = client.post("/api/recommend", json=req)
             dt = round(time.monotonic() - t0, 1)
             if r.status_code != 200:
-                results.append({"id": q["id"], "split": q["split"], "http": r.status_code, "latency_s": dt,
-                                "violations": [f"HTTP {r.status_code}"], "misses": []})
+                results.append(
+                    {
+                        "id": q["id"],
+                        "split": q["split"],
+                        "http": r.status_code,
+                        "latency_s": dt,
+                        "violations": [f"HTTP {r.status_code}"],
+                        "misses": [],
+                    }
+                )
                 continue
             resp = r.json()
             violations, misses = check(q, req, resp, db)
-            results.append({
-                "id": q["id"], "split": q["split"], "query": q["query"], "origin": o["label"],
-                "latency_s": dt, "status": resp["status"], "mode": resp["mode"],
-                "providers": resp["providers"],
-                "hard": resp["constraints_applied"]["hard"],
-                "results": [{"place_id": x["place_id"], "name": x["name"], "category": x["category"],
-                             "total_min": x["timing"]["total_min"], "opening_status": x["opening_status"],
-                             "reason": x["reason"], "unknown_features": x["unknown_features"]}
-                            for x in resp["recommendations"]],
-                "message": resp["message"], "warnings": resp["warnings"],
-                "relaxations": [x["code"] for x in resp["suggested_relaxations"]],
-                "violations": violations, "misses": misses,
-            })
-            print(f"{q['id']} {resp['status']:<20} {resp['mode']:<14} {dt:>6}s viol={len(violations)} miss={len(misses)}")
+            results.append(
+                {
+                    "id": q["id"],
+                    "split": q["split"],
+                    "query": q["query"],
+                    "origin": o["label"],
+                    "latency_s": dt,
+                    "status": resp["status"],
+                    "mode": resp["mode"],
+                    "providers": resp["providers"],
+                    "hard": resp["constraints_applied"]["hard"],
+                    "results": [
+                        {
+                            "place_id": x["place_id"],
+                            "name": x["name"],
+                            "category": x["category"],
+                            "total_min": x["timing"]["total_min"],
+                            "opening_status": x["opening_status"],
+                            "reason": x["reason"],
+                            "unknown_features": x["unknown_features"],
+                        }
+                        for x in resp["recommendations"]
+                    ],
+                    "message": resp["message"],
+                    "warnings": resp["warnings"],
+                    "relaxations": [x["code"] for x in resp["suggested_relaxations"]],
+                    "violations": violations,
+                    "misses": misses,
+                }
+            )
+            print(
+                f"{q['id']} {resp['status']:<20} {resp['mode']:<14} {dt:>6}s viol={len(violations)} miss={len(misses)}"
+            )
     (out / "results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2))
     total_v = sum(len(x["violations"]) for x in results)
-    lines = ["# Eval results", f"date: {ts}", f"api: {args.api}", "",
-             "| id | split | status | mode | n | latency s | violations | misses |", "|---|---|---|---|---|---|---|---|"]
+    lines = [
+        "# Eval results",
+        f"date: {ts}",
+        f"api: {args.api}",
+        "",
+        "| id | split | status | mode | n | latency s | violations | misses |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
     for x in results:
-        lines.append(f"| {x['id']} | {x['split']} | {x.get('status', 'http ' + str(x.get('http')))} | "
-                     f"{x.get('mode', '')} | {len(x.get('results', []))} | {x['latency_s']} | "
-                     f"{'; '.join(x['violations']) or 0} | {'; '.join(x['misses']) or 0} |")
+        lines.append(
+            f"| {x['id']} | {x['split']} | {x.get('status', 'http ' + str(x.get('http')))} | "
+            f"{x.get('mode', '')} | {len(x.get('results', []))} | {x['latency_s']} | "
+            f"{'; '.join(x['violations']) or 0} | {'; '.join(x['misses']) or 0} |"
+        )
     lines += ["", f"hard-constraint/grounding violations: {total_v}"]
     (out / "summary.md").write_text("\n".join(lines) + "\n")
     print(f"report: {out}")
