@@ -1,0 +1,102 @@
+[
+  {
+    "key": "nur_alem",
+    "osm": "way/454857501",
+    "in_snapshot": true,
+    "map_layer": "buildings",
+    "raw_name": "Alem.ai",
+    "name_matches": true,
+    "centroid_delta_m": 0.0,
+    "verdict": "PASS"
+  },
+  {
+    "key": "expo_site",
+    "osm": "way/454853233",
+    "in_snapshot": true,
+    "map_layer": "buildings",
+    "raw_name": "EXPO",
+    "name_matches": true,
+    "centroid_delta_m": 0.1,
+    "verdict": "PASS"
+  },
+  {
+    "key": "expo_quarter",
+    "osm": "way/1456208623",
+    "in_snapshot": true,
+    "map_layer": null,
+    "raw_name": "ЭКСПО-2017",
+    "name_matches": true,
+    "verdict": "PASS"
+  },
+  {
+    "key": "mega_silk_way",
+    "osm": "way/499328514",
+    "in_snapshot": true,
+    "map_layer": "buildings",
+    "raw_name": "Mega Silk Way",
+    "name_matches": true,
+    "centroid_delta_m": 0.0,
+    "verdict": "PASS"
+  },
+  {
+    "key": "botanical_garden",
+    "osm": "way/1196402246",
+    "in_snapshot": true,
+    "map_layer": "green",
+    "raw_name": "Ботаникалық бақ",
+    "name_matches": true,
+    "centroid_delta_m": 0.0,
+    "verdict": "PASS"
+  },
+  {
+    "key": "nazarbayev_university",
+    "osm": "way/424894683",
+    "in_snapshot": true,
+    "map_layer": null,
+    "raw_name": "Назарбаев Университеті",
+    "name_matches": true,
+    "verdict": "PASS"
+  },
+  {
+    "key": "mangilik_el",
+    "osm": [
+      "way/255969486",
+      "way/501197214",
+      "way/501197215",
+      "way/501197216",
+      "way/501197217",
+      "way/501197220",
+      "way/522977365",
+      "way/522977372",
+      "way/724874966",
+      "way/724874967",
+      "way/724875226",
+      "way/724875230",
+      "way/735043815",
+      "way/735043816",
+      "way/735043817",
+      "way/735043818",
+      "way/735043819",
+      "way/735043820",
+      "way/735043821",
+      "way/1154972681",
+      "way/1429138570",
+      "way/1429138571",
+      "way/1429138572",
+      "way/1429138573",
+      "way/1429145785",
+      "way/1446156777",
+      "way/1446612883",
+      "way/1446612884",
+      "way/1455740188",
+      "way/1455760089",
+      "way/1455760090",
+      "way/1455760091",
+      "way/1455760092",
+      "way/1527833773",
+      "way/1531638142",
+      "way/1531638144"
+    ],
+    "note": "multi-way landmark, skipped"
+  }
+]

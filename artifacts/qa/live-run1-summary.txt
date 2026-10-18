@@ -1,0 +1,33 @@
+## degraded-1440 | LLM + embeddings down → banners, retrieval_only answer from  | http 200 | 63 ms | degraded retrieval_only | qwen2.5:3b
+   - Аллея мира и согласия [park] 530 m  out 11 visit 13 ret 11 buf 5 = 40  hours=unknown reason=rules: 
+   - Детская площадка [playground] 227 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=rules: 
+   - 25-ти летие Независимости [attraction] 478 m  out 10 visit 15 ret 10 buf 5 = 40  hours=unknown reason=rules: 
+   warnings=['llm_unavailable', 'embeddings_unavailable', 'straight_line_estimate', 'unknown_hours'] relax=[]
+## desktop-1440 | cancel a long request; a new request wins (stale answer neve | http 200 | 6544 ms | no_match retrieval_only | qwen2.5:3b@357c53fb659c
+   warnings=[] relax=[]
+## desktop-1440 | S2 coffee + quiet + socket required, 1 h → honest no_match → | http 200 | 80 ms | no_match retrieval_only | qwen2.5:3b@357c53fb659c
+   warnings=['quiet_unverified'] relax=['feature_to_preference:socket']
+## desktop-1440 | S2 coffee + quiet + socket required, 1 h → honest no_match → | http 200 | 121383 ms | degraded retrieval_only | qwen2.5:3b@357c53fb659c
+   - завтрак бар [cafe] 728 m  out 15 visit 25 ret 15 buf 5 = 60  hours=unknown reason=rules: 
+   - Veggie House [cafe] 945 m  out 19 visit 17 ret 19 buf 5 = 60  hours=unknown reason=rules: 
+   - Аллея мира и согласия [park] 530 m  out 11 visit 30 ret 11 buf 5 = 57  hours=unknown reason=rules: 
+   warnings=['llm_unavailable', 'quiet_unverified', 'straight_line_estimate', 'unknown_hours', 'preference_unverified:socket'] relax=[]
+## desktop-1440 | S3 one hour with a child, return here → budget incl. return; | http 200 | 66229 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - Детская площадка [playground] 227 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=llm: Ближайшее место, которое подходит для детей и находится в пределах доступного времени.
+   - Детская площадка [playground] 238 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=llm: Тоже близко к началу маршрута и подходит для детей.
+   - Детская площадка [playground] 627 m  out 13 visit 25 ret 13 buf 5 = 56  hours=unknown reason=llm: Дальше, чем остальные, но все еще в пределах доступного времени. Подходит для детей.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+## desktop-1440 | XSS + prompt injection in the query: rendered as text, no in | http 200 | 123808 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - Детская площадка [playground] 227 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=llm: Детская площадка подходит по интересам пользователя, а также находится в шаговой доступности от точки старта.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+## mobile-360 | no_match fast path (socket required, nothing proven) on smal | http 200 | 83 ms | no_match retrieval_only | qwen2.5:3b@357c53fb659c
+   warnings=[] relax=['feature_to_preference:socket']
+## mobile-390 | mobile: real recommendation in the bottom sheet, list/map to | http 200 | 104214 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - Детская площадка [playground] 227 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=llm: Ближайшая детская площадка подходит для прогулки с детьми.
+   - Детская площадка [playground] 238 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=llm: Другая близкая детская площадка подходит для прогулки с детьми.
+   - Детская площадка [playground] 246 m  out 5 visit 25 ret 5 buf 5 = 40  hours=unknown reason=llm: Ещё одна близкая детская площадка подходит для прогулки с детьми.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+
+# console / network
+## desktop-1440 | cancel a long request; a new request wins (stale answer neve
+    POST /api/recommend — net::ERR_ABORTED

@@ -1,0 +1,153 @@
+{
+  "config": {
+    "configFile": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/playwright.live.config.ts",
+    "rootDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z-S1-rerun/playwright-live.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z-S1-rerun/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-1440",
+        "name": "desktop-1440",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z-S1-rerun/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-390",
+        "name": "mobile-390",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z-S1-rerun/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-360",
+        "name": "mobile-360",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "scenarios.live.spec.ts",
+      "file": "scenarios.live.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "live scenarios",
+          "file": "scenarios.live.spec.ts",
+          "line": 40,
+          "column": 6,
+          "specs": [
+            {
+              "title": "S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 1320000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 249712,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:59:39.635Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-9e7b9132327a00bdb185",
+              "file": "scenarios.live.spec.ts",
+              "line": 41,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T20:59:38.739Z",
+    "duration": 251557.592,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

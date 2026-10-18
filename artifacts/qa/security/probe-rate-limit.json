@@ -1,0 +1,47 @@
+{
+  "api": "http://127.0.0.1:8011",
+  "web": "http://127.0.0.1:3011",
+  "marker": "QAMARK7f3a",
+  "exact_origin": {
+    "lat": 51.0912345,
+    "lon": 71.4123456
+  },
+  "results": [
+    {
+      "id": "R-api-direct-1",
+      "check": "api-direct: burst of 25 invalid POST /recommend → 429 + Retry-After",
+      "verdict": "PASS",
+      "codes": {
+        "422": 20,
+        "429": 5
+      },
+      "retry_after": "60"
+    },
+    {
+      "id": "R-api-direct-2",
+      "check": "api-direct: same burst with rotating client-supplied X-Forwarded-For is still limited",
+      "verdict": "FAIL",
+      "codes": {
+        "422": 25
+      }
+    },
+    {
+      "id": "R-via-web-1",
+      "check": "via-web: burst of 25 invalid POST /recommend → 429 + Retry-After",
+      "verdict": "PASS",
+      "codes": {
+        "422": 20,
+        "429": 5
+      },
+      "retry_after": "60"
+    },
+    {
+      "id": "R-via-web-2",
+      "check": "via-web: same burst with rotating client-supplied X-Forwarded-For is still limited",
+      "verdict": "FAIL",
+      "codes": {
+        "422": 25
+      }
+    }
+  ]
+}

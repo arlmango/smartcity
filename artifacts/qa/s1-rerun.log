@@ -1,0 +1,7 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 [desktop-1440] › tests/live/scenarios.live.spec.ts:41:7 › live scenarios › S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart (4.2m)
+
+  1 passed (4.2m)
+EXIT=0

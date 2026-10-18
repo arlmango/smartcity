@@ -1,7 +1,7 @@
 {
   "scenario": "S3",
   "notes": "origin = DB location of 'Alem.ai Международный центр искусственного интеллекта (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
-  "recorded_at": "2026-10-18T20:08:30+00:00",
+  "recorded_at": "2026-10-18T21:07:25+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Хотим погулять час с ребёнком, надо вернуться сюда",
@@ -22,7 +22,7 @@
         "temperature": 0.2,
         "num_predict": 700
       },
-      "timeout_s": 300.0
+      "timeout_s": 240.0
     },
     "embedding": {
       "model_id": "ollama:bge-m3@790764642607",
@@ -38,21 +38,21 @@
       "routing": "none"
     }
   },
-  "dataset_version": "osm-20261018T194239Z",
+  "dataset_version": "osm-20261018T200514Z",
   "retrieval": {
-    "shortlist": 59,
-    "ranked_after_filters": 35,
+    "shortlist": 58,
+    "ranked_after_filters": 33,
     "semantic": "ok",
     "llm_candidate_ids": [
       "fd35bba3-bd69-43f9-bec5-1bc892c12813",
       "7a24f854-b807-4b73-9d5e-03ddabab9a39",
       "6b0c788f-0baf-4392-8152-dcee14de97d7",
       "f1d6185a-0573-42ab-8c85-e93ff1dbdc82",
-      "bb79ef8d-aff5-4f69-806f-38de485f7e87"
+      "4b6f3bf4-1073-40d3-94d8-e218428721d7"
     ],
     "exclusions": {
       "budget": 8,
-      "closed": 16
+      "closed": 17
     },
     "llm_attempts": 1,
     "llm_failure": null,
@@ -62,7 +62,7 @@
   "result": {
     "status": "ok",
     "mode": "live_rag",
-    "message": "Выбраны ближайшие места с детскими игровыми зонами для комфортной прогулки",
+    "message": "Выбраны ближайшие места с детскими площадками для продолжения активности ребенка.",
     "constraints_applied": {
       "hard": [
         {
@@ -128,7 +128,7 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Ближайшее место, которое подходит для детей и находится в пределах доступного времени пешком.",
+        "reason": "Ближайшее место с детской площадкой, что удобно для прогулки с ребенком.",
         "reason_source": "llm",
         "activity_suggestion": "Погулять с ребенком на детской площадке"
       },
@@ -157,7 +157,7 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Другое ближайшее место, подходящее для детей и находящееся в пределах доступного времени пешком.",
+        "reason": "Другое ближайшее место с детской площадкой, что обеспечит продолжение активности ребенка.",
         "reason_source": "llm",
         "activity_suggestion": "Погулять с ребенком на детской площадке"
       },
@@ -186,20 +186,20 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Ближайшее место, которое подходит для детей и находится в пределах доступного времени пешком, но требует больше времени.",
+        "reason": "Ближайшее место с детской площадкой, но немного дальше и займет больше времени для прогулки.",
         "reason_source": "llm",
         "activity_suggestion": "Погулять с ребенком на детской площадке"
       }
     ]
   },
   "timings_ms": {
-    "parse": 1,
-    "shortlist": 11,
-    "semantic": 208,
+    "parse": 0,
+    "shortlist": 12,
+    "semantic": 243,
     "rank": 3,
     "schedule": 1,
-    "generate": 57824,
-    "total": 58051
+    "generate": 58930,
+    "total": 59192
   },
-  "wall_ms": 58057
+  "wall_ms": 59197
 }

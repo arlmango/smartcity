@@ -1,0 +1,362 @@
+{
+  "test": "S3 one hour with a child, return here → budget incl. return; kids only where proven",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Хотим погулять час с ребёнком, надо вернуться сюда",
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "9c9d36ce-2d31-4c07-b7e1-e27df24b3b5f"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "e23dde99117644c9bac2b6da276c3bc3",
+    "client_request_id": "9c9d36ce-2d31-4c07-b7e1-e27df24b3b5f",
+    "status": "ok",
+    "mode": "live_rag",
+    "dataset_version": "osm-20261018T200514Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 60,
+          "source": "ui",
+          "label": "Время: не более 60 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Желательно: подходит детям (учитывается только если подтверждено)",
+        "Интерес: Парк / сквер",
+        "Интерес: Детская площадка"
+      ],
+      "interpreted_query": "интересы: парк / сквер, детская площадка; желательно: подходит детям"
+    },
+    "recommendations": [
+      {
+        "place_id": "fd35bba3-bd69-43f9-bec5-1bc892c12813",
+        "name": "Детская площадка",
+        "name_is_generic": true,
+        "category": "playground",
+        "category_label": "Детская площадка",
+        "coordinates": {
+          "lat": 51.0912734,
+          "lon": 71.41589814385969
+        },
+        "address": null,
+        "reason": "Ближайшее место, которое подходит для детей и находится в пределах доступного времени.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить детскую площадку",
+        "distance": {
+          "meters": 227,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 5,
+          "visit_min": 25,
+          "return_min": 5,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T19:33:59.018845Z",
+        "verified_features": [
+          {
+            "feature": "kids",
+            "value": true,
+            "basis": "tag",
+            "evidence": "OSM: leisure=playground"
+          }
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "negative_features": [
+          {
+            "feature": "indoor",
+            "value": false,
+            "basis": "category_rule",
+            "evidence": "Правило категории: Детская площадка — не в помещении"
+          }
+        ],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "way",
+          "osm_id": 1452597370,
+          "url": "https://www.openstreetmap.org/way/1452597370",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T19:33:59.018845Z",
+          "source_updated_at": "2025-11-21T11:00:29Z"
+        },
+        "evidence": [
+          {
+            "field": "category",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/1452597370",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "indoor",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/1452597370",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "kids",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/1452597370",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          }
+        ]
+      },
+      {
+        "place_id": "7a24f854-b807-4b73-9d5e-03ddabab9a39",
+        "name": "Детская площадка",
+        "name_is_generic": true,
+        "category": "playground",
+        "category_label": "Детская площадка",
+        "coordinates": {
+          "lat": 51.091337100000004,
+          "lon": 71.41546973172728
+        },
+        "address": null,
+        "reason": "Тоже близко к началу маршрута и подходит для детей.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить детскую площадку",
+        "distance": {
+          "meters": 238,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 5,
+          "visit_min": 25,
+          "return_min": 5,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T19:33:59.018845Z",
+        "verified_features": [
+          {
+            "feature": "kids",
+            "value": true,
+            "basis": "tag",
+            "evidence": "OSM: leisure=playground"
+          }
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "negative_features": [
+          {
+            "feature": "indoor",
+            "value": false,
+            "basis": "category_rule",
+            "evidence": "Правило категории: Детская площадка — не в помещении"
+          }
+        ],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "way",
+          "osm_id": 1452597371,
+          "url": "https://www.openstreetmap.org/way/1452597371",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T19:33:59.018845Z",
+          "source_updated_at": "2025-11-21T11:00:29Z"
+        },
+        "evidence": [
+          {
+            "field": "category",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/1452597371",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "indoor",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/1452597371",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "kids",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/1452597371",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          }
+        ]
+      },
+      {
+        "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
+        "name": "Детская площадка",
+        "name_is_generic": true,
+        "category": "playground",
+        "category_label": "Детская площадка",
+        "coordinates": {
+          "lat": 51.090767400000004,
+          "lon": 71.4075524973641
+        },
+        "address": null,
+        "reason": "Дальше, чем остальные, но все еще в пределах доступного времени. Подходит для детей.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить детскую площадку",
+        "distance": {
+          "meters": 627,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 13,
+          "visit_min": 25,
+          "return_min": 13,
+          "buffer_min": 5,
+          "total_min": 56,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T19:33:59.018845Z",
+        "verified_features": [
+          {
+            "feature": "kids",
+            "value": true,
+            "basis": "tag",
+            "evidence": "OSM: leisure=playground"
+          }
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "negative_features": [
+          {
+            "feature": "indoor",
+            "value": false,
+            "basis": "category_rule",
+            "evidence": "Правило категории: Детская площадка — не в помещении"
+          }
+        ],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "way",
+          "osm_id": 607963090,
+          "url": "https://www.openstreetmap.org/way/607963090",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T19:33:59.018845Z",
+          "source_updated_at": "2018-07-14T19:26:51Z"
+        },
+        "evidence": [
+          {
+            "field": "category",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/607963090",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "indoor",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/607963090",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "kids",
+            "source_value": "leisure=playground",
+            "source_url": "https://www.openstreetmap.org/way/607963090",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          }
+        ]
+      }
+    ],
+    "message": "Выбраны ближайшие места с детскими игровыми площадками и подходящие по времени.",
+    "warnings": [
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 1,
+      "shortlist": 13,
+      "semantic": 6514,
+      "rank": 4,
+      "schedule": 1,
+      "generate": 59779,
+      "total": 66317
+    }
+  },
+  "ms": 66229
+}

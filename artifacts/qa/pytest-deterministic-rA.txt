@@ -1,0 +1,167 @@
+PASSED services/api/tests/test_domain.py::test_walk_minutes_formula
+PASSED services/api/tests/test_domain.py::test_buffer_is_max_5_or_ceil_10_percent_integer_exact
+PASSED services/api/tests/test_domain.py::test_T07_exact_budget_boundary_and_buffer
+PASSED services/api/tests/test_domain.py::test_T08_return_included_and_asymmetric_legs
+PASSED services/api/tests/test_domain.py::test_T27_negative_duration_and_min_gt_default
+PASSED services/api/tests/test_domain.py::test_haversine_and_reach_radius
+PASSED services/api/tests/test_domain.py::test_T09_closing_before_arrival
+PASSED services/api/tests/test_domain.py::test_T10_closing_during_visit
+PASSED services/api/tests/test_domain.py::test_T11_unknown_hours_variants
+PASSED services/api/tests/test_domain.py::test_T12_hours_past_midnight_local_zone
+PASSED services/api/tests/test_domain.py::test_open_requires_whole_window
+PASSED services/api/tests/test_domain.py::test_parser_S2_hard_socket_and_soft_quiet
+PASSED services/api/tests/test_domain.py::test_parser_preference_vs_hard
+PASSED services/api/tests/test_domain.py::test_parser_categories_near_open_indoor
+PASSED services/api/tests/test_domain.py::test_parser_kids_return_budget
+PASSED services/api/tests/test_domain.py::test_parser_empty_and_unicode
+PASSED services/api/tests/test_domain.py::test_merge_ui_preferred_overrides_text_required
+PASSED services/api/tests/test_domain.py::test_merge_sources_and_near
+PASSED services/api/tests/test_domain.py::test_merge_conflicts_need_clarification
+PASSED services/api/tests/test_domain.py::test_merge_ui_budget_wins_with_note
+PASSED services/api/tests/test_domain.py::test_location_phrase_is_not_a_wish
+PASSED services/api/tests/test_domain.py::test_diversify_caps_and_rrf
+PASSED services/api/tests/test_domain.py::test_dropped_text_constraints_are_not_re_added_from_text
+PASSED services/api/tests/test_domain.py::test_dropped_text_constraint_codes_are_validated
+PASSED services/api/tests/test_endpoints.py::test_health
+PASSED services/api/tests/test_endpoints.py::test_ready_reports_components_without_secrets
+PASSED services/api/tests/test_endpoints.py::test_ready_embedding_mismatch_and_llm_down
+PASSED services/api/tests/test_endpoints.py::test_ready_no_map_files
+PASSED services/api/tests/test_endpoints.py::test_coverage
+PASSED services/api/tests/test_endpoints.py::test_map_layer_etag_304_and_cache
+PASSED services/api/tests/test_endpoints.py::test_map_whitelist_and_path_traversal
+PASSED services/api/tests/test_endpoints.py::test_map_missing_file_is_503
+PASSED services/api/tests/test_endpoints.py::test_places_bbox
+PASSED services/api/tests/test_endpoints.py::test_places_bbox_validation
+PASSED services/api/tests/test_endpoints.py::test_place_detail_404_422_and_server_facts
+PASSED services/api/tests/test_endpoints.py::test_T26_unsafe_website_dropped
+PASSED services/api/tests/test_endpoints.py::test_search
+PASSED services/api/tests/test_endpoints.py::test_T25_xss_returned_as_data
+PASSED services/api/tests/test_endpoints.py::test_T23_route_unavailable
+PASSED services/api/tests/test_endpoints.py::test_rate_limit_429
+PASSED services/api/tests/test_endpoints.py::test_rate_limit_uses_last_forwarded_hop_only
+PASSED services/api/tests/test_endpoints.py::test_rate_limit_recommend
+PASSED services/api/tests/test_endpoints.py::test_body_size_limit
+PASSED services/api/tests/test_endpoints.py::test_cors_only_configured_origins
+PASSED services/api/tests/test_endpoints.py::test_unknown_route_structured_404
+PASSED services/api/tests/test_endpoints.py::test_logs_have_no_raw_query_or_exact_coords
+PASSED services/api/tests/test_endpoints.py::test_coverage_default_origin_from_landmark_manifest
+PASSED services/api/tests/test_generation.py::test_valid_output_maps_aliases_to_ids
+PASSED services/api/tests/test_generation.py::test_T13_invalid_json_or_shape[not json]
+PASSED services/api/tests/test_generation.py::test_T13_invalid_json_or_shape[[]]
+PASSED services/api/tests/test_generation.py::test_T13_invalid_json_or_shape[{"recommendations": []}]
+PASSED services/api/tests/test_generation.py::test_T13_invalid_json_or_shape[{"recommendations": "x"}]
+PASSED services/api/tests/test_generation.py::test_T13_invalid_json_or_shape[]
+PASSED services/api/tests/test_generation.py::test_T14_unknown_ids_rejected_known_kept
+PASSED services/api/tests/test_generation.py::test_T29_duplicates_removed_and_max_three
+PASSED services/api/tests/test_generation.py::test_T30_model_cannot_supply_facts
+PASSED services/api/tests/test_generation.py::test_links_phones_prices_numbers_removed
+PASSED services/api/tests/test_generation.py::test_T06_T28_unverified_feature_claims_removed
+PASSED services/api/tests/test_generation.py::test_item_with_only_bad_claims_is_dropped_and_all_bad_is_invalid
+PASSED services/api/tests/test_generation.py::test_non_russian_rejected_and_length_truncated
+PASSED services/api/tests/test_generation.py::test_names_with_latin_are_not_counted_as_foreign
+PASSED services/api/tests/test_generation.py::test_T15_prompt_wraps_untrusted_data_and_neutralizes_delimiters
+PASSED services/api/tests/test_generation.py::test_response_schema_restricts_ids
+PASSED services/api/tests/test_generation.py::test_ungrounded_amenity_terms_removed
+PASSED services/api/tests/test_generation.py::test_address_and_website_formatting
+PASSED services/api/tests/test_generation.py::test_quiet_is_never_claimed
+PASSED services/api/tests/test_recommend.py::test_live_rag_path_grounded_facts
+PASSED services/api/tests/test_recommend.py::test_prompt_contains_only_aliases_and_allowed_fields
+PASSED services/api/tests/test_recommend.py::test_T30_llm_cannot_overwrite_facts
+PASSED services/api/tests/test_recommend.py::test_T29_no_duplicates
+PASSED services/api/tests/test_recommend.py::test_retrieval_only_without_llm_is_labelled
+PASSED services/api/tests/test_recommend.py::test_T13_invalid_json_retry_then_fallback
+PASSED services/api/tests/test_recommend.py::test_T13_invalid_then_valid_is_live
+PASSED services/api/tests/test_recommend.py::test_T14_unknown_place_id
+PASSED services/api/tests/test_recommend.py::test_T15_prompt_injection_in_retrieved_description
+PASSED services/api/tests/test_recommend.py::test_T15_injection_partial_valid_item_kept
+PASSED services/api/tests/test_recommend.py::test_T16_llm_timeout_or_429_degrades[exc0]
+PASSED services/api/tests/test_recommend.py::test_T16_llm_timeout_or_429_degrades[exc1]
+PASSED services/api/tests/test_recommend.py::test_T16_circuit_breaker_skips_llm_after_repeated_failures
+PASSED services/api/tests/test_recommend.py::test_T17_embedding_provider_down
+PASSED services/api/tests/test_recommend.py::test_T18_dimension_or_model_mismatch[emb0]
+PASSED services/api/tests/test_recommend.py::test_T18_dimension_or_model_mismatch[emb1]
+PASSED services/api/tests/test_recommend.py::test_T05_hard_socket_requires_verified_yes
+PASSED services/api/tests/test_recommend.py::test_T05_S2_no_match_and_relaxation_patch
+PASSED services/api/tests/test_recommend.py::test_T06_preference_socket_unknown_not_claimed
+PASSED services/api/tests/test_recommend.py::test_T28_unknown_kids_and_wheelchair
+PASSED services/api/tests/test_recommend.py::test_exclude_cafe_near_and_indoor
+PASSED services/api/tests/test_recommend.py::test_needs_clarification_on_conflict
+PASSED services/api/tests/test_recommend.py::test_exclude_place_ids
+PASSED services/api/tests/test_recommend.py::test_T09_T10_T11_must_be_open
+PASSED services/api/tests/test_recommend.py::test_T09_closed_before_arrival_relaxation
+PASSED services/api/tests/test_recommend.py::test_T12_past_midnight_local
+PASSED services/api/tests/test_recommend.py::test_start_time_window
+PASSED services/api/tests/test_recommend.py::test_T01_query_empty_long_unicode
+PASSED services/api/tests/test_recommend.py::test_T02_invalid_coordinates
+PASSED services/api/tests/test_recommend.py::test_T03_outside_coverage
+PASSED services/api/tests/test_recommend.py::test_T04_no_candidates
+PASSED services/api/tests/test_recommend.py::test_T04_empty_database
+PASSED services/api/tests/test_recommend.py::test_T26_user_cannot_set_provider_or_source_urls
+PASSED services/api/tests/test_recommend.py::test_T27_negative_and_out_of_range_durations
+PASSED services/api/tests/test_recommend.py::test_T07_api_budget_never_exceeded
+PASSED services/api/tests/test_recommend.py::test_T25_xss_in_place_name_is_json_data
+PASSED services/api/tests/test_recommend.py::test_cancellable_stops_waiting_on_disconnect
+PASSED services/api/tests/test_recommend.py::test_cancellable_returns_result
+PASSED services/api/tests/test_zz_sanity.py::test_must_be_open_returns_open_places
+PASSED services/api/tests/test_zz_sanity.py::test_indoor_near_returns_something
+PASSED services/api/tests/test_zz_sanity.py::test_budget_loop_returns_cards
+107 passed, 3 deselected, 1 warning in 4.95s
+_________ test_T20_all_poi_groups_failed_is_failed_and_changes_nothing _________
+ERROR    smartcity_ingest.importer:importer.py:219 import failed: RuntimeError: no POI query group succeeded; nothing imported
+ERROR    smartcity_ingest.importer:importer.py:219 import failed: RuntimeError: simulated failure
+WARNING  smartcity_ingest.indexer:indexer.py:67 embed attempt 1/3 failed (timeout); retrying
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 1/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 2/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 3/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 1/3 failed: non-JSON response (server runtime error)
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 2/3 failed: incomplete result: runtime error: Query timed out in "query"
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 1/3 failed: HTTP 400
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 1/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 2/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 3/3 failed: HTTP 504
+ERROR    smartcity_ingest.snapshot:snapshot.py:178 group map_roads failed: HTTP 504
+_________________ test_retry_failed_groups_completes_snapshot __________________
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 1/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 2/3 failed: HTTP 504
+WARNING  smartcity_ingest.overpass:overpass.py:199 overpass attempt 3/3 failed: HTTP 504
+ERROR    smartcity_ingest.snapshot:snapshot.py:178 group map_roads failed: HTTP 504
+PASSED services/ingest/tests/test_importer.py::test_import_and_idempotent_reimport
+PASSED services/ingest/tests/test_importer.py::test_T19_node_way_duplicate_single_row
+PASSED services/ingest/tests/test_importer.py::test_T20_partial_failure_preserves_records
+PASSED services/ingest/tests/test_importer.py::test_T20_all_poi_groups_failed_is_failed_and_changes_nothing
+PASSED services/ingest/tests/test_importer.py::test_failure_mid_transaction_rolls_back
+PASSED services/ingest/tests/test_importer.py::test_T21_removed_poi_deactivated_only_after_complete_snapshot
+PASSED services/ingest/tests/test_importer.py::test_T22_db_geometry_lon_lat_and_hole
+PASSED services/ingest/tests/test_importer.py::test_amenity_evidence_rows_and_website
+PASSED services/ingest/tests/test_importer.py::test_single_change_updates_only_that_record
+PASSED services/ingest/tests/test_importer.py::test_missing_buildings_group_does_not_break_import[map_buildings]
+PASSED services/ingest/tests/test_indexer.py::test_incremental_index_reembeds_only_changed
+PASSED services/ingest/tests/test_indexer.py::test_models_not_mixed_and_prune
+PASSED services/ingest/tests/test_indexer.py::test_interrupted_index_keeps_committed_batches
+PASSED services/ingest/tests/test_indexer.py::test_inactive_places_not_indexed
+PASSED services/ingest/tests/test_indexer.py::test_embedding_text_uses_factual_fields
+PASSED services/ingest/tests/test_mapbuild.py::test_building_heights_rules
+PASSED services/ingest/tests/test_mapbuild.py::test_buildings_layer
+PASSED services/ingest/tests/test_mapbuild.py::test_roads_clipped_and_rounded
+PASSED services/ingest/tests/test_mapbuild.py::test_manifest_hashes_and_other_layers
+PASSED services/ingest/tests/test_mapbuild.py::test_map_requires_complete_map_groups
+PASSED services/ingest/tests/test_normalize.py::test_website_rejects_javascript_and_non_http
+PASSED services/ingest/tests/test_normalize.py::test_classify_contract_categories
+PASSED services/ingest/tests/test_normalize.py::test_normalize_name
+PASSED services/ingest/tests/test_normalize.py::test_T22_relation_multipolygon_with_hole_and_lon_lat
+PASSED services/ingest/tests/test_normalize.py::test_T19_node_way_duplicate_merged_into_polygon
+PASSED services/ingest/tests/test_normalize.py::test_only_named_except_generic_playground
+PASSED services/ingest/tests/test_normalize.py::test_amenities_evidence_from_tags
+PASSED services/ingest/tests/test_normalize.py::test_indoor_category_rules
+PASSED services/ingest/tests/test_normalize.py::test_website_and_description_from_facts_only
+PASSED services/ingest/tests/test_normalize.py::test_content_hash_stable_and_sensitive
+PASSED services/ingest/tests/test_overpass.py::test_bounded_retries_then_error
+PASSED services/ingest/tests/test_overpass.py::test_runtime_error_html_and_remark_are_failures
+PASSED services/ingest/tests/test_overpass.py::test_non_retryable_400
+PASSED services/ingest/tests/test_overpass.py::test_https_only
+PASSED services/ingest/tests/test_overpass.py::test_fetch_snapshot_partial
+PASSED services/ingest/tests/test_overpass.py::test_query_uses_coverage_poly_lat_lon
+PASSED services/ingest/tests/test_overpass.py::test_relation_groups_request_members
+PASSED services/ingest/tests/test_overpass.py::test_retry_failed_groups_completes_snapshot
+PASSED services/ingest/tests/test_report.py::test_report_counts_match_db
+39 passed, 1 deselected in 2.21s

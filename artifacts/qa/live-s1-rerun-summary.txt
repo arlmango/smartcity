@@ -1,0 +1,20 @@
+## desktop-1440 | S1 near MEGA, 40 min walk → real cards; card↔marker; unknown | http 200 | 71542 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - NU Park [park] 587 m  out 12 visit 11 ret 12 buf 5 = 40  hours=unknown reason=llm: NU Park находится рядом с Mega Silk Way и будет интересным местом для прогулки, не требующим возвращения в точку старта.
+   - Детская площадка [playground] 328 m  out 7 visit 21 ret 7 buf 5 = 40  hours=unknown reason=llm: Детская площадка (без названия в OSM) находится рядом с Mega Silk Way и будет интересным местом для прогулки, не требующим возвращения в точку старта.
+   - Детская площадка [playground] 467 m  out 10 visit 15 ret 10 buf 5 = 40  hours=unknown reason=llm: Детская площадка (без названия в OSM) находится рядом с Mega Silk Way и будет интересным местом для прогулки, не требующим возвращения в точку старта.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+## desktop-1440 | S1 near MEGA, 40 min walk → real cards; card↔marker; unknown | http 200 | 63419 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - Детская площадка [playground] 188 m  out 4 visit 25 ret 4 buf 5 = 38  hours=unknown reason=llm: Ближайшая детская площадка, подходит для детей.
+   - Детская площадка [playground] 372 m  out 8 visit 19 ret 8 buf 5 = 40  hours=unknown reason=llm: Другая близлежащая детская площадка, подходит для детей.
+   - Детская площадка [playground] 261 m  out 6 visit 23 ret 6 buf 5 = 40  hours=unknown reason=llm: Еще одна близлежащая детская площадка, подходит для детей.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+## desktop-1440 | S1 near MEGA, 40 min walk → real cards; card↔marker; unknown | http 200 | 61573 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - Детская площадка [playground] 188 m  out 4 visit 25 ret 4 buf 5 = 38  hours=unknown reason=llm: Ближайшая детская площадка, подходит для детей.
+   - Детская площадка [playground] 372 m  out 8 visit 19 ret 8 buf 5 = 40  hours=unknown reason=llm: Другая близкая детская площадка, подходит для детей.
+   - Детская площадка [playground] 261 m  out 6 visit 23 ret 6 buf 5 = 40  hours=unknown reason=llm: Еще одна ближайшая детская площадка, подходит для детей.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+## desktop-1440 | S1 near MEGA, 40 min walk → real cards; card↔marker; unknown | http 200 | 27944 ms | ok live_rag | qwen2.5:3b@357c53fb659c
+   - Ocean Basket [food] 190 m  out 4 visit 27 ret 4 buf 5 = 40  hours=unknown reason=llm: Ocean Basket находится внутри ТРЦ Mega Silk Way, что близко к вашему местоположению, и он в помещении, как вы просили.
+   warnings=['straight_line_estimate', 'unknown_hours'] relax=[]
+
+# console / network

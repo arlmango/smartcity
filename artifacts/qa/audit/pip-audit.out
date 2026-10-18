@@ -1,0 +1,5 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+Downloading pip (1.7MiB)
+ Downloaded pip
+Installed 28 packages in 33ms
+Found 14 known vulnerabilities in 2 packages

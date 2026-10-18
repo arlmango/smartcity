@@ -1,0 +1,10 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+........................................................................ [ 67%]
+...................................                                      [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:51
+  /home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+107 passed, 3 deselected, 1 warning in 4.47s
