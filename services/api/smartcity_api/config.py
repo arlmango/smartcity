@@ -55,6 +55,11 @@ class Settings(BaseSettings):
     ai_query_interpretation: bool = False  # optional LLM query paraphrase (soft only); slow on CPU
     ai_interpretation_timeout_seconds: float = 30.0
     map_cache_max_age_seconds: int = 300
+    # CPU inference must not run in parallel unbounded (review P2-9).
+    ai_max_concurrency: int = Field(default=1, ge=1, le=16)
+    ai_queue_wait_seconds: float = Field(default=20.0, ge=0, le=300)
+    embedding_max_concurrency: int = Field(default=2, ge=1, le=16)
+    embedding_queue_wait_seconds: float = Field(default=10.0, ge=0, le=120)
     data_dir: Path = REPO_ROOT / "data"
 
     # Walking model used when no real router is configured (documented in docs/ADR-0001).

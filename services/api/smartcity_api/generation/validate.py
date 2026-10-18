@@ -32,9 +32,15 @@ _UNIT_NUM_RE = re.compile(
 _RATING_RE = re.compile(r"рейтинг|отзыв|из 5\b", re.IGNORECASE)
 _CJK_RE = re.compile(r"[぀-ヿ㐀-鿿가-힯]")
 _SENT_SPLIT = re.compile(r"(?<=[.!?…])\s+")
+# A hedge only neutralizes a feature mention inside the same fragment (between , ; : — / "но" / "а"),
+# i.e. it must be about that feature ("розетки не подтверждены"). Advice like "уточните у бариста"
+# is not a hedge. Opening, quietness and GROUNDED_TERMS checks ignore hedges entirely.
 _HEDGE_RE = re.compile(
-    r"не подтвержд|неизвестн|нет данных|не указан|уточн|может не быть|не гарантир|не отмечен", re.IGNORECASE
+    r"не подтвержд|неизвестн|не известн|нет данных|нет информац|не указан|может не быть|не отмечен",
+    re.IGNORECASE,
 )
+_FRAGMENT_SPLIT = re.compile(r"[,;:—–()]|\s-\s|\s(?:но|а|зато|однако)\s", re.IGNORECASE)
+_ALWAYS_OPEN_RE = re.compile(r"круглосуточн|24\s*/\s*7|24\s*часа|без выходных", re.IGNORECASE)
 
 FEATURE_CLAIM_RE: dict[str, re.Pattern[str]] = {
     "socket": re.compile(r"розетк|зарядит|подзаряд|зарядк", re.IGNORECASE),
@@ -77,7 +83,7 @@ GROUNDED_TERMS: tuple[str, ...] = (
     "вход свободн",
 )
 _QUIET_CLAIM_RE = re.compile(r"\bтих\w*|тишин|спокойн|уютн|малолюдн|немноголюдн|без шума", re.IGNORECASE)
-_OPEN_CLAIM_RE = re.compile(r"открыт|работает|круглосуточн|часы работы", re.IGNORECASE)
+_OPEN_CLAIM_RE = re.compile(r"открыт|работает|работают|до ночи|допоздна|до утра", re.IGNORECASE)
 
 
 @dataclass
@@ -88,6 +94,7 @@ class CandidateFacts:
     verified_features: set[str]
     opening_status: str
     grounding: str = ""  # lower-cased factual text (description, category) the model saw
+    opening_hours_raw: str | None = None
 
 
 @dataclass
@@ -122,30 +129,40 @@ def _sanitize(
         if _UNIT_NUM_RE.search(s) or _RATING_RE.search(s):
             issues.append("removed_number_or_rating")
             continue
-        hedged = bool(_HEDGE_RE.search(s))
         verified = facts.verified_features if facts else all_verified
         bad_claim = False
-        if not hedged:
+        # 1. Feature claims: every mention must be verified for this place or hedged in its fragment.
+        for frag in _FRAGMENT_SPLIT.split(s):
+            if bad_claim:
+                break
+            hedged = bool(_HEDGE_RE.search(frag))
             for feat, rx in FEATURE_CLAIM_RE.items():
-                if feat not in verified and rx.search(s):
+                if feat not in verified and rx.search(frag) and not hedged:
                     bad_claim = True
                     issues.append(f"removed_unverified_claim:{feat}")
                     break
-            status_open = facts.opening_status == "open" if facts else False
-            if not bad_claim and not status_open and _OPEN_CLAIM_RE.search(s):
-                bad_claim = True
-                issues.append("removed_unverified_claim:open")
-            if not bad_claim and _QUIET_CLAIM_RE.search(s):  # OSM has no quietness data at all
-                bad_claim = True
-                issues.append("removed_unverified_claim:quiet")
-            if not bad_claim:
-                low = s.lower().replace("ё", "е")
-                grounding = (facts.grounding if facts else "").replace("ё", "е")
-                for term in GROUNDED_TERMS:
-                    if term in low and term not in grounding:
-                        bad_claim = True
-                        issues.append(f"removed_ungrounded_term:{term}")
-                        break
+        # 2. Opening claims (independent of hedges): "24/7" only for raw "24/7"; "open" only if open.
+        raw_hours = (facts.opening_hours_raw or "").strip() if facts else ""
+        if not bad_claim and _ALWAYS_OPEN_RE.search(s) and raw_hours != "24/7":
+            bad_claim = True
+            issues.append("removed_unverified_claim:24_7")
+        status_open = facts.opening_status == "open" if facts else False
+        if not bad_claim and not status_open and _OPEN_CLAIM_RE.search(s):
+            bad_claim = True
+            issues.append("removed_unverified_claim:open")
+        # 3. Quietness: OSM has no such data at all.
+        if not bad_claim and _QUIET_CLAIM_RE.search(s):
+            bad_claim = True
+            issues.append("removed_unverified_claim:quiet")
+        # 4. Amenity / quality terms must appear in the candidate's own factual text.
+        if not bad_claim:
+            low = s.lower().replace("ё", "е")
+            grounding = (facts.grounding if facts else "").replace("ё", "е")
+            for term in GROUNDED_TERMS:
+                if term in low and term not in grounding:
+                    bad_claim = True
+                    issues.append(f"removed_ungrounded_term:{term}")
+                    break
         if bad_claim:
             continue
         kept.append(raw_s)

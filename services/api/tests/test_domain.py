@@ -324,3 +324,74 @@ def test_dropped_text_constraints_are_not_re_added_from_text():
 def test_dropped_text_constraint_codes_are_validated():
     with pytest.raises(ValueError):
         _req("", dropped_text_constraints=["required_feature:jetpack"])
+
+
+# ---------------------------------------------------------------- review counter-examples (P1-1, P2-1, P3)
+
+
+@pytest.mark.parametrize(
+    ("text", "feature"),
+    [
+        ("Мне нужна розетка", "socket"),
+        ("мне обязательно нужна розетка", "socket"),
+        ("Мне нужно место внутри", "indoor"),
+        ("мне нужен wi-fi", "wifi"),
+        ("нужен вайфай", "wifi"),
+        ("Мне нужна розетка, хочу кофе", "socket"),
+    ],
+)
+def test_P1_1_mne_nuzhna_is_hard(text, feature):
+    p = parse_query(text)
+    assert feature in p.required_features, (text, p)
+
+
+def test_P1_1_real_negations_still_work():
+    assert parse_query("розетка не нужна").required_features == []
+    assert parse_query("розетка не нужна").preferred_features == []
+    assert parse_query("wi-fi не обязателен").required_features == []
+    p = parse_query("Мне нужна розетка, но wi-fi не нужен")
+    assert p.required_features == ["socket"] and "wifi" not in p.preferred_features
+    assert parse_query("мне не нужна розетка").required_features == []
+
+
+def test_P2_1_only_not_cafe_is_exclusion():
+    p = parse_query("Только не кафе")
+    assert p.exclude_categories == ["cafe"] and p.include_categories == []
+    assert "cafe" not in p.soft_categories
+
+
+@pytest.mark.parametrize("text", ["кафе не нужно, хочу погулять", "не хочу в кафе", "без кафе"])
+def test_P2_1_cafe_not_wanted_is_text_exclusion(text):
+    p = parse_query(text)
+    assert p.exclude_categories == ["cafe"] and "cafe" not in p.soft_categories, (text, p)
+    eff = merge(_req(text), p)
+    assert eff.exclude_categories == {"cafe": "text"}
+
+
+def test_P2_1_inside_a_park_is_not_indoor():
+    p = parse_query("Хочу погулять внутри парка")
+    assert "indoor" not in p.required_features and "indoor" not in p.preferred_features
+    assert "indoor" in parse_query("хочу только внутри").required_features
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "кафе с открытой террасой",
+        "открытое пространство для прогулки",
+        "на открытом воздухе",
+        "открытая веранда",
+    ],
+)
+def test_P2_1_open_space_is_not_must_be_open(text):
+    assert parse_query(text).must_be_open is False, text
+
+
+def test_open_hours_markers_still_detected():
+    assert parse_query("чтобы было открыто").must_be_open is True
+    assert parse_query("что-нибудь открытое сейчас").must_be_open is True
+
+
+def test_P3_open_ended_hours_unknown():
+    assert evaluate_opening("Mo-Su 10:00+", at(12), 30).status == "unknown"
+    assert evaluate_opening("Mo-Su 10:00-22:00", at(12), 30).status == "open"

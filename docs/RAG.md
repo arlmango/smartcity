@@ -78,13 +78,27 @@ Validation (`generation/validate.py`) — the model output is untrusted:
 1. JSON object with non-empty `recommendations` list, otherwise invalid.
 2. Unknown aliases / UUIDs dropped; duplicates dropped; at most 3 items.
 3. Sentence-level removal of: URLs/domains/e-mails, phone numbers, numbers with units
-   (тг/₸/%/мин/м/км/час…), ratings/reviews; claims about features not verified for **that** place
-   (розетки, Wi-Fi, веранда, пандус, «в помещении», «детям»…) unless hedged («не подтверждено»,
-   «неизвестно»); «открыто/работает» unless that place's status is `open`. DB names are masked before
-   claim checks.
+   (тг/₸/%/мин/м/км/час…), ratings/reviews; then four independent checks per sentence:
+   a) feature claims (розетки, Wi-Fi, веранда, пандус, «в помещении», «детям»…) not verified for
+      **that** place — a hedge («не подтверждено», «неизвестно», «нет данных», «не указано») counts
+      only inside the same fragment as the feature word (fragments split on `, ; : — ( )` and
+      «но/а/зато/однако»); advice like «уточните у бариста» is not a hedge;
+   b) opening: «открыто/работает/до ночи» only if that place's status is `open`; «круглосуточно/24/7»
+      only if the raw tag is exactly `24/7` — hedges are ignored;
+   c) quietness («тихо/тишина/уютно/спокойно») — never verifiable in OSM, always removed;
+   d) amenity terms (`GROUNDED_TERMS`: парковка, меню, бесплатно, безопасно, десерты…) must occur in
+      the candidate's own factual text. DB names are masked before all checks.
 4. Text must be Russian (Cyrillic majority after masking names; CJK rejected); truncated to limits.
 5. An item whose reason becomes empty is dropped; no valid items → invalid output.
 6. Extra keys (e.g. `name`, `coordinates`, `website`) are ignored: facts are server-filled.
+
+Concurrency (CPU inference): `AI_MAX_CONCURRENCY` (1) generation slots and
+`EMBEDDING_MAX_CONCURRENCY` (2) query-embedding slots. A request that cannot get a generation slot
+within `AI_QUEUE_WAIT_SECONDS` (20 s) degrades honestly: `retrieval_only`, `degraded`, warning
+`llm_busy` «ИИ сейчас занят другим запросом — показаны найденные места без объяснений ИИ»; no
+embedding slot within `EMBEDDING_QUEUE_WAIT_SECONDS` (10 s) → `embeddings_busy`, lexical+geo only.
+Slots are acquired by non-blocking polling (a cancelled waiter never holds a slot) and released in
+the worker's `finally` (success, error, provider timeout, or an abandoned call after disconnect).
 
 Retry policy: invalid output → exactly one retry with a corrective hint; provider errors (timeout,
 429, 5xx, connection) → no retry (would double the latency on CPU), fallback immediately. A circuit
@@ -139,7 +153,8 @@ server-built URL), `as_of = fetched_at`. Distances: `method="geodesic"`, note «
 
 `RATE_LIMIT_GENERAL` (300/minute), `TRUST_FORWARDED_FOR` (false), `MAX_BODY_BYTES` (32768),
 `LLM_MAX_CANDIDATES` (5), `AI_QUERY_INTERPRETATION` (false), `AI_INTERPRETATION_TIMEOUT_SECONDS` (30),
-`MAP_CACHE_MAX_AGE_SECONDS` (300).
+`MAP_CACHE_MAX_AGE_SECONDS` (300), `AI_MAX_CONCURRENCY` (1), `AI_QUEUE_WAIT_SECONDS` (20),
+`EMBEDDING_MAX_CONCURRENCY` (2), `EMBEDDING_QUEUE_WAIT_SECONDS` (10).
 
 ## 9. Latency (measured, CPU-only, shared 4 vCPU host)
 
