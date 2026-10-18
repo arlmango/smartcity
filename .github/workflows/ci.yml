@@ -31,7 +31,7 @@ jobs:
           docker exec "$cid" psql -U smartcity -d smartcity_test_ingest -c "CREATE EXTENSION postgis; CREATE EXTENSION vector;"
       - uses: astral-sh/setup-uv@v6
         with:
-          version: "0.9.5"
+          version: "0.11.32"
       - run: uv sync --all-packages --frozen
       - run: uv run ruff check services && uv run ruff format --check services
       - name: Migrations
@@ -89,7 +89,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
         with:
-          version: "0.9.5"
+          version: "0.11.32"
       - run: uv run --no-project python scripts/secret_scan.py
       - run: uvx pip-audit==2.9.0 -r <(uv export --frozen --all-packages --no-hashes --no-emit-workspace) || echo "pip-audit findings are reported above"
       - uses: actions/setup-node@v4
