@@ -18,8 +18,8 @@ bootstrap: ## Idempotent setup: .env, Python/Node deps, db up, migrations (no mo
 models: ## Pull local Ollama models (explicit: CONFIRM=1 make models; ~3.1 GB download)
 	@scripts/models.sh
 
-ingest: ## Bounded OSM ingest from OSM_SOURCE_URL: fetch, import, map layers, manifest
-	@scripts/ingest.sh
+ingest: ## Bounded OSM ingest from OSM_SOURCE_URL: fetch, import, map layers, manifest (exit 3 = partial)
+	@scripts/ingest.sh all --skip-index $(ARGS)
 
 index: ## Incremental embeddings index for active places (real embedding provider)
 	@scripts/index.sh

@@ -181,6 +181,10 @@ def cmd_all(s: Settings, paths: Paths, args) -> int:
     if rc_imp == 2:
         return 2
     rc_map = cmd_build_map(s, paths, args)
+    if getattr(args, "skip_index", False):
+        cmd_landmarks(s, paths, args)
+        cmd_report(s, paths, args)
+        return max(rc, rc_imp, rc_map)
     try:
         rc_idx = cmd_index(s, paths, args)
     except Exception as e:  # noqa: BLE001 - provider outage must not hide the data report
@@ -216,6 +220,8 @@ def main(argv: list[str] | None = None) -> int:
             )
         if name in ("index", "all"):
             p.add_argument("--prune-other-models", action="store_true")
+        if name == "all":
+            p.add_argument("--skip-index", action="store_true", help="data, map, reports only")
     args = ap.parse_args(argv)
     if not hasattr(args, "from_snapshot"):
         args.from_snapshot = None

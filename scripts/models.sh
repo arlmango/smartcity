@@ -6,7 +6,7 @@ cat <<MSG
 Local models for SmartCity (CPU inference):
   generation  $GEN   download ~1.9 GB, RAM ~3 GB (Qwen Research License; non-commercial demo)
   embeddings  $EMB   download ~1.2 GB, RAM ~1.5 GB (MIT)
-Total disk ~3.1 GB in docker volume smartcity_ollama.
+Total disk ~3.1 GB in docker volume ${COMPOSE_PROJECT_NAME:-smartcity}_ollama.
 MSG
 [[ "${CONFIRM:-0}" == "1" ]] || die "re-run with CONFIRM=1 make models to download"
 has_models() {  # $1 = base URL; succeeds only when both models are present

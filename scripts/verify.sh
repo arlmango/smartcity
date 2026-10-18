@@ -19,6 +19,7 @@ step() {
 }
 export SMARTCITY_REQUIRE_DB=1  # DB-backed tests must fail, not skip, when the DB is missing
 docker compose up -d --wait db >/dev/null 2>&1 || log "warning: could not start db (integration tests will fail)"
+scripts/test_dbs.sh >/dev/null 2>&1 || log "warning: could not prepare test databases (integration tests will fail)"
 step py-lint        uv run ruff check services scripts
 step py-format      uv run ruff format --check services scripts
 step py-test-api    uv run pytest services/api/tests -m "not live" -q
