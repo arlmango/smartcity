@@ -1,0 +1,187 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+2026-10-18 19:42:39,202 INFO smartcity_ingest.snapshot: fetch group poi_cafe_food
+2026-10-18 19:42:40,375 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:42:40,376 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:43:03,892 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:43:03,895 INFO smartcity_ingest.snapshot: group poi_cafe_food: 51 elements, 24888 bytes
+2026-10-18 19:43:03,895 INFO smartcity_ingest.snapshot: fetch group poi_culture
+2026-10-18 19:43:28,102 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:43:28,104 INFO smartcity_ingest.snapshot: group poi_culture: 3 elements, 6325 bytes
+2026-10-18 19:43:28,104 INFO smartcity_ingest.snapshot: fetch group poi_attraction
+2026-10-18 19:43:30,835 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:43:30,835 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:44:31,967 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:44:31,967 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 19:45:51,621 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:45:51,629 INFO smartcity_ingest.snapshot: group poi_attraction: 59 elements, 39667 bytes
+2026-10-18 19:45:51,629 INFO smartcity_ingest.snapshot: fetch group poi_park_playground
+2026-10-18 19:46:46,535 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:46:46,536 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:46:57,743 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:46:57,744 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 19:47:46,160 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:47:46,225 INFO smartcity_ingest.snapshot: group poi_park_playground: 75 elements, 80697 bytes
+2026-10-18 19:47:46,236 INFO smartcity_ingest.snapshot: fetch group poi_mall
+2026-10-18 19:48:02,664 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:48:02,665 INFO smartcity_ingest.snapshot: group poi_mall: 2 elements, 5430 bytes
+2026-10-18 19:48:02,665 INFO smartcity_ingest.snapshot: fetch group map_buildings
+2026-10-18 19:48:05,133 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:48:05,133 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:48:31,256 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:48:31,832 INFO smartcity_ingest.snapshot: group map_buildings: 1812 elements, 1321193 bytes
+2026-10-18 19:48:31,832 INFO smartcity_ingest.snapshot: fetch group map_roads
+2026-10-18 19:48:34,112 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:48:34,113 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:49:35,850 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:49:35,850 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 19:51:04,298 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:51:04,298 WARNING smartcity_ingest.overpass: overpass attempt 3/3 failed: HTTP 504
+2026-10-18 19:51:04,298 ERROR smartcity_ingest.snapshot: group map_roads failed: HTTP 504
+2026-10-18 19:51:04,298 INFO smartcity_ingest.snapshot: fetch group map_water
+2026-10-18 19:51:06,776 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:51:06,777 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:51:42,262 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:51:42,273 INFO smartcity_ingest.snapshot: group map_water: 20 elements, 27782 bytes
+2026-10-18 19:51:42,273 INFO smartcity_ingest.snapshot: fetch group map_green
+2026-10-18 19:52:31,689 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:52:31,689 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:52:42,973 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:52:42,974 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 19:53:35,256 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:53:35,758 INFO smartcity_ingest.snapshot: group map_green: 1784 elements, 1207953 bytes
+2026-10-18 19:53:35,758 INFO smartcity_ingest.snapshot: fetch group map_landmarks
+2026-10-18 19:54:29,939 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:54:29,939 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:55:32,472 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Timeout"
+2026-10-18 19:55:32,473 WARNING smartcity_ingest.overpass: overpass attempt 2/3 failed: HTTP 504
+2026-10-18 19:56:19,911 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:56:19,913 INFO smartcity_ingest.snapshot: group map_landmarks: 42 elements, 12436 bytes
+{
+  "snapshot": "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/data/snapshots/osm-20261018T194239Z",
+  "status": "partial",
+  "osm_base": "2026-10-18T19:54:17Z",
+  "groups": {
+    "poi_cafe_food": {
+      "status": "ok",
+      "elements": 51,
+      "bytes": 24888,
+      "error": null
+    },
+    "poi_culture": {
+      "status": "ok",
+      "elements": 3,
+      "bytes": 6325,
+      "error": null
+    },
+    "poi_attraction": {
+      "status": "ok",
+      "elements": 59,
+      "bytes": 39667,
+      "error": null
+    },
+    "poi_park_playground": {
+      "status": "ok",
+      "elements": 75,
+      "bytes": 80697,
+      "error": null
+    },
+    "poi_mall": {
+      "status": "ok",
+      "elements": 2,
+      "bytes": 5430,
+      "error": null
+    },
+    "map_buildings": {
+      "status": "ok",
+      "elements": 1812,
+      "bytes": 1321193,
+      "error": null
+    },
+    "map_roads": {
+      "status": "failed",
+      "elements": null,
+      "bytes": null,
+      "error": "HTTP 504"
+    },
+    "map_water": {
+      "status": "ok",
+      "elements": 20,
+      "bytes": 27782,
+      "error": null
+    },
+    "map_green": {
+      "status": "ok",
+      "elements": 1784,
+      "bytes": 1207953,
+      "error": null
+    },
+    "map_landmarks": {
+      "status": "ok",
+      "elements": 42,
+      "bytes": 12436,
+      "error": null
+    }
+  }
+}
+{
+  "run_id": "141dfc1d-3ffe-48ec-8a38-1fb69efa53f2",
+  "status": "partial",
+  "snapshot": "osm-20261018T194239Z",
+  "counts": {
+    "groups_ok": [
+      "poi_cafe_food",
+      "poi_culture",
+      "poi_attraction",
+      "poi_park_playground",
+      "poi_mall",
+      "map_buildings",
+      "map_water",
+      "map_green",
+      "map_landmarks"
+    ],
+    "groups_failed": [
+      "map_roads"
+    ],
+    "snapshot_complete": false,
+    "unchanged": 112,
+    "updated": 13,
+    "inserted": 2,
+    "deactivated": 0,
+    "deactivation_skipped_reason": "snapshot not complete",
+    "records": 127,
+    "active_places": 127,
+    "by_category": {
+      "attraction": 4,
+      "cafe": 22,
+      "culture": 3,
+      "food": 25,
+      "mall": 2,
+      "park": 5,
+      "playground": 66
+    },
+    "skipped_unnamed": 60,
+    "skipped_no_geometry": 0,
+    "skipped_outside_coverage": 3,
+    "website_rejected": 0,
+    "dedup_merges": 0,
+    "poi_groups_failed": []
+  },
+  "error": null
+}
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/bin/smartcity-ingest", line 10, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/cli.py", line 216, in main
+    if not hasattr(args, "prune_other_models"):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/cli.py", line 170, in cmd_all
+    return 0 if len(out["landmarks"]) >= 5 else 1
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/cli.py", line 104, in cmd_build_map
+    )
+    
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/mapbuild.py", line 283, in build_map
+    raise RuntimeError(f"map groups missing in snapshot: {missing}; map not rebuilt")
+RuntimeError: map groups missing in snapshot: ['map_roads']; map not rebuilt
+exit_code=1
