@@ -46,7 +46,15 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
     request_timeout_seconds: float = 150.0
-    rate_limit: str = "20/minute"
+    rate_limit: str = "20/minute"  # POST /api/recommend, per client IP (in-memory)
+    # Added by backend-rag: limits for other endpoints, body size, generation fan-in.
+    rate_limit_general: str = "300/minute"  # other /api/* endpoints except health/ready
+    trust_forwarded_for: bool = False  # use X-Forwarded-For only behind a trusted proxy (e.g. web)
+    max_body_bytes: int = Field(default=32768, ge=1024, le=1_048_576)
+    llm_max_candidates: int = Field(default=5, ge=1, le=8)  # candidates passed to the generator
+    ai_query_interpretation: bool = False  # optional LLM query paraphrase (soft only); slow on CPU
+    ai_interpretation_timeout_seconds: float = 30.0
+    map_cache_max_age_seconds: int = 300
     data_dir: Path = REPO_ROOT / "data"
 
     # Walking model used when no real router is configured (documented in docs/ADR-0001).
