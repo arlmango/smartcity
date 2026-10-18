@@ -166,6 +166,15 @@ def run_import(engine: Engine, snapshot: Snapshot, coverage: CoverageArea) -> Im
                     s.flush()
                     _write_evidence(s, row, rec, fetched_at)
                     c["updated"] += 1
+            # Merge (not tombstone): an object that is present in THIS snapshot but was merged into a
+            # polygon record as an alias is deactivated in the same transaction, even for a partial
+            # snapshot — the evidence for the merge (both objects) is in the snapshot itself.
+            alias_keys = {(a["source_type"], int(a["source_id"])) for r in records for a in r.aliases}
+            merged_rows = [k for k in alias_keys if k in existing and k not in seen and existing[k].active]
+            for k in merged_rows:
+                existing[k].active = False
+            c["merged_into_alias"] = len(merged_rows)
+            seen |= alias_keys
             if snapshot.complete:
                 gone = [k for k, p in existing.items() if k not in seen and p.active]
                 for k in gone:
@@ -212,6 +221,7 @@ def run_import(engine: Engine, snapshot: Snapshot, coverage: CoverageArea) -> Im
             counts["website_rejected"] = stats.get("website_rejected", 0)
             counts["dedup_merges"] = len(stats.get("dedup_merges", []))
             counts["dedup_merge_list"] = stats.get("dedup_merges", [])
+            counts["dedup_rejected"] = stats.get("dedup_rejected", [])
             counts["poi_groups_failed"] = poi_failed
         status = "complete" if snapshot.complete else "partial"
     except Exception as e:  # noqa: BLE001 - recorded in ingest_runs and re-reported

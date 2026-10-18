@@ -13,13 +13,13 @@
     "address",
     "description"
   ],
-  "active_places": 127,
+  "active_places": 126,
   "rows_for_model": 127,
   "rows_other_models": 0,
   "last_run": {
-    "at": "2026-10-18T20:13:27.657825+00:00",
-    "embedded": 0,
-    "skipped_unchanged": 127,
+    "at": "2026-10-18T20:36:51.331564+00:00",
+    "embedded": 1,
+    "skipped_unchanged": 125,
     "pruned_other_models": 0
   },
   "vector_index": "exact scan (no ANN index); dataset ~10^2 rows"

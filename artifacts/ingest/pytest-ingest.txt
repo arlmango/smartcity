@@ -39,3 +39,4 @@ services/ingest/tests/test_overpass.py::test_relation_groups_request_members PAS
 services/ingest/tests/test_overpass.py::test_retry_failed_groups_completes_snapshot PASSED [ 97%]
 services/ingest/tests/test_report.py::test_report_counts_match_db PASSED [100%]
 ============================== 40 passed in 5.10s ==============================
+44 passed in 19.63s

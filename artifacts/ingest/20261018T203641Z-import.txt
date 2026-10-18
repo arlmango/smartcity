@@ -1,0 +1,59 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+{
+  "run_id": "14dc9cf2-b7c3-493c-b02e-d8b1b1c7e963",
+  "status": "complete",
+  "snapshot": "osm-20261018T200514Z",
+  "counts": {
+    "groups_ok": [
+      "poi_cafe_food",
+      "poi_culture",
+      "poi_attraction",
+      "poi_park_playground",
+      "poi_mall",
+      "map_buildings",
+      "map_roads",
+      "map_water",
+      "map_green",
+      "map_landmarks"
+    ],
+    "groups_failed": [],
+    "snapshot_complete": true,
+    "unchanged": 125,
+    "updated": 1,
+    "merged_into_alias": 1,
+    "deactivated": 0,
+    "records": 126,
+    "active_places": 126,
+    "by_category": {
+      "attraction": 4,
+      "cafe": 22,
+      "culture": 3,
+      "food": 25,
+      "mall": 1,
+      "park": 5,
+      "playground": 66
+    },
+    "skipped_unnamed": 60,
+    "skipped_no_geometry": 0,
+    "skipped_outside_coverage": 3,
+    "website_rejected": 0,
+    "dedup_merges": 1,
+    "dedup_rejected": [
+      {
+        "a": "node/5878572885",
+        "b": "node/8121843217",
+        "distance_m": 6.1,
+        "reason": "nodes <=15 m apart, no common name/phone/website/address"
+      },
+      {
+        "a": "node/12093489321",
+        "b": "node/13397061028",
+        "distance_m": 12.8,
+        "reason": "nodes <=15 m apart, no common name/phone/website/address"
+      }
+    ],
+    "poi_groups_failed": []
+  },
+  "error": null
+}
+exit_code=0

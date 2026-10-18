@@ -35,7 +35,10 @@ def engine():
         with eng.connect() as c:
             c.execute(text("select 1"))
     except Exception as e:  # noqa: BLE001
-        pytest.skip(f"test database unavailable: {e}")
+        msg = f"test database unavailable: {type(e).__name__}"
+        if os.environ.get("SMARTCITY_REQUIRE_DB") == "1":
+            pytest.fail(msg + " (SMARTCITY_REQUIRE_DB=1: DB tests must not be skipped)")
+        pytest.skip(msg)
     yield eng
     eng.dispose()
 

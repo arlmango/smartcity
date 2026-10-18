@@ -1,0 +1,16 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+{
+  "dataset_manifest": "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/data/manifests/dataset_manifest.json",
+  "docs": "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/docs/DATA.md",
+  "active_places": 126,
+  "by_category": {
+    "attraction": 4,
+    "cafe": 22,
+    "culture": 3,
+    "food": 25,
+    "mall": 1,
+    "park": 5,
+    "playground": 66
+  }
+}
+exit_code=0
