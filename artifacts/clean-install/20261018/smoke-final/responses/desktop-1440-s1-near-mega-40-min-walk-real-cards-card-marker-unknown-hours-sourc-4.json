@@ -1,0 +1,225 @@
+{
+  "test": "S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.41,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [
+        "indoor"
+      ],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [
+        "cafe"
+      ],
+      "must_be_open": false,
+      "max_distance_m": 400,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [
+      {
+        "role": "user",
+        "text": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться"
+      },
+      {
+        "role": "assistant",
+        "text": "Нашлось 1 вариант — каждый отдельная альтернатива со своим бюджетом времени."
+      },
+      {
+        "role": "user",
+        "text": "Поближе"
+      },
+      {
+        "role": "assistant",
+        "text": "Рекомендовано посещение детской площадки рядом с Mega Silk Way."
+      },
+      {
+        "role": "user",
+        "text": "Без кафе"
+      },
+      {
+        "role": "assistant",
+        "text": "При выборе места учтите, что Ocean Basket находится внутри ТРЦ Mega Silk Way и это еда. Рекомендуем прогуляться с детьми на детской площадке рядом с ним."
+      }
+    ],
+    "start_time": null,
+    "client_request_id": "3fe6c704-8fff-4358-9c87-b8ae163ef3f9"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "e8ba015e40bc439b9ce8b386fbc1c4bc",
+    "client_request_id": "3fe6c704-8fff-4358-9c87-b8ae163ef3f9",
+    "status": "ok",
+    "mode": "live_rag",
+    "dataset_version": "osm-20261018T223058Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        },
+        {
+          "kind": "required_feature",
+          "value": "indoor",
+          "source": "ui",
+          "label": "Обязательно: в помещении"
+        },
+        {
+          "kind": "exclude_category",
+          "value": "cafe",
+          "source": "ui",
+          "label": "Без: Кафе"
+        },
+        {
+          "kind": "max_distance",
+          "value": 400,
+          "source": "ui",
+          "label": "Не дальше 400 м по прямой"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "recommendations": [
+      {
+        "place_id": "7c69e98d-662b-433f-9e7d-2a3b75418c90",
+        "name": "Ocean Basket",
+        "name_is_generic": false,
+        "category": "food",
+        "category_label": "Еда",
+        "coordinates": {
+          "lat": 51.0885575,
+          "lon": 71.4098715
+        },
+        "address": null,
+        "reason": "Место находится рядом с Mega Silk Way и в помещении, что соответствует требованиям пользователя.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить Ocean Basket для того чтобы не покидать здание ТРЦ.",
+        "distance": {
+          "meters": 190,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 4,
+          "visit_min": 27,
+          "return_min": 4,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T22:30:58.137611Z",
+        "verified_features": [
+          {
+            "feature": "indoor",
+            "value": true,
+            "basis": "category_rule",
+            "evidence": "Правило категории: Еда — в помещении"
+          }
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "negative_features": [],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "node",
+          "osm_id": 6404769885,
+          "url": "https://www.openstreetmap.org/node/6404769885",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T22:30:58.137611Z",
+          "source_updated_at": "2022-10-24T22:35:07Z"
+        },
+        "evidence": [
+          {
+            "field": "name",
+            "source_value": "name=Ocean Basket",
+            "source_url": "https://www.openstreetmap.org/node/6404769885",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T22:30:58.137611Z"
+          },
+          {
+            "field": "category",
+            "source_value": "amenity=restaurant",
+            "source_url": "https://www.openstreetmap.org/node/6404769885",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T22:30:58.137611Z"
+          },
+          {
+            "field": "indoor",
+            "source_value": "Внутри ТРЦ Mega Silk Way (OSM way/499328514)",
+            "source_url": "https://www.openstreetmap.org/way/499328514",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T22:30:58.137611Z"
+          }
+        ]
+      }
+    ],
+    "message": "Нашлось 1 вариант — каждый отдельная альтернатива со своим бюджетом времени.",
+    "warnings": [
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 9,
+      "semantic": 3784,
+      "rank": 1,
+      "schedule": 0,
+      "generate": 37599,
+      "total": 41396
+    }
+  },
+  "ms": 41312
+}

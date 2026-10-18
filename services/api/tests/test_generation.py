@@ -268,3 +268,11 @@ def test_outdoor_seat_claim_without_evidence_is_removed():
         out(r("C1", reason="Есть место на улице, где можно посидеть. Удобно для встречи.")), FACTS
     )
     assert "на улице" not in v.items[0].reason and "removed_unverified_claim:outdoor_seating" in v.issues
+
+
+def test_self_defeating_reason_is_removed():
+    # live S1 (clean run): "Ocean Basket находится внутри ТРЦ и не подходит для прогулки."
+    v = validate_output(
+        out(r("C2", reason="Сквер рядом. Он не подходит для прогулки.")), FACTS, return_to_start=True
+    )
+    assert "не подходит" not in v.items[0].reason and "removed_self_defeating" in v.issues

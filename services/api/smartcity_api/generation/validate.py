@@ -95,6 +95,11 @@ _NO_RETURN_RE = re.compile(
 _WITH_RETURN_RE = re.compile(
     r"с возвращением|вернуться (?:в точку|обратно|назад|к началу)|обратн\w* путь", re.IGNORECASE
 )
+# A recommendation's own reason must not argue against it ("… не подходит для прогулки").
+_SELF_DEFEAT_RE = re.compile(
+    r"не\s+подход\w*|не\s+предназнач\w*|не\s+рекоменд\w*|не\s+стоит\s+(?:идти|посещ)|только\s+для\s+детей",
+    re.IGNORECASE,
+)
 _OPEN_CLAIM_RE = re.compile(r"открыт|работает|работают|до ночи|допоздна|до утра", re.IGNORECASE)
 
 
@@ -175,6 +180,10 @@ def _sanitize(
         if not bad_claim and return_to_start is False and _WITH_RETURN_RE.search(s):
             bad_claim = True
             issues.append("removed_contradiction:no_return")
+        # 2c. Self-defeating statements make the recommendation incoherent.
+        if not bad_claim and facts is not None and _SELF_DEFEAT_RE.search(s):
+            bad_claim = True
+            issues.append("removed_self_defeating")
         # 3. Quietness: OSM has no such data at all.
         if not bad_claim and _QUIET_CLAIM_RE.search(s):
             bad_claim = True

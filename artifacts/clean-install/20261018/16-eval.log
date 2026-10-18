@@ -1,0 +1,4 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+D01 ok                   live_rag         75.7s viol=0 miss=0
+D02 no_match             retrieval_only    0.0s viol=0 miss=0
+D03 ok                   live_rag         63.0s viol=0 miss=0
