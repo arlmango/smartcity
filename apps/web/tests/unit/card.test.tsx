@@ -87,6 +87,12 @@ describe("ResultsPanel", () => {
     );
   });
 
+  it("no_match in retrieval_only mode (no generation needed) does not claim AI is unavailable", () => {
+    const resp = { ...noMatchResponse("abcdefgh-2"), mode: "retrieval_only" as const };
+    render(<ResultsPanel {...common} response={resp} onRelax={() => {}} />);
+    expect(screen.queryByTestId("retrieval-only")).toBeNull();
+  });
+
   it("no_match shows message and relaxations that send the server patch", async () => {
     const onRelax = vi.fn();
     const resp = noMatchResponse("abcdefgh-1");

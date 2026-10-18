@@ -33,8 +33,10 @@ const REFINEMENTS: RefinementKind[] = ["closer", "no_cafe", "indoor_only", "othe
 
 export function ResultsPanel(props: Props) {
   const { response: r } = props;
-  const retrievalOnly = r.mode === "retrieval_only";
   const recs = r.recommendations;
+  // retrieval_only also marks answers where no generation was needed (no_match, clarification):
+  // the "AI unavailable" banner is shown only when places are shown without AI explanations.
+  const retrievalOnly = r.mode === "retrieval_only" && recs.length > 0;
 
   return (
     <div className="space-y-4" data-testid="results">
