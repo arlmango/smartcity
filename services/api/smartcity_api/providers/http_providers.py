@@ -34,7 +34,9 @@ def _raise_for(resp: httpx.Response, what: str) -> None:
     if resp.status_code == 429:
         raise ProviderRateLimited(f"{what}: rate limited", retryable=True, status=429)
     if resp.status_code >= 500:
-        raise ProviderUnavailable(f"{what}: upstream {resp.status_code}", retryable=True, status=resp.status_code)
+        raise ProviderUnavailable(
+            f"{what}: upstream {resp.status_code}", retryable=True, status=resp.status_code
+        )
     if resp.status_code >= 400:
         raise ProviderError(f"{what}: HTTP {resp.status_code}", status=resp.status_code)
 
@@ -208,7 +210,9 @@ def build_embedding_provider(s: Settings):
         return OllamaEmbedding(s.embedding_base_url, s.embedding_model, s.embedding_timeout_seconds)
     if s.embedding_provider == "openai_compatible":
         return OpenAICompatEmbedding(
-            s.embedding_base_url, s.embedding_model, s.embedding_api_key.get_secret_value(),
+            s.embedding_base_url,
+            s.embedding_model,
+            s.embedding_api_key.get_secret_value(),
             s.embedding_timeout_seconds,
         )
     return None

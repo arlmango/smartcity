@@ -187,15 +187,24 @@ def rrf_fuse(lists: dict[str, tuple[float, list[str]]], keys: Iterable[str]) -> 
 
 
 def diversify(
-    ordered: Sequence[str], category_of: dict[str, str], *, n: int, max_per_category: int
+    ordered: Sequence[str],
+    category_of: dict[str, str],
+    *,
+    n: int,
+    max_per_category: int,
+    caps: dict[str, int] | None = None,
 ) -> list[str]:
-    """Pick up to n keys preserving rank order, at most max_per_category per category if possible."""
+    """Pick up to n keys preserving rank order, at most max_per_category per group if possible.
+
+    `caps` overrides the limit for specific groups (e.g. unnamed playgrounds when kids were not asked).
+    """
     picked: list[str] = []
     counts: Counter[str] = Counter()
+    caps = caps or {}
     for key in ordered:
         if len(picked) >= n:
             break
-        if counts[category_of[key]] < max_per_category:
+        if counts[category_of[key]] < caps.get(category_of[key], max_per_category):
             picked.append(key)
             counts[category_of[key]] += 1
     if len(picked) < n:

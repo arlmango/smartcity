@@ -44,6 +44,39 @@ FEATURE_CLAIM_RE: dict[str, re.Pattern[str]] = {
     "indoor": re.compile(r"в помещени|под крыш|в здании|внутри (?:помещ|здан|торгов|тц)", re.IGNORECASE),
     "kids": re.compile(r"\bдет(и|ей|ям|ьми|ск\w*)\b|реб[её]н|малыш", re.IGNORECASE),
 }
+# Amenity / quality claims that need a basis in the candidate's own factual text.
+GROUNDED_TERMS: tuple[str, ...] = (
+    "парковк",
+    "парковочн",
+    "туалет",
+    "кондиционер",
+    "банкомат",
+    "бесплатн",
+    "скидк",
+    "меню",
+    "завтрак",
+    "ланч",
+    "живая музыка",
+    "живой музык",
+    "караоке",
+    "бассейн",
+    "лифт",
+    "гардероб",
+    "аниматор",
+    "батут",
+    "безопасн",
+    "охраня",
+    "доставк",
+    "вегетариан",
+    "халял",
+    "десерт",
+    "выпечк",
+    "аттракцион",
+    "экскурси",
+    "билет",
+    "вход свободн",
+)
+_QUIET_CLAIM_RE = re.compile(r"\bтих\w*|тишин|спокойн|уютн|малолюдн|немноголюдн|без шума", re.IGNORECASE)
 _OPEN_CLAIM_RE = re.compile(r"открыт|работает|круглосуточн|часы работы", re.IGNORECASE)
 
 
@@ -54,6 +87,7 @@ class CandidateFacts:
     name: str
     verified_features: set[str]
     opening_status: str
+    grounding: str = ""  # lower-cased factual text (description, category) the model saw
 
 
 @dataclass
@@ -101,6 +135,17 @@ def _sanitize(
             if not bad_claim and not status_open and _OPEN_CLAIM_RE.search(s):
                 bad_claim = True
                 issues.append("removed_unverified_claim:open")
+            if not bad_claim and _QUIET_CLAIM_RE.search(s):  # OSM has no quietness data at all
+                bad_claim = True
+                issues.append("removed_unverified_claim:quiet")
+            if not bad_claim:
+                low = s.lower().replace("ё", "е")
+                grounding = (facts.grounding if facts else "").replace("ё", "е")
+                for term in GROUNDED_TERMS:
+                    if term in low and term not in grounding:
+                        bad_claim = True
+                        issues.append(f"removed_ungrounded_term:{term}")
+                        break
         if bad_claim:
             continue
         kept.append(raw_s)

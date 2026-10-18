@@ -15,6 +15,7 @@ from sqlalchemy import text
 from smartcity_api.contracts import ComponentStatus, CoverageResponse, ErrorResponse, LatLon, ReadyResponse
 from smartcity_api.errors import ApiError
 from smartcity_api.retrieval import repository as repo
+from smartcity_api.retrieval.landmarks import load_landmark
 from smartcity_api.runtime import Container
 
 router = APIRouter(prefix="/api")
@@ -172,9 +173,13 @@ def coverage(request: Request) -> CoverageResponse:
     else:
         features, bbox = _config_coverage(c.settings.coverage_config)
         version, count, freshness, updated = "none", 0, None, None
+    lm = None if demo is not None else load_landmark(c.settings.data_dir, ["nur_alem", "expo_site"])
     if demo is not None:
         origin = LatLon(lat=demo.lat, lon=demo.lon)
         label = f"Демо-точка: {demo.name} (район EXPO) — это не ваше местоположение"
+    elif lm is not None:
+        origin = LatLon(lat=lm.lat, lon=lm.lon)
+        label = f"Демо-точка: {lm.name} (OSM {lm.osm}, центр контура) — это не ваше местоположение"
     else:
         origin = LatLon(lat=(bbox[1] + bbox[3]) / 2, lon=(bbox[0] + bbox[2]) / 2)
         label = "Демо-точка: центр района покрытия — это не ваше местоположение"

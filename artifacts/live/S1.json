@@ -1,0 +1,175 @@
+{
+  "scenario": "S1",
+  "notes": "origin = DB location of 'Mega Silk Way'",
+  "recorded_at": "2026-10-18T20:06:34+00:00",
+  "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
+  "request": {
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "origin_rounded": [
+      51.09,
+      71.41
+    ],
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "constraints": {}
+  },
+  "providers": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen2.5:3b",
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "params": {
+        "temperature": 0.2,
+        "num_predict": 700
+      },
+      "timeout_s": 300.0
+    },
+    "embedding": {
+      "model_id": "ollama:bge-m3@790764642607",
+      "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+      "dim": 1024
+    },
+    "response_providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    }
+  },
+  "dataset_version": "osm-20261018T194239Z",
+  "retrieval": {
+    "shortlist": 36,
+    "ranked_after_filters": 13,
+    "semantic": "ok",
+    "llm_candidate_ids": [
+      "9f26d759-b6d4-48ff-acac-db42e6771fdd",
+      "6b0c788f-0baf-4392-8152-dcee14de97d7",
+      "bb79ef8d-aff5-4f69-806f-38de485f7e87",
+      "95bbc9b3-f845-4362-ab94-6b95756d06e0",
+      "4b6f3bf4-1073-40d3-94d8-e218428721d7"
+    ],
+    "exclusions": {
+      "budget": 10,
+      "closed": 13
+    },
+    "llm_attempts": 1,
+    "llm_failure": null,
+    "llm_issues": [
+      "removed_unverified_claim:kids"
+    ],
+    "prompt_version": "rec-v1"
+  },
+  "result": {
+    "status": "ok",
+    "mode": "live_rag",
+    "message": "Нашлось 2 варианта — каждый отдельная альтернатива со своим бюджетом времени.",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "warnings": [
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "recommendations": [
+      {
+        "place_id": "9f26d759-b6d4-48ff-acac-db42e6771fdd",
+        "name": "NU Park",
+        "category": "park",
+        "source_url": "https://www.openstreetmap.org/way/1467797207",
+        "distance_m": 587,
+        "timing": {
+          "outbound_min": 12,
+          "visit_min": 11,
+          "return_min": 12,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "reason": "NU Park находится рядом с Mega Silk Way, что позволяет быстро дойти пешком, и это парк / сквер, который подходит для прогулки.",
+        "reason_source": "llm",
+        "activity_suggestion": "прогуляться по парку"
+      },
+      {
+        "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
+        "name": "Детская площадка",
+        "category": "playground",
+        "source_url": "https://www.openstreetmap.org/way/607963090",
+        "distance_m": 188,
+        "timing": {
+          "outbound_min": 4,
+          "visit_min": 25,
+          "return_min": 4,
+          "buffer_min": 5,
+          "total_min": 38,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [
+          "kids"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "reason": "Детская площадка рядом с Mega Silk Way, что позволяет быстро дойти пешком, и это место подходит детям для игры.",
+        "reason_source": "llm",
+        "activity_suggestion": "играть на детской площадке"
+      }
+    ]
+  },
+  "timings_ms": {
+    "parse": 3,
+    "shortlist": 26,
+    "semantic": 389,
+    "rank": 2,
+    "schedule": 1,
+    "generate": 49629,
+    "total": 50053
+  },
+  "wall_ms": 50059
+}

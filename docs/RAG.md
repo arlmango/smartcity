@@ -18,7 +18,7 @@ Owner: backend-rag. Code: `services/api/smartcity_api/`. Contract: `docs/CONTRAC
 | 9 | Semantic | `_semantic` + `repository.semantic_scores` | query embedding by the configured provider with `kind="query"`; cosine via pgvector `<=>` restricted to `model_id = probe.model_id AND dim = probe.dim AND content_hash = places.content_hash` |
 | 10 | Fusion | `ranking.rrf_fuse` | RRF k=60: lexical (w=1.0) + semantic (w=1.0) + distance prior (w=0.5, ascending distance) + soft preferences (w=0.75: soft category match ×2, +1 per verified preferred feature) |
 | 11 | Budget + hours (after ranking) | `schedule_exclusion` | CONTRACTS §3 budget per alternative; opening hours on `[arrival, arrival+visit]` in Asia/Almaty; closed → excluded; unknown excluded only under `must_be_open` |
-| 12 | Dedupe + diversity | `retrieve` / `ranking.diversify` | same normalized name within 80 m collapsed (node/way duplicates); top-N for LLM (N = `LLM_MAX_CANDIDATES`, default 5, ≤3 per category) |
+| 12 | Dedupe + diversity | `retrieve` / `ranking.diversify` | same normalized name within 80 m collapsed (node/way duplicates); top-N for LLM (N = `LLM_MAX_CANDIDATES`, default 5, ≤3 per category; unnamed places — mostly OSM playgrounds — at most 1 unless kids/playground was asked) |
 | 13 | Generation | `generate()` | strict JSON schema, aliases `C1..Cn`, 1 retry on invalid output |
 | 14 | Validation | `generation/validate.py` | see §4 |
 | 15 | Re-check + enrichment | `build_card`, `services/enrich.py` | hard/schedule re-checked for every LLM pick; all facts from the DB row |
@@ -143,9 +143,13 @@ server-built URL), `as_of = fetched_at`. Distances: `method="geodesic"`, note «
 
 ## 9. Latency (measured, CPU-only, shared 4 vCPU host)
 
-See the backend report / `artifacts/live/*.json` (`timings_ms`, `wall_ms`). Generation dominates;
-on this host qwen2.5:3b took 145 s for a 6-candidate prompt with 3 answers while other agents were
-using the CPU (load average ≈ 8). Retrieval (shortlist + BM25 + pgvector + hours) is tens of ms.
+Retrieval on the live dataset (125 places): shortlist 15–30 ms, query embedding (bge-m3, warm)
+0.2–1.1 s, BM25 + RRF + hours < 10 ms. Generation with qwen2.5:3b dominates: 62 s (synthetic DB,
+5 candidates), 131 s (live S1); under heavy host load (load average 8–11 from other agents' builds
+and headless browsers) two live calls hit the 240 s timeout and fell back to `retrieval_only`
+honestly. Per-request numbers are in `artifacts/live/*.json` (`timings_ms`, `wall_ms`). On this host
+the UI must show progress + cancel; a hosted OpenAI-compatible endpoint or GPU would be needed for
+~15 s responses.
 
 ## 10. Tests
 

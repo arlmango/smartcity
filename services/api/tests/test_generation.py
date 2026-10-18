@@ -64,11 +64,11 @@ def test_T30_model_cannot_supply_facts():
 
 def test_links_phones_prices_numbers_removed():
     reason = (
-        "Уютное место рядом. Сайт http://evil.example подробнее. Звоните +7 701 123 45 67. "
+        "Хорошее место рядом. Сайт http://evil.example подробнее. Звоните +7 701 123 45 67. "
         "Кофе стоит 900 тг. Идти 5 минут."
     )
     v = validate_output(out(r("C1", reason=reason)), FACTS)
-    assert v.items[0].reason == "Уютное место рядом."
+    assert v.items[0].reason == "Хорошее место рядом."
 
 
 def test_T06_T28_unverified_feature_claims_removed():
@@ -155,3 +155,45 @@ def test_response_schema_restricts_ids():
     assert item["properties"]["place_id"]["enum"] == ["C1", "C2"]
     assert item["additionalProperties"] is False
     assert s["properties"]["recommendations"]["maxItems"] == 3
+
+
+def test_ungrounded_amenity_terms_removed():
+    facts = [
+        CandidateFacts(
+            "C1", "id-p", "SYNTHETIC Сквер", set(), "unknown", grounding="сквер. дорожки, скамейки."
+        )
+    ]
+    v = validate_output(out(r("C1", reason="Есть парковочные места и деревья. Дорожки для прогулки.")), facts)
+    assert v.items[0].reason == "Дорожки для прогулки."
+    facts2 = [
+        CandidateFacts("C1", "id-c", "SYNTHETIC Кафе", set(), "open", grounding="кафе. кофе и десерты.")
+    ]
+    v2 = validate_output(out(r("C1", reason="Здесь подают десерты.")), facts2)
+    assert v2.items[0].reason == "Здесь подают десерты."
+    with pytest.raises(LLMOutputInvalid):
+        validate_output(out(r("C1", reason="Безопасная площадка с бесплатным входом.")), facts)
+
+
+def test_address_and_website_formatting():
+    from smartcity_api.services.enrich import format_address, safe_website
+
+    assert format_address({"street": "ул. X", "housenumber": "5", "formatted": "ул. X, 5"}) == "ул. X, 5"
+    assert format_address({"street": "ул. X", "housenumber": "5"}) == "ул. X, 5"
+    assert format_address({}) is None
+    assert safe_website("https://example.kz/a?b=1") == "https://example.kz/a?b=1"
+    bad = [
+        "javascript:alert(1)",
+        "ftp://x",
+        "http://user:pw@x.kz",
+        "https://x.kz/<s>",
+        "//x.kz",
+        "data:text/html,x",
+    ]
+    for b in bad:
+        assert safe_website(b) is None
+
+
+def test_quiet_is_never_claimed():
+    reason = "Тихое и уютное место. Тишина здесь не подтверждена данными. Есть кофе."
+    v = validate_output(out(r("C1", reason=reason)), FACTS)
+    assert v.items[0].reason == "Тишина здесь не подтверждена данными. Есть кофе."

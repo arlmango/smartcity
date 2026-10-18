@@ -48,6 +48,9 @@ def format_address(addr: dict | None) -> str | None:
                 return v.strip()
         return None
 
+    formatted = g("formatted")
+    if formatted:
+        return formatted
     full = g("full", "addr:full")
     street = g("street", "addr:street")
     house = g("housenumber", "addr:housenumber")

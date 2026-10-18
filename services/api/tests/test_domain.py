@@ -273,3 +273,25 @@ def test_location_phrase_is_not_a_wish():
     assert strip_location_phrases("у меня есть час") == "у меня есть час"
     p = parse_query("Я недалеко от EXPO, хочу кофе")
     assert p.near is False and "cafe" in p.soft_categories
+
+
+def test_diversify_caps_and_rrf():
+    from smartcity_api.retrieval.ranking import diversify, rrf_fuse
+
+    groups = {
+        "g1": "generic:playground",
+        "g2": "generic:playground",
+        "p": "park",
+        "c": "cafe",
+        "g3": "generic:playground",
+    }
+    order = ["g1", "g2", "g3", "p", "c"]
+    assert diversify(order, groups, n=3, max_per_category=3, caps={"generic:playground": 1}) == [
+        "g1",
+        "p",
+        "c",
+    ]
+    assert diversify(order, groups, n=3, max_per_category=3) == ["g1", "g2", "g3"]
+    fused = rrf_fuse({"lexical": (1.0, ["b", "a"]), "distance": (0.5, ["a", "b"])}, ["a", "b"])
+    assert [s.key for s in fused] == ["b", "a"]
+    assert fused[0].rrf == pytest.approx(1 / 61 + 0.5 / 62)

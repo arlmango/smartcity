@@ -60,6 +60,8 @@ _LOCATION_PHRASE_RE = re.compile(
 
 def strip_location_phrases(text: str) -> str:
     return re.sub(r"\s+", " ", _LOCATION_PHRASE_RE.sub(" ", text)).strip()
+
+
 _OPEN_RE = re.compile(r"открыт(о|ы|ое|ые|ый|ая)?\b(?!\s+воздух)|работа\w*\s+сейчас|сейчас\s+работа\w*")
 _QUIET_RE = re.compile(r"\bтих\w*|тишин|спокойн|без шума|не шумн|нешумн")
 _RETURN_NO_RE = re.compile(r"не (нужно |надо )?возвращ|без возврат|в одну сторону|не возвращ")

@@ -236,3 +236,31 @@ def test_logs_have_no_raw_query_or_exact_coords(make_client, origin, caplog):
     assert secret_text not in blob and "секретный поиск" not in blob
     assert "51.091234" not in blob and "71.414567" not in blob and "51.0912" not in blob
     assert "[51.09, 71.41]" in blob  # rounded to 0.01°
+
+
+def test_coverage_default_origin_from_landmark_manifest(make_client, tmp_path):
+    import json as _json
+
+    (tmp_path / "manifests").mkdir()
+    landmarks = [
+        {
+            "key": "expo_site",
+            "name": "SYNTHETIC EXPO",
+            "osm": "way/1",
+            "centroid_lonlat": [71.42, 51.093],
+            "inside_coverage": True,
+        },
+        {
+            "key": "nur_alem",
+            "name": "outside",
+            "osm": "way/2",
+            "centroid_lonlat": [0, 0],
+            "inside_coverage": False,
+        },
+    ]
+    (tmp_path / "manifests" / "landmarks.json").write_text(
+        _json.dumps({"SYNTHETIC": True, "landmarks": landmarks}), encoding="utf-8"
+    )
+    j = make_client(data_dir=tmp_path).get("/api/coverage").json()
+    assert j["default_origin"] == {"lat": 51.093, "lon": 71.42}
+    assert "way/1" in j["default_origin_label"] and "не ваше местоположение" in j["default_origin_label"]

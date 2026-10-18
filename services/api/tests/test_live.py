@@ -19,6 +19,7 @@ import pytest
 from fastapi.testclient import TestClient
 from smartcity_api.config import REPO_ROOT, Settings
 from smartcity_api.main import create_app
+from smartcity_api.retrieval.landmarks import load_landmark
 from smartcity_api.runtime import build_container
 from sqlalchemy import text
 
@@ -57,7 +58,10 @@ def live():
     logging.getLogger("smartcity").removeHandler(cap)
 
 
-def _find_point(container, patterns: list[str]) -> tuple[float, float, str] | None:
+def _find_point(
+    container, patterns: list[str], landmark_keys: list[str] | None = None
+) -> tuple[float, float, str] | None:
+    """A place from the DB by name; else the OSM landmark centroid from the ingest manifest."""
     with container.sessionmaker() as s:
         for pat in patterns:
             r = s.execute(
@@ -69,6 +73,13 @@ def _find_point(container, patterns: list[str]) -> tuple[float, float, str] | No
             ).first()
             if r:
                 return float(r.lat), float(r.lon), r.name
+    lm = load_landmark(container.settings.data_dir, landmark_keys or [])
+    if lm is not None:
+        return (
+            lm.lat,
+            lm.lon,
+            f"{lm.name} (landmark {lm.osm}, polygon centroid from data/manifests/landmarks.json)",
+        )
     return None
 
 
@@ -193,7 +204,9 @@ def _payload(lat: float, lon: float, query: str, budget: int, ret: bool, **kw) -
 
 def test_live_S1_mega_40_min_walk(live):
     pt = _find_point(
-        live["container"], ["%MEGA Silk Way%", "%Mega Silk Way%", "%МЕГА Silk Way%", "%Mega%", "%Мега%"]
+        live["container"],
+        ["%MEGA Silk Way%", "%Mega Silk Way%", "%МЕГА Silk Way%", "%Mega%", "%Мега%"],
+        ["mega_silk_way"],
     )
     if pt is None:
         pytest.skip("MEGA Silk Way not found in the live DB")
@@ -211,7 +224,7 @@ def test_live_S1_mega_40_min_walk(live):
 
 
 def test_live_S2_coffee_quiet_socket(live):
-    pt = _find_point(live["container"], ["%Нур Алем%", "%Nur Alem%", "%EXPO%", "%MEGA Silk Way%", "%Mega%"])
+    pt = _find_point(live["container"], ["%Нур Алем%", "%Nur Alem%", "%EXPO%"], ["nur_alem", "expo_site"])
     if pt is None:
         pytest.skip("no reference point found")
     lat, lon, name = pt
@@ -237,7 +250,7 @@ def test_live_S2_coffee_quiet_socket(live):
 
 
 def test_live_S3_hour_with_child_return(live):
-    pt = _find_point(live["container"], ["%Нур Алем%", "%Nur Alem%", "%EXPO%", "%MEGA Silk Way%", "%Mega%"])
+    pt = _find_point(live["container"], ["%Нур Алем%", "%Nur Alem%", "%EXPO%"], ["nur_alem", "expo_site"])
     if pt is None:
         pytest.skip("no reference point found")
     lat, lon, name = pt

@@ -217,6 +217,23 @@ def doc_text(p: repo.PlaceRow) -> str:
     return " ".join(x for x in parts if x)
 
 
+def diversity_groups(cands: list[Candidate], eff: Effective) -> tuple[dict[str, str], dict[str, int]]:
+    """Diversity groups: category, with unnamed places in their own group.
+
+    Unnamed playgrounds are numerous in OSM; unless the user asked for kids/playgrounds, at most one
+    of them is offered so that named places of other categories are not crowded out.
+    """
+    groups = {c.pid: ("generic:" if c.place.name_is_generic else "") + c.place.category for c in cands}
+    kids_wanted = (
+        "kids" in eff.required_features
+        or "kids" in eff.preferred_features
+        or "playground" in eff.include_categories
+        or "playground" in eff.soft_categories
+    )
+    caps = {} if kids_wanted else {f"generic:{cat}": 1 for cat in CATEGORY_INFO}
+    return groups, caps
+
+
 def retrieval_text(prep: Prepared) -> str:
     req = prep.req
     bits = [strip_location_phrases(req.query)]
@@ -608,8 +625,10 @@ def retrieve(container: Container, prep: Prepared) -> None:
         seen_names.append((norm, c.place.lat, c.place.lon))
         ranked.append(c)
     prep.ranked = ranked
-    cat_of = {c.pid: c.place.category for c in ranked}
-    top_keys = diversify([c.pid for c in ranked], cat_of, n=s.llm_max_candidates, max_per_category=3)
+    groups, caps = diversity_groups(ranked, eff)
+    top_keys = diversify(
+        [c.pid for c in ranked], groups, n=s.llm_max_candidates, max_per_category=3, caps=caps
+    )
     rk = {c.pid: c for c in ranked}
     prep.llm_candidates = [rk[k] for k in top_keys]
     prep.timings["schedule"] = _ms(t)
@@ -749,6 +768,9 @@ def _facts(cands: list[Candidate]) -> tuple[list[PromptCandidate], list[Candidat
                 name=c.place.name,
                 verified_features=set(verified),
                 opening_status=c.opening.status,
+                grounding=" ".join(
+                    [c.place.description, c.place.subcategory, category_label(c.place.category)]
+                ).lower(),
             )
         )
     return pcs, facts
@@ -976,8 +998,8 @@ async def recommend(
         )
     else:
         prep.warnings.insert(0, Warning(code="llm_unavailable", message=LLM_UNAVAILABLE_MSG))
-        cat_of = {c.pid: c.place.category for c in prep.ranked}
-        keys = diversify([c.pid for c in prep.ranked], cat_of, n=MAX_RESULTS, max_per_category=2)
+        groups, caps = diversity_groups(prep.ranked, prep.eff)
+        keys = diversify([c.pid for c in prep.ranked], groups, n=MAX_RESULTS, max_per_category=2, caps=caps)
         rk = {c.pid: c for c in prep.ranked}
         cards = [build_card(rk[k], reason=None, activity=None, source="rules") for k in keys]
         _final_warnings(prep, cards)

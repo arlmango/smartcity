@@ -37,7 +37,7 @@ def warn_codes(j) -> set[str]:
 
 def test_live_rag_path_grounded_facts(make_client, origin, place_ids):
     emb = FakeEmbedding()
-    gen = gen_ok(["Учебный"], reason="Тихий сквер с дорожками для прогулки.")
+    gen = gen_ok(["Учебный"], reason="Сквер с дорожками для прогулки.")
     c = make_client(embedder=emb, generator=gen)
     r, j = post(c, body(origin, query="Хочу погулять в сквере", client_request_id="client-abc-123"))
     assert r.status_code == 200
@@ -47,7 +47,7 @@ def test_live_rag_path_grounded_facts(make_client, origin, place_ids):
     card = j["recommendations"][0]
     assert card["place_id"] == place_ids["park"]
     assert card["name"] == "SYNTHETIC Сквер «Учебный»" and card["reason_source"] == "llm"
-    assert card["reason"] == "Тихий сквер с дорожками для прогулки."
+    assert card["reason"] == "Сквер с дорожками для прогулки."
     assert card["distance"]["method"] == "geodesic" and "По прямой" in card["distance"]["note"]  # T23
     t = card["timing"]
     assert t["estimated"] is True
