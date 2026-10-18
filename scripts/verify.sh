@@ -18,8 +18,8 @@ step() {
   if [[ $rc -ne 0 ]]; then overall=1; log "   FAIL ($rc) see $out/$name.log"; tail -15 "$out/$name.log"; else log "   ok"; fi
 }
 docker compose up -d --wait db >/dev/null 2>&1 || log "warning: could not start db (integration tests will fail)"
-step py-lint        uv run ruff check services
-step py-format      uv run ruff format --check services
+step py-lint        uv run ruff check services scripts
+step py-format      uv run ruff format --check services scripts
 step py-test-api    uv run pytest services/api/tests -m "not live" -q
 step py-test-ingest uv run pytest services/ingest/tests -m "not live" -q
 step web-lint       bash -c "cd apps/web && pnpm lint"
