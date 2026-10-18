@@ -11,8 +11,8 @@ members = ["services/api", "services/ingest"]
 
 [dependency-groups]
 dev = [
-  "pytest==8.4.2",
-  "pytest-asyncio==1.2.0",
+  "pytest==9.1.1",
+  "pytest-asyncio==1.4.0",
   "ruff==0.14.1",
   "mypy==1.18.2",
   "respx==0.22.0",
