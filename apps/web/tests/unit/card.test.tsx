@@ -70,6 +70,7 @@ describe("ResultsPanel", () => {
   const common = {
     constraints: EMPTY_CONSTRAINTS,
     budget: 60,
+    startTime: null,
     selectedId: null,
     cardRefs: { current: new Map<string, HTMLElement>() },
     busy: false,

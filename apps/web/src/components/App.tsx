@@ -15,6 +15,7 @@ import {
 import { useCoverage, useMapLayers, useMediaQuery, useOnline, useReady, useRecommend, useReducedMotion } from "@/lib/hooks";
 import { INTEREST_LABEL } from "@/lib/labels";
 import { heightStats, pointInCoverage } from "@/lib/mapData";
+import { describeProviders, hasExternalProvider } from "@/lib/providers";
 import type { ViewMode } from "@/lib/mapStyle";
 import { newClientRequestId } from "@/lib/recommendState";
 import { ErrorCard } from "./ErrorCard";
@@ -68,6 +69,7 @@ export function App() {
   }, [map.layers.coverage, coverage.data]);
 
   const heights = useMemo(() => heightStats(map.layers.buildings?.data), [map.layers.buildings]);
+  const providerLines = useMemo(() => describeProviders(ready.data, response?.providers), [ready.data, response]);
 
   // New answer → clear selection and fit camera to origin + results.
   useEffect(() => {
@@ -195,6 +197,7 @@ export function App() {
         response={response}
         constraints={state.responseRequest?.constraints ?? form.constraints}
         budget={state.responseRequest?.time_budget_min ?? null}
+        startTime={state.responseRequest?.start_time ?? null}
         selectedId={selectedId}
         cardRefs={cardRefs}
         busy={false}
@@ -229,6 +232,7 @@ export function App() {
           onStartPick={startPick}
           onSubmit={onSubmit}
           blockedReason={blockedReason}
+          externalProvider={hasExternalProvider(providerLines)}
         />
         {(response || form !== initialForm) && (
           <button type="button" className="sc-btn w-full" onClick={onReset}>
@@ -254,6 +258,7 @@ export function App() {
         ready={ready.data}
         heights={heights}
         buildingsLoaded={!!map.layers.buildings}
+        providerLines={providerLines}
       />
       <StatusBanners online={online} ready={ready.data} readyError={ready.isError} onRetryReady={() => void ready.refetch()} />
 

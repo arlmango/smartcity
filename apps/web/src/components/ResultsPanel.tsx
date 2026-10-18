@@ -3,12 +3,15 @@
 import type { RecommendResponse, Relaxation } from "@/lib/contracts";
 import { REFINEMENT_LABEL, refinementChanges, type RefinementKind } from "@/lib/form";
 import type { Constraints } from "@/lib/contracts";
+import { formatAlmaty } from "@/lib/time";
 import { RecommendationCard } from "./RecommendationCard";
 
 interface Props {
   response: RecommendResponse;
   constraints: Constraints;
   budget: number | null;
+  /** start_time of the request that produced this response (null = "now"). */
+  startTime: string | null;
   selectedId: string | null;
   cardRefs: React.MutableRefObject<Map<string, HTMLElement>>;
   busy: boolean;
@@ -61,6 +64,12 @@ export function ResultsPanel(props: Props) {
         )}
 
         {r.message && <p className="text-[15px] leading-relaxed">{r.message}</p>}
+
+        <p className="text-sm text-muted" data-testid="hours-checked-at">
+          {props.startTime
+            ? `Часы работы проверены на время прибытия при старте ${formatAlmaty(props.startTime)} (время Астаны).`
+            : "Часы работы проверены на время прибытия при старте сейчас."}
+        </p>
 
         {r.warnings.length > 0 && (
           <ul className="space-y-1" aria-label="Предупреждения">

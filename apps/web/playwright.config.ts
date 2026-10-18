@@ -11,6 +11,7 @@ import { defineConfig, devices } from "@playwright/test";
  * CHROMIUM_PATH can point to another binary. Never runs `playwright install`.
  */
 const PORT = Number(process.env.E2E_PORT ?? 3100);
+const UPSTREAM_PORT = Number(process.env.E2E_UPSTREAM_PORT ?? 3109);
 const pwPath = process.env.PLAYWRIGHT_BROWSERS_PATH;
 const fallbackChrome = pwPath ? path.join(pwPath, "chromium-1194/chrome-linux/chrome") : undefined;
 const executablePath = process.env.CHROMIUM_PATH ?? (fallbackChrome && existsSync(fallbackChrome) && process.env.E2E_FULL_CHROME ? fallbackChrome : undefined);
@@ -58,7 +59,8 @@ export default defineConfig({
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
-    // Upstream deliberately unreachable: every /api call must be mocked by the test.
-    env: { API_INTERNAL_URL: "http://127.0.0.1:9" },
+    // Browser /api calls are mocked by page.route. The upstream port is only listened on by
+    // tests/e2e/xff.spec.ts (a header-recording stub); otherwise it is unreachable.
+    env: { API_INTERNAL_URL: `http://127.0.0.1:${UPSTREAM_PORT}`, WEB_TRUSTED_PROXY_HOPS: "0" },
   },
 });

@@ -15,6 +15,7 @@ import {
   type Recommendation,
 } from "./contracts";
 import { QUERY_MAX, TIME_MAX, TIME_MIN } from "./labels";
+import { almatyInputToIso, checkStart } from "./time";
 
 export type OriginKind = "map" | "gps" | "demo" | "search" | "center";
 
@@ -32,6 +33,8 @@ export interface WalkForm {
   timeBudget: number;
   returnToStart: boolean;
   constraints: Constraints;
+  /** null = start now (start_time not sent); otherwise Astana wall-clock "YYYY-MM-DDTHH:mm". */
+  startTime: string | null;
 }
 
 export const initialForm: WalkForm = {
@@ -41,6 +44,7 @@ export const initialForm: WalkForm = {
   timeBudget: 40,
   returnToStart: true,
   constraints: EMPTY_CONSTRAINTS,
+  startTime: null,
 };
 
 export const clampBudget = (n: number): number => Math.min(TIME_MAX, Math.max(TIME_MIN, Math.round(n)));
@@ -49,13 +53,14 @@ export function toggle<T>(list: readonly T[], item: T): T[] {
   return list.includes(item) ? list.filter((x) => x !== item) : [...list, item];
 }
 
-export type FormProblem = "no_origin" | "bad_budget" | "query_too_long";
+export type FormProblem = "no_origin" | "bad_budget" | "query_too_long" | "bad_start";
 
 export function validateForm(form: WalkForm): FormProblem[] {
   const problems: FormProblem[] = [];
   if (!form.origin) problems.push("no_origin");
   if (!Number.isInteger(form.timeBudget) || form.timeBudget < TIME_MIN || form.timeBudget > TIME_MAX) problems.push("bad_budget");
   if (form.query.length > QUERY_MAX) problems.push("query_too_long");
+  if (form.startTime !== null && checkStart(form.startTime) !== null) problems.push("bad_start");
   return problems;
 }
 
@@ -70,7 +75,7 @@ export function buildRequest(form: WalkForm, id: string, context: ConversationTu
     interests: form.interests,
     constraints: form.constraints,
     conversation_context: context.slice(-6),
-    start_time: null,
+    start_time: form.startTime ? almatyInputToIso(form.startTime) : null,
     client_request_id: id,
   });
 }

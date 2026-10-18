@@ -22,6 +22,11 @@ const config = [
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
+  {
+    // Node preload modules loaded with `node -r` must be CommonJS.
+    files: ["**/*.cjs"],
+    rules: { "@typescript-eslint/no-require-imports": "off" },
+  },
 ];
 
 export default config;

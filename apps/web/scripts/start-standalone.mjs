@@ -19,7 +19,8 @@ cpSync(path.join(root, ".next/static"), path.join(standalone, ".next/static"), {
 cpSync(path.join(root, "public"), path.join(standalone, "public"), { recursive: true });
 
 const port = process.argv[2] ?? process.env.PORT ?? "3000";
-const child = spawn(process.execPath, ["server.js"], {
+// server-preload.cjs replaces client X-Forwarded-For with the socket address (rate-limit spoofing).
+const child = spawn(process.execPath, ["-r", path.join(root, "server-preload.cjs"), "server.js"], {
   cwd: standalone,
   stdio: "inherit",
   env: { ...process.env, PORT: port, HOSTNAME: process.env.HOSTNAME_BIND ?? "127.0.0.1" },
