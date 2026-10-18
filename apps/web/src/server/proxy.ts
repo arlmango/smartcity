@@ -28,7 +28,8 @@ export const ROUTES: RouteRule[] = [
   { method: "GET", pattern: /^places$/, query: true, timeoutMs: 15_000 },
   { method: "GET", pattern: /^places\/[A-Za-z0-9._:~-]{1,128}$/, query: false, timeoutMs: 15_000 },
   { method: "GET", pattern: /^search$/, query: true, timeoutMs: 15_000 },
-  { method: "POST", pattern: /^recommend$/, query: false, timeoutMs: 150_000 },
+  // Local CPU generation can take minutes; the API enforces its own REQUEST_TIMEOUT_SECONDS (200 s).
+  { method: "POST", pattern: /^recommend$/, query: false, timeoutMs: 210_000 },
   { method: "POST", pattern: /^route$/, query: false, timeoutMs: 30_000 },
 ];
 
@@ -51,7 +52,8 @@ const json = (status: number, error: string, message: string): Response =>
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
 
-const FORWARD_REQ_HEADERS = ["accept", "content-type", "if-none-match", "accept-language"];
+// x-forwarded-for lets the API rate-limit per client (API trusts only the last hop).
+const FORWARD_REQ_HEADERS = ["accept", "content-type", "if-none-match", "accept-language", "x-forwarded-for"];
 const FORWARD_RES_HEADERS = ["content-type", "etag", "cache-control", "retry-after", "x-request-id", "last-modified"];
 
 /** Optional dev-only override: serve map layers from local GeoJSON files (never in production). */

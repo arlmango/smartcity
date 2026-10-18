@@ -97,7 +97,9 @@ class SmartCityMiddleware:
 
     def _client_key(self, scope: Scope, headers: dict[str, str]) -> str:
         if self.trust_xff and headers.get("x-forwarded-for"):
-            return headers["x-forwarded-for"].split(",")[0].strip()[:64]
+            # Last hop = address seen by the trusted proxy in front of us (client-supplied
+            # entries are earlier in the list and cannot override it).
+            return headers["x-forwarded-for"].split(",")[-1].strip()[:64]
         client = scope.get("client")
         return client[0] if client else "unknown"
 

@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     ai_base_url: str = "http://localhost:11434"
     ai_api_key: SecretStr = SecretStr("")
     ai_model: str = "qwen2.5:3b"
-    ai_timeout_seconds: float = 120.0
+    ai_timeout_seconds: float = 150.0  # CPU generation measured 50-190 s under load
     ai_max_output_tokens: int = 700
     ai_temperature: float = 0.2
 
@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     routing_base_url: str = ""
 
     log_level: str = "INFO"
-    request_timeout_seconds: float = 150.0
+    request_timeout_seconds: float = 200.0
     rate_limit: str = "20/minute"  # POST /api/recommend, per client IP (in-memory)
     # Added by backend-rag: limits for other endpoints, body size, generation fan-in.
     rate_limit_general: str = "300/minute"  # other /api/* endpoints except health/ready

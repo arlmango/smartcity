@@ -182,6 +182,19 @@ def test_rate_limit_429(make_client, origin):
     assert c.get("/api/health").status_code == 200  # health/ready are exempt
 
 
+def test_rate_limit_uses_last_forwarded_hop_only(make_client):
+    c = make_client(rate_limit_general="1/minute", trust_forwarded_for=True)
+    h = {"x-forwarded-for": "1.1.1.1, 10.0.0.5"}
+    assert c.get("/api/search", params={"q": "кафе"}, headers=h).status_code == 200
+    # a client cannot evade the limit by spoofing earlier XFF entries
+    h2 = {"x-forwarded-for": "9.9.9.9, 10.0.0.5"}
+    assert c.get("/api/search", params={"q": "кафе"}, headers=h2).status_code == 429
+    # a different real client (last hop) has its own bucket
+    assert (
+        c.get("/api/search", params={"q": "кафе"}, headers={"x-forwarded-for": "10.0.0.6"}).status_code == 200
+    )
+
+
 def test_rate_limit_recommend(make_client, origin):
     c = make_client(rate_limit="1/minute")
     b = body(origin, origin={"lat": 10.0, "lon": 10.0})

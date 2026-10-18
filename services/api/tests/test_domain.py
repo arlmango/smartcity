@@ -304,14 +304,21 @@ def test_dropped_text_constraints_are_not_re_added_from_text():
     assert eff.max_distance_m[1] == "text" and "cafe" in eff.exclude_categories
     req2 = _req(
         req.query,
-        dropped_text_constraints=["must_be_open", "include_category:park", "max_distance", "exclude_category:cafe"],
+        dropped_text_constraints=[
+            "must_be_open",
+            "include_category:park",
+            "max_distance",
+            "exclude_category:cafe",
+        ],
     )
     eff2 = merge(req2, parse_query(req2.query))
     assert eff2.must_be_open[0] is False
     assert not eff2.include_categories and not eff2.exclude_categories
     assert eff2.max_distance_m == (None, "ui")
     # the resend patch keeps the dropped list so later turns stay consistent
-    assert set(eff2.to_constraints().dropped_text_constraints) == set(req2.constraints.dropped_text_constraints)
+    assert set(eff2.to_constraints().dropped_text_constraints) == set(
+        req2.constraints.dropped_text_constraints
+    )
 
 
 def test_dropped_text_constraint_codes_are_validated():

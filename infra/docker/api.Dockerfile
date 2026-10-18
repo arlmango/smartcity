@@ -23,13 +23,18 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 COPY services/api/pyproject.toml services/api/pyproject.toml
 COPY services/ingest/pyproject.toml services/ingest/pyproject.toml
-RUN uv sync --frozen --no-dev --package smartcity-api --no-install-workspace
+# Optional BuildKit secret `build_ca` (extra CA for TLS-intercepting proxies); never stored in a layer.
+RUN --mount=type=secret,id=build_ca,required=false \
+    if [ -s /run/secrets/build_ca ]; then export SSL_CERT_FILE=/run/secrets/build_ca; fi; \
+    uv sync --frozen --no-dev --package smartcity-api --no-install-workspace
 
 # Application code.
 COPY services/api services/api
 COPY config config
 COPY infra/docker/api-entrypoint.sh /usr/local/bin/api-entrypoint.sh
-RUN uv sync --frozen --no-dev --package smartcity-api \
+RUN --mount=type=secret,id=build_ca,required=false \
+    if [ -s /run/secrets/build_ca ]; then export SSL_CERT_FILE=/run/secrets/build_ca; fi; \
+    uv sync --frozen --no-dev --package smartcity-api \
  && chmod 0755 /usr/local/bin/api-entrypoint.sh \
  && mkdir -p /app/data \
  && chown -R smartcity:smartcity /app/data

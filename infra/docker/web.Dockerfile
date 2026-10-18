@@ -1,7 +1,7 @@
 # SmartCity web (Next.js standalone). Build from the repository root:
 #   docker build -f infra/docker/web.Dockerfile -t smartcity-web:0.1.0 .
 # Behind a TLS-intercepting proxy (optional): pass HTTPS_PROXY as a build arg and the CA as a
-# BuildKit secret, e.g. --network host --build-arg HTTPS_PROXY=$HTTPS_PROXY --secret id=npm_ca,src=/path/ca.crt
+# BuildKit secret, e.g. --network host --build-arg HTTPS_PROXY=$HTTPS_PROXY --secret id=build_ca,src=/path/ca.crt
 # (the secret is never stored in an image layer).
 # Runtime: API_INTERNAL_URL (default http://api:8000) is read per request by the
 # /api/* route-handler proxy, so the same image works with any API address.
@@ -14,8 +14,8 @@ ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH CI=1 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 NEX
 WORKDIR /app
 COPY apps/web/package.json apps/web/pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    --mount=type=secret,id=npm_ca,required=false \
-    if [ -f /run/secrets/npm_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/npm_ca npm_config_cafile=/run/secrets/npm_ca; fi; \
+    --mount=type=secret,id=build_ca,required=false \
+    if [ -s /run/secrets/build_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/build_ca npm_config_cafile=/run/secrets/build_ca; fi; \
     corepack enable && corepack prepare pnpm@10.28.0 --activate \
     && pnpm config set store-dir /pnpm/store \
     && pnpm install --frozen-lockfile
