@@ -1,0 +1,72 @@
+{
+  "dataset_version": "osm-20261018T200514Z",
+  "osm_base_timestamp": "2026-10-18T20:11:41Z",
+  "snapshot_hash": "6d5d0b78c4cd1f44807fa2c96395ce419ffbbdaf299a1813a1bbe321ced5fb06",
+  "built_at": "2026-10-18T20:13:14.906668+00:00",
+  "coverage_id": "astana-expo-mega-v1",
+  "coordinate_order": "[lon, lat]",
+  "coordinate_precision_decimals": 6,
+  "layers": {
+    "buildings": {
+      "file": "buildings.geojson",
+      "features": 1812,
+      "bytes": 691922,
+      "sha256": "66015611649821ac19610dd110eaa6c2bfaf41cd27910ca007a44e22f80a8855"
+    },
+    "roads": {
+      "file": "roads.geojson",
+      "features": 5329,
+      "bytes": 1367468,
+      "sha256": "0be5b02ea094e8039d29e6a09bc9cb20bce9306773227d44ef589ad9830e2442"
+    },
+    "water": {
+      "file": "water.geojson",
+      "features": 20,
+      "bytes": 12617,
+      "sha256": "7c81a6f1e4bc3d1a13cf2578c08f7e1df3609edb50bc3516a9f3bdb49998714c"
+    },
+    "green": {
+      "file": "green.geojson",
+      "features": 1784,
+      "bytes": 601603,
+      "sha256": "954fdedd3c41c76a2f4fada481b4fc4ea4bacd6cf8855fb983e8ce8968281c16"
+    },
+    "coverage": {
+      "file": "coverage.geojson",
+      "features": 1,
+      "bytes": 569,
+      "sha256": "6a5613688273f5460ed82226a3d9ac77b95ee5ef56a026e07c10cee61d7a1099"
+    }
+  },
+  "counts": {
+    "buildings": 1812,
+    "roads": 5329,
+    "water": 20,
+    "green": 1784,
+    "coverage": 1
+  },
+  "total_bytes": 2674179,
+  "simplification": {
+    "applied": false,
+    "layers": [],
+    "tolerance_deg": null,
+    "note": "Buildings are never simplified."
+  },
+  "buildings": {
+    "height_rule": "height (m) -> building:levels x 3.2 m -> 10 m default (approximate)",
+    "min_height_rule": "min_height -> building:min_level x 3.2 m -> 0",
+    "height_provenance": {
+      "height": 23,
+      "levels": 897,
+      "default": 892
+    },
+    "with_inner_rings": 12,
+    "skipped_no_polygon": 0,
+    "skipped_invalid": 0,
+    "clip": "kept whole when intersecting coverage"
+  },
+  "clip": "roads/water/green clipped to coverage polygon",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "attribution_url": "https://www.openstreetmap.org/copyright"
+}

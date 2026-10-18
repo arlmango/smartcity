@@ -1,0 +1,43 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+{
+  "run_id": "6aab66a0-e4d1-4492-b8e8-89a4f0f32a40",
+  "status": "complete",
+  "snapshot": "osm-20261018T200514Z",
+  "counts": {
+    "groups_ok": [
+      "poi_cafe_food",
+      "poi_culture",
+      "poi_attraction",
+      "poi_park_playground",
+      "poi_mall",
+      "map_buildings",
+      "map_roads",
+      "map_water",
+      "map_green",
+      "map_landmarks"
+    ],
+    "groups_failed": [],
+    "snapshot_complete": true,
+    "unchanged": 127,
+    "deactivated": 0,
+    "records": 127,
+    "active_places": 127,
+    "by_category": {
+      "attraction": 4,
+      "cafe": 22,
+      "culture": 3,
+      "food": 25,
+      "mall": 2,
+      "park": 5,
+      "playground": 66
+    },
+    "skipped_unnamed": 60,
+    "skipped_no_geometry": 0,
+    "skipped_outside_coverage": 3,
+    "website_rejected": 0,
+    "dedup_merges": 0,
+    "poi_groups_failed": []
+  },
+  "error": null
+}
+exit_code=0

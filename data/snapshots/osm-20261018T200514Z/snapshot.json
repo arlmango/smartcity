@@ -1,0 +1,208 @@
+{
+  "dataset_version": "osm-20261018T200514Z",
+  "source": "OpenStreetMap via Overpass API (read-only)",
+  "endpoint": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+  "user_agent": "SmartCity-prototype/0.1 (hackathon demo; bounded Astana extract)",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "coverage_id": "astana-expo-mega-v1",
+  "coverage_geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          71.39,
+          51.075
+        ],
+        [
+          71.445,
+          51.075
+        ],
+        [
+          71.445,
+          51.115
+        ],
+        [
+          71.39,
+          51.115
+        ],
+        [
+          71.39,
+          51.075
+        ]
+      ]
+    ]
+  },
+  "fetched_at": "2026-10-18T20:05:14.639966+00:00",
+  "groups": {
+    "poi_cafe_food": {
+      "status": "ok",
+      "file": "poi_cafe_food.json.gz",
+      "sha256": "023f1394e8c61619c35a2cdef2c2f5922675da62fd259b10323d2348a389606b",
+      "file_sha256": "0b4ba9317d048a8e8815e7b4e9529fbca04d489a243a8038766a3876118e82f8",
+      "bytes": 24888,
+      "elements": 51,
+      "osm_base_timestamp": "2026-10-18T20:05:35Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 3,
+      "kind": "poi",
+      "fetched_at": "2026-10-18T20:06:17.962440+00:00"
+    },
+    "poi_culture": {
+      "status": "ok",
+      "file": "poi_culture.json.gz",
+      "sha256": "840eaef725fcef3529b79b7945c1e181af9d500f3cc9583bbf82fba91763a280",
+      "file_sha256": "df7f4504198403618a9fabc548abdfebc817db9c313144db41d093728a37acd9",
+      "bytes": 6325,
+      "elements": 3,
+      "osm_base_timestamp": "2026-10-18T20:05:35Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "poi",
+      "fetched_at": "2026-10-18T20:06:33.892522+00:00"
+    },
+    "poi_attraction": {
+      "status": "ok",
+      "file": "poi_attraction.json.gz",
+      "sha256": "68a9b94ab9d2d1eba299735d3b7f3a311a8092b750736fa398951054301e38e2",
+      "file_sha256": "50da67f5c18f6894675470a37930fd21a49aee433f258df0aa38fcc1b0ab1e36",
+      "bytes": 39667,
+      "elements": 59,
+      "osm_base_timestamp": "2026-10-18T20:07:31Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 3,
+      "kind": "poi",
+      "fetched_at": "2026-10-18T20:08:23.829960+00:00"
+    },
+    "poi_park_playground": {
+      "status": "ok",
+      "file": "poi_park_playground.json.gz",
+      "sha256": "5bafdfd494e2b992fcdad25a21d6edfd606ef4bd09910bafc8aaa2b087646ae4",
+      "file_sha256": "a0a38f554a7834e47aa8f92e17dc41b322ed2e3dcfeb4e208f0b94d14c3018fb",
+      "bytes": 80697,
+      "elements": 75,
+      "osm_base_timestamp": "2026-10-18T20:10:35Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "poi",
+      "fetched_at": "2026-10-18T20:12:50.702065+00:00",
+      "previous_failures": [
+        {
+          "error": "HTTP 504",
+          "fetched_at": "2026-10-18T20:09:08.629301+00:00"
+        }
+      ]
+    },
+    "poi_mall": {
+      "status": "ok",
+      "file": "poi_mall.json.gz",
+      "sha256": "5387fa695f3cc93c4e474b39eb992788d7a531ecbbe68e93c208094cce9753b4",
+      "file_sha256": "5bf2842a670dfb2e086c2a2ab3677da34e8d5ec5ccff22a8f02eee4b95294d1a",
+      "bytes": 5430,
+      "elements": 2,
+      "osm_base_timestamp": "2026-10-18T20:08:34Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "poi",
+      "fetched_at": "2026-10-18T20:09:24.991793+00:00"
+    },
+    "map_buildings": {
+      "status": "ok",
+      "file": "map_buildings.json.gz",
+      "sha256": "3e92be3ff4b8fea2ba43d415887875ebadae1b8399f914b8d53a33d7db2014f8",
+      "file_sha256": "8285f279fb117f04785032a2d713fc7bad9fe0df0a589b3843e1578d328692dc",
+      "bytes": 1677795,
+      "elements": 1812,
+      "osm_base_timestamp": "2026-10-18T20:08:34Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "map",
+      "fetched_at": "2026-10-18T20:09:41.559519+00:00"
+    },
+    "map_roads": {
+      "status": "ok",
+      "file": "map_roads.json.gz",
+      "sha256": "0083eb1fdaa422e0a5161a82e497fafdc3be3dca7b98e188542dffa80daa8105",
+      "file_sha256": "2bc6b340e8f2acff437bb0d67505a22d69999cc1f1fc4b9728efd6dab065fc32",
+      "bytes": 3617555,
+      "elements": 5310,
+      "osm_base_timestamp": "2026-10-18T20:11:41Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "map",
+      "fetched_at": "2026-10-18T20:13:13.150637+00:00",
+      "previous_failures": [
+        {
+          "error": "HTTP 504",
+          "fetched_at": "2026-10-18T20:11:17.210417+00:00"
+        }
+      ]
+    },
+    "map_water": {
+      "status": "ok",
+      "file": "map_water.json.gz",
+      "sha256": "f50e703f4ed5f7a52b76c13eaab068658aa3e103dbc98f3af5d3aca07318c0e5",
+      "file_sha256": "8c45953f6c925723e38051b48970ab480b43518f854da48acc7489ccdc187659",
+      "bytes": 38619,
+      "elements": 20,
+      "osm_base_timestamp": "2026-10-18T20:10:35Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "map",
+      "fetched_at": "2026-10-18T20:11:35.581853+00:00"
+    },
+    "map_green": {
+      "status": "ok",
+      "file": "map_green.json.gz",
+      "sha256": "410c19bcb4d2cd7f7bd92d06ae0c760961bacb3e57a09490b292436ab59b3600",
+      "file_sha256": "5bad3c4a9767dc7ae8e8c2098eb44ad85cc732125881eac8e347f474dd5d751f",
+      "bytes": 1601947,
+      "elements": 1784,
+      "osm_base_timestamp": "2026-10-18T20:10:35Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 1,
+      "kind": "map",
+      "fetched_at": "2026-10-18T20:11:51.272498+00:00"
+    },
+    "map_landmarks": {
+      "status": "ok",
+      "file": "map_landmarks.json.gz",
+      "sha256": "3bc73c5fdba6a7a491d322532cadd679836da6b52df09520e8fca38705bf0785",
+      "file_sha256": "a50662c2a1b39409e9ffb02586d71fc4ad522411fe27fdad98fe14beba04666e",
+      "bytes": 12436,
+      "elements": 42,
+      "osm_base_timestamp": "2026-10-18T20:10:35Z",
+      "generator": "Overpass API 0.7.62.4 2390de5a",
+      "attempts": 2,
+      "kind": "map",
+      "fetched_at": "2026-10-18T20:12:18.306816+00:00"
+    }
+  },
+  "queries": {
+    "poi_cafe_food": "[out:json][timeout:90];\n(\n  nwr[\"amenity\"~\"^(cafe|ice_cream|restaurant|fast_food)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+    "poi_culture": "[out:json][timeout:90];\n(\n  nwr[\"tourism\"~\"^(museum|gallery)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"amenity\"~\"^(theatre|cinema|arts_centre|library)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+    "poi_attraction": "[out:json][timeout:90];\n(\n  nwr[\"tourism\"~\"^(attraction|viewpoint|artwork)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"historic\"~\"^(monument|memorial)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"amenity\"=\"fountain\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+    "poi_park_playground": "[out:json][timeout:90];\n(\n  nwr[\"leisure\"~\"^(park|garden|playground)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+    "poi_mall": "[out:json][timeout:90];\n(\n  nwr[\"shop\"=\"mall\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+    "map_buildings": "[out:json][timeout:90];\n(\n  way[\"building\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"building\"][\"type\"=\"multipolygon\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+    "map_roads": "[out:json][timeout:90];\n(\n  way[\"highway\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+    "map_water": "[out:json][timeout:90];\n(\n  way[\"natural\"=\"water\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"natural\"=\"water\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"waterway\"~\"^(river|canal|stream|drain|ditch|riverbank)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"landuse\"=\"reservoir\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"leisure\"=\"swimming_area\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+    "map_green": "[out:json][timeout:90];\n(\n  way[\"leisure\"~\"^(park|garden|pitch|playground|dog_park)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"leisure\"~\"^(park|garden)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"landuse\"~\"^(grass|forest|meadow|recreation_ground|village_green|flowerbed|orchard)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"landuse\"~\"^(grass|forest|meadow|recreation_ground)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"natural\"~\"^(wood|scrub|grassland)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"natural\"~\"^(wood|scrub|grassland)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+    "map_landmarks": "[out:json][timeout:90];\n(\n  nwr[\"amenity\"~\"^(university|college)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"name\"~\"EXPO|ЭКСПО|Нур Алем|Nur Alem|Нұр Әлем\",i](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"highway\"][\"name\"~\"Мәңгілік Ел|Мангилик Ел\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout tags center;"
+  },
+  "finished_at": "2026-10-18T20:12:18.306840+00:00",
+  "osm_base_timestamp": "2026-10-18T20:11:41Z",
+  "osm_base_timestamp_min": "2026-10-18T20:05:35Z",
+  "complete": true,
+  "status": "complete",
+  "snapshot_hash": "6d5d0b78c4cd1f44807fa2c96395ce419ffbbdaf299a1813a1bbe321ced5fb06",
+  "retries": [
+    {
+      "at": "2026-10-18T20:13:13.156899+00:00",
+      "groups": [
+        "poi_park_playground",
+        "map_roads"
+      ]
+    }
+  ]
+}
