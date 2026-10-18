@@ -1,7 +1,7 @@
 {
   "scenario": "S1",
   "notes": "origin = DB location of 'Mega Silk Way'",
-  "recorded_at": "2026-10-18T21:04:55+00:00",
+  "recorded_at": "2026-10-18T21:55:14+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
@@ -22,7 +22,7 @@
         "temperature": 0.2,
         "num_predict": 700
       },
-      "timeout_s": 240.0
+      "timeout_s": 150.0
     },
     "embedding": {
       "model_id": "ollama:bge-m3@790764642607",
@@ -46,9 +46,7 @@
     "llm_candidate_ids": [
       "9f26d759-b6d4-48ff-acac-db42e6771fdd",
       "6b0c788f-0baf-4392-8152-dcee14de97d7",
-      "4b6f3bf4-1073-40d3-94d8-e218428721d7",
-      "92383177-df3d-4103-8c99-4dcf6d63f195",
-      "80fed62e-897e-45ce-8745-b1dc2dbb884a"
+      "4b6f3bf4-1073-40d3-94d8-e218428721d7"
     ],
     "exclusions": {
       "budget": 10,
@@ -56,8 +54,10 @@
     },
     "llm_attempts": 1,
     "llm_failure": null,
-    "llm_issues": [],
-    "prompt_version": "rec-v1"
+    "llm_issues": [
+      "removed_unverified_claim:kids"
+    ],
+    "prompt_version": "rec-v2"
   },
   "result": {
     "status": "ok",
@@ -125,22 +125,22 @@
           "wheelchair",
           "kids"
         ],
-        "reason": "NU Park находится рядом с Mega Silk Way, что позволяет быстро дойти на пешком прогулку.",
+        "reason": "NU Park находится рядом с Mega Silk Way и является парком, что соответствует вашему желанию посетить место с интересом.",
         "reason_source": "llm",
         "activity_suggestion": "прогуляться по парку"
       },
       {
-        "place_id": "92383177-df3d-4103-8c99-4dcf6d63f195",
+        "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
         "name": "Детская площадка",
         "category": "playground",
-        "source_url": "https://www.openstreetmap.org/way/607963091",
-        "distance_m": 328,
+        "source_url": "https://www.openstreetmap.org/way/607963090",
+        "distance_m": 188,
         "timing": {
-          "outbound_min": 7,
-          "visit_min": 21,
-          "return_min": 7,
+          "outbound_min": 4,
+          "visit_min": 25,
+          "return_min": 4,
           "buffer_min": 5,
-          "total_min": 40,
+          "total_min": 38,
           "estimated": true,
           "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
         },
@@ -154,20 +154,20 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Детская площадка недалеко от NU Park и подходит для детей.",
+        "reason": "Детская площадка рядом с Mega Silk Way может быть интересной для детей, хотя она не подходит для взрослых.",
         "reason_source": "llm",
-        "activity_suggestion": "играть с детьми на детской площадке"
+        "activity_suggestion": "прогуляться и посмотреть детскую площадку"
       }
     ]
   },
   "timings_ms": {
-    "parse": 3,
-    "shortlist": 30,
-    "semantic": 465,
-    "rank": 2,
+    "parse": 6,
+    "shortlist": 27,
+    "semantic": 342,
+    "rank": 3,
     "schedule": 1,
-    "generate": 45640,
-    "total": 46143
+    "generate": 58526,
+    "total": 58907
   },
-  "wall_ms": 46153
+  "wall_ms": 58928
 }

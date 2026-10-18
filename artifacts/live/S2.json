@@ -1,7 +1,7 @@
 {
   "scenario": "S2",
-  "notes": "origin = DB location of 'Alem.ai Международный центр искусственного интеллекта (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
-  "recorded_at": "2026-10-18T21:04:55+00:00",
+  "notes": "origin = DB location of 'Alem.ai (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
+  "recorded_at": "2026-10-18T21:55:14+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Нужны кофе, тишина и розетка, есть час",
@@ -22,7 +22,7 @@
         "temperature": 0.2,
         "num_predict": 700
       },
-      "timeout_s": 240.0
+      "timeout_s": 150.0
     },
     "embedding": {
       "model_id": "ollama:bge-m3@790764642607",
@@ -50,7 +50,7 @@
     "llm_attempts": 0,
     "llm_failure": null,
     "llm_issues": [],
-    "prompt_version": "rec-v1"
+    "prompt_version": "rec-v2"
   },
   "result": {
     "status": "no_match",
@@ -111,5 +111,5 @@
     "schedule": 0,
     "total": 14
   },
-  "wall_ms": 19
+  "wall_ms": 23
 }
