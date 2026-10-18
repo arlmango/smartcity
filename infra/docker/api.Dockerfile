@@ -46,4 +46,4 @@ ENV PATH="/app/.venv/bin:${PATH}" \
 USER smartcity
 EXPOSE 8000
 ENTRYPOINT ["/usr/local/bin/api-entrypoint.sh"]
-CMD ["uvicorn", "smartcity_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--no-server-header"]
+CMD ["uvicorn", "smartcity_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--no-server-header", "--no-access-log"]

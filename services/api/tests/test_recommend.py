@@ -580,3 +580,33 @@ def test_cancellable_returns_result():
         return False
 
     assert asyncio.run(cancellable(lambda: "ok", here, poll_s=0.01)) == "ok"
+
+
+# ---------------------------------------------------------------- review counter-examples at API level
+
+
+def test_P1_1_mne_nuzhna_rozetka_is_hard_at_api(make_client, origin, place_ids):
+    c = make_client(generator=None)
+    _, j = post(c, body(origin, query="Мне нужна розетка, хочу кофе"))
+    hard = [h for h in j["constraints_applied"]["hard"] if h["kind"] == "required_feature"]
+    assert hard and hard[0]["value"] == "socket" and hard[0]["source"] == "text"
+    assert [x["place_id"] for x in j["recommendations"]] == [place_ids["cafe_socket"]]
+    _, j2 = post(
+        c,
+        body(
+            origin,
+            query="Мне нужна розетка, хочу кофе",
+            constraints={"exclude_place_ids": [place_ids["cafe_socket"]]},
+        ),
+    )
+    assert j2["status"] == "no_match"
+    assert "feature_to_preference:socket" in {r["code"] for r in j2["suggested_relaxations"]}
+
+
+def test_P2_1_only_not_cafe_at_api(make_client, origin):
+    c = make_client(generator=None)
+    _, j = post(c, body(origin, query="Только не кафе", time_budget_min=90))
+    assert j["recommendations"] and all(x["category"] != "cafe" for x in j["recommendations"])
+    ex = [h for h in j["constraints_applied"]["hard"] if h["kind"] == "exclude_category"]
+    assert ex == [{"kind": "exclude_category", "value": "cafe", "source": "text", "label": "Без: Кафе"}]
+    assert not [h for h in j["constraints_applied"]["hard"] if h["kind"] == "include_category"]

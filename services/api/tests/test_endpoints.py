@@ -17,7 +17,8 @@ def test_health(make_client):
 
 
 def test_ready_reports_components_without_secrets(make_client):
-    c = make_client(generator=FakeGeneration(), ai_api_key="sk-SECRET-should-not-leak")
+    fake_key = "sk-SECRET-should-not-leak"  # secret-scan: allow (fake test key)
+    c = make_client(generator=FakeGeneration(), ai_api_key=fake_key)
     r = c.get("/api/ready")
     assert r.status_code == 200
     j = r.json()

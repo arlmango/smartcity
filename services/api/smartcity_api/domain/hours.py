@@ -20,6 +20,7 @@ LOCAL_TZ = ZoneInfo("Asia/Almaty")
 
 _HOLIDAY_RE = re.compile(r"\b(PH|SH)\b")
 _SUN_RE = re.compile(r"\b(sunrise|sunset|dawn|dusk)\b", re.IGNORECASE)
+_OPEN_END_RE = re.compile(r"\d\+")  # "10:00+" = open end, closing time unknown
 _MAX_RAW_LEN = 500
 
 
@@ -45,6 +46,8 @@ def evaluate_opening(raw: str | None, arrival: datetime, visit_min: int) -> Open
         return OpeningResult(
             "unknown", "Часы содержат праздничные исключения (PH/SH) — без календаря статус неизвестен"
         )
+    if _OPEN_END_RE.search(raw):
+        return OpeningResult("unknown", "Время закрытия не указано («+» в часах) — статус неизвестен")
     if _SUN_RE.search(raw):
         return OpeningResult("unknown", "Часы зависят от восхода/заката — статус неизвестен")
     try:

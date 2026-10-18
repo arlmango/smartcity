@@ -194,6 +194,54 @@ def test_address_and_website_formatting():
 
 
 def test_quiet_is_never_claimed():
+    # quietness checks are independent of hedges (review P1-2)
     reason = "Тихое и уютное место. Тишина здесь не подтверждена данными. Есть кофе."
     v = validate_output(out(r("C1", reason=reason)), FACTS)
-    assert v.items[0].reason == "Тишина здесь не подтверждена данными. Есть кофе."
+    assert v.items[0].reason == "Есть кофе."
+
+
+# ---------------------------------------------------------------- review P1-2 counter-examples
+
+FACTS_P12 = [
+    CandidateFacts(
+        "C1",
+        "id-cafe",
+        "SYNTHETIC Кафе",
+        set(),
+        "open",
+        grounding="кафе. кофе.",
+        opening_hours_raw="Mo-Su 08:00-22:00",
+    ),
+    CandidateFacts(
+        "C2", "id-24", "SYNTHETIC Кофейня", set(), "open", grounding="кафе.", opening_hours_raw="24/7"
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [
+        "Здесь есть розетки и быстрый Wi-Fi, уточните у бариста.",
+        "Кафе открыто до ночи и очень тихое, детали не гарантированы.",
+        "Есть бесплатная парковка и детское меню; часы не указаны.",
+        "Работает круглосуточно, но это не подтверждено.",
+        "Есть розетки, но это стоит уточнить.",
+    ],
+)
+def test_P1_2_hedge_word_does_not_disable_checks(bad):
+    v = validate_output(out(r("C1", reason=bad + " Можно выпить кофе.")), FACTS_P12)
+    assert v.items[0].reason == "Можно выпить кофе.", (bad, v.issues)
+
+
+def test_P1_2_hedge_about_the_feature_itself_is_allowed():
+    v = validate_output(out(r("C1", reason="Наличие розеток не подтверждено. Можно выпить кофе.")), FACTS_P12)
+    assert v.items[0].reason == "Наличие розеток не подтверждено. Можно выпить кофе."
+    v2 = validate_output(out(r("C1", reason="Про Wi-Fi нет данных. Можно выпить кофе.")), FACTS_P12)
+    assert v2.items[0].reason.startswith("Про Wi-Fi нет данных")
+
+
+def test_P1_2_round_the_clock_only_for_raw_24_7():
+    v = validate_output(out(r("C2", reason="Работает круглосуточно.")), FACTS_P12)
+    assert v.items[0].reason == "Работает круглосуточно."
+    with pytest.raises(LLMOutputInvalid):
+        validate_output(out(r("C1", reason="Работает круглосуточно.")), FACTS_P12)

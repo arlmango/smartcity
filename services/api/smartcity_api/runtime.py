@@ -104,6 +104,15 @@ class Container:
     probes: ProbeCache = field(default_factory=ProbeCache)
     llm_breaker: CircuitBreaker = field(default_factory=CircuitBreaker)
     embed_breaker: CircuitBreaker = field(default_factory=CircuitBreaker)
+    # Concurrency slots for CPU inference; created from settings when not given.
+    llm_slots: threading.BoundedSemaphore | None = None
+    embed_slots: threading.BoundedSemaphore | None = None
+
+    def __post_init__(self) -> None:
+        if self.llm_slots is None:
+            self.llm_slots = threading.BoundedSemaphore(self.settings.ai_max_concurrency)
+        if self.embed_slots is None:
+            self.embed_slots = threading.BoundedSemaphore(self.settings.embedding_max_concurrency)
 
 
 def build_container(settings: Settings) -> Container:

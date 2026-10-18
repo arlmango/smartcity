@@ -12,6 +12,7 @@ import asyncio
 import copy
 import json
 import logging
+import threading
 import time
 import uuid
 from collections import Counter
@@ -86,6 +87,7 @@ from smartcity_api.services.enrich import (
 
 log = logging.getLogger("smartcity.recommend")
 
+LLM_BUSY_MSG = "ИИ сейчас занят другим запросом — показаны найденные места без объяснений ИИ"
 LLM_UNAVAILABLE_MSG = "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений"
 MAX_RESULTS = 3
 
@@ -689,6 +691,16 @@ def _semantic(container: Container, prep: Prepared, session, query_text: str, id
             )
         )
         return {}
+    assert container.embed_slots is not None
+    if not container.embed_slots.acquire(timeout=container.settings.embedding_queue_wait_seconds):
+        prep.semantic_status = "unavailable"
+        prep.warnings.append(
+            Warning(
+                code="embeddings_busy",
+                message="Семантический поиск занят другими запросами — ранжирование по тексту и расстоянию",
+            )
+        )
+        return {}
     try:
         vec = emb.embed([query_text], kind="query")[0]
         container.embed_breaker.success()
@@ -704,6 +716,8 @@ def _semantic(container: Container, prep: Prepared, session, query_text: str, id
         )
         log.warning("embedding failed", extra={"event": "embeddings_failed", "detail": e.code})
         return {}
+    finally:
+        container.embed_slots.release()
     if len(vec) != ident.dim:
         prep.semantic_status = "mismatch"
         prep.warnings.append(
@@ -725,7 +739,9 @@ def _semantic(container: Container, prep: Prepared, session, query_text: str, id
 async def cancellable(fn: Callable[[], str], is_disconnected: IsDisconnected, poll_s: float = 0.25) -> str:
     """Run a blocking provider call in a thread; stop waiting if the client disconnects.
 
-    The provider call itself ends at its own timeout; its result is discarded.
+    The provider call itself ends at its own timeout and its result is discarded. The worker is
+    never cancelled before it starts, so wrappers that release a concurrency slot in `finally`
+    always run.
     """
     task = asyncio.ensure_future(asyncio.to_thread(fn))
     while True:
@@ -733,8 +749,35 @@ async def cancellable(fn: Callable[[], str], is_disconnected: IsDisconnected, po
         if done:
             return task.result()
         if is_disconnected is not None and await is_disconnected():
-            task.cancel()
+            task.add_done_callback(lambda t: t.exception() if not t.cancelled() else None)
             raise ClientDisconnected()
+
+
+async def acquire_slot(
+    sem: threading.BoundedSemaphore, wait_s: float, is_disconnected: IsDisconnected, poll_s: float = 0.1
+) -> bool:
+    """Non-blocking polling acquire (never leaks a slot if the waiter is cancelled)."""
+    deadline = time.monotonic() + wait_s
+    while True:
+        if sem.acquire(blocking=False):
+            return True
+        if time.monotonic() >= deadline:
+            return False
+        if is_disconnected is not None and await is_disconnected():
+            raise ClientDisconnected()
+        await asyncio.sleep(poll_s)
+
+
+def released_after(fn: Callable[[], str], sem: threading.BoundedSemaphore) -> Callable[[], str]:
+    """Wrap a provider call so the slot is released when the call ends (success, error, timeout)."""
+
+    def run() -> str:
+        try:
+            return fn()
+        finally:
+            sem.release()
+
+    return run
 
 
 def _facts(cands: list[Candidate]) -> tuple[list[PromptCandidate], list[CandidateFacts]]:
@@ -770,6 +813,7 @@ def _facts(cands: list[Candidate]) -> tuple[list[PromptCandidate], list[Candidat
                 grounding=" ".join(
                     [c.place.description, c.place.subcategory, category_label(c.place.category)]
                 ).lower(),
+                opening_hours_raw=c.place.opening_hours_raw,
             )
         )
     return pcs, facts
@@ -818,9 +862,13 @@ async def generate(container: Container, prep: Prepared, is_disconnected: IsDisc
                 timeout=timeout,
             )
 
+        assert container.llm_slots is not None
+        if not await acquire_slot(container.llm_slots, s.ai_queue_wait_seconds, is_disconnected):
+            out.failure = "llm_busy"
+            return out
         out.attempts += 1
         try:
-            raw = await cancellable(call, is_disconnected)
+            raw = await cancellable(released_after(call, container.llm_slots), is_disconnected)
         except ProviderError as e:
             container.llm_breaker.failure()
             container.probes.invalidate("llm")
@@ -996,7 +1044,10 @@ async def recommend(
             gen_identity=outcome.identity,
         )
     else:
-        prep.warnings.insert(0, Warning(code="llm_unavailable", message=LLM_UNAVAILABLE_MSG))
+        if outcome.failure == "llm_busy":
+            prep.warnings.insert(0, Warning(code="llm_busy", message=LLM_BUSY_MSG))
+        else:
+            prep.warnings.insert(0, Warning(code="llm_unavailable", message=LLM_UNAVAILABLE_MSG))
         groups, caps = diversity_groups(prep.ranked, prep.eff)
         keys = diversify([c.pid for c in prep.ranked], groups, n=MAX_RESULTS, max_per_category=2, caps=caps)
         rk = {c.pid: c for c in prep.ranked}
@@ -1008,7 +1059,7 @@ async def recommend(
             status="degraded",
             mode="retrieval_only",
             recs=cards,
-            message=LLM_UNAVAILABLE_MSG + ".",
+            message=(LLM_BUSY_MSG if outcome.failure == "llm_busy" else LLM_UNAVAILABLE_MSG) + ".",
             gen_identity=outcome.identity,
         )
     _log(prep, resp, outcome)
