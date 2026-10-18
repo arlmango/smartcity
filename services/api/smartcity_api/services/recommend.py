@@ -291,12 +291,11 @@ def build_relaxations(prep: Prepared, pool: list[Candidate], speed: float, detou
                 )
             )
     if eff.must_be_open[0]:
-        v = _variant(eff, must_be_open=(False, "ui"))
+        dropped = [*eff.dropped, "must_be_open"] if eff.must_be_open[1] == "text" else eff.dropped
+        v = _variant(eff, must_be_open=(False, "ui"), dropped=dropped)
         n = count(v)
         if n:
             msg = "Показать места с неизвестными часами работы (проверьте часы перед выходом)"
-            if eff.must_be_open[1] == "text":
-                msg += "; уберите «открыто» из текста запроса"
             out.append((n, Relaxation(code="drop_must_be_open", message=msg, patch=v.to_constraints())))
     if eff.max_distance_m[0] is not None:
         wider = int(min(10000, max(eff.max_distance_m[0] * 2, round(prep.reach_radius_m / 100 + 0.5) * 100)))
@@ -314,9 +313,9 @@ def build_relaxations(prep: Prepared, pool: list[Candidate], speed: float, detou
                         ),
                     )
                 )
-    ui_includes = {c for c, s in eff.include_categories.items() if s == "ui"}
-    if ui_includes:
-        v = _variant(eff, include_categories={c: s for c, s in eff.include_categories.items() if s != "ui"})
+    if eff.include_categories:
+        text_inc = [f"include_category:{c}" for c, s in eff.include_categories.items() if s == "text"]
+        v = _variant(eff, include_categories={}, dropped=[*eff.dropped, *text_inc])
         n = count(v)
         if n:
             out.append(

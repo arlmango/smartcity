@@ -51,6 +51,12 @@ export type LatLon = z.infer<typeof LatLonSchema>;
 
 // ------------------------------------------------------------- recommend: request
 
+export const DroppedCodeSchema = z
+  .string()
+  .regex(
+    /^(must_be_open|max_distance|(include_category|exclude_category):(cafe|food|park|culture|attraction|playground|mall)|required_feature:(socket|wifi|outdoor_seating|wheelchair|indoor|kids))$/,
+  );
+
 export const ConstraintsSchema = z
   .object({
     required_features: z.array(FeatureSchema).max(6).default([]),
@@ -60,6 +66,8 @@ export const ConstraintsSchema = z
     must_be_open: z.boolean().default(false),
     max_distance_m: int.min(100).max(10000).nullable().default(null),
     exclude_place_ids: z.array(z.string()).max(20).default([]),
+    // Text-derived hard conditions the user dropped via a relaxation (server re-sends them in patches).
+    dropped_text_constraints: z.array(DroppedCodeSchema).max(20).default([]),
   })
   .strict();
 export type Constraints = z.infer<typeof ConstraintsSchema>;
@@ -308,4 +316,5 @@ export const EMPTY_CONSTRAINTS: Constraints = {
   must_be_open: false,
   max_distance_m: null,
   exclude_place_ids: [],
+  dropped_text_constraints: [],
 };

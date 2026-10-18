@@ -295,3 +295,25 @@ def test_diversify_caps_and_rrf():
     fused = rrf_fuse({"lexical": (1.0, ["b", "a"]), "distance": (0.5, ["a", "b"])}, ["a", "b"])
     assert [s.key for s in fused] == ["b", "a"]
     assert fused[0].rrf == pytest.approx(1 / 61 + 0.5 / 62)
+
+
+def test_dropped_text_constraints_are_not_re_added_from_text():
+    req = _req("только парк, чтобы было открыто, поближе, без кафе")
+    eff = merge(req, parse_query(req.query))
+    assert eff.must_be_open == (True, "text") and "park" in eff.include_categories
+    assert eff.max_distance_m[1] == "text" and "cafe" in eff.exclude_categories
+    req2 = _req(
+        req.query,
+        dropped_text_constraints=["must_be_open", "include_category:park", "max_distance", "exclude_category:cafe"],
+    )
+    eff2 = merge(req2, parse_query(req2.query))
+    assert eff2.must_be_open[0] is False
+    assert not eff2.include_categories and not eff2.exclude_categories
+    assert eff2.max_distance_m == (None, "ui")
+    # the resend patch keeps the dropped list so later turns stay consistent
+    assert set(eff2.to_constraints().dropped_text_constraints) == set(req2.constraints.dropped_text_constraints)
+
+
+def test_dropped_text_constraint_codes_are_validated():
+    with pytest.raises(ValueError):
+        _req("", dropped_text_constraints=["required_feature:jetpack"])

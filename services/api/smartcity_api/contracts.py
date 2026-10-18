@@ -29,6 +29,13 @@ ResponseStatus = Literal["ok", "no_match", "needs_clarification", "degraded"]
 ResponseMode = Literal["live_rag", "retrieval_only"]
 ConstraintSource = Literal["ui", "text"]
 
+DroppedCode = Annotated[
+    str,
+    StringConstraints(
+        pattern=r"^(must_be_open|max_distance|(include_category|exclude_category):(cafe|food|park|culture|"
+        r"attraction|playground|mall)|required_feature:(socket|wifi|outdoor_seating|wheelchair|indoor|kids))$"
+    ),
+]
 ClientRequestId = Annotated[str, StringConstraints(pattern=r"^[A-Za-z0-9_-]{8,64}$")]
 
 
@@ -61,6 +68,10 @@ class Constraints(StrictModel):
     must_be_open: bool = False  # open on arrival and for the whole visit (unknown hours excluded)
     max_distance_m: int | None = Field(default=None, ge=100, le=10000)  # "поближе"
     exclude_place_ids: list[str] = Field(default_factory=list, max_length=20)  # "другие варианты"
+    # Text-derived hard conditions the user explicitly dropped (via a relaxation), so the text parser
+    # does not re-add them on resend. Codes: "must_be_open", "max_distance",
+    # "include_category:<category>", "exclude_category:<category>", "required_feature:<feature>".
+    dropped_text_constraints: list[DroppedCode] = Field(default_factory=list, max_length=20)
 
 
 class ConversationTurn(StrictModel):

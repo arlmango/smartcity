@@ -296,6 +296,7 @@ export function noMatchResponse(clientRequestId: string): RecommendResponse {
           must_be_open: false,
           max_distance_m: null,
           exclude_place_ids: [],
+          dropped_text_constraints: [],
         },
       },
     ],

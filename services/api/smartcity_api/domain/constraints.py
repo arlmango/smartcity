@@ -29,6 +29,7 @@ class Effective:
     must_be_open: tuple[bool, str] = (False, "ui")
     max_distance_m: tuple[int | None, str] = (None, "ui")
     exclude_place_ids: list[str] = field(default_factory=list)
+    dropped: list[str] = field(default_factory=list)  # text-derived conditions dropped by the user
     soft_categories: list[str] = field(default_factory=list)
     quiet: bool = False
     conflicts: list[str] = field(default_factory=list)  # Russian clarification questions
@@ -121,6 +122,7 @@ class Effective:
             must_be_open=self.must_be_open[0],
             max_distance_m=self.max_distance_m[0],
             exclude_place_ids=list(self.exclude_place_ids),
+            dropped_text_constraints=list(self.dropped),  # type: ignore[arg-type]
         )
 
 
@@ -130,9 +132,13 @@ def merge(req: RecommendRequest, parsed: ParsedQuery) -> Effective:
 
     for uf in ui.required_features:
         eff.required_features[uf] = "ui"
+    dropped = set(ui.dropped_text_constraints)
+    eff.dropped = list(ui.dropped_text_constraints)
     for f in parsed.required_features:
         # UI explicitly marked it as a mere preference (e.g. after a relaxation) -> UI wins.
-        if f not in eff.required_features and f not in ui.preferred_features:
+        if f in eff.required_features or f in ui.preferred_features:
+            continue
+        if f"required_feature:{f}" not in dropped:
             eff.required_features[f] = "text"
     prefs: list[str] = []
     for pf in [*ui.preferred_features, *parsed.preferred_features]:
@@ -147,20 +153,22 @@ def merge(req: RecommendRequest, parsed: ParsedQuery) -> Effective:
     for uc in ui.include_categories:
         eff.include_categories[uc] = "ui"
     for c in parsed.include_categories:
-        eff.include_categories.setdefault(c, "text")
+        if f"include_category:{c}" not in dropped:
+            eff.include_categories.setdefault(c, "text")
     for ue in ui.exclude_categories:
         eff.exclude_categories[ue] = "ui"
     for c in parsed.exclude_categories:
-        eff.exclude_categories.setdefault(c, "text")
+        if f"exclude_category:{c}" not in dropped:
+            eff.exclude_categories.setdefault(c, "text")
 
     if ui.must_be_open:
         eff.must_be_open = (True, "ui")
-    elif parsed.must_be_open:
+    elif parsed.must_be_open and "must_be_open" not in dropped:
         eff.must_be_open = (True, "text")
 
     if ui.max_distance_m is not None:
         eff.max_distance_m = (ui.max_distance_m, "ui")
-    elif parsed.near:
+    elif parsed.near and "max_distance" not in dropped:
         eff.max_distance_m = (NEAR_RADIUS_M, "text")
 
     eff.exclude_place_ids = list(ui.exclude_place_ids)

@@ -83,6 +83,15 @@
         "additionalProperties": false,
         "description": "Explicit user controls. These are the source of truth and override LLM guesses.",
         "properties": {
+          "dropped_text_constraints": {
+            "items": {
+              "pattern": "^(must_be_open|max_distance|(include_category|exclude_category):(cafe|food|park|culture|attraction|playground|mall)|required_feature:(socket|wifi|outdoor_seating|wheelchair|indoor|kids))$",
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Dropped Text Constraints",
+            "type": "array"
+          },
           "exclude_categories": {
             "items": {
               "enum": [
