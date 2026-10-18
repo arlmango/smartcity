@@ -25,6 +25,9 @@ make index                  # embeddings мест (инкрементально)
 make up                     # db + api + web в Docker, ожидание healthcheck
 open http://localhost:3000
 ```
+За TLS-перехватывающим прокси (например, в песочнице CI) сборке образов нужен CA и прокси:
+`export COMPOSE_FILE=docker-compose.yml:infra/compose.build-proxy.yml BUILD_CA_BUNDLE=/path/ca.crt` перед `make up`.
+
 Без локальных моделей можно указать уже доступный OpenAI-compatible endpoint в `.env`
 (`AI_PROVIDER=openai_compatible`, `AI_BASE_URL`, `AI_API_KEY`, то же для `EMBEDDING_*`).
 Без AI приложение работает в режиме «ИИ временно недоступен» (поиск без сгенерированных объяснений).

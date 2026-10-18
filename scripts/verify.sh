@@ -17,6 +17,7 @@ step() {
   printf '%s\t%s\t%s\n' "$name" "$rc" "$out/$name.log" >> "$out/summary.tsv"
   if [[ $rc -ne 0 ]]; then overall=1; log "   FAIL ($rc) see $out/$name.log"; tail -15 "$out/$name.log"; else log "   ok"; fi
 }
+export SMARTCITY_REQUIRE_DB=1  # DB-backed tests must fail, not skip, when the DB is missing
 docker compose up -d --wait db >/dev/null 2>&1 || log "warning: could not start db (integration tests will fail)"
 step py-lint        uv run ruff check services scripts
 step py-format      uv run ruff format --check services scripts

@@ -41,6 +41,8 @@ jobs:
             DATABASE_URL=postgresql+psycopg://smartcity:smartcity@localhost:5433/$db uv run alembic upgrade head
           done
       - run: uv run pytest services/api/tests services/ingest/tests -m "not live" -q
+        env:
+          SMARTCITY_REQUIRE_DB: "1"
       - run: uv run python -m smartcity_api.export_openapi --check
 
   frontend:
@@ -91,7 +93,7 @@ jobs:
         with:
           version: "0.11.32"
       - run: uv run --no-project python scripts/secret_scan.py
-      - run: uvx pip-audit==2.9.0 -r <(uv export --frozen --all-packages --no-hashes --no-emit-workspace) || echo "pip-audit findings are reported above"
+      - run: uvx pip-audit==2.9.0 -r <(uv export --frozen --all-packages --no-hashes --no-emit-workspace)
       - uses: actions/setup-node@v4
         with:
           node-version: 22

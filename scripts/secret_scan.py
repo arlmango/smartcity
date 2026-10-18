@@ -38,9 +38,13 @@ def main() -> int:
         if p.suffix.lower() in SKIP_SUFFIXES or not p.is_file() or p.stat().st_size > 5_000_000:
             continue
         text = p.read_text(errors="ignore")
+        lines = text.splitlines()
         for name, rx in PATTERNS.items():
             for m in rx.finditer(text):
                 line = text.count("\n", 0, m.start()) + 1
+                # Explicitly fake test values may be allowlisted on the same line (reviewed in diff).
+                if "secret-scan: allow" in lines[line - 1]:
+                    continue
                 findings.append(f"{rel}:{line}: {name}")
     env_example = root / ".env.example"
     if env_example.exists():

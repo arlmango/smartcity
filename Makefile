@@ -27,11 +27,14 @@ index: ## Incremental embeddings index for active places (real embedding provide
 dev: ## Run API (:8000) and web (:3000) locally with hot reload against compose db
 	@scripts/dev.sh
 
-up: ## Build and start db+api+web containers and wait for health
-	$(COMPOSE) up -d --build --wait db api web
+up: ## Build and start db+api+web (+ ollama when AI_PROVIDER=ollama) and wait for health
+	@set -a; [ -f .env ] && . ./.env; set +a; \
+	if [ "$${AI_PROVIDER:-ollama}" = "ollama" ] || [ "$${EMBEDDING_PROVIDER:-ollama}" = "ollama" ]; then \
+	  $(COMPOSE) --profile ollama up -d --build --wait db ollama api web; \
+	else $(COMPOSE) up -d --build --wait db api web; fi
 
-down: ## Stop containers (volumes are kept)
-	$(COMPOSE) down
+down: ## Stop containers incl. the ollama profile (volumes are kept)
+	$(COMPOSE) --profile ollama down
 
 logs: ## Follow container logs
 	$(COMPOSE) logs -f --tail=100

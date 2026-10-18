@@ -4,6 +4,6 @@ source "$(dirname "$0")/lib.sh"
 docker compose up -d --wait db
 (cd services/api && uv run alembic upgrade head)
 trap 'kill 0' EXIT
-(cd services/api && uv run uvicorn smartcity_api.main:app --host 127.0.0.1 --port "${API_PORT:-8000}" --reload) &
+(cd services/api && uv run uvicorn smartcity_api.main:app --host 127.0.0.1 --port "${API_PORT:-8000}" --reload --no-access-log) &
 (cd apps/web && API_INTERNAL_URL="http://127.0.0.1:${API_PORT:-8000}" pnpm exec next dev -p "${WEB_PORT:-3000}") &
 wait
