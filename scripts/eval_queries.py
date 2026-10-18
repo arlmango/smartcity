@@ -179,7 +179,8 @@ def main() -> int:
                 }
             )
             print(
-                f"{q['id']} {resp['status']:<20} {resp['mode']:<14} {dt:>6}s viol={len(violations)} miss={len(misses)}"
+                f"{q['id']} {resp['status']:<20} {resp['mode']:<14} {dt:>6}s "
+                f"viol={len(violations)} miss={len(misses)}"
             )
     (out / "results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2))
     total_v = sum(len(x["violations"]) for x in results)
