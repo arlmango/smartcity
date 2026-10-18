@@ -245,3 +245,26 @@ def test_P1_2_round_the_clock_only_for_raw_24_7():
     assert v.items[0].reason == "Работает круглосуточно."
     with pytest.raises(LLMOutputInvalid):
         validate_output(out(r("C1", reason="Работает круглосуточно.")), FACTS_P12)
+
+
+def test_reason_contradicting_return_to_start_is_removed():
+    # QA P1-02: live S1 (return on) produced "не требующим возвращения в точку старта"
+    bad = "Это место подходит для прогулки, не требующей возвращения в точку старта."
+    v = validate_output(out(r("C2", reason=bad + " Здесь можно пройтись.")), FACTS, return_to_start=True)
+    assert "возвращ" not in v.items[0].reason and "removed_contradiction:return_to_start" in v.issues
+    ok = validate_output(out(r("C2", reason=bad)), FACTS, return_to_start=False)
+    assert "возвращ" in ok.items[0].reason
+    v2 = validate_output(
+        out(r("C2", reason="Можно пройтись и вернуться обратно. Хорошее место.")),
+        FACTS,
+        return_to_start=False,
+    )
+    assert "вернуться" not in v2.items[0].reason
+
+
+def test_outdoor_seat_claim_without_evidence_is_removed():
+    # QA P2-08: eval H03 "место на улице" for a cafe with unknown outdoor_seating
+    v = validate_output(
+        out(r("C1", reason="Есть место на улице, где можно посидеть. Удобно для встречи.")), FACTS
+    )
+    assert "на улице" not in v.items[0].reason and "removed_unverified_claim:outdoor_seating" in v.issues

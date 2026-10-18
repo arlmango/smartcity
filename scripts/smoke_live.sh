@@ -18,8 +18,12 @@ sys.exit(1 if bad else 0)
 PY
 overall=0
 log "== api live scenarios (pytest -m live)"
-SMARTCITY_LIVE_API_URL="$API" SMARTCITY_LIVE_ARTIFACTS="$out" uv run pytest services/api/tests -m live -q -p no:cacheprovider > "$out/pytest-live.log" 2>&1; rc=$?
+RUN_LIVE=1 SMARTCITY_LIVE_API_URL="$API" SMARTCITY_LIVE_ARTIFACTS="$out" uv run pytest services/api/tests -m live -q -p no:cacheprovider > "$out/pytest-live.log" 2>&1; rc=$?
 echo "pytest-live exit=$rc"; [[ $rc -eq 0 ]] || overall=1
+# Live tests must actually run: a run with skips is not a live PASS.
+if grep -qE "[0-9]+ skipped" "$out/pytest-live.log" || ! grep -qE "[0-9]+ passed" "$out/pytest-live.log"; then
+  echo "pytest-live: tests were skipped or none passed -> FAIL"; overall=1
+fi
 log "== browser live scenarios (Playwright, no mocks)"
 (cd apps/web && SMARTCITY_LIVE_WEB_URL="$WEB" SMARTCITY_LIVE_ARTIFACTS="$ROOT/$out" pnpm exec playwright test -c playwright.live.config.ts) > "$out/playwright-live.log" 2>&1; rc=$?
 echo "playwright-live exit=$rc"; [[ $rc -eq 0 ]] || overall=1

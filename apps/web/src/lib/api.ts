@@ -118,8 +118,12 @@ export async function getMapLayer(layer: MapLayer, signal?: AbortSignal): Promis
   }
 }
 
-/** Long call (local CPU model: 30–90 s). Hard client timeout 150 s, cancellable via signal. */
-export async function postRecommend(req: RecommendRequest, signal: AbortSignal, timeoutMs = 150_000): Promise<RecommendResponse> {
+/**
+ * Long call (local CPU model: 30–190 s). Client timeout 220 s — above the web proxy (210 s) and the
+ * API REQUEST_TIMEOUT_SECONDS (200 s), so the server's own timeout/degradation answer arrives first.
+ * Cancellable via signal.
+ */
+export async function postRecommend(req: RecommendRequest, signal: AbortSignal, timeoutMs = 220_000): Promise<RecommendResponse> {
   const body = RecommendRequestSchema.parse(req);
   const timeout = new AbortController();
   const timer = setTimeout(() => timeout.abort(), timeoutMs);
@@ -138,7 +142,7 @@ export async function postRecommend(req: RecommendRequest, signal: AbortSignal, 
     return resp;
   } catch (e) {
     if (e instanceof ApiError && e.kind === "aborted" && !signal.aborted) {
-      throw new ApiError("timeout", "Сервер не ответил за 150 секунд.");
+      throw new ApiError("timeout", "Сервер не ответил за 220 секунд.");
     }
     throw e;
   } finally {

@@ -486,7 +486,8 @@ def test_T04_no_candidates(make_client):
     c = make_client(generator=None)
     _, j = post(c, body({"lat": 51.0785, "lon": 71.3955}, time_budget_min=10))
     assert j["status"] == "no_match" and j["recommendations"] == []
-    assert "радиусе досягаемости" in j["message"]
+    # 10 min with return: reach radius is ~0 m -> explain the budget instead of "около 0 м" (QA P3)
+    assert "Бюджета времени не хватает" in j["message"] and "около 0 м" not in j["message"]
 
 
 def test_T04_empty_database(make_client, engine, origin):

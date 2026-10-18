@@ -45,7 +45,10 @@ _ALWAYS_OPEN_RE = re.compile(r"круглосуточн|24\s*/\s*7|24\s*часа
 FEATURE_CLAIM_RE: dict[str, re.Pattern[str]] = {
     "socket": re.compile(r"розетк|зарядит|подзаряд|зарядк", re.IGNORECASE),
     "wifi": re.compile(r"wi-?\s?fi|вай-?\s?фай|интернет", re.IGNORECASE),
-    "outdoor_seating": re.compile(r"веранд|террас|летн\w* площадк|столик\w* на улице", re.IGNORECASE),
+    "outdoor_seating": re.compile(
+        r"веранд|террас|летн\w* площадк|столик\w* на улице|мест\w* на улице|(?:по)?сидеть на улице",
+        re.IGNORECASE,
+    ),
     "wheelchair": re.compile(r"колясочн|инвалид|пандус|маломобил|безбарьер", re.IGNORECASE),
     "indoor": re.compile(r"в помещени|под крыш|в здании|внутри (?:помещ|здан|торгов|тц)", re.IGNORECASE),
     "kids": re.compile(r"\bдет(и|ей|ям|ьми|ск\w*)\b|реб[её]н|малыш", re.IGNORECASE),
@@ -83,6 +86,15 @@ GROUNDED_TERMS: tuple[str, ...] = (
     "вход свободн",
 )
 _QUIET_CLAIM_RE = re.compile(r"\bтих\w*|тишин|спокойн|уютн|малолюдн|немноголюдн|без шума", re.IGNORECASE)
+# Statements that contradict the user's return_to_start control (budget includes / excludes return).
+_NO_RETURN_RE = re.compile(
+    r"не\s+(?:требу\w*|нужно|надо|обязательно|придётся|придется)\s+(?:\w+\s+)?возвращ|без\s+возвращ|"
+    r"в одну сторону|не\s+возвращ",
+    re.IGNORECASE,
+)
+_WITH_RETURN_RE = re.compile(
+    r"с возвращением|вернуться (?:в точку|обратно|назад|к началу)|обратн\w* путь", re.IGNORECASE
+)
 _OPEN_CLAIM_RE = re.compile(r"открыт|работает|работают|до ночи|допоздна|до утра", re.IGNORECASE)
 
 
@@ -112,7 +124,13 @@ class ValidOutput:
 
 
 def _sanitize(
-    text: str, facts: CandidateFacts | None, issues: list[str], *, all_verified: set[str], names: list[str]
+    text: str,
+    facts: CandidateFacts | None,
+    issues: list[str],
+    *,
+    all_verified: set[str],
+    names: list[str],
+    return_to_start: bool | None = None,
 ) -> str:
     kept = []
     for sent in _SENT_SPLIT.split(text.strip()):
@@ -150,6 +168,13 @@ def _sanitize(
         if not bad_claim and not status_open and _OPEN_CLAIM_RE.search(s):
             bad_claim = True
             issues.append("removed_unverified_claim:open")
+        # 2b. The model must not contradict the return_to_start control.
+        if not bad_claim and return_to_start is True and _NO_RETURN_RE.search(s):
+            bad_claim = True
+            issues.append("removed_contradiction:return_to_start")
+        if not bad_claim and return_to_start is False and _WITH_RETURN_RE.search(s):
+            bad_claim = True
+            issues.append("removed_contradiction:no_return")
         # 3. Quietness: OSM has no such data at all.
         if not bad_claim and _QUIET_CLAIM_RE.search(s):
             bad_claim = True
@@ -190,7 +215,9 @@ def _mostly_russian(text: str, names: list[str]) -> bool:
     return cyr > 0 and lat <= cyr * 0.3
 
 
-def validate_output(raw: str, candidates: list[CandidateFacts]) -> ValidOutput:
+def validate_output(
+    raw: str, candidates: list[CandidateFacts], *, return_to_start: bool | None = None
+) -> ValidOutput:
     try:
         data = json.loads(raw)
     except (ValueError, TypeError) as e:
@@ -228,7 +255,10 @@ def validate_output(raw: str, candidates: list[CandidateFacts]) -> ValidOutput:
         if activity is not None and not isinstance(activity, str):
             activity = None
         reason_c = _truncate(
-            _sanitize(reason, facts, issues, all_verified=all_verified, names=names), MAX_REASON
+            _sanitize(
+                reason, facts, issues, all_verified=all_verified, names=names, return_to_start=return_to_start
+            ),
+            MAX_REASON,
         )
         if not reason_c or not _mostly_russian(reason_c, names):
             issues.append("reason_rejected")
@@ -236,7 +266,15 @@ def validate_output(raw: str, candidates: list[CandidateFacts]) -> ValidOutput:
         activity_c = None
         if activity and activity.strip():
             activity_c = _truncate(
-                _sanitize(activity, facts, issues, all_verified=all_verified, names=names), MAX_ACTIVITY
+                _sanitize(
+                    activity,
+                    facts,
+                    issues,
+                    all_verified=all_verified,
+                    names=names,
+                    return_to_start=return_to_start,
+                ),
+                MAX_ACTIVITY,
             )
             if not activity_c or not _mostly_russian(activity_c, names):
                 activity_c = None
@@ -254,7 +292,13 @@ def validate_output(raw: str, candidates: list[CandidateFacts]) -> ValidOutput:
         chosen = [by_alias[a] for a in by_alias if by_alias[a].place_id in seen]
         common = set.intersection(*(c.verified_features for c in chosen)) if chosen else set()
         msg_c = (
-            _truncate(_sanitize(message, None, issues, all_verified=common, names=names), MAX_MESSAGE) or None
+            _truncate(
+                _sanitize(
+                    message, None, issues, all_verified=common, names=names, return_to_start=return_to_start
+                ),
+                MAX_MESSAGE,
+            )
+            or None
         )
         if msg_c and not _mostly_russian(msg_c, names):
             msg_c = None

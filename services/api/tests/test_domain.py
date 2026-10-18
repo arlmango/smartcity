@@ -292,6 +292,12 @@ def test_diversify_caps_and_rrf():
         "c",
     ]
     assert diversify(order, groups, n=3, max_per_category=3) == ["g1", "g2", "g3"]
+    # QA P2-04: the back-fill must not exceed hard caps when few named places exist
+    only = {"g1": "generic:playground", "g2": "generic:playground", "p": "park"}
+    assert diversify(["g1", "g2", "p"], only, n=3, max_per_category=1, caps={"generic:playground": 1}) == [
+        "g1",
+        "p",
+    ]
     fused = rrf_fuse({"lexical": (1.0, ["b", "a"]), "distance": (0.5, ["a", "b"])}, ["a", "b"])
     assert [s.key for s in fused] == ["b", "a"]
     assert fused[0].rrf == pytest.approx(1 / 61 + 0.5 / 62)

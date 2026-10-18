@@ -278,3 +278,20 @@ def test_coverage_default_origin_from_landmark_manifest(make_client, tmp_path):
     j = make_client(data_dir=tmp_path).get("/api/coverage").json()
     assert j["default_origin"] == {"lat": 51.093, "lon": 71.42}
     assert "way/1" in j["default_origin_label"] and "район EXPO" in j["default_origin_label"]
+
+
+def test_chunked_oversized_body_gets_413(make_client):
+    # QA P3: a body without content-length must also be answered with 413, not 400
+    c = make_client(max_body_bytes=2048)
+
+    def gen():
+        for _ in range(10):
+            yield b"x" * 1024
+
+    r = c.post("/api/recommend", content=gen(), headers={"content-type": "application/json"})
+    assert r.status_code == 413 and r.json()["error"] == "payload_too_large"
+
+
+def test_interactive_docs_disabled_by_default(make_client):
+    c = make_client()
+    assert c.get("/docs").status_code == 404 and c.get("/openapi.json").status_code == 404

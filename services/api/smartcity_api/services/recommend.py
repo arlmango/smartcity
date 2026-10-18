@@ -337,7 +337,11 @@ def build_relaxations(prep: Prepared, pool: list[Candidate], speed: float, detou
 def no_match_message(prep: Prepared) -> str:
     ex = prep.exclusions
     parts = ["Подходящих мест не нашлось."]
-    if prep.shortlist_size == 0:
+    if prep.shortlist_size == 0 and prep.reach_radius_m < 50:
+        parts.append(
+            "Бюджета времени не хватает даже на дорогу, минимальный визит и запас — увеличьте время."
+        )
+    elif prep.shortlist_size == 0:
         parts.append(
             f"В радиусе досягаемости (около {int(prep.reach_radius_m)} м по прямой) в нашей базе нет мест."
         )
@@ -875,7 +879,7 @@ async def generate(container: Container, prep: Prepared, is_disconnected: IsDisc
             out.failure = e.code
             return out
         try:
-            out.output = validate_output(raw, facts)
+            out.output = validate_output(raw, facts, return_to_start=prep.req.return_to_start)
             out.issues += out.output.issues
             container.llm_breaker.success()
             return out

@@ -32,7 +32,7 @@ step secret-scan    uv run python scripts/secret_scan.py
 step contracts-sync bash -c "uv run python -m smartcity_api.export_openapi --check"
 {
   echo "commit: $commit$dirty"; echo "date: $(date -u +%FT%TZ)"
-  echo "env: $(uname -sr), $(nproc) cpu, python $(uv run python -V 2>&1 | cut -d' ' -f2), node $(node -v)"
+  echo "env: $(uname -sr), $(nproc) cpu, python $(uv run python -c 'import platform;print(platform.python_version())' 2>/dev/null), node $(node -v)"
   echo "overall_exit: $overall"
 } > "$out/env.txt"
 cat "$out/summary.tsv"; log "report: $out"

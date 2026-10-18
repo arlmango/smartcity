@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -46,6 +47,11 @@ def create_app(settings: Settings | None = None, container: Container | None = N
         title="SmartCity API",
         version="1.0.0",
         description="Grounded walk recommendations for Astana (EXPO / MEGA Silk Way area). API v1.",
+        # Interactive docs are off unless explicitly enabled (the OpenAPI snapshot lives in
+        # packages/contracts/openapi.json).
+        docs_url="/docs" if os.environ.get("API_DOCS") == "1" else None,
+        redoc_url=None,
+        openapi_url="/openapi.json" if os.environ.get("API_DOCS") == "1" else None,
     )
     app.state.container = container or build_container(settings)
 

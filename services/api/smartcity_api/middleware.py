@@ -174,6 +174,45 @@ class SmartCityMiddleware:
                 )
                 access_log()
                 return
+        if cl is None and scope.get("method") in ("POST", "PUT", "PATCH"):
+            # Chunked / undeclared body: buffer up to the limit before the app parses it, so an
+            # oversized body is answered with 413 (FastAPI would turn a mid-parse error into 400).
+            chunks: list[bytes] = []
+            total = 0
+            more = True
+            while more:
+                message = await receive()
+                if message["type"] != "http.request":
+                    break
+                chunk = message.get("body", b"")
+                total += len(chunk)
+                if total > self.max_body:
+                    await _send_json(
+                        send_wrapper,
+                        413,
+                        {
+                            "error": "payload_too_large",
+                            "message": "Слишком большой запрос",
+                            "request_id": request_id,
+                        },
+                        [],
+                    )
+                    access_log()
+                    return
+                chunks.append(chunk)
+                more = message.get("more_body", False)
+            buffered = b"".join(chunks)
+            replayed = False
+
+            async def replay_receive() -> Message:
+                nonlocal replayed
+                if not replayed:
+                    replayed = True
+                    return {"type": "http.request", "body": buffered, "more_body": False}
+                return await receive()
+
+            receive = replay_receive  # noqa: PLW2901 - the app reads the buffered body
+
         received = 0
 
         async def receive_wrapper() -> Message:

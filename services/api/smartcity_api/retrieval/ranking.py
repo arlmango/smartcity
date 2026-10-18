@@ -196,7 +196,9 @@ def diversify(
 ) -> list[str]:
     """Pick up to n keys preserving rank order, at most max_per_category per group if possible.
 
-    `caps` overrides the limit for specific groups (e.g. unnamed playgrounds when kids were not asked).
+    `caps` are hard limits for specific groups (e.g. unnamed playgrounds when kids were not asked):
+    they are respected by the back-fill as well; `max_per_category` is soft and may be exceeded
+    when there are not enough other candidates.
     """
     picked: list[str] = []
     counts: Counter[str] = Counter()
@@ -211,6 +213,8 @@ def diversify(
         for key in ordered:
             if len(picked) >= n:
                 break
-            if key not in picked:
+            group = category_of[key]
+            if key not in picked and (group not in caps or counts[group] < caps[group]):
                 picked.append(key)
+                counts[group] += 1
     return picked
