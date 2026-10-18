@@ -1,0 +1,17 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "astana-expo-mega-v1",
+        "name": "Астана: район EXPO / MEGA Silk Way и соседние кварталы",
+        "note": "Границы покрытия SmartCity v1. Координаты [longitude, latitude]. Референсный bbox [71.400,51.081,71.428,51.099] расширен соседними кварталами."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[71.390, 51.075], [71.445, 51.075], [71.445, 51.115], [71.390, 51.115], [71.390, 51.075]]]
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+# SmartCity local stack. `make up` starts db+api+web; `--profile ollama` adds a local LLM/embedding server.
+# down never removes volumes (use `docker compose down` without -v).
+name: smartcity
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: infra/docker/db.Dockerfile
+    image: smartcity-db:0.1.0
+    environment:
+      POSTGRES_USER: smartcity
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-smartcity}
+      POSTGRES_DB: smartcity
+    ports:
+      - "127.0.0.1:${DB_PORT:-5433}:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartcity -d smartcity"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  ollama:
+    profiles: ["ollama"]
+    image: ollama/ollama:0.12.6
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  api:
+    build:
+      context: .
+      dockerfile: infra/docker/api.Dockerfile
+    image: smartcity-api:0.1.0
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://smartcity:${POSTGRES_PASSWORD:-smartcity}@db:5432/smartcity
+      DATA_DIR: /app/data
+      COVERAGE_CONFIG: /app/config/coverage.geojson
+      AI_BASE_URL: ${AI_BASE_URL_DOCKER:-http://host.docker.internal:11434}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL_DOCKER:-http://host.docker.internal:11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:${API_PORT:-8000}:8000"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys;urllib.request.urlopen('http://127.0.0.1:8000/api/health',timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  web:
+    build:
+      context: .
+      dockerfile: infra/docker/web.Dockerfile
+    image: smartcity-web:0.1.0
+    environment:
+      API_INTERNAL_URL: http://api:8000
+    ports:
+      - "127.0.0.1:${WEB_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  dbdata:
+  ollama:

@@ -1,0 +1,13 @@
+{
+  "source": "OpenStreetMap API 0.6, bbox=71.400,51.081,71.428,51.099",
+  "queried_at": "2026-10-18",
+  "projection": "Local tangent plane, orthographic, 18 degree rotation, 0.56 ground foreshortening,0.88 height factor",
+  "buildings": 279,
+  "height_provenance": {
+    "height": 7,
+    "levels": 164,
+    "default": 108
+  },
+  "approximation": "OSM heights used where present; levels converted at3.3m; missing height13m or apartments28m. Spherical pavilion stylized on its actual footprint. Design only, not surveyed3D city model.",
+  "attribution": "\u00a9 OpenStreetMap contributors https://www.openstreetmap.org/copyright"
+}

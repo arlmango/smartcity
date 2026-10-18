@@ -1,0 +1,23 @@
+[project]
+name = "smartcity-ingest"
+version = "0.1.0"
+description = "SmartCity ingest: bounded OSM extract -> normalized places, map layers, embeddings."
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "smartcity-api",
+  "httpx==0.28.1",
+  "shapely==2.1.2",
+]
+
+[project.scripts]
+smartcity-ingest = "smartcity_ingest.cli:main"
+
+[tool.uv.sources]
+smartcity-api = { workspace = true }
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["smartcity_ingest"]
