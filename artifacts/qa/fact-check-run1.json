@@ -1,0 +1,85 @@
+{
+  "files": 8,
+  "recommendations_checked": 13,
+  "problems": [],
+  "rows": [
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/degraded-1440-llm-embeddings-down-banners-retrieval-only-answer-from-the-real-db-1.json",
+      "place_id": "f1d6185a-0573-42ab-8c85-e93ff1dbdc82",
+      "name": "Аллея мира и согласия",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/degraded-1440-llm-embeddings-down-banners-retrieval-only-answer-from-the-real-db-1.json",
+      "place_id": "fd35bba3-bd69-43f9-bec5-1bc892c12813",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/degraded-1440-llm-embeddings-down-banners-retrieval-only-answer-from-the-real-db-1.json",
+      "place_id": "05315db3-7d1d-41b3-9fbe-f30bc940579e",
+      "name": "25-ти летие Независимости",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-s2-coffee-quiet-socket-required-1-h-honest-no-match-relaxation-rese-2.json",
+      "place_id": "abe8ff10-b324-4b7f-a209-4f25750898e6",
+      "name": "завтрак бар",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-s2-coffee-quiet-socket-required-1-h-honest-no-match-relaxation-rese-2.json",
+      "place_id": "d75cd3c2-c9c2-42c2-9ad6-51b28ad26466",
+      "name": "Veggie House",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-s2-coffee-quiet-socket-required-1-h-honest-no-match-relaxation-rese-2.json",
+      "place_id": "f1d6185a-0573-42ab-8c85-e93ff1dbdc82",
+      "name": "Аллея мира и согласия",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-s3-one-hour-with-a-child-return-here-budget-incl-return-kids-only-w-1.json",
+      "place_id": "fd35bba3-bd69-43f9-bec5-1bc892c12813",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-s3-one-hour-with-a-child-return-here-budget-incl-return-kids-only-w-1.json",
+      "place_id": "7a24f854-b807-4b73-9d5e-03ddabab9a39",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-s3-one-hour-with-a-child-return-here-budget-incl-return-kids-only-w-1.json",
+      "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/desktop-1440-xss-prompt-injection-in-the-query-rendered-as-text-no-invented-plac-1.json",
+      "place_id": "fd35bba3-bd69-43f9-bec5-1bc892c12813",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/mobile-390-mobile-real-recommendation-in-the-bottom-sheet-list-map-toggle-card-m-1.json",
+      "place_id": "fd35bba3-bd69-43f9-bec5-1bc892c12813",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/mobile-390-mobile-real-recommendation-in-the-bottom-sheet-list-map-toggle-card-m-1.json",
+      "place_id": "7a24f854-b807-4b73-9d5e-03ddabab9a39",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z/responses/mobile-390-mobile-real-recommendation-in-the-bottom-sheet-list-map-toggle-card-m-1.json",
+      "place_id": "3dedca0d-e0a1-4093-a2a2-cba0e702cae9",
+      "name": "Детская площадка",
+      "issues": []
+    }
+  ]
+}

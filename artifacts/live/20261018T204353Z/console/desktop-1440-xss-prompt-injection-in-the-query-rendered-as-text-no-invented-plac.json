@@ -1,0 +1,8 @@
+{
+  "test": "XSS + prompt injection in the query: rendered as text, no invented place, no prompt leak",
+  "project": "desktop-1440",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "httpErrors": []
+}

@@ -1,0 +1,424 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+INFO:     Started server process [14335]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8012 (Press CTRL+C to quit)
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.439+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "bb40748388414967a64ccdc4d5dc43fc", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.442+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "40254bcbf2f5444bb382d85c05bb0c3a", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.444+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c1939cfa96da4fb0bfa6de6d14b21210", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.445+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "41a61ebbaca3454890bdfe3ecd7f8160", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.446+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "bf09e02ef0cf40039924bf9f56a5b414", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.449+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a68865b3d6eb44ac8ca5c5c950009d97", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.450+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "161f42581cd541e099b0dbef6d860a25", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.452+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "117fe0e5fc594dbbbbb055cc961f8085", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.453+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "958a289ed1e041348a7f471ce1e232ba", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.454+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "6d06175ae5c64647a09358e4cc7275be", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.455+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "303e06bb334a44a59967bb396bdb11d0", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.456+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "2ec75cb1f9b442e395d02b8d936524c0", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.457+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0f6929d1e1f94262964dc28a06dc9c20", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.459+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "942ba6485af54e9ba5205000c71fd270", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.460+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "cb9d6ec6ca474402b7fa4716a1685788", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.471+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "423e1ccc207547d4becadde57c943123", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.472+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8883ffa67cf149469e56a38654646151", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.474+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "23311d9dc47147fabd74ff48cb162937", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.476+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "badf178426be4fb9b9d4fe15fe56dde4", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.478+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "120ca1cf47204adf978ebf27dc67a2c2", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.479+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "5a2d6bfea9404cae8fa9398025f94f4c", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.483+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7f38a5f6db3e455c9e8baf719890a97a", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.485+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "125a14b0ba15494eb70a6fcbee07dd5d", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.486+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7524a4b5255540a8a6a47a78b298c91f", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.493+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "3b8c4f5571dd42ad8a6de9751480e663", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 2}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 413 Content Too Large
+{"ts": "2026-10-18T20:45:53.494+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "751c4f5d118f476e9aad3ba44c6c7280", "method": "POST", "path": "/api/recommend", "status": 413, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 400 Bad Request
+{"ts": "2026-10-18T20:45:53.495+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ff5b40ad10e44e81aca8068dd47805a3", "method": "POST", "path": "/api/recommend", "status": 400, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/places?bbox=nan,nan,nan,nan HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.531+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e26c968970d44dbda9054188123c5749", "method": "GET", "path": "/api/places", "status": 422, "duration_ms": 34}
+INFO:     127.0.0.1:41000 - "GET /api/places?bbox=0,0,10,10 HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.552+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "97c4d3174ade4f5db52b600ab770e1a7", "method": "GET", "path": "/api/places", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:41000 - "GET /api/places?bbox=71.39,51.075,71.445,51.115&limit=100000 HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.553+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "5936800c3cd74cbfb74eddced6934c48", "method": "GET", "path": "/api/places", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/search?q= HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.554+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8a147b5c035045f089970ee51e7fe9a3", "method": "GET", "path": "/api/search", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/search?q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.555+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4abb36693d8549e0bc2ffb75a9c835a4", "method": "GET", "path": "/api/search", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/search?q=%27%20OR%201%3D1%20-- HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:53.605+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "1e6ef1dcae4b44f1903b1ebec7d21bb2", "method": "GET", "path": "/api/search", "status": 200, "duration_ms": 48}
+INFO:     127.0.0.1:41000 - "GET /api/search?q=%25 HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:53.618+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "6c76e3c3b2724ef28131a2b62daf8000", "method": "GET", "path": "/api/search", "status": 200, "duration_ms": 3}
+INFO:     127.0.0.1:41000 - "GET /api/places/not-a-uuid HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:53.635+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "20bf2d3d071f453081f31c0f748f6f3e", "method": "GET", "path": "/api/places/not-a-uuid", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/places/00000000-0000-0000-0000-000000000000 HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.645+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e9e0a6e2a96b464894c7a2a2a2d626fc", "method": "GET", "path": "/api/places/00000000-0000-0000-0000-000000000000", "status": 404, "duration_ms": 4}
+INFO:     127.0.0.1:41000 - "GET /etc/passwd HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.647+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "14069fe1b00f4e049e93509657ae6bac", "method": "GET", "path": "/etc/passwd", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/map/../../etc/passwd HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.651+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0cbee978e7114063bd5a129cf7152814", "method": "GET", "path": "/api/map/../../etc/passwd", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/map/../../.env HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.662+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9c9146ed6c844fff85bf6439591e6448", "method": "GET", "path": "/api/map/../../.env", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/map/manifest HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.664+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8f12d8664e0f496db73e0a5b71d53246", "method": "GET", "path": "/api/map/manifest", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/map/secrets HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.665+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "92edd75085f84b76bdac694708ad51fc", "method": "GET", "path": "/api/map/secrets", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/map/buildings.geojson HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.667+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "23e4b0ac515d4111923504f23326f042", "method": "GET", "path": "/api/map/buildings.geojson", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/places/../../.env HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.670+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b250ebfcde0e4c39aa4cbd976c8f878e", "method": "GET", "path": "/api/places/../../.env", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/route?url=http://169.254.169.254/ HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:53.672+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d86177b27ca740729e96309b5733b3ce", "method": "GET", "path": "/api/route", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/unknown HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.673+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "52cc3b70a4e64e82870bf5b630529412", "method": "GET", "path": "/api/unknown", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /.env HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:53.676+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c534f7600b6d4fcb85c6f3823ad0c176", "method": "GET", "path": "/.env", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "PUT /api/recommend HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:53.677+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "46d5055c95884b9f9e8549ecc9ad3a51", "method": "PUT", "path": "/api/recommend", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "DELETE /api/places HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:53.678+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "90023f7747294e4e9d6dacd14b97d742", "method": "DELETE", "path": "/api/places", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/recommend HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:53.679+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e79050632fc04edd89ca1a4e68d12daa", "method": "GET", "path": "/api/recommend", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "TRACE /api/health HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:53.680+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e52fea685c384e3e811d7f8fb469a598", "method": "TRACE", "path": "/api/health", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "POST /api/route HTTP/1.1" 501 Not Implemented
+{"ts": "2026-10-18T20:45:53.681+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0e0d68b4d7bc4adda1f63119668bd3a2", "method": "POST", "path": "/api/route", "status": 501, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /docs HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:53.683+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d0fc22a0e31a4612be707442d99a033f", "method": "GET", "path": "/docs", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /openapi.json HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:53.792+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "075a14d8b4034ce2aaff471e264a45cd", "method": "GET", "path": "/openapi.json", "status": 200, "duration_ms": 108}
+INFO:     127.0.0.1:41000 - "OPTIONS /api/recommend HTTP/1.1" 400 Bad Request
+{"ts": "2026-10-18T20:45:54.100+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9215f1cf5e454039bc49a0796dee4661", "method": "OPTIONS", "path": "/api/recommend", "status": 400, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.114+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "45c854f884c84a21998f4fcfbcb6843a", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.120+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "37ea2297d5d64fb7a56200d4fe4800b4", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41000 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.211+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c09bbe1bf05141cb9e98d0055a7a0db0", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 87}
+INFO:     127.0.0.1:41000 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.280+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "bf1823ef598d4c6e8c68893f9edb740f", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 32}
+{"ts": "2026-10-18T20:45:54.482+00:00", "level": "WARNING", "logger": "smartcity.recommend", "msg": "embeddings unavailable", "event": "embeddings_unavailable", "detail": "provider_unavailable: ollama tags: ConnectError"}
+{"ts": "2026-10-18T20:45:54.611+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "cef3238be1b548f7a7e51b1473892948", "status": "degraded", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 69, "budget_min": 40, "shortlist": 37, "ranked": 20, "llm_candidate_ids": ["abe8ff10-b324-4b7f-a209-4f25750898e6", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7", "05315db3-7d1d-41b3-9fbe-f30bc940579e", "f1d6185a-0573-42ab-8c85-e93ff1dbdc82"], "result_ids": ["abe8ff10-b324-4b7f-a209-4f25750898e6", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7"], "semantic": "unavailable", "exclusions": {"closed": 8, "budget": 9}, "llm_attempts": 0, "llm_failure": "probe_failed: provider_unavailable: ollama tags: ConnectError", "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 8, "shortlist": 160, "semantic": 0, "rank": 3, "schedule": 1, "generate": 59, "total": 299}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.612+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "cef3238be1b548f7a7e51b1473892948", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 300}
+{"ts": "2026-10-18T20:45:54.645+00:00", "level": "WARNING", "logger": "smartcity.recommend", "msg": "embeddings unavailable", "event": "embeddings_unavailable", "detail": "provider_unavailable: ollama tags: ConnectError"}
+{"ts": "2026-10-18T20:45:54.650+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "5af991cb197249b09519db3f81c6d699", "status": "degraded", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 9, "budget_min": 40, "shortlist": 37, "ranked": 20, "llm_candidate_ids": ["abe8ff10-b324-4b7f-a209-4f25750898e6", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7", "05315db3-7d1d-41b3-9fbe-f30bc940579e", "f1d6185a-0573-42ab-8c85-e93ff1dbdc82"], "result_ids": ["abe8ff10-b324-4b7f-a209-4f25750898e6", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7"], "semantic": "unavailable", "exclusions": {"closed": 8, "budget": 9}, "llm_attempts": 0, "llm_failure": "probe_failed: provider_unavailable: ollama tags: ConnectError", "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "shortlist": 31, "semantic": 0, "rank": 2, "schedule": 1, "generate": 0, "total": 37}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.654+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "5af991cb197249b09519db3f81c6d699", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 40}
+{"ts": "2026-10-18T20:45:54.906+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "52c11eec63ad40758c320c4750cf6741", "status": "no_match", "mode": "retrieval_only", "origin_rounded": [43.24, 76.94], "query_len": 9, "budget_min": 40, "shortlist": 0, "ranked": 0, "llm_candidate_ids": [], "result_ids": [], "semantic": "unused", "exclusions": {}, "llm_attempts": 0, "llm_failure": null, "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "total": 245}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.907+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "52c11eec63ad40758c320c4750cf6741", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 248}
+{"ts": "2026-10-18T20:45:54.991+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "b5cc83778d1541aea8ebdaaafa8aed16", "status": "no_match", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 0, "budget_min": 10, "shortlist": 0, "ranked": 0, "llm_candidate_ids": [], "result_ids": [], "semantic": "unused", "exclusions": {}, "llm_attempts": 0, "llm_failure": null, "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "shortlist": 80, "semantic": 0, "rank": 0, "schedule": 0, "total": 82}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.993+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b5cc83778d1541aea8ebdaaafa8aed16", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 84}
+{"ts": "2026-10-18T20:45:55.002+00:00", "level": "WARNING", "logger": "smartcity.recommend", "msg": "embeddings unavailable", "event": "embeddings_unavailable", "detail": "circuit_open"}
+{"ts": "2026-10-18T20:45:55.006+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "3223112988ba49a2920f6481596911a9", "status": "degraded", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 33, "budget_min": 40, "shortlist": 37, "ranked": 20, "llm_candidate_ids": ["abe8ff10-b324-4b7f-a209-4f25750898e6", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7", "05315db3-7d1d-41b3-9fbe-f30bc940579e", "f1d6185a-0573-42ab-8c85-e93ff1dbdc82"], "result_ids": ["abe8ff10-b324-4b7f-a209-4f25750898e6", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7"], "semantic": "unavailable", "exclusions": {"closed": 8, "budget": 9}, "llm_attempts": 0, "llm_failure": "circuit_open", "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "shortlist": 7, "semantic": 0, "rank": 3, "schedule": 0, "generate": 0, "total": 12}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:55.008+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "3223112988ba49a2920f6481596911a9", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 14}
+{"ts": "2026-10-18T20:45:55.019+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "7e7393c85c194654b48a5a821fa522dc", "status": "degraded", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 0, "budget_min": 40, "shortlist": 37, "ranked": 20, "llm_candidate_ids": ["3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7", "abe8ff10-b324-4b7f-a209-4f25750898e6", "05315db3-7d1d-41b3-9fbe-f30bc940579e", "f1d6185a-0573-42ab-8c85-e93ff1dbdc82"], "result_ids": ["3dedca0d-e0a1-4093-a2a2-cba0e702cae9", "4b6f3bf4-1073-40d3-94d8-e218428721d7", "abe8ff10-b324-4b7f-a209-4f25750898e6"], "semantic": "unused", "exclusions": {"closed": 8, "budget": 9}, "llm_attempts": 0, "llm_failure": "circuit_open", "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "shortlist": 8, "semantic": 0, "rank": 0, "schedule": 0, "generate": 0, "total": 10}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:55.019+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7e7393c85c194654b48a5a821fa522dc", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 10}
+{"ts": "2026-10-18T20:45:55.024+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "778c38236a54485f8b44a57722612f6b", "status": "needs_clarification", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 9, "budget_min": 40, "shortlist": 0, "ranked": 0, "llm_candidate_ids": [], "result_ids": [], "semantic": "unused", "exclusions": {}, "llm_attempts": 0, "llm_failure": null, "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "total": 3}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:55.025+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "778c38236a54485f8b44a57722612f6b", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 4}
+{"ts": "2026-10-18T20:45:55.034+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "2a326debb1164fb192c40108b26a14b3", "status": "no_match", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 25, "budget_min": 40, "shortlist": 37, "ranked": 0, "llm_candidate_ids": [], "result_ids": [], "semantic": "unused", "exclusions": {"required_feature:socket": 37}, "llm_attempts": 0, "llm_failure": null, "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 0, "shortlist": 6, "semantic": 0, "rank": 0, "schedule": 0, "total": 8}}
+INFO:     127.0.0.1:41000 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:55.035+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "2a326debb1164fb192c40108b26a14b3", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 8}
+INFO:     127.0.0.1:36476 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:29.090+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f8b6fba72dd549c6ba2dba21064fa6ad", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 14}
+INFO:     127.0.0.1:36492 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:29.132+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b16afa33bdae48c1a91e1971612ab93f", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 1}
+INFO:     127.0.0.1:36496 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:29.181+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "3163d5e8d0534cb9b52a146b9708bcde", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 8}
+INFO:     127.0.0.1:36472 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:36.444+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "25dca09177c84797b2a9814fa2275fe8", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 8}
+{"ts": "2026-10-18T20:48:36.445+00:00", "level": "ERROR", "logger": "smartcity.api", "msg": "unhandled error", "event": "error", "request_id": "25dca09177c84797b2a9814fa2275fe8", "error": "RuntimeError"}
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 189, in __call__
+    await self.app(scope, receive_wrapper, send_wrapper)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 124, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 111, in app
+    await response(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 383, in __call__
+    await self._handle_multiple_ranges(send, ranges, stat_result.st_size, send_header_only)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 447, in _handle_multiple_ranges
+    await send(
+    ...<5 lines>...
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 124, in send_wrapper
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 161, in _send
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 536, in send
+    raise RuntimeError("Response content longer than Content-Length")
+RuntimeError: Response content longer than Content-Length
+INFO:     127.0.0.1:36474 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:36.605+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9f4c04d0f818464f90ae99e1e5c15e98", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 113}
+{"ts": "2026-10-18T20:48:36.605+00:00", "level": "ERROR", "logger": "smartcity.api", "msg": "unhandled error", "event": "error", "request_id": "9f4c04d0f818464f90ae99e1e5c15e98", "error": "RuntimeError"}
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 189, in __call__
+    await self.app(scope, receive_wrapper, send_wrapper)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 124, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 111, in app
+    await response(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 383, in __call__
+    await self._handle_multiple_ranges(send, ranges, stat_result.st_size, send_header_only)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 447, in _handle_multiple_ranges
+    await send(
+    ...<5 lines>...
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 124, in send_wrapper
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 161, in _send
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 536, in send
+    raise RuntimeError("Response content longer than Content-Length")
+RuntimeError: Response content longer than Content-Length
+INFO:     127.0.0.1:36478 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:37.523+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "fea6d579825e47a087203947d1845c3c", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 867}
+{"ts": "2026-10-18T20:48:37.523+00:00", "level": "ERROR", "logger": "smartcity.api", "msg": "unhandled error", "event": "error", "request_id": "fea6d579825e47a087203947d1845c3c", "error": "RuntimeError"}
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 189, in __call__
+    await self.app(scope, receive_wrapper, send_wrapper)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 124, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 111, in app
+    await response(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 383, in __call__
+    await self._handle_multiple_ranges(send, ranges, stat_result.st_size, send_header_only)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 447, in _handle_multiple_ranges
+    await send(
+    ...<5 lines>...
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 124, in send_wrapper
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 161, in _send
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 536, in send
+    raise RuntimeError("Response content longer than Content-Length")
+RuntimeError: Response content longer than Content-Length
+INFO:     127.0.0.1:36482 - "GET /api/map/buildings HTTP/1.1" 206 Partial Content
+{"ts": "2026-10-18T20:48:38.567+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ddd1bdb3fae34c32b374cdd4677d529f", "method": "GET", "path": "/api/map/buildings", "status": 206, "duration_ms": 988}
+{"ts": "2026-10-18T20:48:38.567+00:00", "level": "ERROR", "logger": "smartcity.api", "msg": "unhandled error", "event": "error", "request_id": "ddd1bdb3fae34c32b374cdd4677d529f", "error": "RuntimeError"}
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 189, in __call__
+    await self.app(scope, receive_wrapper, send_wrapper)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 124, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 111, in app
+    await response(scope, receive, send)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 383, in __call__
+    await self._handle_multiple_ranges(send, ranges, stat_result.st_size, send_header_only)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/responses.py", line 447, in _handle_multiple_ranges
+    await send(
+    ...<5 lines>...
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 39, in sender
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/services/api/smartcity_api/middleware.py", line 124, in send_wrapper
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 161, in _send
+    await send(message)
+  File "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/.venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 536, in send
+    raise RuntimeError("Response content longer than Content-Length")
+RuntimeError: Response content longer than Content-Length
+INFO:     127.0.0.1:48448 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:48:48.406+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "edf5e1acedb4442b832f3ad87d948c1b", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 1}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14335]

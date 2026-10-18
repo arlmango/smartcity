@@ -1,7 +1,7 @@
 {
   "scenario": "S2",
   "notes": "origin = DB location of 'Alem.ai Международный центр искусственного интеллекта (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
-  "recorded_at": "2026-10-18T20:06:34+00:00",
+  "recorded_at": "2026-10-18T21:04:55+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Нужны кофе, тишина и розетка, есть час",
@@ -22,7 +22,7 @@
         "temperature": 0.2,
         "num_predict": 700
       },
-      "timeout_s": 300.0
+      "timeout_s": 240.0
     },
     "embedding": {
       "model_id": "ollama:bge-m3@790764642607",
@@ -38,14 +38,14 @@
       "routing": "none"
     }
   },
-  "dataset_version": "osm-20261018T194239Z",
+  "dataset_version": "osm-20261018T200514Z",
   "retrieval": {
-    "shortlist": 59,
+    "shortlist": 58,
     "ranked_after_filters": 0,
     "semantic": "unused",
     "llm_candidate_ids": [],
     "exclusions": {
-      "required_feature:socket": 59
+      "required_feature:socket": 58
     },
     "llm_attempts": 0,
     "llm_failure": null,
@@ -105,11 +105,11 @@
   },
   "timings_ms": {
     "parse": 1,
-    "shortlist": 10,
+    "shortlist": 11,
     "semantic": 0,
     "rank": 0,
     "schedule": 0,
-    "total": 13
+    "total": 14
   },
-  "wall_ms": 17
+  "wall_ms": 19
 }

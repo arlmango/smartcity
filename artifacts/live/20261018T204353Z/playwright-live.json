@@ -1,0 +1,1172 @@
+{
+  "config": {
+    "configFile": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/playwright.live.config.ts",
+    "rootDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/playwright-live.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-1440",
+        "name": "desktop-1440",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-390",
+        "name": "mobile-390",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-360",
+        "name": "mobile-360",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      },
+      {
+        "outputDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "degraded-1440",
+        "name": "degraded-1440",
+        "testDir": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 600000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "map.live.spec.ts",
+      "file": "map.live.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "live: map on real data",
+          "file": "map.live.spec.ts",
+          "line": 10,
+          "column": 6,
+          "specs": [
+            {
+              "title": "initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke",
+              "ok": true,
+              "tags": [
+                "mobile",
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 35755,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:43:58.496Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-ec26414bac9c07b9bf09",
+              "file": "map.live.spec.ts",
+              "line": 12,
+              "column": 7
+            },
+            {
+              "title": "perf: cold vs warm load and map-ready (desktop)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21739,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:44:34.342Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-c558c7a50891b074c228",
+              "file": "map.live.spec.ts",
+              "line": 111,
+              "column": 7
+            },
+            {
+              "title": "pick origin by clicking the map; outside coverage is refused @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 29592,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:44:56.098Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-14a7fb56eb300f851ddc",
+              "file": "map.live.spec.ts",
+              "line": 135,
+              "column": 7
+            },
+            {
+              "title": "geolocation denied (no permission) does not block the form @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12287,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:45:25.714Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-6efe00d91522381021bc",
+              "file": "map.live.spec.ts",
+              "line": 166,
+              "column": 7
+            },
+            {
+              "title": "place search over our own DB: Mega, Starbucks, nonsense",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 17149,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:45:38.016Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-0dd49db368b050de91af",
+              "file": "map.live.spec.ts",
+              "line": 179,
+              "column": 7
+            },
+            {
+              "title": "axe on the live initial page @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 16029,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:45:55.181Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-1cd8f4c34799acd1288a",
+              "file": "map.live.spec.ts",
+              "line": 193,
+              "column": 7
+            },
+            {
+              "title": "keyboard: tab order form → map controls, focus-visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22242,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:46:11.243Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-b01b2859dcdf23c047e7",
+              "file": "map.live.spec.ts",
+              "line": 202,
+              "column": 7
+            },
+            {
+              "title": "reduced motion: camera jumps instead of animating",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13567,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:46:33.515Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-c4703f1b073f6676b9b3",
+              "file": "map.live.spec.ts",
+              "line": 244,
+              "column": 7
+            },
+            {
+              "title": "initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke",
+              "ok": true,
+              "tags": [
+                "mobile",
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-390",
+                  "projectName": "mobile-390",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13251,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:55:41.075Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-95df4502130d518ff843",
+              "file": "map.live.spec.ts",
+              "line": 12,
+              "column": 7
+            },
+            {
+              "title": "pick origin by clicking the map; outside coverage is refused @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-390",
+                  "projectName": "mobile-390",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10372,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:55:54.447Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-d5b07d2ef1f83b7422c9",
+              "file": "map.live.spec.ts",
+              "line": 135,
+              "column": 7
+            },
+            {
+              "title": "geolocation denied (no permission) does not block the form @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-390",
+                  "projectName": "mobile-390",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4159,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:56:04.834Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-fa857470deaca6836530",
+              "file": "map.live.spec.ts",
+              "line": 166,
+              "column": 7
+            },
+            {
+              "title": "axe on the live initial page @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-390",
+                  "projectName": "mobile-390",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4690,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:56:09.006Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-127c5e2c693e1645fee5",
+              "file": "map.live.spec.ts",
+              "line": 193,
+              "column": 7
+            },
+            {
+              "title": "initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke",
+              "ok": true,
+              "tags": [
+                "mobile",
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-360",
+                  "projectName": "mobile-360",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12495,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:58:10.323Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-939b0614790e1efda4da",
+              "file": "map.live.spec.ts",
+              "line": 12,
+              "column": 7
+            },
+            {
+              "title": "pick origin by clicking the map; outside coverage is refused @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-360",
+                  "projectName": "mobile-360",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11416,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:58:22.924Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-967a5b20e0a8abc66097",
+              "file": "map.live.spec.ts",
+              "line": 135,
+              "column": 7
+            },
+            {
+              "title": "geolocation denied (no permission) does not block the form @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-360",
+                  "projectName": "mobile-360",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4463,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:58:34.355Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-8da42c7603618649673e",
+              "file": "map.live.spec.ts",
+              "line": 166,
+              "column": 7
+            },
+            {
+              "title": "axe on the live initial page @mobile",
+              "ok": true,
+              "tags": [
+                "mobile"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-360",
+                  "projectName": "mobile-360",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3756,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:58:38.840Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c4ae90abd78755616c7-112aea471327ff440835",
+              "file": "map.live.spec.ts",
+              "line": 193,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "scenarios.live.spec.ts",
+      "file": "scenarios.live.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "live scenarios",
+          "file": "scenarios.live.spec.ts",
+          "line": 40,
+          "column": 6,
+          "specs": [
+            {
+              "title": "S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 1320000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 162494,
+                      "error": {
+                        "message": "Error: a /api/recommend response was captured\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mundefined\u001b[39m",
+                        "stack": "Error: a /api/recommend response was captured\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mundefined\u001b[39m\n    at lastResponse (/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/helpers.ts:153:55)\n    at /home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/scenarios.live.spec.ts:53:28",
+                        "location": {
+                          "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/helpers.ts",
+                          "column": 55,
+                          "line": 153
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mhelpers.ts:153\n\n  151 | export function lastResponse(c: Collectors): { status: string; mode: string; recommendations: Rec[]; client_request_id?: string } & Record<string, unknown> {\n  152 |   const r = c.recs.at(-1);\n> 153 |   expect(r, \"a /api/recommend response was captured\").toBeTruthy();\n      |                                                       ^\n  154 |   expect(r!.status, `HTTP status of /api/recommend: ${JSON.stringify(r!.response).slice(0, 300)}`).toBe(200);\n  155 |   return r!.response as never;\n  156 | }"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/helpers.ts",
+                            "column": 55,
+                            "line": 153
+                          },
+                          "message": "Error: a /api/recommend response was captured\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mundefined\u001b[39m\n\n   at helpers.ts:153\n\n  151 | export function lastResponse(c: Collectors): { status: string; mode: string; recommendations: Rec[]; client_request_id?: string } & Record<string, unknown> {\n  152 |   const r = c.recs.at(-1);\n> 153 |   expect(r, \"a /api/recommend response was captured\").toBeTruthy();\n      |                                                       ^\n  154 |   expect(r!.status, `HTTP status of /api/recommend: ${JSON.stringify(r!.response).slice(0, 300)}`).toBe(200);\n  155 |   return r!.response as never;\n  156 | }\n    at lastResponse (/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/helpers.ts:153:55)\n    at /home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/scenarios.live.spec.ts:53:28"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:46:47.103Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results/scenarios.live-live-scenar-d5d76-eep-hard-conditions-restart-desktop-1440/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results/scenarios.live-live-scenar-d5d76-eep-hard-conditions-restart-desktop-1440/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/live/20261018T204353Z/test-results/scenarios.live-live-scenar-d5d76-eep-hard-conditions-restart-desktop-1440/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/helpers.ts",
+                        "column": 55,
+                        "line": 153
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-9e7b9132327a00bdb185",
+              "file": "scenarios.live.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "S2 coffee + quiet + socket required, 1 h → honest no_match → relaxation → resend",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 660000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 139002,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:49:32.373Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-6f1aea5167fab492f2d4",
+              "file": "scenarios.live.spec.ts",
+              "line": 171,
+              "column": 7
+            },
+            {
+              "title": "S3 one hour with a child, return here → budget incl. return; kids only where proven",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 360000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 74364,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:51:51.503Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-d93959bc20a5862aa5ea",
+              "file": "scenarios.live.spec.ts",
+              "line": 206,
+              "column": 7
+            },
+            {
+              "title": "cancel a long request; a new request wins (stale answer never shown)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 420000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21060,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:53:05.883Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-631a66ecdcd5964a7b61",
+              "file": "scenarios.live.spec.ts",
+              "line": 224,
+              "column": 7
+            },
+            {
+              "title": "XSS + prompt injection in the query: rendered as text, no invented place, no prompt leak",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 360000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 132676,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:53:26.995Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-653bab926db10492adde",
+              "file": "scenarios.live.spec.ts",
+              "line": 255,
+              "column": 7
+            },
+            {
+              "title": "mobile: real recommendation in the bottom sheet, list/map toggle, card↔marker @mobile @rec390",
+              "ok": true,
+              "tags": [
+                "mobile",
+                "rec390"
+              ],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "mobile projects only",
+                      "location": {
+                        "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/scenarios.live.spec.ts",
+                        "line": 282,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 124,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:55:39.687Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "mobile projects only",
+                          "location": {
+                            "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/scenarios.live.spec.ts",
+                            "line": 282,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-6893c1b5dfff2ad7a4aa",
+              "file": "scenarios.live.spec.ts",
+              "line": 281,
+              "column": 7
+            },
+            {
+              "title": "no_match fast path (socket required, nothing proven) on small mobile @small",
+              "ok": true,
+              "tags": [
+                "small"
+              ],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "360 only",
+                      "location": {
+                        "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/scenarios.live.spec.ts",
+                        "line": 312,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-1440",
+                  "projectName": "desktop-1440",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 124,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:55:39.825Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "360 only",
+                          "location": {
+                            "file": "/home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web/tests/live/scenarios.live.spec.ts",
+                            "line": 312,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-f95a2dce37ba91dbd175",
+              "file": "scenarios.live.spec.ts",
+              "line": 311,
+              "column": 7
+            },
+            {
+              "title": "mobile: real recommendation in the bottom sheet, list/map toggle, card↔marker @mobile @rec390",
+              "ok": true,
+              "tags": [
+                "mobile",
+                "rec390"
+              ],
+              "tests": [
+                {
+                  "timeout": 360000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-390",
+                  "projectName": "mobile-390",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 115691,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:56:13.720Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-690cbd8c75b93d8cbd9e",
+              "file": "scenarios.live.spec.ts",
+              "line": 281,
+              "column": 7
+            },
+            {
+              "title": "no_match fast path (socket required, nothing proven) on small mobile @small",
+              "ok": true,
+              "tags": [
+                "small"
+              ],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-360",
+                  "projectName": "mobile-360",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4718,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:58:42.628Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c486a77807ff1ecaa157-e6ac9de82d79d04bf742",
+              "file": "scenarios.live.spec.ts",
+              "line": 311,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "degraded.live.spec.ts",
+      "file": "degraded.live.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "live: provider failure",
+          "file": "degraded.live.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "LLM + embeddings down → banners, retrieval_only answer from the real DB @degraded",
+              "ok": true,
+              "tags": [
+                "degraded"
+              ],
+              "tests": [
+                {
+                  "timeout": 600000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "degraded-1440",
+                  "projectName": "degraded-1440",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6510,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-18T20:58:48.280Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "65d50930fdf85088e753-09c914ab3c14cf42756f",
+              "file": "degraded.live.spec.ts",
+              "line": 10,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T20:43:56.801Z",
+    "duration": 898180.427,
+    "expected": 23,
+    "skipped": 2,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

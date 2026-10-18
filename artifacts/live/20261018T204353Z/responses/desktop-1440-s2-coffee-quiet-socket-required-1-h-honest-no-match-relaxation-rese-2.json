@@ -1,0 +1,341 @@
+{
+  "test": "S2 coffee + quiet + socket required, 1 h → honest no_match → relaxation → resend",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Нужны кофе, тишина и розетка обязательно, есть час",
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [
+        "socket"
+      ],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [
+      {
+        "role": "user",
+        "text": "Нужны кофе, тишина и розетка обязательно, есть час"
+      },
+      {
+        "role": "assistant",
+        "text": "Подходящих мест не нашлось. Обязательное условие «розетка» не подтверждено в данных OSM у ближайших мест — мы не выдаём неизвестное за выполненное. Можно ослабить условие — варианты ниже."
+      }
+    ],
+    "start_time": null,
+    "client_request_id": "0a45fdae-fbba-41ac-9daa-752e6f5c1faf"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "697d7507766a455999ace80c4688ff6e",
+    "client_request_id": "0a45fdae-fbba-41ac-9daa-752e6f5c1faf",
+    "status": "degraded",
+    "mode": "retrieval_only",
+    "dataset_version": "osm-20261018T200514Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 60,
+          "source": "ui",
+          "label": "Время: не более 60 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Желательно: розетка (учитывается только если подтверждено)",
+        "Тишина (в данных OSM не проверяется)",
+        "Интерес: Кафе"
+      ],
+      "interpreted_query": "интересы: кафе; желательно: розетка; тишина (не проверяется)"
+    },
+    "recommendations": [
+      {
+        "place_id": "abe8ff10-b324-4b7f-a209-4f25750898e6",
+        "name": "завтрак бар",
+        "name_is_generic": false,
+        "category": "cafe",
+        "category_label": "Кафе",
+        "coordinates": {
+          "lat": 51.0941798,
+          "lon": 71.4093574
+        },
+        "address": null,
+        "reason": null,
+        "reason_source": "rules",
+        "activity_suggestion": null,
+        "distance": {
+          "meters": 728,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 15,
+          "visit_min": 25,
+          "return_min": 15,
+          "buffer_min": 5,
+          "total_min": 60,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T19:33:59.018845Z",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "indoor",
+          "kids"
+        ],
+        "negative_features": [],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "node",
+          "osm_id": 6408255389,
+          "url": "https://www.openstreetmap.org/node/6408255389",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T19:33:59.018845Z",
+          "source_updated_at": "2019-04-16T05:08:39Z"
+        },
+        "evidence": [
+          {
+            "field": "name",
+            "source_value": "name=завтрак бар",
+            "source_url": "https://www.openstreetmap.org/node/6408255389",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "category",
+            "source_value": "amenity=cafe",
+            "source_url": "https://www.openstreetmap.org/node/6408255389",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          }
+        ]
+      },
+      {
+        "place_id": "d75cd3c2-c9c2-42c2-9ad6-51b28ad26466",
+        "name": "Veggie House",
+        "name_is_generic": false,
+        "category": "cafe",
+        "category_label": "Кафе",
+        "coordinates": {
+          "lat": 51.0964416,
+          "lon": 71.4090062
+        },
+        "address": null,
+        "reason": null,
+        "reason_source": "rules",
+        "activity_suggestion": null,
+        "distance": {
+          "meters": 945,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 19,
+          "visit_min": 17,
+          "return_min": 19,
+          "buffer_min": 5,
+          "total_min": 60,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T19:33:59.018845Z",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "indoor",
+          "kids"
+        ],
+        "negative_features": [],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "node",
+          "osm_id": 10861996205,
+          "url": "https://www.openstreetmap.org/node/10861996205",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T19:33:59.018845Z",
+          "source_updated_at": "2023-05-02T09:17:50Z"
+        },
+        "evidence": [
+          {
+            "field": "name",
+            "source_value": "name:en=Veggie House",
+            "source_url": "https://www.openstreetmap.org/node/10861996205",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "category",
+            "source_value": "amenity=cafe",
+            "source_url": "https://www.openstreetmap.org/node/10861996205",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          }
+        ]
+      },
+      {
+        "place_id": "f1d6185a-0573-42ab-8c85-e93ff1dbdc82",
+        "name": "Аллея мира и согласия",
+        "name_is_generic": false,
+        "category": "park",
+        "category_label": "Парк / сквер",
+        "coordinates": {
+          "lat": 51.093889700000005,
+          "lon": 71.41787097941943
+        },
+        "address": null,
+        "reason": null,
+        "reason_source": "rules",
+        "activity_suggestion": null,
+        "distance": {
+          "meters": 530,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 11,
+          "visit_min": 30,
+          "return_min": 11,
+          "buffer_min": 5,
+          "total_min": 57,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T19:33:59.018845Z",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "negative_features": [
+          {
+            "feature": "indoor",
+            "value": false,
+            "basis": "category_rule",
+            "evidence": "Правило категории: Парк / сквер — не в помещении"
+          }
+        ],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "way",
+          "osm_id": 1456208624,
+          "url": "https://www.openstreetmap.org/way/1456208624",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T19:33:59.018845Z",
+          "source_updated_at": "2026-07-31T00:54:28Z"
+        },
+        "evidence": [
+          {
+            "field": "name",
+            "source_value": "name:ru=Аллея мира и согласия",
+            "source_url": "https://www.openstreetmap.org/way/1456208624",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "category",
+            "source_value": "leisure=park",
+            "source_url": "https://www.openstreetmap.org/way/1456208624",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          },
+          {
+            "field": "indoor",
+            "source_value": "leisure=park",
+            "source_url": "https://www.openstreetmap.org/way/1456208624",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T19:33:59.018845Z"
+          }
+        ]
+      }
+    ],
+    "message": "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений.",
+    "warnings": [
+      {
+        "code": "llm_unavailable",
+        "message": "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений"
+      },
+      {
+        "code": "quiet_unverified",
+        "message": "Тишину и уют по данным OSM проверить нельзя — это только пожелание"
+      },
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      },
+      {
+        "code": "preference_unverified:socket",
+        "message": "«розетка»: у части предложенных мест не подтверждено данными"
+      }
+    ],
+    "suggested_relaxations": [],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 14,
+      "semantic": 11775,
+      "rank": 6,
+      "schedule": 1,
+      "generate": 109631,
+      "total": 121430
+    }
+  },
+  "ms": 121383
+}

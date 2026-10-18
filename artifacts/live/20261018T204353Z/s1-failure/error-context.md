@@ -1,0 +1,62 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Перейти к панели подбора" [ref=e3] [cursor=pointer]:
+      - /url: "#panel"
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - img [ref=e7]
+        - generic [ref=e9]: SmartCity
+      - generic [ref=e10]: Астана
+      - paragraph [ref=e11]: "Короткая прогулка от выбранной точки: 1–3 реальных места из открытых данных"
+      - button "О данных" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: ⓘ
+        - text: О данных
+    - main [ref=e15]:
+      - complementary "Подбор прогулки" [ref=e16]:
+        - alert [ref=e19]:
+          - heading "Сервер не ответил вовремя" [level=2] [ref=e20]
+          - paragraph [ref=e21]: Сервер не ответил за 150 секунд.
+          - generic [ref=e22]:
+            - button "Повторить" [ref=e23] [cursor=pointer]
+            - button "Изменить запрос" [ref=e24] [cursor=pointer]
+      - region "Карта" [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic:
+              - application "Интерактивная карта района EXPO / MEGA Silk Way" [ref=e28]
+              - 'img "Точка старта: Mega Silk Way"':
+                - generic: Старт
+            - generic:
+              - generic [ref=e29]: 50 m
+              - group [ref=e30]:
+                - link "© OpenStreetMap contributors" [ref=e32] [cursor=pointer]:
+                  - /url: https://www.openstreetmap.org/copyright
+          - group "Управление картой" [ref=e33]:
+            - button "Приблизить" [ref=e34] [cursor=pointer]: +
+            - button "Отдалить" [ref=e35] [cursor=pointer]: −
+            - button "3D-здания" [pressed] [ref=e36] [cursor=pointer]:
+              - generic [ref=e37]: 3D
+            - button "На север" [ref=e38] [cursor=pointer]:
+              - generic [ref=e39]: ↑
+            - button "Показать результаты" [ref=e40] [cursor=pointer]:
+              - img [ref=e41]
+        - group [ref=e44]:
+          - generic "Высоты зданий — приблизительно" [ref=e45] [cursor=pointer]
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - generic [ref=e49]:
+                - text: из OSM (height)
+                - generic [ref=e50]: · 23
+            - listitem [ref=e51]:
+              - generic [ref=e53]:
+                - text: по этажности
+                - generic [ref=e54]: · 897
+            - listitem [ref=e55]:
+              - generic [ref=e57]:
+                - text: условно 10 м
+                - generic [ref=e58]: · 892
+  - alert [ref=e59]
+```

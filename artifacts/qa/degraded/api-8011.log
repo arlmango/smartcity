@@ -1,0 +1,379 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+INFO:     Started server process [11112]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8011 (Press CTRL+C to quit)
+INFO:     127.0.0.1:45164 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:43:34.863+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "3013fd000a324b34bba82180066e07a8", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 109}
+INFO:     127.0.0.1:0 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:43:34.961+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "25b48a2ad9334360a98516216ca9778c", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 7}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.237+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "56b4fba3c6ae4f588f436c0296fca1c4", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.241+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c7a09e75b3764c7d938ab76de760d667", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.243+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a68ef7c5ce7e42c996ce2e8453b6e0f9", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.245+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "78662afda06447d2a42ecc19c707ebc9", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.246+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ef648a84f106461cba0bda17321014f6", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.248+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "6de227893a50491aa0e6931c6516a944", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.249+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0e189ef6007a440fab64ddcae0bb1ccc", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.250+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ea0084ce1c454c3d8870aeb0c9fbb267", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.253+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8e41c69c87774714b20ef38bb675a7bf", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.277+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "88dcc6a25f814d5bb106636d1f20dc98", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 23}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.279+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "eb25737e10664f80a58748152086080a", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.282+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d37654854e274e228b9bc6cc8eaecf02", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.286+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ce05b9b3724e405f9e0c3866ee228ffa", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.295+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c058c61f8c994a2aab64912c0bd93b73", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.299+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d74cbed4674940caa607f61e9bc04b3e", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 3}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.302+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "65c547165bde45e687b2cbcefc36ec34", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 2}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.304+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e11e0c7125104386a16cc330f86d0f1c", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.307+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "df602e542e26449b890b84630feb34af", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.338+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "cde25b65dfac4ed48cbebec92c9a3ffd", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 30}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.340+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d2e8ab717002436085b63334e785015c", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.342+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b2aeb142097a47c587c566e09a9dd447", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.343+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "50eebaa1d91740ff8ad0cdca494866a7", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.344+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "011a4c45a8684b7e8d60ade2230b9be1", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.345+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f0b023455d184203bf89e9add482c4aa", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.346+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "20ae0a4cb8c84b29b67030e3f8bf42de", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.348+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "3b6327ee49894482b7e3be222c1caa83", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.349+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a044250b19d54472bd1868652bb7917a", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/places?bbox=nan,nan,nan,nan HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.360+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "cf946270eee742cb969650a5fe6568e2", "method": "GET", "path": "/api/places", "status": 422, "duration_ms": 9}
+INFO:     127.0.0.1:41406 - "GET /api/places?bbox=0,0,10,10 HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.362+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8755a309bdd742438092e14f7b8e0937", "method": "GET", "path": "/api/places", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/places?bbox=71.39,51.075,71.445,51.115&limit=100000 HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.367+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "bfdea5be35954ee5bcbe9720a998e783", "method": "GET", "path": "/api/places", "status": 422, "duration_ms": 3}
+INFO:     127.0.0.1:41406 - "GET /api/search?q= HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.371+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c2a77832d5f84738a1c2ad1e89e2aa4a", "method": "GET", "path": "/api/search", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/search?q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.373+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7707f7193132454a983a125d583ea1ed", "method": "GET", "path": "/api/search", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/search?q=%27%20OR%201%3D1%20-- HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.413+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "17ba4ba53f9349908c7a3e5a7112f4c9", "method": "GET", "path": "/api/search", "status": 200, "duration_ms": 38}
+INFO:     127.0.0.1:41406 - "GET /api/search?q=%25 HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.418+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ccfade345d3846ffb98a25ffb5fd9804", "method": "GET", "path": "/api/search", "status": 200, "duration_ms": 3}
+INFO:     127.0.0.1:41406 - "GET /api/places/not-a-uuid HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T20:45:25.419+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "27a167dd95604976b58efd77f8d9be58", "method": "GET", "path": "/api/places/not-a-uuid", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/places/00000000-0000-0000-0000-000000000000 HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.425+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9496e19628c84fc7a85c89d40e9466f2", "method": "GET", "path": "/api/places/00000000-0000-0000-0000-000000000000", "status": 404, "duration_ms": 4}
+INFO:     127.0.0.1:41406 - "GET /etc/passwd HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.427+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a1bee2a1322846aaa323a8f7f301c951", "method": "GET", "path": "/etc/passwd", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/map/../../etc/passwd HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.428+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "832059c7e5c64125a2fa24a2f0ded371", "method": "GET", "path": "/api/map/../../etc/passwd", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/map/../../.env HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.429+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f38184cae4ea4caabd55e2d7b8ee0ac7", "method": "GET", "path": "/api/map/../../.env", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/map/manifest HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.434+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "219303bdec734d5fa26a39ac006a3dcc", "method": "GET", "path": "/api/map/manifest", "status": 404, "duration_ms": 3}
+INFO:     127.0.0.1:41406 - "GET /api/map/secrets HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.436+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f80f9f23da4648f48da0abce23b2197e", "method": "GET", "path": "/api/map/secrets", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/map/buildings.geojson HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.438+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b2eb4ddf273c4ab8b3a814e44eaea4ea", "method": "GET", "path": "/api/map/buildings.geojson", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/places/../../.env HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.439+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4d29670c165142fea97f1e99ae674bb6", "method": "GET", "path": "/api/places/../../.env", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/route?url=http://169.254.169.254/ HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:25.440+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a4caf325f96a417abba574ef19a09027", "method": "GET", "path": "/api/route", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/unknown HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.442+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c7458412dd0d4a88a7a39d5dafe58738", "method": "GET", "path": "/api/unknown", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /.env HTTP/1.1" 404 Not Found
+{"ts": "2026-10-18T20:45:25.443+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "fee94279425847ea98ffe86a9d750fd4", "method": "GET", "path": "/.env", "status": 404, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "PUT /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.444+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c0c7e42313a34881be105fb3c5b66efd", "method": "PUT", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "DELETE /api/places HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:25.447+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f06f3b0e57464afba20f1d968b399dca", "method": "DELETE", "path": "/api/places", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.448+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "1ec69162fa2a48c8b86f38e855f522f9", "method": "GET", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "TRACE /api/health HTTP/1.1" 405 Method Not Allowed
+{"ts": "2026-10-18T20:45:25.453+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "cfdd9ec2159e45e0ac1400b512762dcb", "method": "TRACE", "path": "/api/health", "status": 405, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/route HTTP/1.1" 501 Not Implemented
+{"ts": "2026-10-18T20:45:25.454+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "584eb82ababc4ecabaf852207f73cd9c", "method": "POST", "path": "/api/route", "status": 501, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /docs HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.456+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "438f6d2ac3a24ea3a5ae3cdaec81c7b9", "method": "GET", "path": "/docs", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /openapi.json HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.590+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ea9512ce7fa44491a781e311fe827737", "method": "GET", "path": "/openapi.json", "status": 200, "duration_ms": 81}
+INFO:     127.0.0.1:0 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.881+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "47285977d7b5459aab966599c51644a5", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 1}
+INFO:     127.0.0.1:41406 - "OPTIONS /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:25.886+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "145f7103b0f3461cb41144120c507297", "method": "OPTIONS", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.899+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9b97fc04857846e1b2654eb98dea6fe6", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.901+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "6a8559a879a0412a9eb345212961563e", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.902+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7a45510d1a7241e8a30614c50ee280f8", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.949+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9fb5ded953a94749872ba9e3d728d940", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 46}
+INFO:     127.0.0.1:0 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:25.967+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "eb8e9c9a21b640ef98bb7b89e437e6d3", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:26.013+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "693457d128ae474ebf651a7c73900dbc", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 22}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.028+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b1a4b68242d44c2686e59766fc93d013", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.035+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "fb3862b31a0c45b086696fbc586b77d0", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.039+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "30161758ea4141dcb684cc67a4112730", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.043+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9bf1797f182749afb54e7200925a77a1", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.048+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ca69bb091a184f64abc742bb08eba172", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 1}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.049+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f5b4d864946944878d025418c3a96d7e", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.050+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "dc68e16bfaa54029b6fe3bc8e9522e01", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 1}
+INFO:     127.0.0.1:41406 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T20:45:26.058+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "932da3586f604d5fb12cbd990086fc8f", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 7}
+INFO:     127.0.0.1:0 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.032+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "04f3e1bf37df4cb1ada8a850ed0a1e9d", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "GET /api/health HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.293+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7645dcf547064e71ac3f85dfb9274483", "method": "GET", "path": "/api/health", "status": 200, "duration_ms": 2}
+INFO:     127.0.0.1:0 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:45:54.306+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "1f6e17ee01d54a6ead91b5fcac5ace14", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 7}
+INFO:     127.0.0.1:0 - "GET /api/map/roads HTTP/1.1" 200 OK
+INFO:     127.0.0.1:0 - "GET /api/map/water HTTP/1.1" 200 OK
+INFO:     127.0.0.1:0 - "GET /api/map/buildings HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:58:48.971+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "55cbb34f23b44eeda36b380b115df7f9", "method": "GET", "path": "/api/map/water", "status": 200, "duration_ms": 44}
+INFO:     127.0.0.1:0 - "GET /api/ready HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:58:48.971+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "67ff306e5f0e4cd5b90be6dc42297c79", "method": "GET", "path": "/api/ready", "status": 200, "duration_ms": 48}
+{"ts": "2026-10-18T20:58:48.975+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "fe4bd7be49cf4e80a9a4c2eb4c34d54b", "method": "GET", "path": "/api/map/buildings", "status": 200, "duration_ms": 50}
+{"ts": "2026-10-18T20:58:48.976+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e2217f877185448f95632bbf6557b5c0", "method": "GET", "path": "/api/map/roads", "status": 200, "duration_ms": 50}
+INFO:     127.0.0.1:0 - "GET /api/coverage HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:58:48.987+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c6cc2674c5214e9980c3517e7db7f104", "method": "GET", "path": "/api/coverage", "status": 200, "duration_ms": 62}
+INFO:     127.0.0.1:0 - "GET /api/map/green HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:58:48.997+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "28ed458577e84e97bf7876ee66119ff9", "method": "GET", "path": "/api/map/green", "status": 200, "duration_ms": 2}
+INFO:     127.0.0.1:0 - "GET /api/map/coverage HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:58:49.005+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "ff63f445dd564071b9a33d7cdafcd0ad", "method": "GET", "path": "/api/map/coverage", "status": 200, "duration_ms": 2}
+{"ts": "2026-10-18T20:58:51.313+00:00", "level": "WARNING", "logger": "smartcity.recommend", "msg": "embeddings unavailable", "event": "embeddings_unavailable", "detail": "provider_unavailable: ollama tags: ConnectError"}
+{"ts": "2026-10-18T20:58:51.318+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "31f2f60d58af4f53898c0034f7678fcc", "status": "degraded", "mode": "retrieval_only", "origin_rounded": [51.09, 71.42], "query_len": 62, "budget_min": 40, "shortlist": 36, "ranked": 12, "llm_candidate_ids": ["f1d6185a-0573-42ab-8c85-e93ff1dbdc82", "fd35bba3-bd69-43f9-bec5-1bc892c12813", "05315db3-7d1d-41b3-9fbe-f30bc940579e", "7a24f854-b807-4b73-9d5e-03ddabab9a39", "3dedca0d-e0a1-4093-a2a2-cba0e702cae9"], "result_ids": ["f1d6185a-0573-42ab-8c85-e93ff1dbdc82", "fd35bba3-bd69-43f9-bec5-1bc892c12813", "05315db3-7d1d-41b3-9fbe-f30bc940579e"], "semantic": "unavailable", "exclusions": {"closed": 3, "budget": 21}, "llm_attempts": 0, "llm_failure": "probe_failed: provider_unavailable: ollama tags: ConnectError", "llm_issues": [], "prompt_version": "rec-v1", "timings_ms": {"parse": 3, "shortlist": 26, "semantic": 0, "rank": 2, "schedule": 0, "generate": 0, "total": 34}}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 200 OK
+{"ts": "2026-10-18T20:58:51.319+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "31f2f60d58af4f53898c0034f7678fcc", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 35}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.705+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0ab73b3867804552b7f968303b7c18a1", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.708+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "dced03f5dc8d4739984e4437484b7316", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.709+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "819c05c9112e4317be1926cbd4a39eef", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.710+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "5686582e75d34079a2029b833eb9022c", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.712+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "1abc9b5c35e347e4b3f5da462e28fdc3", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.713+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "dcde164898e74a39aadc189a8e723fc3", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.715+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "05f2d69434c244fdbf5e6b57e25b1d4f", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.716+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "879f607abae144ab9c319271a41861eb", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.718+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "69f874ef4c9947dfa0cc3361a4aae7d2", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.719+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "fe70c0e9a00a4e0982bca66131babba9", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.720+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "151d08c81dcf417b9de6b62f7d4ba2c8", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.722+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "250daddfd96244c0ba41f1528af87030", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.723+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "eeb98eee911f489fafd89a6db53ccae5", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.724+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "422494d55a6841388a3ff734e81359ab", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.726+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "be6f1901ba1440ceabc4555cbf404106", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.727+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f5f2f707fd9a47d39005c99064b8caf8", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.728+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "83f3b24e7a8d4f48b8e5066152175891", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.730+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "07462e13bee34910807ca89cfd3a9ecc", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.731+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "21940ddfd1e742bca7e75c6e40380d17", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.732+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "81df6ac16ee94c318f6e9e23f6b9ff87", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:00:30.733+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "cd2f28b8a1a44fdd8cc7d895d0812bbb", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:00:30.734+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "df6cc04ac93e4afc9432e0ead9208258", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:00:30.735+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d1ff41c21e434040b48938b068d795b4", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:00:30.736+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "6933851baea8401c9a0447f50c380369", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:00:30.737+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "5cca4d88dfd843a6bea31612e28d5a35", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:39990 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:00:30.738+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4b996042dd3d419abfa0f1493997bb6c", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     10.9.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.742+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "355693ad303d451f8caa85044b22d7d8", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.2:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.745+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4a72db37a200468980268c9128345ecf", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.3:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.746+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "2bbeabe2dd8341db953f2d3d1d11b448", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.4:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.749+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "5b2b3b567d2d4b7db83c18b324fbee00", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.5:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.750+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d72a7c00a6b14018a8b03a02ee79ee21", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.6:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.756+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7624a19b61bb4ae986467be1d90d1e66", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.7:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.757+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "01b1d21e670342cfabdaba20b17ef758", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.8:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.770+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "816b39f23fc844d78331de0167ba722b", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 7}
+INFO:     10.9.0.9:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.772+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "98260d64bd3f4332b269a53e9aa40fe4", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.10:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.774+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4133fc71e3c945d695f67d2e8707f727", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.11:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.776+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "79c9fb385891465e819107fd22bc5abd", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.12:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.777+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4255f05838a649dd9738dd2f8c6ddfc9", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.13:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.783+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "eb4334c9cacb479f812eb9c0926be25c", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.14:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.784+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "37d4fd8563b74c0c8da149e713304eaf", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.15:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.786+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a18dc54de1064fde8d87bfb6372bd991", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.16:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.791+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b4d9d1b72561423b8338dc7deef386fd", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.17:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.793+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "2b2afdcd2fe74da98718bbda833f8e88", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.18:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.795+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8032a07ab9d6432f9adc354dc9a7cfec", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.19:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.796+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "3e405d73e24145a9b42bda9ccd77163d", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.20:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.797+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f7ae9a339c354f6e99efd3f710769172", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.21:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.798+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a139353d581f4ee8902054a33084c51a", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.22:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.800+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "27623e2b90e043d2aaf729c3575b623d", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.23:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.801+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0938261512a44fba80da26c4fba5af11", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.24:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.803+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "2bc00b5f7ad547a3bd5ab5f7b53bf20f", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.25:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:00:30.804+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b6b9f48b555a454cb4c6a0167dbfd4b2", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.822+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "941f2a68f2d54fa69df54ac326633038", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.837+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "87bccb17a0774d2581de3a7b4188d426", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.846+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "2674b3703d164d918a7ff0a61957921a", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.854+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d580573765a44737801f0b3bb244559e", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.861+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "4248c41d76a64df197f41f88a17fcae3", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.872+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "22b0acdf48f8410388c8af4ff782e7f8", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.879+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a14e84771dcf489592e4ad68e8a6b15f", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.885+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7e286f343ea540dda6e4abf2b0cdf778", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.897+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "35826307128d42eca459da04d2b10650", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.904+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "82a876f4d9fa4b86912b1b2553506df3", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.914+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "011b4590d34847109831f7e19dd45894", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 2}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.927+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "dc76da988d7a48f8bcbbd7fac24cc1de", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 3}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.931+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "db8fb62669d24c29b57154e1e513b9de", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.939+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "56745ec27be248a2a1e5fae6765c761e", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.945+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "35a3351b5ffa4a7c872a8c48619d193a", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.952+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "23c831cbbaf74bb4b4819c3ec58f3004", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.958+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "81f663f8f2ca4059bffd2e7c03cee0bd", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.967+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b14d950547fa478ca847083e46c98d65", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.972+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9b484f5f61d84d99a3c49056cb4f4be2", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:31.981+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "15c4154f09d94bcf86581e093ec63248", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:01:31.987+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "be852119de5b409a9ed669ad06b981ee", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:01:31.993+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "8c8223056b9e4e6385258a99d6dac54c", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:01:31.998+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "f0972a791c744c4daeb975f8335e835e", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:01:32.006+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "0ebe1baed9ed44e9a15db3f5a76070d3", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:01:32.010+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "7ab01e774704490cb65c2ce380bbac85", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     127.0.0.1:0 - "POST /api/recommend HTTP/1.1" 429 Too Many Requests
+{"ts": "2026-10-18T21:01:32.016+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "054bcee52a60463b8f53e52fd6684eb5", "method": "POST", "path": "/api/recommend", "status": 429, "duration_ms": 0}
+INFO:     10.9.0.1:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.022+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "06a77e7012634cc1b97cfe6fd58003ca", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.2:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.028+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "aaaa04a408814c5685b14862eee8be8d", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.3:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.036+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9a42183203844aa5aaa250b62349bf98", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.4:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.042+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "90dda88f4bf042d2bf58cbd9a4dcd862", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.5:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.047+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "b4efc3816f5f4d109e189f985d7ee330", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.6:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.052+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "49522671e36f44c3b4ee2eec1093fa6e", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.7:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.058+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "98f60a34b6644777852920b4c6dce449", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.8:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.064+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "28adc520307647c890c5425848106500", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.9:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.070+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "94af5e6c547c49cc954dbd5e4fbb6cba", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.10:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.074+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "299017b229134a2ba6c7175244c93a18", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.11:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.078+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "d304ba5593214f18b08f91528b3256d6", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.12:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.083+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "06976e0fe4294647abcabedd5e02a4b9", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.13:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.089+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "de85789ffd03468eb2800428150de3a3", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.14:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.094+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "359dfacb649440368cc6474d1a1c79f0", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.15:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.098+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "830433d6fa274f6686ae1d9ef64a5048", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.16:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.102+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "906a923fb3a846409e711c4db0322aa5", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.17:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.108+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a2f98d0606664612866681adb18e79ca", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.18:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.112+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "623df3d62574408d9e177aeb81fcef72", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.19:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.117+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "22253502e76647d59d9768036fdcf020", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.20:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.123+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "dbf2611a5f2b4406840bfceff1ffda02", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.21:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.129+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "c8facaf10b7b4333ae682fcc811642aa", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.22:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.133+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "9f9c706b3ef44a1d97cbbab2bd72ad0b", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 0}
+INFO:     10.9.0.23:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.140+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "e5db65df2f74492fa79fae86ba4f9a92", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 2}
+INFO:     10.9.0.24:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.147+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "20df2cc10b4145ab967a40929d580f06", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     10.9.0.25:0 - "POST /api/recommend HTTP/1.1" 422 Unprocessable Content
+{"ts": "2026-10-18T21:01:32.155+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "a30c5ecb6b6940cea785899938fc5ea7", "method": "POST", "path": "/api/recommend", "status": 422, "duration_ms": 1}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [11112]

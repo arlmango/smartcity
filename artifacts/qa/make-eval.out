@@ -1,0 +1,23 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+D01 ok                   live_rag         46.4s viol=0 miss=0
+D02 no_match             retrieval_only    0.0s viol=0 miss=0
+D03 ok                   live_rag         62.3s viol=0 miss=0
+D04 ok                   live_rag         72.7s viol=0 miss=1
+D05 ok                   live_rag         62.3s viol=0 miss=0
+D06 ok                   live_rag         47.8s viol=0 miss=0
+D07 no_match             retrieval_only    0.2s viol=0 miss=0
+D08 ok                   live_rag         66.8s viol=0 miss=1
+D09 ok                   live_rag         65.6s viol=0 miss=0
+D10 ok                   live_rag         45.7s viol=0 miss=0
+H01 ok                   live_rag         43.5s viol=0 miss=0
+H02 ok                   live_rag         58.7s viol=0 miss=0
+H03 ok                   live_rag         52.6s viol=0 miss=0
+H04 ok                   live_rag         56.1s viol=0 miss=0
+H05 ok                   live_rag         36.7s viol=0 miss=0
+H06 no_match             retrieval_only    0.2s viol=0 miss=0
+H07 ok                   live_rag         22.0s viol=0 miss=0
+H08 no_match             retrieval_only    0.2s viol=0 miss=0
+H09 needs_clarification  retrieval_only    0.0s viol=0 miss=0
+H10 ok                   live_rag         79.8s viol=0 miss=0
+report: /home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/artifacts/eval/20261018T210726Z
+EXIT=0

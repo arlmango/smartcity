@@ -1,0 +1,67 @@
+{
+  "files": 4,
+  "recommendations_checked": 10,
+  "problems": [],
+  "rows": [
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-1.json",
+      "place_id": "9f26d759-b6d4-48ff-acac-db42e6771fdd",
+      "name": "NU Park",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-1.json",
+      "place_id": "92383177-df3d-4103-8c99-4dcf6d63f195",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-1.json",
+      "place_id": "80fed62e-897e-45ce-8745-b1dc2dbb884a",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-2.json",
+      "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-2.json",
+      "place_id": "d7c08609-2ef2-4eb9-9472-bc956fedea8e",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-2.json",
+      "place_id": "b3ce404a-a492-4781-8f5e-c3f374045f21",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-3.json",
+      "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-3.json",
+      "place_id": "d7c08609-2ef2-4eb9-9472-bc956fedea8e",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-3.json",
+      "place_id": "b3ce404a-a492-4781-8f5e-c3f374045f21",
+      "name": "Детская площадка",
+      "issues": []
+    },
+    {
+      "file": "artifacts/live/20261018T204353Z-S1-rerun/responses/desktop-1440-s1-near-mega-40-min-walk-real-cards-card-marker-unknown-hours-sourc-4.json",
+      "place_id": "4b6f3bf4-1073-40d3-94d8-e218428721d7",
+      "name": "Ocean Basket",
+      "issues": []
+    }
+  ]
+}
