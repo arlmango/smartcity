@@ -1,0 +1,2 @@
+components: {'db': 'ok', 'data': 'ok', 'map': 'ok', 'embeddings': 'ok', 'llm': 'ok', 'routing': 'not_configured'}
+[23:05:25] == api live scenarios (pytest -m live)
