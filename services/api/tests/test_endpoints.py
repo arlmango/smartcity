@@ -335,3 +335,24 @@ async def test_undeclared_small_body_then_disconnect_polling_works():
     await mw(scope, receive, send)
     assert seen == ["http.request:abc", "http.disconnect"]
     assert sent[0]["status"] == 200
+
+
+def test_ready_probe_is_bounded_while_model_loads():
+    # A cold Ollama model load took 20-30 s and made /api/ready time out behind the web proxy.
+    import time as _t
+
+    from smartcity_api.providers.base import ModelIdentity
+    from smartcity_api.runtime import ProbeCache
+
+    class SlowProvider:
+        def probe(self):
+            _t.sleep(0.5)
+            return ModelIdentity(provider="fake", model="slow", dim=3)
+
+    cache = ProbeCache()
+    t0 = _t.monotonic()
+    ident, err = cache.get_bounded("embedding", SlowProvider(), wait_s=0.05)
+    assert ident is None and err == "pending" and _t.monotonic() - t0 < 0.3
+    _t.sleep(0.7)
+    ident, err = cache.get_bounded("embedding", SlowProvider(), wait_s=0.05)
+    assert ident is not None and ident.model == "slow" and err is None

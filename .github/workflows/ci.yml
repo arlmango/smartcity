@@ -26,9 +26,8 @@ jobs:
         run: |
           cid=$(docker ps -q --filter ancestor=pgvector/pgvector:0.8.1-pg17-bookworm)
           docker exec "$cid" bash -c "apt-get update && apt-get install -y --no-install-recommends postgresql-17-postgis-3=3.6.4+dfsg-2.pgdg12+1 postgresql-17-postgis-3-scripts=3.6.4+dfsg-2.pgdg12+1"
-          docker exec -i "$cid" psql -U smartcity -d smartcity < infra/docker/db-init.sql
-          docker exec "$cid" psql -U smartcity -d smartcity -c "CREATE DATABASE smartcity_test_ingest OWNER smartcity"
-          docker exec "$cid" psql -U smartcity -d smartcity_test_ingest -c "CREATE EXTENSION postgis; CREATE EXTENSION vector;"
+          # db-init.sql creates both test databases (smartcity_test, smartcity_test_ingest) with extensions.
+          docker exec -i "$cid" psql -v ON_ERROR_STOP=1 -U smartcity -d smartcity < infra/docker/db-init.sql
       - uses: astral-sh/setup-uv@v6
         with:
           version: "0.11.32"

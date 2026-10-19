@@ -11,9 +11,9 @@
 
 ## Зависимости (аудит 2026-10-18)
 - Python: `pip-audit` — после обновления FastAPI 0.146.0 / Starlette 1.9.0 / pytest 9.1.1 известных уязвимостей нет (было 14 в starlette 0.48.0 и pytest 8.4.2).
-- Node: `pnpm audit --prod` — postcss в Next закреплён override на 8.5.30 (исправлены high/moderate).
+- Node: `pnpm audit --prod` — 0 известных уязвимостей (postcss в Next закреплён override на 8.5.30; maplibre-gl 6.15.0).
 
-## Принятый риск
-| ID | Компонент | Суть | Почему принято | Что сделать |
-|---|---|---|---|---|
-| R1 | maplibre-gl 5.24.0 | GHSA «XSS Sanitizer Bypass in DOM.sanitize()», исправлено в ≥ 6.4.1 | `DOM.sanitize` вызывается только AttributionControl/Popup.setHTML. В SmartCity `attributionControl: false`, атрибуция — собственная React-ссылка, Popup не используется, все источники имеют пустую attribution. Обновление до 6.x проверено 2026-10-18: карта не инициализируется в E2E (мажорные изменения API) — требует отдельной миграции. | Миграция на MapLibre 6.x отдельной задачей; до тех пор не включать AttributionControl/Popup.setHTML с внешними строками. |
+## Закрытые риски
+| ID | Компонент | Суть | Как закрыто |
+|---|---|---|---|
+| R1 | maplibre-gl ≤ 6.4.0 | GHSA-jrc7-96c5-q579: обход санитайзера `DOM.sanitize()` (XSS через атрибуцию) | Обновление до **maplibre-gl 6.15.0** (исправлено в ≥ 6.4.1). Воркер MapLibre 6 раздаётся с того же origin (`public/maplibre/maplibre-gl-worker.mjs`, `setWorkerUrl`), CSP не ослаблялась. Регрессия: `apps/web/tests/unit/maplibreVersion.test.ts` (версия ≥ 6.4.1, раздаваемый воркер побайтно равен установленному), E2E карты, `pnpm audit --prod` — 0 уязвимостей. Дополнительно атрибуция MapLibre отключена, Popup.setHTML не используется. |

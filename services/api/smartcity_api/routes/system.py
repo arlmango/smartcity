@@ -57,6 +57,9 @@ def _map_status(data_dir: Path) -> ComponentStatus:
     return ComponentStatus(status="unavailable", detail="Файлы слоёв карты не найдены")
 
 
+READY_PROBE_WAIT_S = 5.0  # readiness must answer fast; a cold model load continues in background
+
+
 @router.get(
     "/ready",
     response_model=ReadyResponse,
@@ -93,8 +96,12 @@ def ready(request: Request) -> JSONResponse:
     if c.embedder is None:
         comps["embeddings"] = ComponentStatus(status="not_configured", detail="EMBEDDING_PROVIDER=none")
     else:
-        ident, err = c.probes.get("embedding", c.embedder)
-        if ident is None:
+        ident, err = c.probes.get_bounded("embedding", c.embedder, READY_PROBE_WAIT_S)
+        if ident is None and err == "pending":
+            comps["embeddings"] = ComponentStatus(
+                status="degraded", detail="Проверка модели ещё идёт (возможно, модель загружается)"
+            )
+        elif ident is None:
             comps["embeddings"] = ComponentStatus(status="unavailable", detail=f"Probe не прошёл: {err}")
         else:
             mine = [st for st in stats if st.model_id == ident.model_id and st.dim == ident.dim]
@@ -113,8 +120,12 @@ def ready(request: Request) -> JSONResponse:
     if c.generator is None:
         comps["llm"] = ComponentStatus(status="not_configured", detail="AI_PROVIDER=none")
     else:
-        ident, err = c.probes.get("llm", c.generator)
-        if ident is None:
+        ident, err = c.probes.get_bounded("llm", c.generator, READY_PROBE_WAIT_S)
+        if ident is None and err == "pending":
+            comps["llm"] = ComponentStatus(
+                status="degraded", detail="Проверка модели ещё идёт (возможно, модель загружается)"
+            )
+        elif ident is None:
             comps["llm"] = ComponentStatus(status="unavailable", detail=f"Probe не прошёл: {err}")
         else:
             digest = f"@{ident.digest[:12]}" if ident.digest else ""

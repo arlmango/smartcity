@@ -6,6 +6,7 @@ Tests inject their own container with explicitly named fake providers from tests
 
 from __future__ import annotations
 
+import concurrent.futures
 import threading
 import time
 from collections.abc import Callable
@@ -63,6 +64,8 @@ class ProbeCache:
         self.fail_ttl_s = fail_ttl_s
         self._entries: dict[str, _Probe] = {}
         self._lock = threading.Lock()
+        self._inflight: dict[str, concurrent.futures.Future] = {}
+        self._pool = concurrent.futures.ThreadPoolExecutor(max_workers=2, thread_name_prefix="probe")
 
     def get(self, key: str, provider, *, force: bool = False) -> tuple[ModelIdentity | None, str | None]:
         if provider is None:
@@ -84,6 +87,30 @@ class ProbeCache:
         with self._lock:
             self._entries[key] = result
         return result.identity, result.error
+
+    def get_bounded(self, key: str, provider, wait_s: float) -> tuple[ModelIdentity | None, str | None]:
+        """Like get(), but waits at most wait_s (e.g. a cold model load can take 20-30 s).
+
+        Returns (None, "pending") while the probe is still running in the background; the result
+        is cached for later calls. Used by /api/ready so readiness answers quickly.
+        """
+        if provider is None:
+            return None, "not_configured"
+        now = time.monotonic()
+        with self._lock:
+            entry = self._entries.get(key)
+            if entry:
+                ttl = self.ok_ttl_s if entry.identity else self.fail_ttl_s
+                if now - entry.at < ttl:
+                    return entry.identity, entry.error
+            fut = self._inflight.get(key)
+            if fut is None or fut.done():
+                fut = self._pool.submit(self.get, key, provider, force=True)
+                self._inflight[key] = fut
+        try:
+            return fut.result(timeout=wait_s)
+        except concurrent.futures.TimeoutError:
+            return None, "pending"
 
     def invalidate(self, key: str) -> None:
         with self._lock:

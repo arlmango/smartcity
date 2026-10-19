@@ -2,6 +2,7 @@
 
 import type { FeatureCollection } from "geojson";
 import type { GeoJSONSource, Map as MlMap, Marker } from "maplibre-gl";
+import { MAPLIBRE_WORKER_URL } from "@/lib/mapWorker";
 import { useEffect, useRef, useState } from "react";
 import type { Recommendation } from "@/lib/contracts";
 import type { Origin } from "@/lib/form";
@@ -85,6 +86,8 @@ export function MapView(props: MapViewProps) {
     (async () => {
       const lib = await import("maplibre-gl");
       if (cancelled || !containerRef.current) return;
+      // MapLibre 6 runs its tiles/GeoJSON worker from a separate module file, served same-origin.
+      lib.setWorkerUrl(MAPLIBRE_WORKER_URL);
       libRef.current = lib;
       try {
         map = new lib.Map({
