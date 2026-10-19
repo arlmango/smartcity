@@ -1,0 +1,1 @@
+930574f ops: smoke-live waits up to 180 s for readiness (probe may still be loading a model); bootstrap works without pnpm
