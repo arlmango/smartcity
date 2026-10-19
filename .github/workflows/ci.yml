@@ -31,6 +31,8 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           version: "0.11.32"
+          # Same interpreter as local dev and the API image (OpenAPI snapshot depends on it).
+          python-version: "3.13"
       - run: uv sync --all-packages --frozen
       - run: uv run ruff check services && uv run ruff format --check services
       - name: Migrations
