@@ -1,0 +1,14 @@
+{
+  "exit_code": 125,
+  "seconds": 6.02,
+  "peak_output_bytes_sampled": 2086696,
+  "image_bytes": 979291594,
+  "stopped": null,
+  "limits": {
+    "memory_gib": 2,
+    "cpu": 2,
+    "threads": 1,
+    "build_timeout_seconds": 900,
+    "total_disk_gib": 3
+  }
+}

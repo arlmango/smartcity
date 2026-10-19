@@ -23,3 +23,4 @@ data/backups/
 .DS_Store
 .claude/worktrees/
 !artifacts/**/*.log
+data/routing/

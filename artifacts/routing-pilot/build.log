@@ -1,0 +1,3 @@
+docker: Error response from daemon: error while creating mount source path '/host_mnt/Users/mango/Documents/Codex/2026-10-19/task-8/smartcity/data/routing/pilot': mkdir /host_mnt/Users/mango/Documents: operation not permitted
+
+Run 'docker run --help' for more information
