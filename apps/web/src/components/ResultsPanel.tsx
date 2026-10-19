@@ -4,6 +4,7 @@ import type { RecommendResponse, Relaxation } from "@/lib/contracts";
 import { REFINEMENT_LABEL, refinementChanges, type RefinementKind } from "@/lib/form";
 import type { Constraints } from "@/lib/contracts";
 import { formatAlmaty } from "@/lib/time";
+import { AlternativeComparison } from "./AlternativeComparison";
 import { RecommendationCard } from "./RecommendationCard";
 
 interface Props {
@@ -167,6 +168,8 @@ export function ResultsPanel(props: Props) {
           </div>
         )}
       </section>
+
+      <AlternativeComparison recs={recs} budget={props.budget} selectedId={props.selectedId} onSelect={props.onSelect} />
 
       {recs.length > 0 && (
         <ol className="space-y-3" aria-label="Рекомендации">

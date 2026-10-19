@@ -44,7 +44,7 @@ test.describe("deterministic: recommendation flow (SYNTHETIC fixtures)", () => {
     expect(body.client_request_id).toMatch(/^[A-Za-z0-9_-]{8,64}$/);
 
     // Generic playground name is labelled honestly.
-    await expect(page.getByText("Детская площадка · без названия в OSM")).toBeVisible();
+    await expect(page.getByTestId("rec-card").getByText("Детская площадка · без названия в OSM")).toBeVisible();
 
     // card → marker
     const card2 = page.locator('[data-testid="rec-card"][data-place-id="synthetic-playground-2"]');

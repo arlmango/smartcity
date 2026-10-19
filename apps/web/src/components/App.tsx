@@ -108,12 +108,14 @@ export function App() {
   const heights = useMemo(() => heightStats(map.layers.buildings?.data), [map.layers.buildings]);
   const providerLines = useMemo(() => describeProviders(ready.data, response?.providers), [ready.data, response]);
 
-  // New answer → clear selection and fit camera to origin + results.
+  // Preserve a choice made while explanations load, if it survives the final answer.
+  const resultSet = JSON.stringify(recs.map((r) => r.place_id).sort());
+  const answerId = shown?.client_request_id;
   useEffect(() => {
-    if (!shown) return;
-    setSelectedId(null);
-    if (shown.recommendations.length) setFitSignal((n) => n + 1);
-  }, [shown]);
+    const ids: string[] = JSON.parse(resultSet);
+    setSelectedId((current) => current && ids.includes(current) ? current : null);
+    if (ids.length) setFitSignal((n) => n + 1);
+  }, [answerId, resultSet]);
 
   const setOrigin = useCallback(
     (o: Origin) => {
@@ -144,6 +146,7 @@ export function App() {
       if (!f.origin) return;
       const request = buildRequest(f, newClientRequestId(), state.context);
       setEditing(false);
+      setSelectedId(null);
       setSheet((s) => (s === "collapsed" ? "half" : s));
       rec.submit(request, userTurn);
       panelScrollRef.current?.scrollTo({ top: 0 });
@@ -226,6 +229,7 @@ export function App() {
       <div className="space-y-4">
         <ProgressPanel startedAt={state.startedAt} onCancel={rec.cancel} compact />
         <ResultsPanel
+          key="results"
           response={state.preliminary}
           constraints={state.request?.constraints ?? form.constraints}
           budget={state.request?.time_budget_min ?? null}
@@ -256,7 +260,9 @@ export function App() {
     );
   } else if (showResults && response) {
     panel = (
+      <div className="space-y-4">
       <ResultsPanel
+        key="results"
         response={response}
         note={state.partialNote}
         constraints={state.responseRequest?.constraints ?? form.constraints}
@@ -272,6 +278,7 @@ export function App() {
         onEdit={() => setEditing(true)}
         onReset={onReset}
       />
+      </div>
     );
   } else {
     panel = (
@@ -380,7 +387,7 @@ export function App() {
         {/* ---------------- map */}
         <section
           aria-label="Карта"
-          className="max-lg:absolute max-lg:inset-x-0 max-lg:top-0 lg:relative lg:min-w-0 lg:flex-1"
+          className="isolate max-lg:absolute max-lg:inset-x-0 max-lg:top-0 lg:relative lg:min-w-0 lg:flex-1"
           style={isDesktop ? undefined : { bottom: mapBottom }}
         >
           {basemap.isPending && !mapFatal ? (
