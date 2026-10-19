@@ -25,6 +25,9 @@ services:
   ollama:
     profiles: ["ollama"]
     image: ollama/ollama:0.12.6
+    environment:
+      # Keep models in RAM between requests: a cold load of qwen2.5:3b takes ~35 s on CPU.
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-30m}
     ports:
       - "127.0.0.1:11434:11434"
     volumes:
