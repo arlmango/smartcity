@@ -16,7 +16,7 @@ test.describe("live: provider failure", () => {
     await page.getByLabel("Что хочется").fill("Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться");
     await submit(page);
     await waitForOutcome(page, 120_000);
-    const r = lastResponse(c);
+    const r = await lastResponse(c);
     expect(r.mode).toBe("retrieval_only");
     expect(r.status).toBe("degraded");
     const codes = (r.warnings as { code: string }[]).map((w) => w.code);

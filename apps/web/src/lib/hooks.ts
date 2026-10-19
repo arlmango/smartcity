@@ -6,6 +6,7 @@ import { ApiError, getCoverage, getMapLayer, getReady, isAbortError, postRecomme
 import type { RecommendRequest } from "./contracts";
 import { MAP_LAYERS, type LayerResult, type MapLayer } from "./mapData";
 import { initialRecommendState, recommendReducer, type RequestErrorInfo } from "./recommendState";
+import type { RecommendResponse } from "./contracts";
 
 // ------------------------------------------------------------- environment
 
@@ -108,6 +109,17 @@ function toErrorInfo(e: unknown): RequestErrorInfo {
   return { kind: "unknown", message: "Что-то пошло не так.", retryable: true };
 }
 
+/** Test/debug hook (same data the UI shows, no secrets): recommendation stream events by
+ * client_request_id. Live browser tests read the final answer from here, because a streamed
+ * response body is not available to Playwright's response API. */
+type RecommendDebug = { preliminary: Record<string, RecommendResponse>; final: Record<string, RecommendResponse>; errors: Record<string, string> };
+function recommendDebug(): RecommendDebug | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { __smartcityRecommend?: RecommendDebug };
+  if (!w.__smartcityRecommend) w.__smartcityRecommend = { preliminary: {}, final: {}, errors: {} };
+  return w.__smartcityRecommend;
+}
+
 export function useRecommend() {
   const [state, dispatch] = useReducer(recommendReducer, initialRecommendState);
   const controllerRef = useRef<AbortController | null>(null);
@@ -119,11 +131,20 @@ export function useRecommend() {
     controllerRef.current = controller;
     const id = request.client_request_id;
     dispatch({ type: "start", request, at: Date.now(), userTurn });
-    postRecommendStream(request, controller.signal, (response) => dispatch({ type: "preliminary", id, response })).then(
-      (response) => dispatch({ type: "success", id, response }),
+    const dbg = recommendDebug();
+    postRecommendStream(request, controller.signal, (response) => {
+      if (dbg) dbg.preliminary[id] = response;
+      dispatch({ type: "preliminary", id, response });
+    }).then(
+      (response) => {
+        if (dbg) dbg.final[id] = response;
+        dispatch({ type: "success", id, response });
+      },
       (e: unknown) => {
         if (controller.signal.aborted || isAbortError(e)) return; // cancel handled separately
-        dispatch({ type: "failure", id, error: toErrorInfo(e) });
+        const error = toErrorInfo(e);
+        if (dbg) dbg.errors[id] = error.message;
+        dispatch({ type: "failure", id, error });
       },
     );
   }, []);

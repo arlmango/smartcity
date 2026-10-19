@@ -54,8 +54,12 @@ test.describe("live scenarios", () => {
     await expect(page.getByTestId("rec-card").first()).toBeVisible();
     await shot(page, info, "09-S1-places-before-ai");
     await waitForOutcome(page);
-    const r1 = lastResponse(c);
-    expect(c.preliminaryCount, "a preliminary stream event was received").toBeGreaterThan(0);
+    const r1 = await lastResponse(c);
+    const hadPreliminary = await page.evaluate(
+      (id) => !!(window as unknown as { __smartcityRecommend?: { preliminary: Record<string, unknown> } }).__smartcityRecommend?.preliminary[id],
+      c.lastRequestId ?? "",
+    );
+    expect(hadPreliminary, "a preliminary stream event was received").toBe(true);
     expect(["ok", "degraded"]).toContain(r1.status);
     expect(r1.recommendations.length).toBeGreaterThan(0);
     checkInvariants(r1, 40, true);
@@ -125,7 +129,7 @@ test.describe("live scenarios", () => {
     await waitForOutcome(page);
     await expect(page.getByTestId("progress")).toHaveCount(0, { timeout: LIVE_REC_TIMEOUT });
     const req2 = c.recs.at(-1)!.request as { constraints: { max_distance_m: number }; time_budget_min: number; return_to_start: boolean };
-    const r2 = lastResponse(c);
+    const r2 = await lastResponse(c);
     expect(req2.constraints.max_distance_m).toBeGreaterThan(0);
     expect(req2.time_budget_min).toBe(40);
     expect(req2.return_to_start).toBe(true);
@@ -141,7 +145,7 @@ test.describe("live scenarios", () => {
       await waitForOutcome(page);
       await expect(page.getByTestId("progress")).toHaveCount(0, { timeout: LIVE_REC_TIMEOUT });
       const req3 = c.recs.at(-1)!.request as { constraints: { max_distance_m: number; exclude_categories: string[] } };
-      const r3 = lastResponse(c);
+      const r3 = await lastResponse(c);
       expect(req3.constraints.exclude_categories).toContain("cafe");
       expect(req3.constraints.max_distance_m).toBe(req2.constraints.max_distance_m);
       for (const rec of r3.recommendations) expect(rec.category).not.toBe("cafe");
@@ -156,7 +160,7 @@ test.describe("live scenarios", () => {
       await waitForOutcome(page);
       await expect(page.getByTestId("progress")).toHaveCount(0, { timeout: LIVE_REC_TIMEOUT });
       const req4 = c.recs.at(-1)!.request as { constraints: { required_features: string[]; exclude_categories: string[] } };
-      const r4 = lastResponse(c);
+      const r4 = await lastResponse(c);
       expect(req4.constraints.required_features).toContain("indoor");
       expect(req4.constraints.exclude_categories).toContain("cafe");
       for (const rec of r4.recommendations) expect(rec.verified_features.map((f) => f.feature)).toContain("indoor");
@@ -183,7 +187,7 @@ test.describe("live scenarios", () => {
     await page.getByRole("button", { name: "60 мин" }).click();
     await submit(page);
     await waitForOutcome(page);
-    const r1 = lastResponse(c);
+    const r1 = await lastResponse(c);
     expect(r1.status).toBe("no_match");
     expect(r1.recommendations).toEqual([]);
     await expect(page.getByRole("heading", { name: /Подходящих мест не нашлось/ })).toBeVisible();
@@ -198,7 +202,7 @@ test.describe("live scenarios", () => {
     expect(req2.constraints.required_features).not.toContain("socket");
     expect(req2.constraints.preferred_features).toContain("socket");
     expect(req2.conversation_context.length).toBeGreaterThan(0);
-    const r2 = lastResponse(c);
+    const r2 = await lastResponse(c);
     expect(r2.recommendations.length).toBeGreaterThan(0);
     checkInvariants(r2, 60, true);
     for (const rec of r2.recommendations) expect(rec.verified_features.map((f) => f.feature)).not.toContain("socket");
@@ -218,7 +222,7 @@ test.describe("live scenarios", () => {
     await page.getByRole("button", { name: "60 мин" }).click();
     await submit(page);
     await waitForOutcome(page);
-    const r = lastResponse(c);
+    const r = await lastResponse(c);
     expect(r.recommendations.length).toBeGreaterThan(0);
     checkInvariants(r, 60, true);
     await expectCardsMatchMarkers(page, r.recommendations.map((x) => x.place_id));
@@ -270,7 +274,7 @@ test.describe("live scenarios", () => {
     await page.getByLabel("Что хочется").fill(payload);
     await submit(page);
     await waitForOutcome(page);
-    const r = lastResponse(c);
+    const r = await lastResponse(c);
     expect(await page.evaluate(() => (window as unknown as { __xss?: number }).__xss)).toBeUndefined();
     const html = await page.getByTestId("results").innerHTML();
     expect(html).not.toMatch(/<script|onerror=|onmouseover=|javascript:/i);
@@ -294,7 +298,7 @@ test.describe("live scenarios", () => {
     await page.getByRole("button", { name: "Кофе", exact: true }).click();
     await submit(page);
     await waitForOutcome(page);
-    const r = lastResponse(c);
+    const r = await lastResponse(c);
     expect(r.recommendations.length).toBeGreaterThan(0);
     checkInvariants(r, 40, true);
     const ids = r.recommendations.map((x) => x.place_id);
@@ -323,7 +327,7 @@ test.describe("live scenarios", () => {
     await page.getByLabel("Розетки").check();
     await submit(page);
     await waitForOutcome(page, 120_000);
-    const r = lastResponse(c);
+    const r = await lastResponse(c);
     expect(r.status).toBe("no_match");
     await expect(page.getByRole("heading", { name: /Подходящих мест не нашлось/ })).toBeVisible();
     await shot(page, info, "60-small-mobile-no-match");

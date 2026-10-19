@@ -39,18 +39,24 @@ export interface Collectors {
   failedRequests: string[];
   httpErrors: string[];
   flush: () => void;
+  page: Page;
+  /** client_request_id of the last POST to /api/recommend*. */
+  lastRequestId: string | null;
 }
 
 /** Attach evidence collectors to the page; call `flush()` at the end of the test. */
 export function collect(page: Page, info: TestInfo): Collectors {
-  const c: Collectors = { recs: [], preliminaryCount: 0, consoleErrors: [], pageErrors: [], failedRequests: [], httpErrors: [], flush: () => {} };
+  const c: Collectors = { recs: [], preliminaryCount: 0, consoleErrors: [], pageErrors: [], failedRequests: [], httpErrors: [], flush: () => {}, page, lastRequestId: null };
   const started = new Map<string, number>();
   page.on("console", (m) => {
     if (m.type() === "error" || m.type() === "warning") c.consoleErrors.push(`[${m.type()}] ${m.text()}`);
   });
   page.on("pageerror", (e) => c.pageErrors.push(e.message));
   page.on("request", (r) => {
-    if (r.url().includes("/api/recommend")) started.set(r.url() + (r.postData() ?? ""), Date.now());
+    if (r.url().includes("/api/recommend")) {
+      started.set(r.url() + (r.postData() ?? ""), Date.now());
+      if (r.method() === "POST") c.lastRequestId = ((r.postDataJSON() ?? {}) as { client_request_id?: string }).client_request_id ?? null;
+    }
   });
   page.on("requestfailed", (r) => c.failedRequests.push(`${r.method()} ${new URL(r.url()).pathname} — ${r.failure()?.errorText ?? "?"}`));
   page.on("response", async (res) => {
@@ -62,14 +68,16 @@ export function collect(page: Page, info: TestInfo): Collectors {
       let body: Record<string, unknown> | null = null;
       try {
         if (url.pathname.endsWith("/stream") && res.status() === 200) {
-          // NDJSON: optional "preliminary" (places before generation), then "final" or "error".
-          const events = (await res.text())
-            .split("\n")
-            .filter((l) => l.trim())
-            .map((l) => JSON.parse(l) as { event: string; response?: Record<string, unknown>; error?: Record<string, unknown> });
-          const fin = events.find((e) => e.event === "final");
-          body = fin?.response ?? (events.find((e) => e.event === "error")?.error as Record<string, unknown> | undefined) ?? null;
-          c.preliminaryCount += events.filter((e) => e.event === "preliminary").length;
+          // The streamed body is not exposed by Playwright: wait for the stream to finish, then read
+          // what the app received (window.__smartcityRecommend, filled by the real client code).
+          await res.finished();
+          const cid = ((req.postDataJSON() ?? {}) as { client_request_id?: string }).client_request_id ?? "";
+          const got = await page.evaluate((id) => {
+            const d = (window as unknown as { __smartcityRecommend?: { preliminary: Record<string, unknown>; final: Record<string, unknown>; errors: Record<string, string> } }).__smartcityRecommend;
+            return d ? { pre: id in d.preliminary, fin: d.final[id] ?? null, err: d.errors[id] ?? null } : null;
+          }, cid);
+          if (got?.pre) c.preliminaryCount += 1;
+          body = (got?.fin as Record<string, unknown> | null) ?? (got?.err ? { error: got.err } : null);
         } else {
           body = (await res.json()) as Record<string, unknown>;
         }
@@ -163,15 +171,30 @@ export type Rec = {
   verified_features: { feature: string }[];
 };
 
-export function lastResponse(c: Collectors): { status: string; mode: string; recommendations: Rec[]; client_request_id?: string } & Record<string, unknown> {
-  const r = c.recs.at(-1);
-  expect(r, "a /api/recommend response was captured").toBeTruthy();
-  expect(r!.status, `HTTP status of /api/recommend: ${JSON.stringify(r!.response).slice(0, 300)}`).toBe(200);
-  return r!.response as never;
+export type LiveResponse = { status: string; mode: string; recommendations: Rec[]; client_request_id?: string } & Record<string, unknown>;
+
+export async function lastResponse(c: Collectors): Promise<LiveResponse> {
+  // The final answer of the last request as the real client received it (streamed bodies are not
+  // exposed by Playwright); waits until the client has recorded a final answer or an error.
+  expect(c.lastRequestId, "a /api/recommend request was sent").toBeTruthy();
+  const handle = await c.page.waitForFunction(
+    (id: string) => {
+      const d = (window as unknown as { __smartcityRecommend?: { final: Record<string, unknown>; errors: Record<string, string> } }).__smartcityRecommend;
+      if (!d) return null;
+      if (id in d.final) return { final: d.final[id] };
+      if (id in d.errors) return { error: d.errors[id] };
+      return null;
+    },
+    c.lastRequestId ?? "",
+    { timeout: 30_000 },
+  );
+  const got = (await handle.jsonValue()) as { final?: Record<string, unknown>; error?: string };
+  expect(got.error, `recommend request failed in the client: ${got.error}`).toBeUndefined();
+  return got.final as never;
 }
 
 /** Invariants every live answer must satisfy (budget per alternative, server-built OSM links, ids). */
-export function checkInvariants(resp: ReturnType<typeof lastResponse>, budget: number, returnToStart: boolean) {
+export function checkInvariants(resp: LiveResponse, budget: number, returnToStart: boolean) {
   const ids = new Set<string>();
   for (const rec of resp.recommendations) {
     expect(ids.has(rec.place_id), "no duplicate place_id").toBe(false);
