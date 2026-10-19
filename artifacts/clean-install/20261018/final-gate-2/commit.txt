@@ -1,0 +1,1 @@
+c468832 fix(rag): prompt rec-v3 — do not mention unverified features at all (the server shows the caveat); resolves prompt/validator conflict that made S2-relaxed fall back
