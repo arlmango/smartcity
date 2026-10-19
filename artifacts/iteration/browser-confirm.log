@@ -1,0 +1,52 @@
+
+Running 12 tests using 2 workers
+
+(node:48245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48244) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48244) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"desktop-chromium","baseline":false,"detailedCardSpanPx":1593,"comparisonHeightPx":496}
+  ✓   1 [desktop-chromium] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (7.5s)
+  ✓   2 [desktop-chromium] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (8.5s)
+  ✓   4 [desktop-chromium] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (3.7s)
+(node:48260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"desktop-chromium","baseline":false,"firstCardMs":536,"finalMs":3543,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓   3 [desktop-chromium] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (5.7s)
+(node:48265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"mobile-390","baseline":false,"detailedCardSpanPx":1593,"comparisonHeightPx":496}
+  ✓   5 [mobile-390] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (22.1s)
+  ✓   6 [mobile-390] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (24.0s)
+{"viewport":"mobile-390","baseline":false,"firstCardMs":994,"finalMs":4473,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓   7 [mobile-390] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (9.0s)
+  ✓   8 [mobile-390] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (6.7s)
+(node:48382) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48383) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48382) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48383) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"mobile-360","baseline":false,"detailedCardSpanPx":1613,"comparisonHeightPx":496}
+  ✓   9 [mobile-360] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (15.1s)
+  ✓  10 [mobile-360] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (19.4s)
+{"viewport":"mobile-360","baseline":false,"firstCardMs":1559,"finalMs":4907,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  11 [mobile-360] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (8.6s)
+  ✓  12 [mobile-360] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (6.6s)
+
+  12 passed (1.3m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

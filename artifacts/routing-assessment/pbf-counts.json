@@ -1,0 +1,112 @@
+{
+  "elapsed_seconds": 54.21,
+  "note": "Read-only count; ways with at least one node inside bbox. Not a complete extracted graph, no topology validation.",
+  "regions": {
+    "coverage": {
+      "bbox": [
+        71.39,
+        51.075,
+        71.445,
+        51.115
+      ],
+      "nodes": 55135,
+      "highway_ways": 5310,
+      "highways": {
+        "tertiary": 238,
+        "secondary": 134,
+        "secondary_link": 46,
+        "primary_link": 16,
+        "service": 1556,
+        "residential": 356,
+        "footway": 2504,
+        "unclassified": 59,
+        "primary": 4,
+        "tertiary_link": 59,
+        "cycleway": 154,
+        "path": 105,
+        "living_street": 4,
+        "track": 10,
+        "pedestrian": 34,
+        "construction": 7,
+        "busway": 21,
+        "corridor": 1,
+        "services": 1,
+        "steps": 1
+      }
+    },
+    "pilot_buffer": {
+      "bbox": [
+        71.35,
+        51.04,
+        71.48,
+        51.15
+      ],
+      "nodes": 222012,
+      "highway_ways": 18191,
+      "highways": {
+        "secondary": 534,
+        "secondary_link": 179,
+        "tertiary": 573,
+        "primary_link": 30,
+        "residential": 1469,
+        "primary": 97,
+        "service": 5567,
+        "footway": 8525,
+        "tertiary_link": 96,
+        "trunk": 2,
+        "steps": 146,
+        "living_street": 86,
+        "unclassified": 123,
+        "track": 56,
+        "pedestrian": 68,
+        "cycleway": 333,
+        "path": 244,
+        "construction": 25,
+        "busway": 29,
+        "elevator": 2,
+        "corridor": 2,
+        "services": 5
+      }
+    },
+    "city": {
+      "bbox": [
+        71.15,
+        50.83,
+        71.85,
+        51.38
+      ],
+      "nodes": 710486,
+      "highway_ways": 40280,
+      "highways": {
+        "primary": 361,
+        "secondary": 1226,
+        "trunk": 144,
+        "residential": 5156,
+        "tertiary": 1228,
+        "secondary_link": 341,
+        "primary_link": 86,
+        "unclassified": 742,
+        "trunk_link": 72,
+        "service": 15138,
+        "footway": 13259,
+        "motorway": 19,
+        "track": 989,
+        "tertiary_link": 175,
+        "cycleway": 431,
+        "living_street": 101,
+        "steps": 264,
+        "rest_area": 7,
+        "pedestrian": 82,
+        "motorway_link": 8,
+        "path": 326,
+        "construction": 79,
+        "raceway": 3,
+        "road": 1,
+        "busway": 29,
+        "elevator": 2,
+        "corridor": 3,
+        "services": 8
+      }
+    }
+  }
+}

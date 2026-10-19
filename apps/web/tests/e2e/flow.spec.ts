@@ -44,7 +44,7 @@ test.describe("deterministic: recommendation flow (SYNTHETIC fixtures)", () => {
     expect(body.client_request_id).toMatch(/^[A-Za-z0-9_-]{8,64}$/);
 
     // Generic playground name is labelled honestly.
-    await expect(page.getByText("Детская площадка · без названия в OSM")).toBeVisible();
+    await expect(page.getByTestId("rec-card").getByText("Детская площадка · без названия в OSM")).toBeVisible();
 
     // card → marker
     const card2 = page.locator('[data-testid="rec-card"][data-place-id="synthetic-playground-2"]');
@@ -310,7 +310,7 @@ test.describe("deterministic: fallback & states", () => {
   test("API down → explicit banner", async ({ page }) => {
     await mockApi(page, { ready: { status: 502 } });
     await page.goto("/");
-    await expect(page.getByTestId("api-banner")).toContainText("API недоступен");
+    await expect(page.getByTestId("api-banner")).toContainText("Подбор мест сейчас недоступен");
   });
 
   test("О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights", async ({ page }) => {

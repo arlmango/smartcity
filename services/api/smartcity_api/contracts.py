@@ -168,7 +168,46 @@ class SourceRef(StrictModel):
     source_updated_at: datetime | None = None
 
 
+class RouteGeometry(StrictModel):
+    type: Literal["LineString"] = "LineString"
+    coordinates: list[tuple[float, float]] = Field(min_length=2, max_length=20000)
+
+    @field_validator("coordinates")
+    @classmethod
+    def valid_coordinates(cls, value):
+        if any(
+            not math.isfinite(x) or not math.isfinite(y) or not -180 <= x <= 180 or not -90 <= y <= 90
+            for x, y in value
+        ):
+            raise ValueError("invalid route coordinates")
+        return value
+
+
+class RouteLeg(StrictModel):
+    geometry: RouteGeometry
+    distance_m: int = Field(ge=0)
+    duration_s: int = Field(ge=0)
+    start_snap_m: int = Field(ge=0, le=100)
+    end_snap_m: int = Field(ge=0, le=100)
+    access_estimate_min: int = Field(ge=0)
+
+
+class WalkingRoute(StrictModel):
+    provider: Literal["valhalla"] = "valhalla"
+    graph_version: str
+    outbound: RouteLeg
+    return_leg: RouteLeg | None
+    note: str
+
+
+class RouteRequest(StrictModel):
+    origin: LatLon
+    destination: LatLon
+    return_to_start: bool = True
+
+
 class Recommendation(StrictModel):
+    route: WalkingRoute | None = None
     place_id: str
     name: str  # from DB
     name_is_generic: bool

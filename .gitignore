@@ -23,3 +23,7 @@ data/backups/
 .DS_Store
 .claude/worktrees/
 !artifacts/**/*.log
+data/routing/
+
+# Separate preview process log; summarized evidence is retained in the routing report.
+/artifacts/routing-pilot/api-preview.log

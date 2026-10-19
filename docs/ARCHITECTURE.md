@@ -100,3 +100,21 @@ LLM извлекает структурированные условия с ва
 
 ## Cache и ошибки
 Map/data cache по dataset_version. Embeddings cache по model+content_hash. Routing cache по подходящему округлению и профилю/версии; не делать точные координаты долгоживущей историей. Приватный request-scoped ответ, исключить утечку чата между пользователями. Таймауты и cancellation, explicit 429/503, UI retry без дубликатов. Circuit breaker при повторяющемся отказе внешнего источника.
+
+
+## Local pedestrian pilot (19 October 2026)
+
+The optional `valhalla` provider currently accepts loopback HTTP only, with environment proxies disabled.
+It uses the bounded Astana graph (OSM 18 October), pedestrian costing at 4 km/h and separate A→B→A legs.
+Recommendation candidates are routed **before** hard budget, opening-hours checks, ranking and RAG.
+Timing uses each leg's rounded duration plus estimated approach to/from the snapped network endpoint;
+no factor-of-two return or straight-line detour multiplier is applied to routed time.
+The UI's explicitly geodesic distance constraint retains a separate original distance.
+
+`Recommendation.route` contains provider, graph version, note, outbound and optional return leg;
+each leg has GeoJSON LineString, distance/duration, snap gaps and estimated access minutes.
+Top-level legacy `route` remains null. No route is invented by the model or UI.
+Candidates with no path/out-of-pilot geometry/snap >100m are excluded. Transport failure or the
+8-second/256-call stage limit discards all partial routes and returns explicit geodesic estimates.
+The pilot has a network-geometry audit, not physical entrance/access verification. Default provider is none.
+For measured controls, runtime ports, resources and reproducible build, see `artifacts/routing-pilot/STATUS.md`.

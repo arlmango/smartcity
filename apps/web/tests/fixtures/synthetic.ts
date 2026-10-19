@@ -153,6 +153,7 @@ export const readyLlmDown: ReadyResponse = {
 
 function rec(over: Partial<Recommendation> & Pick<Recommendation, "place_id" | "name" | "category" | "category_label" | "coordinates">): Recommendation {
   return {
+    route: null,
     name_is_generic: false,
     address: null,
     reason: "SYNTHETIC: объяснение из тестовой фикстуры.",

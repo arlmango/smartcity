@@ -1,0 +1,78 @@
+
+Running 42 tests using 2 workers
+
+(node:51336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51335) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51335) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"desktop-chromium","baseline":false,"detailedCardSpanPx":1681,"comparisonHeightPx":496}
+  ✓   1 [desktop-chromium] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (15.0s)
+  ✓   2 [desktop-chromium] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (17.9s)
+{"viewport":"desktop-chromium","baseline":false,"firstCardMs":1736,"finalMs":5010,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓   3 [desktop-chromium] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (9.8s)
+  ✓   4 [desktop-chromium] › tests/e2e/flow.spec.ts:82:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › no_match explains and relaxation resends the server patch (8.0s)
+  ✓   5 [desktop-chromium] › tests/e2e/routing.spec.ts:7:5 › network route selection, return, reset and no graph @mobile (13.0s)
+  ✓   6 [desktop-chromium] › tests/e2e/flow.spec.ts:103:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › quick refinements keep earlier hard conditions (14.1s)
+  ✓   8 [desktop-chromium] › tests/e2e/flow.spec.ts:138:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › retrieval_only shows the 'ИИ временно недоступен' banner; provider status banner from /api/ready (7.4s)
+  ✓   7 [desktop-chromium] › tests/e2e/routing.spec.ts:48:5 › changing start hides saved route and repeated request clears geometry @mobile (14.4s)
+(node:51434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [desktop-chromium] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (8.1s)
+  ✓  11 [desktop-chromium] › tests/e2e/flow.spec.ts:164:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › preliminary places are replaced by the final AI answer (6.4s)
+{"viewport":"mobile-390","baseline":false,"detailedCardSpanPx":1681,"comparisonHeightPx":496}
+  ✓  12 [desktop-chromium] › tests/e2e/flow.spec.ts:176:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › provider error → error state; retry reuses the same client_request_id (8.1s)
+  ✓  10 [mobile-390] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (18.9s)
+  ✓  13 [desktop-chromium] › tests/e2e/flow.spec.ts:193:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › invalid API response becomes an error state, not a crash (7.4s)
+{"viewport":"mobile-390","baseline":false,"firstCardMs":1702,"finalMs":4264,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  14 [mobile-390] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (10.7s)
+  ✓  15 [desktop-chromium] › tests/e2e/flow.spec.ts:201:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › long request shows progress and can be cancelled; late answer is ignored (11.7s)
+  ✓  17 [desktop-chromium] › tests/e2e/flow.spec.ts:216:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › needs_clarification asks a question and lets the user change conditions (7.7s)
+  ✓  16 [mobile-390] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (17.4s)
+  ✓  18 [desktop-chromium] › tests/e2e/flow.spec.ts:226:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › T25: HTML in a place name is rendered as text (cards and markers) (8.9s)
+  ✓  19 [mobile-390] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (8.1s)
+  ✓  20 [desktop-chromium] › tests/e2e/flow.spec.ts:238:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › place search sets the origin from our own base (8.6s)
+  ✓  21 [mobile-390] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (9.0s)
+  ✓  22 [desktop-chromium] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (9.1s)
+  ✓  23 [mobile-390] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (6.2s)
+  ✓  24 [desktop-chromium] › tests/e2e/flow.spec.ts:259:7 › deterministic: geolocation › granted geolocation outside coverage is explained, not used (8.3s)
+  ✓  25 [mobile-390] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (9.6s)
+  ✓  26 [desktop-chromium] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (3.4s)
+  ✓  28 [desktop-chromium] › tests/e2e/flow.spec.ts:298:7 › deterministic: fallback & states › offline state is shown and blocks submit (13.5s)
+  ✓  27 [mobile-390] › tests/e2e/routing.spec.ts:7:5 › network route selection, return, reset and no graph @mobile (18.4s)
+  ✓  29 [desktop-chromium] › tests/e2e/flow.spec.ts:310:7 › deterministic: fallback & states › API down → explicit banner (4.4s)
+  ✓  31 [desktop-chromium] › tests/e2e/flow.spec.ts:316:7 › deterministic: fallback & states › О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights (11.3s)
+  ✓  30 [mobile-390] › tests/e2e/routing.spec.ts:48:5 › changing start hides saved route and repeated request clears geometry @mobile (17.6s)
+  ✓  32 [desktop-chromium] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (7.9s)
+(node:51882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  33 [desktop-chromium] › tests/e2e/flow.spec.ts:353:7 › deterministic: accessibility › keyboard only: choose demo origin, submit, open a card on the map (4.7s)
+(node:51898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"mobile-360","baseline":false,"detailedCardSpanPx":1701,"comparisonHeightPx":496}
+  ✓  34 [mobile-360] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (10.8s)
+  ✓  35 [mobile-360] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (13.9s)
+{"viewport":"mobile-360","baseline":false,"firstCardMs":1546,"finalMs":4584,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  36 [mobile-360] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (6.4s)
+  ✓  37 [mobile-360] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (3.5s)
+  ✓  39 [mobile-360] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (3.6s)
+  ✓  38 [mobile-360] › tests/e2e/routing.spec.ts:7:5 › network route selection, return, reset and no graph @mobile (6.6s)
+  ✓  40 [mobile-360] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (2.5s)
+  ✓  42 [mobile-360] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (5.5s)
+  ✓  41 [mobile-360] › tests/e2e/routing.spec.ts:48:5 › changing start hides saved route and repeated request clears geometry @mobile (8.1s)
+
+  42 passed (3.5m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

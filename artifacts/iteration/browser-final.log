@@ -1,0 +1,68 @@
+
+Running 36 tests using 2 workers
+
+(node:47858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47857) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47857) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"viewport":"desktop-chromium","baseline":false,"detailedCardSpanPx":1593,"comparisonHeightPx":496}
+  ✓   1 [desktop-chromium] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (5.1s)
+  ✓   2 [desktop-chromium] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (6.2s)
+  ✓   4 [desktop-chromium] › tests/e2e/flow.spec.ts:82:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › no_match explains and relaxation resends the server patch (2.7s)
+{"viewport":"desktop-chromium","baseline":false,"firstCardMs":200,"finalMs":3247,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓   3 [desktop-chromium] › tests/e2e/alternatives.spec.ts:37:5 › selection survives delayed explanation @mobile (5.0s)
+(node:47882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [desktop-chromium] › tests/e2e/flow.spec.ts:103:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › quick refinements keep earlier hard conditions (3.2s)
+  ✓   7 [desktop-chromium] › tests/e2e/flow.spec.ts:138:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › retrieval_only shows the 'ИИ временно недоступен' banner; provider status banner from /api/ready (1.9s)
+{"viewport":"mobile-390","baseline":false,"detailedCardSpanPx":1593,"comparisonHeightPx":496}
+  ✓   8 [desktop-chromium] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (1.9s)
+  ✓   6 [mobile-390] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (7.1s)
+  ✓   9 [desktop-chromium] › tests/e2e/flow.spec.ts:164:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › preliminary places are replaced by the final AI answer (2.6s)
+  ✓  11 [desktop-chromium] › tests/e2e/flow.spec.ts:176:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › provider error → error state; retry reuses the same client_request_id (2.2s)
+{"viewport":"mobile-390","baseline":false,"firstCardMs":611,"finalMs":3628,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  12 [desktop-chromium] › tests/e2e/flow.spec.ts:193:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › invalid API response becomes an error state, not a crash (1.9s)
+  ✓  10 [mobile-390] › tests/e2e/alternatives.spec.ts:37:5 › selection survives delayed explanation @mobile (5.1s)
+  ✓  14 [mobile-390] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (5.2s)
+  ✓  13 [desktop-chromium] › tests/e2e/flow.spec.ts:201:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › long request shows progress and can be cancelled; late answer is ignored (6.3s)
+  ✓  15 [mobile-390] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (2.0s)
+  ✓  16 [desktop-chromium] › tests/e2e/flow.spec.ts:216:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › needs_clarification asks a question and lets the user change conditions (2.2s)
+  ✓  17 [mobile-390] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (2.2s)
+  ✓  18 [desktop-chromium] › tests/e2e/flow.spec.ts:226:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › T25: HTML in a place name is rendered as text (cards and markers) (2.1s)
+  ✓  19 [mobile-390] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (1.1s)
+  ✓  20 [desktop-chromium] › tests/e2e/flow.spec.ts:238:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › place search sets the origin from our own base (2.0s)
+  ✓  21 [mobile-390] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (3.0s)
+(node:47959) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47959) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  22 [desktop-chromium] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (2.5s)
+  ✓  24 [desktop-chromium] › tests/e2e/flow.spec.ts:259:7 › deterministic: geolocation › granted geolocation outside coverage is explained, not used (4.4s)
+  ✓  25 [desktop-chromium] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (2.6s)
+{"viewport":"mobile-360","baseline":false,"detailedCardSpanPx":1613,"comparisonHeightPx":496}
+  ✓  26 [desktop-chromium] › tests/e2e/flow.spec.ts:298:7 › deterministic: fallback & states › offline state is shown and blocks submit (5.4s)
+  ✓  23 [mobile-360] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (16.1s)
+  ✓  27 [desktop-chromium] › tests/e2e/flow.spec.ts:310:7 › deterministic: fallback & states › API down → explicit banner (4.3s)
+{"viewport":"mobile-360","baseline":false,"firstCardMs":356,"finalMs":3411,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  29 [desktop-chromium] › tests/e2e/flow.spec.ts:316:7 › deterministic: fallback & states › О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights (6.5s)
+  ✓  28 [mobile-360] › tests/e2e/alternatives.spec.ts:37:5 › selection survives delayed explanation @mobile (8.1s)
+  ✓  30 [desktop-chromium] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (7.7s)
+  ✓  32 [desktop-chromium] › tests/e2e/flow.spec.ts:353:7 › deterministic: accessibility › keyboard only: choose demo origin, submit, open a card on the map (6.1s)
+  ✓  31 [mobile-360] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (14.1s)
+  ✓  33 [mobile-360] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (4.6s)
+  ✓  34 [mobile-360] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (3.7s)
+  ✓  35 [mobile-360] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (3.5s)
+  ✓  36 [mobile-360] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (5.5s)
+
+  36 passed (1.7m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

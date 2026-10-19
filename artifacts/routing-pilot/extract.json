@@ -1,0 +1,15 @@
+{
+  "bbox": [
+    71.35,
+    51.04,
+    71.48,
+    51.15
+  ],
+  "source": "kazakhstan-261018.osm.pbf",
+  "bytes": 2077208,
+  "nodes": 226129,
+  "ways": 39440,
+  "restrictions": 1744,
+  "reference_complete": true,
+  "seconds": 109.7
+}
