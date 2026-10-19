@@ -1,1 +1,1 @@
-69e10d1 test(live): read streamed answers via the client's debug hook (Playwright exposes no streamed body); lastResponse waits for the final answer
+9eade71 fix(web): overlapping result markers — lower number on top, selected above all; live helpers record requests at send time

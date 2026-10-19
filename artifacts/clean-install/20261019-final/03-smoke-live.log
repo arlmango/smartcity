@@ -1,2 +1,2 @@
 components: {'db': 'ok', 'data': 'ok', 'map': 'ok', 'embeddings': 'ok', 'llm': 'ok', 'routing': 'not_configured'}
-[04:54:15] == api live scenarios (pytest -m live)
+[05:21:41] == api live scenarios (pytest -m live)
