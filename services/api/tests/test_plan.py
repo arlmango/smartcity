@@ -7,7 +7,14 @@ import pytest
 from smartcity_api.contracts import LatLon
 from smartcity_api.domain.budget import haversine_m
 from smartcity_api.providers.routing import RoutingError, Valhalla, _leg, minutes
-from smartcity_api.services.plan import Stop, allocate_visits, category_ok, choose, plan_reachable
+from smartcity_api.services.plan import (
+    Stop,
+    allocate_visits,
+    category_ok,
+    choose,
+    no_plan_note,
+    plan_reachable,
+)
 
 
 def table(minutes_by_pair: dict[tuple, int]):
@@ -172,19 +179,18 @@ def test_plan_uses_db_places_router_legs_and_fits_budget(routed, origin, place_i
 def test_remove_stop_recomputes_without_it(routed, origin):
     from conftest import body
 
-    first = routed.post("/api/recommend", json=body(origin, query="погулять", time_budget_min=90)).json()[
-        "plan"
-    ]
+    first_resp = routed.post("/api/recommend", json=body(origin, query="погулять", time_budget_min=90)).json()
+    first = first_resp["plan"]
+    assert first is not None, first_resp["plan_note"]
     gone = first["stops"][0]["place_id"]
     again = routed.post(
         "/api/recommend",
         json=body(origin, query="погулять", time_budget_min=90, constraints={"exclude_place_ids": [gone]}),
     ).json()
     assert all(c["place_id"] != gone for c in again["recommendations"])
-    if again["plan"]:
-        assert gone not in [s["place_id"] for s in again["plan"]["stops"]]
-    else:
-        assert again["plan_note"]
+    # With 90 minutes the synthetic area still holds a plan: it must exist and not contain the place.
+    assert again["plan"] is not None, again["plan_note"]
+    assert gone not in [s["place_id"] for s in again["plan"]["stops"]]
 
 
 def test_small_budget_gives_note_not_plan(routed, origin):
@@ -213,7 +219,7 @@ def test_no_router_means_no_plan(make_client, origin):
 
     res = make_client().post("/api/recommend", json=body(origin, time_budget_min=90)).json()
     assert res["plan"] is None
-    assert res["recommendations"] and "пешеходному графу" in res["plan_note"]
+    assert res["recommendations"] and "пешеходными маршрутами" in res["plan_note"]
 
 
 def test_injected_description_and_invented_ids_do_not_reach_plan(routed, origin, place_ids, make_client):
@@ -236,3 +242,64 @@ def _as_leg(raw: dict):
     from smartcity_api.contracts import RouteLeg
 
     return RouteLeg.model_validate(raw)
+
+
+def test_no_plan_note_names_the_real_obstacle():
+    cafes = [Stop("a", "cafe", 0), Stop("b", "food", 1)]
+    legs = table(sym(s0=3, s1=3, d01=2))
+    out = choose(cafes, legs, budget=120, back=True)
+    assert out.best is None and "поесть" in no_plan_note(out, budget=120, back=True)
+    closed = choose([PARK, SIGHT], legs, budget=120, back=True, open_ok=lambda i, a, v: i != 1)
+    assert closed.best is None and "закрыта" in no_plan_note(closed, budget=120, back=True)
+    assert "мин" not in no_plan_note(closed, budget=120, back=True).split("—")[0]
+    nopath = sym(s0=3, s1=3, d01=2)
+    del nopath[(0, 1)], nopath[(1, 0)]
+    gone = choose([PARK, SIGHT], table(nopath), budget=120, back=True)
+    assert "пеших путей" in no_plan_note(gone, budget=120, back=True)
+    tight = choose([PARK, SIGHT], legs, budget=20, back=True)
+    assert "нужно хотя бы" in no_plan_note(tight, budget=20, back=True)
+
+
+def test_skipped_reason_per_stop():
+    from smartcity_api.services.plan import explain
+
+    legs = table(sym(s0=3, s1=3, s2=3, d01=2, d02=2, d12=2))
+    out = choose([PARK, SIGHT, CAFE], legs, budget=120, back=True, open_ok=lambda i, a, v: i != 2)
+    assert out.best is not None
+    _, skipped = explain(out.best, [PARK, SIGHT, CAFE], out, ["P", "S", "C"], budget=120, back=True)
+    assert [s.reason for s in skipped] == ["Будет закрыто к моменту прихода по плану"]
+
+
+def test_one_way_plan_has_no_return_leg(routed, origin):
+    from conftest import body
+
+    res = routed.post(
+        "/api/recommend", json=body(origin, query="погулять", time_budget_min=90, return_to_start=False)
+    ).json()
+    plan = res["plan"]
+    assert plan is not None, res["plan_note"]
+    assert plan["return_leg"] is None and plan["returns_to_start"] is False
+    legs = [s["leg_in"] for s in plan["stops"]]
+    assert plan["walk_min"] == sum(minutes(_as_leg(x)) for x in legs)
+
+
+def test_must_be_open_never_plans_unknown_hours(routed, origin):
+    from conftest import body
+
+    res = routed.post(
+        "/api/recommend",
+        json=body(origin, time_budget_min=180, constraints={"must_be_open": True}),
+    ).json()
+    for s in (res["plan"] or {}).get("stops", []):
+        assert s["opening_status"] == "open"
+    assert all(c["opening_status"] == "open" for c in res["recommendations"])
+
+
+def test_plan_stage_deadline_gives_no_partial_plan(routed, origin, monkeypatch):
+    from conftest import body
+    from smartcity_api.services import plan as plan_mod
+
+    monkeypatch.setattr(plan_mod, "STAGE_SECONDS", 0.0)
+    res = routed.post("/api/recommend", json=body(origin, query="погулять", time_budget_min=90)).json()
+    assert res["plan"] is None and "не построен" in res["plan_note"]
+    assert res["recommendations"]

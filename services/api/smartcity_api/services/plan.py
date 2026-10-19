@@ -8,6 +8,7 @@ ranked), at most MAX_CALLS router calls, a stage deadline, and a brute force ove
 from __future__ import annotations
 
 import time
+from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import timedelta
@@ -27,8 +28,8 @@ MAX_CALLS = MAX_CANDIDATES * (MAX_CANDIDATES - 1)
 STAGE_SECONDS = 4.0
 EAT = frozenset({"cafe", "food"})
 METHOD = (
-    "Пешие участки — пешеходный граф OSM (4 км/ч) + подход к точкам; время на месте — типичное для "
-    "категории, не факт; запас max(5 мин, 10% ходьбы)"
+    "Пешие участки — пешеходные пути по данным OpenStreetMap (4 км/ч) + подход к точкам; "
+    "время на месте — типичное для категории, не факт; запас max(5 мин, 10% ходьбы)"
 )
 
 
@@ -58,6 +59,24 @@ class Search:
     best: Choice | None = None
     feasible_with: set[int] = field(default_factory=set)
     min_budget_two: int | None = None  # smallest budget in which any 2-stop plan would fit
+    # Why sequences were rejected: overall, and per stop (only sequences containing that stop).
+    reasons: Counter[str] = field(default_factory=Counter)
+    stop_reasons: dict[int, Counter[str]] = field(default_factory=dict)
+
+    def reject(self, order: tuple[int, ...], why: str) -> None:
+        self.reasons[why] += 1
+        for i in order:
+            self.stop_reasons.setdefault(i, Counter())[why] += 1
+
+
+# Most informative first: a time problem is reported only when time really was the obstacle.
+REASON_ORDER = ("budget", "closed", "no_path", "category")
+STOP_REASON = {
+    "budget": "Не помещается в {budget} мин вместе с другими остановками",
+    "closed": "Будет закрыто к моменту прихода по плану",
+    "no_path": "Нет проверенного пешего пути от других мест плана",
+    "category": "В плане уже есть место, где можно поесть",
+}
 
 
 def plan_reachable(timing, budget: int) -> bool:
@@ -106,11 +125,13 @@ def choose(
         for order in permutations(range(n), size):
             cats = [stops[i].category for i in order]
             if not category_ok(cats):
+                out.reject(order, "category")
                 continue
             hops = [leg(None, order[0])] + [leg(a, b) for a, b in zip(order, order[1:], strict=False)]
             if back:
                 hops.append(leg(order[-1], None))
             if any(h is None for h in hops):
+                out.reject(order, "no_path")
                 continue
             walk = sum(h for h in hops if h is not None)
             buffer = buffer_minutes(walk, None)
@@ -119,6 +140,7 @@ def choose(
                 out.min_budget_two = need if out.min_budget_two is None else min(out.min_budget_two, need)
             alloc = allocate_visits(cats, budget - walk - buffer)
             if alloc is None:
+                out.reject(order, "budget")
                 continue
             visits, shortened = alloc
             arrive, clock = [], 0
@@ -127,6 +149,7 @@ def choose(
                 arrive.append(clock)
                 clock += visits[k]
             if not all(open_ok(i, arrive[k], visits[k]) for k, i in enumerate(order)):
+                out.reject(order, "closed")
                 continue
             choice = Choice(order, walk, visits, buffer, arrive, shortened)
             assert choice.total_min <= budget
@@ -138,9 +161,33 @@ def choose(
     return out
 
 
+def main_reason(counts: Counter[str] | None) -> str | None:
+    return next((r for r in REASON_ORDER if counts and counts[r]), None)
+
+
+def no_plan_note(search: Search, *, budget: int, back: bool) -> str:
+    """Name the obstacle that actually stopped every 2–3 stop plan."""
+    why = main_reason(search.reasons)
+    if why == "budget":
+        need = search.min_budget_two
+        return (
+            f"В {budget} мин не помещаются две остановки{' с возвратом к старту' if back else ''}"
+            + (f" — нужно хотя бы {need} мин." if need and need > budget else ".")
+            + " Выберите одно место из вариантов ниже или увеличьте время."
+        )
+    if why == "closed":
+        return "По плану к приходу часть мест будет закрыта — выберите одно место из вариантов ниже."
+    if why == "no_path":
+        return "Между найденными местами нет проверенных пеших путей — выберите одно место из вариантов ниже."
+    return (
+        "Подходят только места, где можно поесть, а в плане может быть одно такое — "
+        "выберите одно из вариантов ниже."
+    )
+
+
 def explain(choice: Choice, stops: list[Stop], search: Search, names: list[str], *, budget: int, back: bool):
     why = [
-        f"Это лучшие совпадения с вашим запросом, которые вместе помещаются в {budget} мин.",
+        f"Места выбраны из лучших совпадений с запросом так, чтобы вместе уложиться в {budget} мин.",
         f"Пешком ≈ {choice.walk_min} мин{' с возвратом к старту' if back else ''}, "
         f"на местах ≈ {sum(choice.visits)} мин, запас {choice.buffer_min} мин.",
     ]
@@ -152,7 +199,7 @@ def explain(choice: Choice, stops: list[Stop], search: Search, names: list[str],
         if i in choice.order:
             continue
         if i not in search.feasible_with:
-            reason = f"Не помещается в {budget} мин вместе с другими остановками"
+            reason = STOP_REASON[main_reason(search.stop_reasons.get(i)) or "budget"].format(budget=budget)
         elif s.category in EAT and any(c in EAT for c in chosen_cats):
             reason = "В плане уже есть место, где можно поесть"
         else:
@@ -166,11 +213,11 @@ def build_plan(container, prep, cands) -> None:
     eff = prep.eff
     if container.settings.routing_provider != "valhalla":
         prep.plan_note = (
-            "План из нескольких остановок строится только по пешеходному графу — он не подключён."
+            "План из нескольких остановок доступен только с пешеходными маршрутами — они не подключены."
         )
         return
     if not prep.routing_ok:
-        prep.plan_note = "Пешеходный граф сейчас недоступен — план из нескольких остановок не построен."
+        prep.plan_note = "Пешеходные маршруты сейчас недоступны — план из нескольких остановок не построен."
         return
     pool = [c for c in cands if c.route is not None][:MAX_CANDIDATES]
     if len(pool) < 2:
@@ -187,7 +234,7 @@ def build_plan(container, prep, cands) -> None:
             if prep.cancelled.is_set():
                 raise ClientDisconnected()
             remaining = deadline - time.monotonic()
-            if remaining <= 0 or len(between) >= MAX_CALLS:
+            if remaining <= 0:
                 raise RoutingError("deadline")
             try:
                 between[(a, b)] = router.legs([pts[a], pts[b]], timeout=min(2, remaining))[0]
@@ -227,14 +274,12 @@ def build_plan(container, prep, cands) -> None:
     search = choose(stops, leg_min, budget=budget, back=back, open_ok=open_ok)
     best = search.best
     if best is None:
-        need = search.min_budget_two
-        prep.plan_note = (
-            f"В {budget} мин не помещаются две остановки{' с возвратом к старту' if back else ''}"
-            + (f" — нужно хотя бы {need} мин." if need and need > budget else ".")
-            + " Выберите одно место из вариантов ниже или увеличьте время."
-        )
+        prep.plan_note = no_plan_note(search, budget=budget, back=back)
         return
-    names = [c.place.name for c in pool]
+    names = [
+        f"{category_label(c.place.category)} без названия" if c.place.name_is_generic else c.place.name
+        for c in pool
+    ]
     why, skipped = explain(best, stops, search, names, budget=budget, back=back)
     plan_stops = []
     for k, i in enumerate(best.order):

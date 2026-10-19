@@ -178,11 +178,18 @@ export function App() {
     send(next, r.message);
   };
   const onRemoveStop = (placeId: string) => {
+    // The request that produced this plan, with one more excluded place; everything else is kept.
     // Also while explanations load: the in-flight request is aborted and replaced.
-    const base = routeRequest?.constraints ?? form.constraints;
-    const next = { ...form, constraints: withoutStop(base, placeId) };
-    setFormState(next);
-    send(next, "Убрать остановку из плана");
+    if (!routeRequest || !routeOriginMatches) return;
+    const constraints = withoutStop(routeRequest.constraints, placeId);
+    setFormState((f) => ({ ...f, constraints }));
+    setEditing(false);
+    setSelectedId(null);
+    rec.submit(
+      { ...routeRequest, constraints, conversation_context: state.context.slice(-6), client_request_id: newClientRequestId() },
+      "Убрать остановку из плана",
+    );
+    panelScrollRef.current?.scrollTo({ top: 0 });
   };
   const showPlan = useCallback(() => {
     setPlanShown(true);
@@ -251,6 +258,7 @@ export function App() {
           cancelled={false}
           onSelect={selectFromCard}
           planShown={planShown}
+        planStale={!routeOriginMatches}
           onShowPlan={showPlan}
           onRemoveStop={onRemoveStop}
           onRefine={onRefine}
@@ -287,6 +295,7 @@ export function App() {
         cancelled={state.cancelled}
         onSelect={selectFromCard}
         planShown={planShown}
+        planStale={!routeOriginMatches}
         onShowPlan={showPlan}
         onRemoveStop={onRemoveStop}
         onRefine={onRefine}
@@ -431,7 +440,7 @@ export function App() {
               onVariantChange={setVariant}
               onSatelliteError={() => setSatFailed(true)}
               origin={form.origin}
-              recs={planShown && plan ? [] : recs}
+              recs={selectedRoute?.kind === "plan" ? [] : recs}
               selectedId={shownSelectedId}
               focusSignal={focusSignal}
               fitSignal={fitSignal}

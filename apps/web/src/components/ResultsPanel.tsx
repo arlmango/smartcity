@@ -25,6 +25,8 @@ interface Props {
   onSelect: (id: string) => void;
   /** The timebox plan is the selected item on the map. */
   planShown: boolean;
+  /** The start was changed after this answer: the plan no longer applies. */
+  planStale?: boolean;
   onShowPlan: () => void;
   onRemoveStop: (placeId: string) => void;
   onRefine: (kind: RefinementKind) => void;
@@ -68,7 +70,7 @@ export function ResultsPanel(props: Props) {
     <div className="space-y-4" data-testid="results">
       {/* The decision first: the plan, then the summary with its caveats. */}
       {r.plan && (
-        <WalkPlanCard plan={r.plan} shown={props.planShown} busy={props.busy && !props.pending} onShow={props.onShowPlan} onRemove={props.onRemoveStop} />
+        <WalkPlanCard plan={r.plan} shown={props.planShown} busy={props.busy && !props.pending} stale={props.planStale} onShow={props.onShowPlan} onRemove={props.onRemoveStop} />
       )}
       <section className="sc-card space-y-3 p-4" aria-labelledby="summary-h">
         <div className="flex items-start justify-between gap-2">

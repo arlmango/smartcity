@@ -290,7 +290,8 @@ export const RecommendResponseSchema = z
     warnings: z.array(WarningSchema),
     suggested_relaxations: z.array(RelaxationSchema),
     route: z.null().optional().default(null),
-    plan: WalkPlanSchema.nullable().optional().default(null),
+    // Parsed on its own below: an inconsistent plan is dropped, the cards are kept.
+    plan: z.unknown().optional(),
     plan_note: z.string().nullable().optional().default(null),
     providers: ProviderInfoSchema,
     timings_ms: z.record(z.string(), int),
@@ -300,8 +301,15 @@ export const RecommendResponseSchema = z
     if (new Set(ids).size !== ids.length) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "duplicate place_id in recommendations" });
     }
+  })
+  .transform(({ plan, ...rest }) => {
+    if (plan == null) return { ...rest, plan: null };
+    const parsed = WalkPlanSchema.safeParse(plan);
+    return parsed.success
+      ? { ...rest, plan: parsed.data }
+      : { ...rest, plan: null, plan_note: "План не показан: его расчёт не прошёл проверку. Выберите одно место из вариантов ниже." };
   });
-export type RecommendResponse = z.infer<typeof RecommendResponseSchema>;
+export type RecommendResponse = z.output<typeof RecommendResponseSchema>;
 
 // ------------------------------------------------------------- other endpoints
 

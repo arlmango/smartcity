@@ -62,3 +62,20 @@ test("timebox plan: shown first, card switches, plan returns, remove stop keeps 
   expect(second!.return_to_start).toBe(first!.return_to_start);
   expect(second!.client_request_id).not.toBe(first!.client_request_id);
 });
+
+test("changing the start after a plan hides its line and marks it stale @mobile", async ({ page }, testInfo) => {
+  await mockApi(page, { recommend: (body) => ({ json: { ...okResponse(body.client_request_id, routed), plan: walkPlan } }) });
+  await page.goto("/");
+  await useDemoOrigin(page);
+  await submit(page);
+  await expect(page.getByTestId("plan-stop-mark")).toHaveCount(2);
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "Список", exact: true }).click();
+  await page.getByRole("button", { name: "Изменить запрос", exact: true }).click();
+  await page.getByLabel("Найти место в нашей базе").fill("музей");
+  await page.getByRole("button", { name: /SYNTHETIC Музей тестов/ }).click();
+  await page.getByRole("button", { name: "Вернуться к результатам" }).click();
+  await expect(page.getByTestId("plan-stale")).toBeVisible();
+  await expect(page.getByTestId("plan-stop-mark")).toHaveCount(0);
+  // No plan line is drawn, so the result markers are back rather than an empty map.
+  await expect(page.getByTestId("rec-marker")).toHaveCount(3);
+});

@@ -11,10 +11,11 @@ const INDOOR = new Set(["cafe", "food", "culture", "mall"]);
 const hoursMatter = (s: PlanStop) => s.opening_status === "closed" || (s.opening_status === "unknown" && INDOOR.has(s.category));
 
 /** Timebox plan: 2–3 stops in order. Numbers are the server's router-based estimates. */
-export function WalkPlanCard({ plan, shown, busy, onShow, onRemove }: {
+export function WalkPlanCard({ plan, shown, busy, stale = false, onShow, onRemove }: {
   plan: WalkPlan;
   shown: boolean;
   busy: boolean;
+  stale?: boolean;
   onShow: () => void;
   onRemove: (placeId: string) => void;
 }) {
@@ -50,7 +51,7 @@ export function WalkPlanCard({ plan, shown, busy, onShow, onRemove }: {
               <button
                 type="button"
                 className="min-h-[44px] shrink-0 rounded-control px-2 text-sm font-semibold underline disabled:opacity-50"
-                disabled={busy}
+                disabled={busy || stale}
                 aria-label={`Убрать остановку: ${displayName(s)}`}
                 onClick={() => onRemove(s.place_id)}
               >
@@ -70,9 +71,15 @@ export function WalkPlanCard({ plan, shown, busy, onShow, onRemove }: {
         Пешком ≈ {plan.walk_min} мин, на местах ≈ {plan.visit_min} мин, запас {plan.buffer_min} мин. Время примерное: зависит от
         темпа, переходов и того, открыт ли вход.
       </p>
-      <button type="button" className="sc-btn-dark w-full" aria-pressed={shown} onClick={onShow}>
-        {shown ? "План показан на карте" : "Показать план на карте"}
-      </button>
+      {stale ? (
+        <p role="status" data-testid="plan-stale" className="rounded-control bg-warn-bg p-3 text-sm text-warn-fg">
+          Старт изменён — этот план построен от прежней точки. Подберите прогулку заново.
+        </p>
+      ) : (
+        <button type="button" className="sc-btn-dark w-full" aria-pressed={shown} onClick={onShow}>
+          {shown ? "План показан на карте" : "Показать план на карте"}
+        </button>
+      )}
       <details className="text-sm">
         <summary className="flex min-h-[44px] cursor-pointer items-center font-semibold">Почему такой план</summary>
         <ul className="list-disc space-y-1 pl-5">

@@ -22,6 +22,12 @@ describe("timebox plan contract", () => {
     expect(WalkPlanSchema.safeParse({ ...walkPlan, stops: [walkPlan.stops[0]] }).success).toBe(false);
     expect(WalkPlanSchema.safeParse({ ...walkPlan, stops: [walkPlan.stops[0], walkPlan.stops[0]] }).success).toBe(false);
   });
+  it("an inconsistent plan is dropped with a note, the cards are kept", () => {
+    const parsed = RecommendResponseSchema.parse({ ...okResponse("plan-test-05"), plan: { ...walkPlan, total_min: 999 } });
+    expect(parsed.plan).toBeNull();
+    expect(parsed.recommendations).toHaveLength(3);
+    expect(parsed.plan_note).toMatch(/не прошёл проверку/);
+  });
   it("an older server without plan fields still parses", () => {
     const { plan: _p, plan_note: _n, ...old } = okResponse("plan-test-02");
     expect(RecommendResponseSchema.parse(old).plan).toBeNull();
@@ -94,5 +100,14 @@ describe("plan inside the results panel", () => {
     render(<ResultsPanel {...props} response={{ ...okResponse("plan-test-04"), plan_note: "SYNTHETIC: нужно хотя бы 65 мин." }} busy={false} onRemoveStop={() => {}} />);
     expect(screen.getByTestId("plan-note").textContent).toBe("SYNTHETIC: нужно хотя бы 65 мин.");
     expect(screen.queryByTestId("walk-plan")).toBeNull();
+  });
+});
+
+describe("stale plan", () => {
+  it("after the start changes, the plan says so and its actions are off", () => {
+    render(<WalkPlanCard plan={walkPlan} shown={false} busy={false} stale onShow={() => {}} onRemove={() => {}} />);
+    expect(screen.getByTestId("plan-stale").textContent).toMatch(/Старт изменён/);
+    expect(screen.queryByRole("button", { name: /Показать план/ })).toBeNull();
+    for (const b of screen.getAllByRole("button", { name: /^Убрать остановку/ })) expect((b as HTMLButtonElement).disabled).toBe(true);
   });
 });
