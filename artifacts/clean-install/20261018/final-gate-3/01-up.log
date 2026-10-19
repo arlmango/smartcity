@@ -1,0 +1,240 @@
+ Image smartcity-api:0.1.0 Building 
+ Image smartcity-web:0.1.0 Building 
+ Image smartcity-db:0.1.0 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.14kB done
+#1 DONE 0.0s
+
+#2 [api internal] load build definition from api.Dockerfile
+#2 transferring dockerfile: 2.55kB done
+#2 DONE 0.0s
+
+#3 [db internal] load build definition from db.Dockerfile
+#3 transferring dockerfile: 420B done
+#3 DONE 0.0s
+
+#4 [api internal] load metadata for docker.io/library/python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641
+#4 DONE 0.0s
+
+#5 [web internal] load build definition from web.Dockerfile
+#5 transferring dockerfile: 2.87kB done
+#5 DONE 0.0s
+
+#6 [web internal] load metadata for docker.io/library/node:22.22.0-slim
+#6 DONE 0.0s
+
+#7 [api internal] load metadata for ghcr.io/astral-sh/uv:0.11.32@sha256:df4cae8f3a96d175e2e5f992e597550000edbe78fdc2594d5cd8de1a217f504c
+#7 DONE 0.0s
+
+#8 [db internal] load metadata for docker.io/pgvector/pgvector:0.8.1-pg17-bookworm
+#8 DONE 0.0s
+
+#9 [db internal] load .dockerignore
+#9 transferring context: 2B done
+#9 DONE 0.0s
+
+#10 [db internal] load build context
+#10 transferring context: 103B done
+#10 DONE 0.0s
+
+#11 [web deps 1/4] FROM docker.io/library/node:22.22.0-slim@sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94
+#11 resolve docker.io/library/node:22.22.0-slim@sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94 0.0s done
+#11 DONE 0.0s
+
+#12 [api uv 1/1] FROM ghcr.io/astral-sh/uv:0.11.32@sha256:df4cae8f3a96d175e2e5f992e597550000edbe78fdc2594d5cd8de1a217f504c
+#12 resolve ghcr.io/astral-sh/uv:0.11.32@sha256:df4cae8f3a96d175e2e5f992e597550000edbe78fdc2594d5cd8de1a217f504c 0.0s done
+#12 DONE 0.0s
+
+#13 [api stage-1  1/12] FROM docker.io/library/python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641
+#13 resolve docker.io/library/python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641 0.0s done
+#13 DONE 0.0s
+
+#14 [db 1/3] FROM docker.io/pgvector/pgvector:0.8.1-pg17-bookworm@sha256:3e8b3adfd27b5707128f60956f62a793c3c9326ea8cfaf0eab7adccb5d700b21
+#14 resolve docker.io/pgvector/pgvector:0.8.1-pg17-bookworm@sha256:3e8b3adfd27b5707128f60956f62a793c3c9326ea8cfaf0eab7adccb5d700b21 0.0s done
+#14 DONE 0.0s
+
+#15 [db 2/3] RUN apt-get update  && apt-get install -y --no-install-recommends postgresql-17-postgis-3=3.6.4+dfsg-2.pgdg12+1 postgresql-17-postgis-3-scripts=3.6.4+dfsg-2.pgdg12+1  && rm -rf /var/lib/apt/lists/*
+#15 CACHED
+
+#16 [db 3/3] COPY infra/docker/db-init.sql /docker-entrypoint-initdb.d/00-extensions.sql
+#16 CACHED
+
+#17 [db] exporting to image
+#17 exporting layers 0.0s done
+#17 ...
+
+#18 [web internal] load build context
+#18 transferring context: 1.30MB 0.1s done
+#18 DONE 0.1s
+
+#19 [web deps 2/4] WORKDIR /app
+#19 CACHED
+
+#20 [web deps 4/4] RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store     --mount=type=secret,id=build_ca,required=false     if [ -s /run/secrets/build_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/build_ca npm_config_cafile=/run/secrets/build_ca; fi;     corepack enable && corepack prepare pnpm@10.28.0 --activate     && pnpm config set store-dir /pnpm/store     && pnpm install --frozen-lockfile
+#20 CACHED
+
+#21 [web deps 3/4] COPY apps/web/package.json apps/web/pnpm-lock.yaml ./
+#21 CACHED
+
+#22 [web build 3/5] COPY --from=deps /app/node_modules ./node_modules
+#22 CACHED
+
+#23 [api internal] load build context
+#23 transferring context: 457.21kB 0.1s done
+#23 DONE 0.2s
+
+#17 [db] exporting to image
+#17 exporting manifest sha256:0324729374df494664ea3719a58fb1d6cf9fc1a37630e3f245601f66d89ccda3 done
+#17 exporting config sha256:f8f9162c3effefed6460262e4ec671b78101ad67ee15e014cf1d455a21a40e8a done
+#17 exporting attestation manifest sha256:adb37e9db7cd666aa82443fe6eab49fa86c7a6b7f9476d5e3d5695129d7271b2 done
+#17 exporting manifest list sha256:81ad8d4aa6df7532b2c8fff7ffdb1c5a3647811d85865d66a7ce72cb0a003f09 done
+#17 naming to docker.io/library/smartcity-db:0.1.0 done
+#17 unpacking to docker.io/library/smartcity-db:0.1.0 0.0s done
+#17 DONE 0.2s
+
+#24 [web build 4/5] COPY apps/web/ ./
+#24 DONE 0.2s
+
+#25 [api stage-1  7/12] COPY services/ingest/pyproject.toml services/ingest/pyproject.toml
+#25 CACHED
+
+#26 [api stage-1  2/12] COPY --from=uv /uv /usr/local/bin/uv
+#26 CACHED
+
+#27 [api stage-1  3/12] RUN groupadd --system --gid 10001 smartcity  && useradd --system --uid 10001 --gid smartcity --home-dir /app --shell /usr/sbin/nologin smartcity
+#27 CACHED
+
+#28 [api stage-1  4/12] WORKDIR /app
+#28 CACHED
+
+#29 [api stage-1  6/12] COPY services/api/pyproject.toml services/api/pyproject.toml
+#29 CACHED
+
+#30 [api stage-1  5/12] COPY pyproject.toml uv.lock ./
+#30 CACHED
+
+#31 [api stage-1  8/12] RUN --mount=type=secret,id=build_ca,required=false     if [ -s /run/secrets/build_ca ]; then export SSL_CERT_FILE=/run/secrets/build_ca; fi;     uv sync --frozen --no-dev --package smartcity-api --no-install-workspace
+#31 CACHED
+
+#32 [api stage-1  9/12] COPY services/api services/api
+#32 DONE 0.0s
+
+#33 [api stage-1 10/12] COPY config config
+#33 DONE 0.0s
+
+#34 [api stage-1 11/12] COPY infra/docker/api-entrypoint.sh /usr/local/bin/api-entrypoint.sh
+#34 DONE 0.0s
+
+#35 [db] resolving provenance for metadata file
+#35 DONE 0.0s
+
+#36 [api stage-1 12/12] RUN --mount=type=secret,id=build_ca,required=false     if [ -s /run/secrets/build_ca ]; then export SSL_CERT_FILE=/run/secrets/build_ca; fi;     uv sync --frozen --no-dev --package smartcity-api  && chmod 0755 /usr/local/bin/api-entrypoint.sh  && mkdir -p /app/data  && chown -R smartcity:smartcity /app/data
+#36 0.291    Building smartcity-api @ file:///app/services/api
+#36 2.462       Built smartcity-api @ file:///app/services/api
+#36 2.463 Prepared 1 package in 2.17s
+#36 2.466 Installed 1 package in 2ms
+#36 2.730 Bytecode compiled 1650 files in 263ms
+#36 2.730  + smartcity-api==0.1.0 (from file:///app/services/api)
+#36 DONE 2.8s
+
+#37 [api] exporting to image
+#37 exporting layers 0.1s done
+#37 exporting manifest sha256:4302e74004d345214bda27d2c88790007b7b180cfcc75c54056537e051563212 done
+#37 exporting config sha256:c88c3df46e96269436bad44dd3c4887a381739508096a2e55eb1ae69b3c99fc8 done
+#37 exporting attestation manifest sha256:f42844e579b8bafc7e3f40a4dfa8e661392829afa49d62ef84c1cc0a81680d54 done
+#37 exporting manifest list sha256:93a88b22de83131272a0d8a33d5c4772d40d16b32d534a5e3a1881d3c2445d11 done
+#37 naming to docker.io/library/smartcity-api:0.1.0 done
+#37 unpacking to docker.io/library/smartcity-api:0.1.0 0.1s done
+#37 DONE 0.3s
+
+#38 [api] resolving provenance for metadata file
+#38 DONE 0.0s
+
+#39 [web build 5/5] RUN node node_modules/next/dist/bin/next build
+#39 0.883 ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+#39 0.960    ▲ Next.js 15.5.28
+#39 0.960 
+#39 0.987    Creating an optimized production build ...
+#39 13.33  ✓ Compiled successfully in 9.9s
+#39 13.34    Linting and checking validity of types ...
+#39 14.07  ⨯ ESLint: Failed to load plugin 'react-hooks' declared in ' » eslint-config-next/core-web-vitals » /app/node_modules/.pnpm/eslint-config-next@15.5.28_eslint@9.39.5_jiti@1.21.7__typescript@5.9.3/node_modules/eslint-config-next/index.js': Cannot find module 'eslint-plugin-react-hooks' Require stack: - /app/__placeholder__.js Referenced from: /app/node_modules/.pnpm/eslint-config-next@15.5.28_eslint@9.39.5_jiti@1.21.7__typescript@5.9.3/node_modules/eslint-config-next/index.js
+#39 18.27    Collecting page data ...
+#39 20.12    Generating static pages (0/5) ...
+#39 20.71    Generating static pages (1/5) 
+#39 20.71    Generating static pages (2/5) 
+#39 20.71    Generating static pages (3/5) 
+#39 20.71  ✓ Generating static pages (5/5)
+#39 21.75    Finalizing page optimization ...
+#39 21.75    Collecting build traces ...
+#39 45.90 
+#39 45.90 Route (app)                                 Size  First Load JS
+#39 45.90 ┌ ○ /                                    45.9 kB         153 kB
+#39 45.90 ├ ○ /_not-found                            991 B         103 kB
+#39 45.90 ├ ƒ /api/[...path]                         122 B         102 kB
+#39 45.90 └ ○ /icon.svg                                0 B            0 B
+#39 45.90 + First Load JS shared by all             102 kB
+#39 45.90   ├ chunks/04695458-29edf4110019004d.js  54.2 kB
+#39 45.90   ├ chunks/952-8e9f54a6e2e5d9b9.js       45.7 kB
+#39 45.90   └ other shared chunks (total)          1.95 kB
+#39 45.90 
+#39 45.90 
+#39 45.90 ○  (Static)   prerendered as static content
+#39 45.90 ƒ  (Dynamic)  server-rendered on demand
+#39 45.90 
+#39 DONE 46.1s
+
+#19 [web deps 2/4] WORKDIR /app
+#19 CACHED
+
+#40 [web runtime 3/6] COPY --from=build --chown=node:node /app/.next/standalone ./
+#40 DONE 0.3s
+
+#41 [web runtime 4/6] COPY --from=build --chown=node:node /app/.next/static ./.next/static
+#41 DONE 0.0s
+
+#42 [web runtime 5/6] COPY --from=build --chown=node:node /app/public ./public
+#42 DONE 0.1s
+
+#43 [web runtime 6/6] COPY --from=build --chown=node:node /app/server-preload.cjs /app/forwarded-for.cjs ./
+#43 DONE 0.0s
+
+#44 [web] exporting to image
+#44 exporting layers
+#44 exporting layers 3.1s done
+#44 exporting manifest sha256:ff9ddb9699cbef024a5645ee9b7a33ec53cccd2ee1aacd5669017a7668d5e41a done
+#44 exporting config sha256:a5721052718087bbb047403b571cbaa75c5ba425345bfa5a4218a011770988a7 done
+#44 exporting attestation manifest sha256:df5002b25aaa151f75c2bb993f9d40d2fd5e5060df6e60c270d8552374462741 0.0s done
+#44 exporting manifest list sha256:07de2819b2c52f13ea6e29f76bb146cc7131101c15db0a521bc010cce23a3c18 done
+#44 naming to docker.io/library/smartcity-web:0.1.0 done
+#44 unpacking to docker.io/library/smartcity-web:0.1.0
+#44 unpacking to docker.io/library/smartcity-web:0.1.0 0.7s done
+#44 DONE 3.8s
+
+#45 [web] resolving provenance for metadata file
+#45 DONE 0.0s
+ Image smartcity-db:0.1.0 Built 
+ Image smartcity-api:0.1.0 Built 
+ Image smartcity-web:0.1.0 Built 
+ Container smartcityclean-ollama-1 Running 
+ Container smartcityclean-db-1 Running 
+ Container smartcityclean-api-1 Recreate 
+ Container smartcityclean-api-1 Recreated 
+ Container smartcityclean-web-1 Recreate 
+ Container smartcityclean-web-1 Recreated 
+ Container smartcityclean-db-1 Waiting 
+ Container smartcityclean-db-1 Healthy 
+ Container smartcityclean-api-1 Starting 
+ Container smartcityclean-api-1 Started 
+ Container smartcityclean-api-1 Waiting 
+ Container smartcityclean-api-1 Healthy 
+ Container smartcityclean-web-1 Starting 
+ Container smartcityclean-web-1 Started 
+ Container smartcityclean-ollama-1 Waiting 
+ Container smartcityclean-api-1 Waiting 
+ Container smartcityclean-web-1 Waiting 
+ Container smartcityclean-db-1 Waiting 
+ Container smartcityclean-db-1 Healthy 
+ Container smartcityclean-ollama-1 Healthy 
+ Container smartcityclean-api-1 Healthy 
+ Container smartcityclean-web-1 Healthy 
+exit=0

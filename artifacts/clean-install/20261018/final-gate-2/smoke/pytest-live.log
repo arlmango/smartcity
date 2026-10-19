@@ -1,0 +1,48 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+________________________ test_live_S1_mega_40_min_walk _________________________
+
+live = {'client': <starlette.testclient.TestClient object at 0x7fe29996fa10>, 'container': Container(settings=Settings(databa...a_dir=PosixPath('data'), walking_speed_m_per_min=66.7, straight_line_detour_factor=1.3), 'cap': <_Capture (INFO)>, ...}
+
+    def test_live_S1_mega_40_min_walk(live):
+        pt = _find_point(
+            live["container"],
+            ["%MEGA Silk Way%", "%Mega Silk Way%", "%МЕГА Silk Way%", "%Mega%", "%Мега%"],
+            ["mega_silk_way"],
+        )
+        if pt is None:
+            pytest.skip("MEGA Silk Way not found in the live DB")
+        lat, lon, name = pt
+        j = _run(
+            live,
+            "S1",
+            _payload(lat, lon, "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться", 40, True),
+            notes=f"origin = DB location of '{name}'",
+        )
+        assert j["status"] in ("ok", "degraded")
+        assert j["recommendations"]
+        assert all(c["timing"]["total_min"] <= 40 for c in j["recommendations"])
+>       assert j["mode"] == "live_rag", j["warnings"]
+E       AssertionError: [{'code': 'llm_unavailable', 'message': 'ИИ временно недоступен — показаны найденные места без сгенерированных объясне...успеть по улицам'}, {'code': 'unknown_hours', 'message': 'Часы работы части мест неизвестны — уточните перед выходом'}]
+E       assert 'retrieval_only' == 'live_rag'
+E         
+E         - live_rag
+E         + retrieval_only
+
+services/api/tests/test_live.py:223: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{"ts": "2026-10-19T00:09:21.605+00:00", "level": "INFO", "logger": "smartcity.recommend", "msg": "recommend", "event": "recommend", "request_id": "725262ebdfa041ffae5fbbd530e16b28", "status": "degraded", "mode": "retrieval_only", "origin_rounded": [51.09, 71.41], "query_len": 62, "budget_min": 40, "shortlist": 35, "ranked": 11, "llm_candidate_ids": ["ec894cc8-9d39-4bc2-9479-7600de6e6b1d", "20a91ee5-2035-4244-af57-498229ba86fd", "7c69e98d-662b-433f-9e7d-2a3b75418c90"], "result_ids": ["ec894cc8-9d39-4bc2-9479-7600de6e6b1d", "20a91ee5-2035-4244-af57-498229ba86fd", "7c69e98d-662b-433f-9e7d-2a3b75418c90"], "semantic": "ok", "exclusions": {"budget": 10, "closed": 14}, "llm_attempts": 2, "llm_failure": "invalid_output", "llm_issues": ["invalid:ни одна рекомендация не прошла проверку"], "prompt_version": "rec-v3", "timings_ms": {"parse": 9, "shortlist": 35, "semantic": 345, "rank": 3, "schedule": 1, "generate": 64909, "total": 65304}}
+{"ts": "2026-10-19T00:09:21.608+00:00", "level": "INFO", "logger": "smartcity.access", "msg": "request", "event": "access", "request_id": "725262ebdfa041ffae5fbbd530e16b28", "method": "POST", "path": "/api/recommend", "status": 200, "duration_ms": 65319}
+------------------------------ Captured log call -------------------------------
+INFO     smartcity.recommend:recommend.py:1108 recommend
+INFO     smartcity.access:middleware.py:127 request
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/fastapi/testclient.py:1
+  /tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED services/api/tests/test_live.py::test_live_S1_mega_40_min_walk - Asser...
+1 failed, 2 passed, 154 deselected, 1 warning in 211.10s (0:03:31)

@@ -1,0 +1,115 @@
+{
+  "test": "S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.41,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": 100,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [
+      {
+        "role": "user",
+        "text": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться"
+      },
+      {
+        "role": "assistant",
+        "text": "Выбраны два места для прогулки: NU Park и детская площадка. Осторожно с детьми на детской площадке."
+      }
+    ],
+    "start_time": null,
+    "client_request_id": "34a94cea-ee14-4a75-ba9e-9b561f6416d8"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "cb78887f62e645d4ba47c0e5989741f2",
+    "client_request_id": "34a94cea-ee14-4a75-ba9e-9b561f6416d8",
+    "status": "no_match",
+    "mode": "retrieval_only",
+    "dataset_version": "osm-20261018T223058Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        },
+        {
+          "kind": "max_distance",
+          "value": 100,
+          "source": "ui",
+          "label": "Не дальше 100 м по прямой"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "recommendations": [],
+    "message": "Подходящих мест не нашлось. Часть мест закрыта ко времени прибытия или до конца посещения. Часть мест дальше заданного расстояния. Можно ослабить условие — варианты ниже.",
+    "warnings": [],
+    "suggested_relaxations": [
+      {
+        "code": "increase_max_distance",
+        "message": "Искать дальше — до 800 м по прямой",
+        "patch": {
+          "required_features": [],
+          "preferred_features": [],
+          "include_categories": [],
+          "exclude_categories": [],
+          "must_be_open": false,
+          "max_distance_m": 800,
+          "exclude_place_ids": [],
+          "dropped_text_constraints": []
+        }
+      }
+    ],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 11,
+      "semantic": 4640,
+      "rank": 2,
+      "schedule": 1,
+      "total": 4659
+    }
+  },
+  "ms": 4749
+}

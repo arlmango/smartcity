@@ -1,0 +1,2 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+/tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/packages/contracts/openapi.json is up to date

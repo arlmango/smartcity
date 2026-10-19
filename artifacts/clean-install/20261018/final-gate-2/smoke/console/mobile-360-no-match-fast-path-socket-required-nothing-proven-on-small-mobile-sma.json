@@ -1,0 +1,8 @@
+{
+  "test": "no_match fast path (socket required, nothing proven) on small mobile @small",
+  "project": "mobile-360",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "httpErrors": []
+}
