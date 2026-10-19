@@ -37,8 +37,26 @@ fake-провайдеры только в `tests/`, `page.route` в E2E). **LIVE
 | eval (db7c04f) | `make eval` | 0 (0 нарушений; 14/15 генераций live_rag, 1 честная деградация) | `16-eval.log`, `eval/` |
 | verify + live-smoke (d7c9821) | `make verify`, `make smoke-live` | 0 / 0 | `final-gate/` |
 | live-smoke (c468832) | `make smoke-live` | 1 — FAIL: S1 деградировал (все тексты модели отклонены дважды) → исправлено в ba066fe | `final-gate-2/ROOT_CAUSE.md` |
-| **итог: verify (ba066fe)** | `make verify` | **0 (11/11)** | `final-gate-3/02-verify.log`, `final-gate-3/verify/` |
-| **итог: live-smoke (ba066fe)** | `SMARTCITY_LIVE_DEGRADED_WEB_URL=… make smoke-live` | **0** | `final-gate-3/03-smoke-live.log`, `final-gate-3/smoke/` |
+| verify (ba066fe) | `make verify` | 0 (11/11) | `final-gate-3/02-verify.log`, `final-gate-3/verify/` |
+| live-smoke (ba066fe) | `SMARTCITY_LIVE_DEGRADED_WEB_URL=… make smoke-live` | 0 | `final-gate-3/03-smoke-live.log`, `final-gate-3/smoke/` |
+| **итог: live-smoke (9eade71)** | `SMARTCITY_LIVE_DEGRADED_WEB_URL=… make smoke-live` | **0** | `artifacts/clean-install/20261019-final/03-smoke-live.log`, `20261019-final/smoke/` |
+| **итог: verify (9eade71)** | `make verify` | **0 (11/11)** | `20261019-final/04-verify-9eade71.log`, `20261019-final/verify/` |
+
+### Итоговый gate 9eade71 (после ba066fe)
+Изменения после ba066fe: исправлен CI (дубль `CREATE DATABASE`, Python 3.13 в CI для стабильного OpenAPI),
+maplibre-gl 5.24.0 → **6.15.0** (закрывает GHSA-jrc7-96c5-q579; regression-тест `tests/unit/maplibreVersion.test.ts`
+проверяет версию ≥ 6.4.1 и совпадение раздаваемого worker), потоковый `POST /api/recommend/stream` (найденные места
+показываются до ответа ИИ и остаются при его таймауте), ограниченные по времени проверки `/api/ready`,
+`OLLAMA_KEEP_ALIVE=30m`, порядок наложения маркеров. Тот же чистый клон и датасет `osm-20261018T223058Z` (126 мест).
+
+`make verify` (9eade71): py-test-api **161 passed**, py-test-ingest **43 passed** (0 skipped), web-unit **123 passed**,
+web-e2e **42 passed / 3 skipped** (скриншот-утилита), lint/format/typecheck/build/secret-scan/contracts-sync — 0.
+Live-smoke (9eade71): pytest live **3 passed** (S1, S2 + relaxation, S3), Playwright live **24 passed / 2 skipped**
+(привязка к вьюпорту). Скриншот `desktop-1440-09-S1-places-before-ai.png` — карточки до ответа ИИ.
+**Оговорка:** перед этим прогоном модель была прогрета одним коротким запросом вручную, т. е. измерено установившееся
+состояние, а не холодный старт (холодная загрузка qwen2.5:3b ≈ 35 с; при таймауте карточки сохраняются — проверено
+E2E и наблюдалось вживую на промежуточном прогоне).
+CI GitHub Actions на ветке зелёный начиная с `0b5b14a` (run #17); статусы на итоговом commit — в описании PR.
 
 `make verify` (ba066fe): py-lint 0, py-format 0, py-test-api **155 passed**, py-test-ingest **43 passed** (0 skipped,
 `SMARTCITY_REQUIRE_DB=1`), web-lint 0, web-typecheck 0, web-unit **112 passed**, web-build 0, web-e2e **38 passed /
@@ -120,4 +138,6 @@ Playwright live **24 passed / 2 skipped** (тесты привязаны к др
 | Память | см. `docker stats` в QA | QA | `artifacts/qa/perf/` |
 
 ## Повтор на финальном commit
-Итоговый gate выполнен на `ba066fe` (см. сводку выше). Последующие коммиты — только документы и артефакты.
+Итоговый gate выполнен на `9eade71` (см. сводку выше; ранее — на `ba066fe`). Последующие коммиты — только документы
+и артефакты. Строки A01–A20 ниже ссылаются на `final-gate-3/` (ba066fe); на 9eade71 они повторно подтверждены тем же
+`make verify` + `make smoke-live` (`20261019-final/`). Риск R1 (maplibre) закрыт обновлением, `pnpm audit` — 0.

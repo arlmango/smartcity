@@ -1,25 +1,21 @@
 # Статус
 
-Обновлено: 2026-10-19 ~00:50 UTC. Этап: 5 — завершён. Итоговый gate пройден, ревьюер (раунд 3): новых P0/P1 нет.
-Ветка: `claude/wizardly-bardeen-py0dnc` (запушена). Итоговый gate: commit `ba066fe`.
+Обновлено: 2026-10-19 UTC. Этап: 5 — завершён. Итоговый gate: commit `9eade71` (чистый клон).
+Ветка: `claude/wizardly-bardeen-py0dnc` (запушена). PR в `main` — открыт, не слит.
 
 ## Готово и проверено (подробно — docs/VERIFICATION.md, docs/FINAL_REPORT.md)
-- Чистая установка по README в новом клоне: doctor → bootstrap → models (3.1 GB заново) → ingest из Overpass
-  (complete после `--retry-failed`, `osm-20261018T223058Z`, 126 мест) → index (bge-m3, 126) → up → ready.
-- `make verify` на `ba066fe`: 11/11 exit 0 (API 155, ingest 43 без skip, web unit 112, E2E 38).
-- `make smoke-live` на `ba066fe`: PASS — API live S1/S2-relaxed/S3 `live_rag`, Playwright live 24 passed,
-  сценарий отказа провайдера на реальном втором экземпляре.
-- Eval 20 запросов (дважды): 0 нарушений hard-условий и фактов.
-- `make backup-test`: PASS.
-- Агенты: data-pipeline, backend-rag, frontend-map (параллельно, worktree), qa-security, independent-reviewer (3 раунда).
-
-## Активные процессы
-- Docker-стек `smartcityclean` (db, ollama, api, web) — запущен в чистом клоне (scratchpad). Основной стек `smartcity`
-  остановлен (`make down`, тома сохранены).
+- Чистая установка по README в новом клоне: doctor → bootstrap → models → ingest из Overpass (`osm-20261018T223058Z`,
+  126 мест) → index → up → ready.
+- `make verify` на `9eade71`: 11/11 exit 0 (API 161, ingest 43 без skip, web unit 123, E2E 42 / 3 skipped-утилиты).
+- `make smoke-live` на `9eade71`: PASS — API live S1/S2-relaxed/S3, Playwright live 24 passed / 2 skipped (вьюпорт),
+  сценарий отказа провайдера на реальном втором экземпляре. Модель перед прогоном прогрета вручную.
+- После ba066fe: CI исправлен (зелёный с `0b5b14a`), maplibre-gl 6.15.0 (GHSA-jrc7-96c5-q579 закрыт, regression-тест),
+  найденные места показываются до ответа ИИ и сохраняются при таймауте модели.
+- Инструкция запуска у себя: docs/LOCAL_RUN.md.
 
 ## Ограничения (не блокеры)
-CPU-генерация 25–90 с; качество текстов 3B-модели; нет пешеходного роутинга; малое покрытие; нестабильный публичный
-Overpass; maplibre advisory R1 (недостижим); Firefox/WebKit не запускались.
+CPU-генерация 30–90 с (холодный старт ещё ≈ 35 с); качество текстов 3B-модели; нет пешеходного роутинга; малое
+покрытие; нестабильный публичный Overpass; Firefox/WebKit не запускались; OpenAI-compatible провайдер не проверен живьём.
 
 ## Блокеры
-Нет.
+Нет для обязательного MVP.

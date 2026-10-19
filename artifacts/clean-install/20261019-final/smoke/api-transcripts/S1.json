@@ -1,0 +1,175 @@
+{
+  "scenario": "S1",
+  "notes": "origin = DB location of 'Mega Silk Way'",
+  "recorded_at": "2026-10-19T05:22:49+00:00",
+  "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
+  "request": {
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "origin_rounded": [
+      51.09,
+      71.41
+    ],
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "constraints": {}
+  },
+  "providers": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen2.5:3b",
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "params": {
+        "temperature": 0.2,
+        "num_predict": 700
+      },
+      "timeout_s": 150.0
+    },
+    "embedding": {
+      "model_id": "ollama:bge-m3@790764642607",
+      "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+      "dim": 1024
+    },
+    "response_providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    }
+  },
+  "dataset_version": "osm-20261018T223058Z",
+  "retrieval": {
+    "shortlist": 35,
+    "ranked_after_filters": 25,
+    "semantic": "ok",
+    "llm_candidate_ids": [
+      "ec894cc8-9d39-4bc2-9479-7600de6e6b1d",
+      "cd2332ad-8940-401e-871a-1e63aab358db",
+      "1471f0f7-8d83-49fd-a741-fd91c411cf51",
+      "a86df7a6-e250-4a81-b07e-31af3a2bab01",
+      "b208b0a2-d61c-42a2-8829-d196efa2298a"
+    ],
+    "exclusions": {
+      "budget": 10
+    },
+    "llm_attempts": 1,
+    "llm_failure": null,
+    "llm_issues": [
+      "removed_ungrounded_term:меню"
+    ],
+    "prompt_version": "rec-v3"
+  },
+  "result": {
+    "status": "ok",
+    "mode": "live_rag",
+    "message": "Выбраны места для прогулки в NU Park и посещения Starbucks.",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "warnings": [
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "recommendations": [
+      {
+        "place_id": "ec894cc8-9d39-4bc2-9479-7600de6e6b1d",
+        "name": "NU Park",
+        "category": "park",
+        "source_url": "https://www.openstreetmap.org/way/1467797207",
+        "distance_m": 587,
+        "timing": {
+          "outbound_min": 12,
+          "visit_min": 11,
+          "return_min": 12,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "reason": "NU Park находится рядом с Mega Silk Way и является парком / сквером, что соответствует вашему желанию посетить место с интересом.",
+        "reason_source": "llm",
+        "activity_suggestion": "прогуляться в парке"
+      },
+      {
+        "place_id": "a86df7a6-e250-4a81-b07e-31af3a2bab01",
+        "name": "Starbucks",
+        "category": "cafe",
+        "source_url": "https://www.openstreetmap.org/node/9047331879",
+        "distance_m": 114,
+        "timing": {
+          "outbound_min": 3,
+          "visit_min": 25,
+          "return_min": 3,
+          "buffer_min": 5,
+          "total_min": 36,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "open",
+        "verified_features": [
+          "indoor"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "reason": "Starbucks недалеко от Mega Silk Way и находится внутри торгового центра, предлагая кофейню для отдыха.",
+        "reason_source": "llm",
+        "activity_suggestion": null
+      }
+    ]
+  },
+  "timings_ms": {
+    "parse": 10,
+    "shortlist": 26,
+    "semantic": 515,
+    "rank": 3,
+    "schedule": 1,
+    "generate": 66124,
+    "total": 66682
+  },
+  "wall_ms": 66705
+}

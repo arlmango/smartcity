@@ -1,0 +1,29 @@
+{
+  "method": "Playwright Chromium headless (SwiftShader WebGL), same host as stack, 1 context; cold = first navigation of a fresh context, warm = new tab in the same context (HTTP cache warm, JS heap fresh)",
+  "runs": [
+    {
+      "kind": "cold",
+      "domContentLoadedMs": 44,
+      "loadMs": 879,
+      "mapReadyMs": 1183
+    },
+    {
+      "kind": "warm",
+      "domContentLoadedMs": 36,
+      "loadMs": 210,
+      "mapReadyMs": 1120
+    },
+    {
+      "kind": "warm",
+      "domContentLoadedMs": 34,
+      "loadMs": 205,
+      "mapReadyMs": 1097
+    },
+    {
+      "kind": "warm",
+      "domContentLoadedMs": 28,
+      "loadMs": 205,
+      "mapReadyMs": 1033
+    }
+  ]
+}
