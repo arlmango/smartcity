@@ -276,3 +276,16 @@ def test_self_defeating_reason_is_removed():
         out(r("C2", reason="Сквер рядом. Он не подходит для прогулки.")), FACTS, return_to_start=True
     )
     assert "не подходит" not in v.items[0].reason and "removed_self_defeating" in v.issues
+
+
+def test_last_attempt_keeps_selection_when_all_texts_fail_checks():
+    bad = out(r("C2", reason="Здесь тихо и уютно."), r("C1", reason="Тут есть розетки."))
+    with pytest.raises(LLMOutputInvalid):
+        validate_output(bad, FACTS)  # first attempt: ask the model again
+    v = validate_output(bad, FACTS, keep_selection=True)
+    assert [i.place_id for i in v.items] == ["id-park", "id-cafe"]
+    assert all(i.reason is None and i.activity_suggestion is None for i in v.items)
+    assert "selection_kept_without_text" in v.issues
+    # unknown IDs are still never kept
+    with pytest.raises(LLMOutputInvalid):
+        validate_output(out(r("C9", reason="Тихо.")), FACTS, keep_selection=True)

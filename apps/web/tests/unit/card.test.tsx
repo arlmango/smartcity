@@ -17,6 +17,13 @@ describe("RecommendationCard", () => {
     expect((window as unknown as { __xss?: number }).__xss).toBeUndefined();
   });
 
+  it("an AI text rejected by fact checks is shown as hidden, not as missing AI", () => {
+    render(
+      <RecommendationCard rec={{ ...recA, reason: null, reason_source: "llm" }} index={0} selected={false} budget={60} retrievalOnly={false} onSelect={() => {}} />,
+    );
+    expect(screen.getByText("Объяснение ИИ не прошло проверку фактов и скрыто.")).toBeInTheDocument();
+  });
+
   it("links only http(s) sources, with rel=noopener noreferrer", () => {
     const { container } = render(
       <RecommendationCard

@@ -887,7 +887,9 @@ async def generate(container: Container, prep: Prepared, is_disconnected: IsDisc
             out.failure = e.code
             return out
         try:
-            out.output = validate_output(raw, facts, return_to_start=prep.req.return_to_start)
+            out.output = validate_output(
+                raw, facts, return_to_start=prep.req.return_to_start, keep_selection=out.attempts >= 2
+            )
             out.issues += out.output.issues
             container.llm_breaker.success()
             return out
@@ -1014,6 +1016,13 @@ def _final_warnings(prep: Prepared, cards: list[Recommendation]) -> None:
                 f"«{label}» в радиусе досягаемости в нашей базе нет — показаны другие места.",
             )
         prep.warnings.append(Warning(code=code, message=msg))
+    if any(c.reason_source == "llm" and c.reason is None for c in cards):
+        prep.warnings.append(
+            Warning(
+                code="llm_text_rejected",
+                message="Часть объяснений ИИ не прошла проверку фактов и скрыта — места и факты остаются",
+            )
+        )
     for f in prep.eff.preferred_features:
         if any(f in c.unknown_features for c in cards):
             prep.warnings.append(

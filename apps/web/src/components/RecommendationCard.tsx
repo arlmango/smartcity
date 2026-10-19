@@ -98,7 +98,11 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
             <p className="text-sm leading-relaxed">{rec.reason}</p>
           ) : (
             <p className="text-sm text-muted">
-              {retrievalOnly ? "Объяснение ИИ недоступно — место найдено поиском по базе." : "Объяснения нет."}
+              {retrievalOnly
+                ? "Объяснение ИИ недоступно — место найдено поиском по базе."
+                : rec.reason_source === "llm"
+                  ? "Объяснение ИИ не прошло проверку фактов и скрыто."
+                  : "Объяснения нет."}
             </p>
           )}
         </div>

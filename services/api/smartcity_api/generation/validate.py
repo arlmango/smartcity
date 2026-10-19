@@ -117,7 +117,7 @@ class CandidateFacts:
 @dataclass
 class ValidItem:
     place_id: str
-    reason: str
+    reason: str | None  # None: the model's text failed fact checks (selection kept on the last attempt)
     activity_suggestion: str | None
 
 
@@ -225,8 +225,14 @@ def _mostly_russian(text: str, names: list[str]) -> bool:
 
 
 def validate_output(
-    raw: str, candidates: list[CandidateFacts], *, return_to_start: bool | None = None
+    raw: str,
+    candidates: list[CandidateFacts],
+    *,
+    return_to_start: bool | None = None,
+    keep_selection: bool = False,
 ) -> ValidOutput:
+    """Validate model JSON. With keep_selection (last attempt), a valid known place_id whose text
+    fails the fact checks is kept with reason=None instead of discarding the model's selection."""
     try:
         data = json.loads(raw)
     except (ValueError, TypeError) as e:
@@ -271,6 +277,12 @@ def validate_output(
         )
         if not reason_c or not _mostly_russian(reason_c, names):
             issues.append("reason_rejected")
+            if keep_selection:
+                issues.append("selection_kept_without_text")
+                seen.add(facts.place_id)
+                items.append(ValidItem(facts.place_id, None, None))
+                if len(items) == 3:
+                    break
             continue
         activity_c = None
         if activity and activity.strip():
@@ -291,6 +303,11 @@ def validate_output(
         items.append(ValidItem(facts.place_id, reason_c, activity_c))
         if len(items) == 3:
             break
+    texts = [i for i in items if i.reason is not None]
+    if keep_selection and not texts and unknown_ids:
+        # A model that also invented IDs is misbehaving (e.g. obeying injected text): do not keep
+        # its selection without any verified text — fall back honestly instead.
+        raise LLMOutputInvalid("использованы неизвестные place_id")
     if not items:
         if unknown_ids:
             raise LLMOutputInvalid("использованы неизвестные place_id")
