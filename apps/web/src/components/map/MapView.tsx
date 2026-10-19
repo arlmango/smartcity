@@ -55,6 +55,11 @@ export function webglAvailable(): boolean {
 
 const EMPTY: FeatureCollection = { type: "FeatureCollection", features: [] };
 
+/** Stacking order for result markers: lower result number above higher; selected marker above all. */
+export function markerZ(index: number, selected: boolean): number {
+  return selected ? 1000 : 100 - index;
+}
+
 function debugState(): NonNullable<Window["__smartcity"]> {
   if (!window.__smartcity) window.__smartcity = { loaded: false, viewMode: "3d", sourceCounts: {}, markerIds: [] };
   return window.__smartcity;
@@ -233,13 +238,19 @@ export function MapView(props: MapViewProps) {
         live.current.onSelectPlace(rec.place_id);
       });
       const marker = new lib.Marker({ element: el, anchor: "center" }).setLngLat([rec.coordinates.lon, rec.coordinates.lat]).addTo(map);
+      // Places can be metres apart (e.g. inside one mall): lower numbers stay on top, the selected one above all.
+      el.style.zIndex = String(markerZ(i, live.current.selectedId === rec.place_id));
       markersRef.current.set(rec.place_id, { marker, el });
     });
     debugState().markerIds = props.recs.map((r) => r.place_id);
   }, [props.recs, loaded]);
 
   useEffect(() => {
-    markersRef.current.forEach(({ el }, id) => el.setAttribute("aria-pressed", String(id === props.selectedId)));
+    let i = 0;
+    markersRef.current.forEach(({ el }, id) => {
+      el.setAttribute("aria-pressed", String(id === props.selectedId));
+      el.style.zIndex = String(markerZ(i++, id === props.selectedId));
+    });
   }, [props.selectedId, props.recs]);
 
   // ---------------------------------------------------------------- camera: fly to selected card

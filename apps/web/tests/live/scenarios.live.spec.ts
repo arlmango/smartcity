@@ -252,9 +252,12 @@ test.describe("live scenarios", () => {
     await waitForOutcome(page);
     // Wait long enough that the first (cancelled) generation would have finished if it was not aborted.
     await page.waitForTimeout(5000);
-    const shown = c.recs.filter((x) => x.status === 200 && x.response && "recommendations" in x.response);
-    expect(shown.length).toBe(1);
-    expect((shown[0]!.response as { client_request_id: string }).client_request_id).toBe(second.client_request_id);
+    // Final answers the client accepted (cancelled requests never get one).
+    const finals = await page.evaluate(
+      () => (window as unknown as { __smartcityRecommend?: { final: Record<string, unknown> } }).__smartcityRecommend?.final ?? {},
+    );
+    expect(Object.keys(finals)).toEqual([second.client_request_id]);
+    const shown = [{ response: finals[second.client_request_id] as Record<string, unknown> }];
     expect(c.failedRequests.some((f) => f.includes("/api/recommend"))).toBe(true);
     for (const rec of (shown[0]!.response as { recommendations: { timing: { total_min: number } }[] }).recommendations) expect(rec.timing.total_min).toBeLessThanOrEqual(20);
     writeFileSync(path.join(ART, "cancel-stale.json"), JSON.stringify({ second: second.client_request_id, failed: c.failedRequests, statuses: c.recs.map((x) => x.status) }, null, 2));

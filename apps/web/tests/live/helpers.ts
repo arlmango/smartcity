@@ -52,10 +52,16 @@ export function collect(page: Page, info: TestInfo): Collectors {
     if (m.type() === "error" || m.type() === "warning") c.consoleErrors.push(`[${m.type()}] ${m.text()}`);
   });
   page.on("pageerror", (e) => c.pageErrors.push(e.message));
+  const byKey = new Map<string, Captured>();
   page.on("request", (r) => {
-    if (r.url().includes("/api/recommend")) {
-      started.set(r.url() + (r.postData() ?? ""), Date.now());
-      if (r.method() === "POST") c.lastRequestId = ((r.postDataJSON() ?? {}) as { client_request_id?: string }).client_request_id ?? null;
+    if (r.url().includes("/api/recommend") && r.method() === "POST") {
+      const key = r.url() + (r.postData() ?? "");
+      started.set(key, Date.now());
+      c.lastRequestId = ((r.postDataJSON() ?? {}) as { client_request_id?: string }).client_request_id ?? null;
+      // Recorded synchronously at send time; status/response are filled in when the answer is done.
+      const entry: Captured = { request: (r.postDataJSON() ?? {}) as Record<string, unknown>, status: 0, response: null, ms: 0 };
+      byKey.set(key, entry);
+      c.recs.push(entry);
     }
   });
   page.on("requestfailed", (r) => c.failedRequests.push(`${r.method()} ${new URL(r.url()).pathname} — ${r.failure()?.errorText ?? "?"}`));
@@ -84,7 +90,12 @@ export function collect(page: Page, info: TestInfo): Collectors {
       } catch {
         body = null; // cancelled stream: no final answer
       }
-      c.recs.push({ request: (req.postDataJSON() ?? {}) as Record<string, unknown>, status: res.status(), response: body, ms: Date.now() - (started.get(key) ?? Date.now()) });
+      const entry = byKey.get(key);
+      if (entry) {
+        entry.status = res.status();
+        entry.response = body;
+        entry.ms = Date.now() - (started.get(key) ?? Date.now());
+      }
     }
   });
   c.flush = () => {

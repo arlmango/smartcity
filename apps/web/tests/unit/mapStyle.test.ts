@@ -53,3 +53,12 @@ describe("map style", () => {
     expect(labels.layout["text-font"]).toEqual(["Manrope-Regular"]);
   });
 });
+
+describe("result marker stacking (overlapping places)", () => {
+  it("lower numbers stay above higher ones; the selected marker is above all", async () => {
+    const { markerZ } = await import("@/components/map/MapView");
+    expect(markerZ(0, false)).toBeGreaterThan(markerZ(1, false));
+    expect(markerZ(1, false)).toBeGreaterThan(markerZ(2, false));
+    expect(markerZ(2, true)).toBeGreaterThan(markerZ(0, false));
+  });
+});
