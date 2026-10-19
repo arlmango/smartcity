@@ -120,9 +120,14 @@ export async function shot(page: Page, info: TestInfo, name: string) {
 }
 
 export async function waitForMap(page: Page) {
-  await page.waitForFunction(() => window.__smartcity?.loaded === true && (window.__smartcity.sourceCounts.buildings ?? 0) > 0, null, {
-    timeout: 60_000,
-  });
+  await page.waitForFunction(
+    () => {
+      const m = window.__smartcityMap;
+      return window.__smartcity?.loaded === true && (window.__smartcity.sourceCounts.coverage ?? 0) > 0 && !!m && m.areTilesLoaded();
+    },
+    null,
+    { timeout: 60_000 },
+  );
 }
 
 export async function mapIdle(page: Page) {

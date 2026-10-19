@@ -72,6 +72,13 @@ body {
   font-size: 12px;
   background: rgba(255, 255, 255, 0.92) !important;
 }
+@media (max-width: 639px) {
+  /* Phones: the full credit stays visible (licences require it), just denser. */
+  .maplibregl-ctrl-attrib {
+    font-size: 10.5px;
+    line-height: 1.3;
+  }
+}
 .maplibregl-ctrl-attrib a {
   color: #17201c !important;
   text-decoration: underline;

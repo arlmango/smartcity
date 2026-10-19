@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
-import { mapIdle, mockApi, waitForMap } from "./helpers";
+import { basemapInfo, mapIdle, mockApi, waitForMap } from "./helpers";
 
-test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
-  test("loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile", async ({ page }) => {
+test.describe("deterministic: map (SYNTHETIC fixtures and tiles)", () => {
+  test("loads city vector tiles for the visible area only, with 3D extrusion @mobile", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
-    const geoCalls = await page.addInitScript(() => {
+    await page.addInitScript(() => {
       (window as unknown as { __geoCalls: number }).__geoCalls = 0;
       const orig = navigator.geolocation?.getCurrentPosition?.bind(navigator.geolocation);
       if (orig)
@@ -15,7 +15,8 @@ test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
           return orig(...a);
         };
     });
-    void geoCalls;
+    const external: string[] = [];
+    page.on("request", (r) => !r.url().startsWith("http://127.0.0.1") && !r.url().startsWith("data:") && !r.url().startsWith("blob:") && external.push(r.url()));
     const api = await mockApi(page);
     await page.goto("/");
     await expect(page.getByText("SmartCity", { exact: true })).toBeVisible();
@@ -27,44 +28,50 @@ test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
       const center = map.getCenter();
       return {
         counts: window.__smartcity!.sourceCounts,
+        variant: window.__smartcity!.variant,
         hasExtrusion: map.getLayer("buildings-3d")?.type,
         extrusionVisible: map.getLayoutProperty("buildings-3d", "visibility"),
-        rendered3d: map.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-default"] }).length,
+        rendered3d: map.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-approx"] }).length,
         pitch: map.getPitch(),
         center: [center.lng, center.lat],
         geoCalls: (window as unknown as { __geoCalls: number }).__geoCalls,
+        hasSatellite: !!map.getSource("satellite"),
       };
     });
-    expect(info.counts.buildings).toBe(31);
-    expect(info.counts.roads).toBe(3);
-    expect(info.counts.green).toBe(1);
-    expect(info.counts.water).toBe(1);
     expect(info.counts.coverage).toBe(1);
+    expect(info.counts.boundary).toBe(1);
     expect(info.hasExtrusion).toBe("fill-extrusion");
     expect(info.extrusionVisible).toBe("visible");
     expect(info.rendered3d).toBeGreaterThan(0);
     expect(info.pitch).toBeGreaterThan(40);
+    // Satellite disabled by the API (commercial mode in this mock) → scheme, no EOX request at all.
+    expect(info.variant).toBe("scheme");
+    expect(info.hasSatellite).toBe(false);
+    expect(external).toEqual([]);
     // Initial camera is the EXPO/MEGA area, not the user's position; GPS never requested on load.
     expect(info.center[0]).toBeCloseTo(71.414, 2);
     expect(info.center[1]).toBeCloseTo(51.089, 2);
     expect(info.geoCalls).toBe(0);
 
-    // Roads/green/water are actually rendered (top-down overview of the fixture area).
-    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 14, pitch: 0 }));
-    await mapIdle(page);
-    const flat = await page.evaluate(() => {
-      const map = window.__smartcityMap!;
-      return {
-        roads: map.queryRenderedFeatures({ layers: ["roads", "roads-paths"] }).length,
-        green: map.queryRenderedFeatures({ layers: ["green-fill"] }).length,
-      };
-    });
-    await page.evaluate(() => window.__smartcityMap!.jumpTo({ center: [71.4042, 51.094], zoom: 16, pitch: 0 }));
-    await mapIdle(page);
-    const water = await page.evaluate(() => window.__smartcityMap!.queryRenderedFeatures({ layers: ["water-fill"] }).length);
-    expect(flat.roads).toBeGreaterThan(0);
-    expect(flat.green).toBeGreaterThan(0);
-    expect(water).toBeGreaterThan(0);
+    // Viewport loading: only tiles around the view, buildings only from z13; no city-wide GeoJSON.
+    const zooms = api.tiles.map((t) => Number(t.split("/")[1]));
+    expect(api.tiles.length).toBeGreaterThan(0);
+    expect(api.tiles.length).toBeLessThan(80);
+    expect(Math.max(...zooms)).toBeLessThanOrEqual(15);
+    expect(api.tiles.filter((t) => t.startsWith("buildings/")).every((t) => Number(t.split("/")[1]) >= 13)).toBe(true);
+    expect(api.mapLayerRequests).toEqual(["coverage"]);
+    // Tile URLs carry the archive version from /api/basemap (cache key that changes on rebuild).
+    expect(api.tileQueries.every((q) => q === "?v=e2e0001")).toBe(true);
+
+    // Roads, parks and water from the base tiles are actually rendered (SYNTHETIC fixture area).
+    const renderedAt = async (center: [number, number], layer: string) => {
+      await page.evaluate((c) => window.__smartcityMap!.jumpTo({ center: c, zoom: 15, pitch: 0, bearing: 0 }), center);
+      await mapIdle(page);
+      return page.evaluate((l) => window.__smartcityMap!.queryRenderedFeatures({ layers: [l] }).length, layer);
+    };
+    expect(await renderedAt([71.414, 51.089], "roads")).toBeGreaterThan(0);
+    expect(await renderedAt([71.418, 51.092], "landuse-green")).toBeGreaterThan(0);
+    expect(await renderedAt([71.4042, 51.094], "water")).toBeGreaterThan(0);
 
     // Attribution and scale are visible and not covered.
     const attrib = page.locator(".maplibregl-ctrl-attrib a", { hasText: "© OpenStreetMap contributors" });
@@ -81,11 +88,71 @@ test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
     expect(errors.filter((e) => !/Failed to load resource/.test(e))).toEqual([]);
   });
 
-  test("2D/3D toggle, north reset and height legend", async ({ page }) => {
+  test("hybrid ↔ scheme switch: licensed satellite with attribution, choice remembered", async ({ page }) => {
+    const eox: string[] = [];
+    // 1×1 PNG instead of the real EOX tile (deterministic, offline).
+    const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==", "base64");
+    await page.route("https://tiles.maps.eox.at/**", (r) => {
+      eox.push(r.request().url());
+      return r.fulfill({ status: 200, contentType: "image/png", body: png });
+    });
+    await mockApi(page, { basemap: basemapInfo(true) });
+    await page.goto("/");
+    await waitForMap(page);
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 12, pitch: 0 }));
+    await mapIdle(page);
+    const sw = page.getByTestId("basemap-switch");
+    await expect(sw.getByRole("button", { name: "Гибрид" })).toHaveAttribute("aria-pressed", "true");
+    expect(await page.evaluate(() => !!window.__smartcityMap!.getSource("satellite"))).toBe(true);
+    expect(eox.length).toBeGreaterThan(0);
+    await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText("Contains modified Copernicus Sentinel data 2024");
+    await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText("CC BY-NC-SA 4.0");
+
+    // Street level: the satellite has faded out and is not rendered, so its credit disappears too.
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 16.5 }));
+    await mapIdle(page);
+    await expect(page.locator(".maplibregl-ctrl-attrib")).not.toContainText("Copernicus");
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 12 }));
+    await mapIdle(page);
+    await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText("Copernicus");
+
+    await sw.getByRole("button", { name: "Схема" }).click();
+    await page.waitForFunction(() => window.__smartcity!.variant === "scheme" && !window.__smartcityMap!.getSource("satellite"));
+    // Coverage data and markers survive the style switch.
+    expect(await page.evaluate(() => window.__smartcityMap!.queryRenderedFeatures({ layers: ["coverage-fill"] }).length)).toBeGreaterThan(0);
+    await expect(page.locator(".maplibregl-ctrl-attrib")).not.toContainText("Copernicus");
+    await page.reload();
+    await waitForMap(page);
+    await expect(page.getByTestId("basemap-switch").getByRole("button", { name: "Схема" })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("phones: basemap toggle sits in the control column, not over the credits @mobile", async ({ page, isMobile }) => {
+    test.skip(!isMobile, "phone layout only");
+    await page.route("https://tiles.maps.eox.at/**", (r) => r.fulfill({ status: 404 }));
+    await mockApi(page, { basemap: basemapInfo(true) });
+    await page.goto("/");
+    await waitForMap(page);
+    await expect(page.getByTestId("basemap-switch")).toBeHidden();
+    const toggle = page.getByTestId("basemap-toggle");
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    const t = (await toggle.boundingBox())!;
+    expect(t.width).toBeGreaterThanOrEqual(44);
+    const attrib = (await page.locator(".maplibregl-ctrl-attrib").boundingBox())!;
+    expect(t.y + t.height).toBeLessThan(attrib.y);
+    await toggle.click();
+    await page.waitForFunction(() => window.__smartcity!.variant === "scheme");
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  });
+
+  test("2D/3D toggle, north reset, height legend and stylised landmark label", async ({ page }) => {
     await mockApi(page);
     await page.goto("/");
     await waitForMap(page);
-    await expect(page.getByTestId("height-legend")).toContainText("условно 10 м");
+    const legend = page.getByTestId("height-legend");
+    await expect(legend).toContainText("условно 10 м");
+    await expect(legend).toContainText("по типу или площади");
+    await expect(legend).toContainText("Оценки — светлые, полупрозрачные");
+    await expect(legend).toContainText("стилизация");
     const toggle = page.getByTestId("toggle-3d");
     await expect(toggle).toHaveAttribute("aria-pressed", "true");
     await toggle.click();
@@ -93,11 +160,19 @@ test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
     await page.waitForFunction(() => window.__smartcityMap!.getPitch() === 0);
     const vis2d = await page.evaluate(() => ({
       ext: window.__smartcityMap!.getLayoutProperty("buildings-3d", "visibility"),
+      approx: window.__smartcityMap!.getLayoutProperty("buildings-3d-approx", "visibility"),
       flat: window.__smartcityMap!.getLayoutProperty("buildings-2d", "visibility"),
     }));
-    expect(vis2d).toEqual({ ext: "none", flat: "visible" });
+    expect(vis2d).toEqual({ ext: "none", approx: "none", flat: "visible" });
     await toggle.click();
     await page.waitForFunction(() => window.__smartcityMap!.getPitch() > 40);
+
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ center: [71.416, 51.0894], zoom: 16.5 }));
+    await mapIdle(page);
+    const labels = await page.evaluate(() =>
+      window.__smartcityMap!.queryRenderedFeatures({ layers: ["stylised-labels"] }).map((f) => f.properties?.lbl),
+    );
+    expect(labels).toContain("SYNTH-сфера · стилизация");
 
     await page.evaluate(() => window.__smartcityMap!.setBearing(70));
     await page.getByRole("button", { name: "На север" }).click();
@@ -108,7 +183,7 @@ test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
     await page.waitForFunction((z) => window.__smartcityMap!.getZoom() > z + 0.5, z0);
   });
 
-  test("select origin by clicking the map; outside coverage is refused", async ({ page }) => {
+  test("select origin by clicking the map; outside the recommendation zone is refused and the zone shown", async ({ page }) => {
     await mockApi(page);
     await page.goto("/");
     await waitForMap(page);
@@ -122,20 +197,29 @@ test.describe("deterministic: map (SYNTHETIC fixtures)", () => {
     await expect(page.getByTestId("origin-marker")).toBeVisible();
 
     await page.getByRole("button", { name: "На карте" }).click();
-    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 13, pitch: 0 }));
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ center: [71.44, 51.12], zoom: 13, pitch: 0 }));
     const out = await page.evaluate(() => {
-      const p = window.__smartcityMap!.project([71.44, 51.103]);
+      const p = window.__smartcityMap!.project([71.45, 51.125]);
       return { x: p.x, y: p.y };
     });
     await canvas.click({ position: out });
-    await expect(page.getByText("Вне зоны покрытия данных", { exact: true })).toBeVisible();
+    const alert = page.getByRole("alert").filter({ has: page.getByRole("button", { name: "Показать зону" }) });
+    await expect(alert).toContainText("Вне зоны рекомендаций");
+    await expect(alert).toBeVisible();
+    await expect(page.getByText(/Карта показывает всю Астану/)).toBeVisible();
     await expect(page.getByTestId("origin-label")).toHaveText("Точка на карте"); // unchanged
+    await alert.getByRole("button", { name: "Показать зону" }).click();
+    await page.waitForFunction(() => {
+      const c = window.__smartcityMap!.getCenter();
+      return Math.abs(c.lng - 71.414) < 0.01 && Math.abs(c.lat - 51.09) < 0.01 && !window.__smartcityMap!.isMoving();
+    });
   });
 
-  test("map layer failure shows an explicit error, not an empty canvas", async ({ page }) => {
-    await mockApi(page, { mapLayers: { roads: 503 } });
+  test("failures are explicit, not an empty canvas", async ({ page }) => {
+    await mockApi(page, { mapLayers: { coverage: 503 }, basemap: 503 });
     await page.goto("/");
-    await expect(page.getByRole("alert").filter({ hasText: "Не загрузились слои карты: roads" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Повторить" })).toBeVisible();
+    await expect(page.getByRole("alert").filter({ hasText: "Не удалось загрузить данные карты" })).toBeVisible();
+    await expect(page.getByRole("alert").filter({ hasText: "Базовая карта города недоступна" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Повторить" }).first()).toBeVisible();
   });
 });

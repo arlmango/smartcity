@@ -1,0 +1,122 @@
+{
+  "built_at": "2026-10-19T11:19:47+00:00",
+  "bbox": [
+    71.15,
+    50.83,
+    71.85,
+    51.38
+  ],
+  "coordinate_order": "[lon, lat]",
+  "attribution": "© OpenStreetMap contributors (ODbL); base tiles: Protomaps Basemap",
+  "licenses": {
+    "osm": {
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright"
+    },
+    "protomaps_basemap": {
+      "license": "ODbL-1.0 (OSM-derived tiles; Natural Earth at low zooms is public domain)",
+      "attribution": "© OpenStreetMap contributors · Protomaps",
+      "url": "https://docs.protomaps.com/basemaps/downloads"
+    }
+  },
+  "tiles_version": "f8ea0d34a7b0",
+  "coverage": {
+    "admin_boundary": "relation/3087155",
+    "boundary_bounds": [
+      71.21797,
+      50.85761,
+      71.78519,
+      51.35111
+    ],
+    "boundary_area_km2": 793.6,
+    "boundary_inside_tiles": true,
+    "tiles_bbox": [
+      71.15,
+      50.83,
+      71.85,
+      51.38
+    ],
+    "file": "astana-boundary.geojson"
+  },
+  "base": {
+    "source": "https://build.protomaps.com/20261018.pmtiles",
+    "build": {
+      "key": "20261018.pmtiles",
+      "size": 138978594030,
+      "md5sum": "1WAkMHEk9HsBNmYKkB6WDQ==",
+      "b3sum": "1b5dd35888d80f35d935970ce112a53efcbe3f57f6ca9d05841026b3bba2c90e",
+      "uploaded": "2026-10-18T08:52:52.971Z",
+      "version": "4.15.2"
+    },
+    "pmtiles_cli": "1.31.2",
+    "file": "astana-base.pmtiles",
+    "bytes": 10374910,
+    "sha256": "627e874dd7c2f51a3b7162e3a4fdd04758c277b916dff5e1c015adb406e92b30"
+  },
+  "buildings": {
+    "source": "https://download.geofabrik.de/asia/kazakhstan-261018.osm.pbf",
+    "pbf_sha256": "9ad8e895d4703248b97a5d17e883e49dc58549305aa4ba6bd6661d247cb98bdb",
+    "file": "astana-buildings.pmtiles",
+    "bytes": 4211077,
+    "sha256": "9be3c51227ac841322b8e5b0641f5eba8235a816be47179c777f1dd01f4d618b",
+    "zooms": [
+      13,
+      15
+    ],
+    "level_height_m": 3.2,
+    "default_height_m": 10.0,
+    "counts": {
+      "buildings": 75039,
+      "parts": 602,
+      "outlines_drawn_by_parts": 119,
+      "invalid_skipped": 10
+    },
+    "height_source": {
+      "height": 207,
+      "levels": 27017,
+      "estimate": 39506,
+      "default": 8309
+    },
+    "estimate_basis": {
+      "type": 1455,
+      "area": 38051
+    },
+    "estimate_rules": {
+      "по типу": {
+        "гараж, сарай, киоск и т. п.": 3.0,
+        "частный дом": 6.0,
+        "склад, ангар, навес и т. п.": 8.0
+      },
+      "по площади (building=yes)": {
+        "меньше 40 м²": 3.0,
+        "меньше 250 м²": 6.0
+      }
+    },
+    "roofs": {
+      "linear": 369,
+      "curved": 123,
+      "sphere": 1,
+      "landmark": 1
+    },
+    "landmarks": [
+      {
+        "osm": "way/1461813334",
+        "shape": "sphere",
+        "applied": true,
+        "problems": [],
+        "centroid": [
+          71.416154,
+          51.089314
+        ],
+        "circularity": 0.997
+      }
+    ],
+    "tiles": 1393,
+    "tiles_per_zoom": {
+      "13": 128,
+      "14": 335,
+      "15": 930
+    }
+  }
+}

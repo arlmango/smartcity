@@ -9,7 +9,7 @@ import { z } from "zod";
 export const MAP_LAYERS = ["buildings", "roads", "water", "green", "coverage"] as const;
 export type MapLayer = (typeof MAP_LAYERS)[number];
 
-export type HeightSource = "height" | "levels" | "default";
+export type HeightSource = "height" | "levels" | "estimate" | "default";
 
 export interface BuildingProps {
   id: string;
@@ -77,7 +77,7 @@ const BuildingPropsSchema = z.object({
   levels: z.number().finite().nullable().optional(),
   height_m: z.number().finite().min(0).max(1000),
   min_height_m: z.number().finite().min(0).max(1000).default(0),
-  height_source: z.enum(["height", "levels", "default"]),
+  height_source: z.enum(["height", "levels", "estimate", "default"]),
 });
 const RoadPropsSchema = z.object({ id: z.string(), highway: z.string(), name: optStr });
 const KindPropsSchema = z.object({ id: z.string(), kind: z.string(), name: optStr });
@@ -100,6 +100,20 @@ export class InvalidLayerError extends Error {
   constructor(public readonly layer: MapLayer) {
     super(`Слой карты «${layer}» пришёл в неверном формате`);
   }
+}
+
+/** City boundary (GET /api/basemap/boundary): polygon features only; anything else is dropped. */
+export function parseBoundary(raw: unknown): FeatureCollection {
+  const parsed = CollectionSchema.safeParse(raw);
+  if (!parsed.success) throw new Error("invalid boundary");
+  const features: Feature[] = [];
+  for (const f of parsed.data.features) {
+    const feat = f as { type?: unknown; geometry?: unknown };
+    if (feat?.type === "Feature" && isValidGeometry(feat.geometry, ["Polygon", "MultiPolygon"])) {
+      features.push({ type: "Feature", geometry: feat.geometry, properties: {} });
+    }
+  }
+  return { type: "FeatureCollection", features };
 }
 
 export function parseLayer(layer: MapLayer, raw: unknown): LayerResult {
@@ -133,14 +147,15 @@ export function parseLayer(layer: MapLayer, raw: unknown): LayerResult {
 export interface HeightStats {
   height: number;
   levels: number;
+  estimate: number;
   default: number;
 }
 
 export function heightStats(buildings: FeatureCollection | undefined): HeightStats {
-  const s: HeightStats = { height: 0, levels: 0, default: 0 };
+  const s: HeightStats = { height: 0, levels: 0, estimate: 0, default: 0 };
   for (const f of buildings?.features ?? []) {
     const src = (f.properties as BuildingProps | null)?.height_source;
-    if (src === "height" || src === "levels" || src === "default") s[src]++;
+    if (src === "height" || src === "levels" || src === "estimate" || src === "default") s[src]++;
   }
   return s;
 }

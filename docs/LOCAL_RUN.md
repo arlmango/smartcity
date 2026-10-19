@@ -29,6 +29,7 @@ cd smartcity
 make bootstrap                 # настройки .env, зависимости Python, база данных
 CONFIRM=1 make models          # локальные модели ИИ: ~3.1 ГБ (qwen2.5:3b и bge-m3)
 make ingest ARGS="--from-snapshot osm-20261018T200514Z"   # данные OSM из сохранённого в репозитории снимка
+make basemap                   # карта всей Астаны: тайлы в data/basemap (нужен интернет, ~2–3 мин)
 make index                     # смысловой индекс мест
 make up                        # запуск сайта, ждёт готовности всех сервисов
 ```

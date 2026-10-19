@@ -329,3 +329,51 @@ export const RecommendStreamEventSchema = z.discriminatedUnion("event", [
   z.object({ event: z.literal("error"), response: z.null().optional(), error: ErrorResponseSchema }),
 ]);
 export type RecommendStreamEvent = z.infer<typeof RecommendStreamEventSchema>;
+
+// ------------------------------------------------------------- base map (GET /api/basemap)
+
+const Count = z.number().int().nonnegative();
+const Str = z.string().nullable().optional();
+export const SatelliteConfigSchema = z.discriminatedUnion("enabled", [
+  z.object({
+    enabled: z.literal(true),
+    // Only the EOX tile host is accepted (also pinned by the CSP).
+    tiles: z.array(z.string().regex(/^https:\/\/tiles\.maps\.eox\.at\//)).min(1).max(4),
+    maxzoom: z.number().int().min(0).max(22),
+    attribution: z.string().max(1000),
+    license: z.string(),
+    license_url: Str,
+    resolution_m: z.number().positive().nullable().optional(),
+  }),
+  z.object({ enabled: z.literal(false), reason: Str }),
+]);
+export const BasemapInfoSchema = z.object({
+  bbox: z.array(z.number()).length(4).nullable().optional(),
+  built_at: Str,
+  attribution: Str,
+  licenses: z.record(z.object({ license: Str, attribution: Str, url: Str }).passthrough()).optional(),
+  coverage: z
+    .object({
+      admin_boundary: Str,
+      boundary_area_km2: z.number().nullable().optional(),
+      boundary_inside_tiles: z.boolean().nullable().optional(),
+    })
+    .passthrough()
+    .optional(),
+  base_source: Str,
+  buildings_source: Str,
+  level_height_m: z.number().positive().nullable().optional(),
+  default_height_m: z.number().positive().nullable().optional(),
+  height_source: z
+    .object({ height: Count.default(0), levels: Count.default(0), estimate: Count.default(0), default: Count.default(0) })
+    .default({}),
+  tiles_version: z.string().regex(/^[0-9a-f]{1,32}$/).nullable().optional(),
+  estimate_rules: z.record(z.record(z.number())).optional(),
+  roofs: z.record(Count).optional(),
+  stylised_landmarks: z.array(z.object({ osm: z.string() }).passthrough()).optional(),
+  buildings: Count.nullable().optional(),
+  usage_mode: z.enum(["noncommercial", "commercial"]).optional(),
+  satellite: SatelliteConfigSchema.optional(),
+});
+export type BasemapInfo = z.infer<typeof BasemapInfoSchema>;
+export type SatelliteConfig = z.infer<typeof SatelliteConfigSchema>;

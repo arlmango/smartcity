@@ -251,7 +251,7 @@ test.describe("deterministic: geolocation", () => {
     await page.goto("/");
     await page.getByRole("button", { name: "Моё местоположение" }).click();
     await page.getByRole("button", { name: "Разрешить запрос" }).click();
-    await expect(page.getByText(/Ваше местоположение вне зоны покрытия/)).toBeVisible();
+    await expect(page.getByText(/Ваше местоположение вне зоны рекомендаций/)).toBeVisible();
     await expect(page.getByText("Точка не выбрана", { exact: false })).toBeVisible();
   });
 });
@@ -311,7 +311,11 @@ test.describe("deterministic: fallback & states", () => {
     await expect(dlg).toContainText("1 октября 2026");
     await expect(dlg).toContainText("ODbL");
     await expect(dlg).toContainText("Высоты зданий приблизительные");
-    await expect(dlg).toContainText("10 — условно 10 м");
+    await expect(dlg).toContainText("7 — условно 10 м");
+    await expect(dlg).toContainText("оценка по типу здания или площади");
+    // Map coverage (whole city, checked boundary) is distinct from the place database coverage.
+    await expect(dlg.getByTestId("map-coverage")).toHaveText("Вся Астана в административных границах OSM (794 км²)");
+    await expect(dlg).toContainText("только здесь подбираются прогулки");
     await page.keyboard.press("Escape");
     await expect(dlg).toHaveCount(0);
   });

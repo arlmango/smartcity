@@ -38,7 +38,7 @@ describe("parseLayer", () => {
 
 describe("height stats & coverage", () => {
   it("counts height provenance", () => {
-    expect(heightStats(buildings())).toEqual({ height: 11, levels: 10, default: 10 });
+    expect(heightStats(buildings())).toEqual({ height: 11, levels: 10, estimate: 0, default: 10 });
   });
 
   it("checks coverage with [lon, lat] order", () => {

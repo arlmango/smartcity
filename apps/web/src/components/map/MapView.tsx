@@ -6,30 +6,39 @@ import { MAPLIBRE_WORKER_URL } from "@/lib/mapWorker";
 import { useEffect, useRef, useState } from "react";
 import type { Recommendation } from "@/lib/contracts";
 import type { Origin } from "@/lib/form";
-import type { LayerResult, MapLayer } from "@/lib/mapData";
 import {
+  BASEMAP_LABEL,
+  CITY_BOUNDS,
   INITIAL_VIEW,
   OSM_ATTRIBUTION,
-  SOURCE_IDS,
   buildMapStyle,
+  effectiveVariant,
   pitchFor,
   viewModeVisibility,
+  type BasemapVariant,
+  type SatelliteSource,
   type ViewMode,
 } from "@/lib/mapStyle";
 import { displayName } from "../RecommendationCard";
 import { MapControlButton } from "./MapControlButton";
 
 export interface MapViewProps {
-  layers: Partial<Record<MapLayer, LayerResult>>;
+  coverage: FeatureCollection | undefined;
+  boundary: FeatureCollection | undefined;
   origin: Origin | null;
   recs: Recommendation[];
   selectedId: string | null;
   focusSignal: number;
   fitSignal: number;
+  coverageFitSignal: number;
   pickActive: boolean;
   reducedMotion: boolean;
   viewMode: ViewMode;
   onViewModeChange: (m: ViewMode) => void;
+  variant: BasemapVariant;
+  satellite: SatelliteSource | null;
+  tilesVersion: string | null;
+  onVariantChange: (v: BasemapVariant) => void;
   onPick: (lon: number, lat: number) => void;
   onSelectPlace: (id: string) => void;
   onFatal: (reason: string) => void;
@@ -40,7 +49,13 @@ export interface MapViewProps {
 declare global {
   interface Window {
     __smartcityMap?: MlMap;
-    __smartcity?: { loaded: boolean; viewMode: ViewMode; sourceCounts: Record<string, number>; markerIds: string[] };
+    __smartcity?: {
+      loaded: boolean;
+      viewMode: ViewMode;
+      variant: BasemapVariant;
+      sourceCounts: Record<string, number>;
+      markerIds: string[];
+    };
   }
 }
 
@@ -60,8 +75,26 @@ export function markerZ(index: number, selected: boolean): number {
   return selected ? 1000 : 100 - index;
 }
 
+/** Bounding box [[w, s], [e, n]] of polygon features, or null. */
+export function featureBounds(fc: FeatureCollection | undefined): [[number, number], [number, number]] | null {
+  let w = Infinity,
+    s = Infinity,
+    e = -Infinity,
+    n = -Infinity;
+  const visit = (c: unknown): void => {
+    if (Array.isArray(c) && typeof c[0] === "number" && typeof c[1] === "number") {
+      w = Math.min(w, c[0]);
+      e = Math.max(e, c[0]);
+      s = Math.min(s, c[1]);
+      n = Math.max(n, c[1]);
+    } else if (Array.isArray(c)) c.forEach(visit);
+  };
+  for (const f of fc?.features ?? []) if (f.geometry && "coordinates" in f.geometry) visit(f.geometry.coordinates);
+  return Number.isFinite(w) ? [[w, s], [e, n]] : null;
+}
+
 function debugState(): NonNullable<Window["__smartcity"]> {
-  if (!window.__smartcity) window.__smartcity = { loaded: false, viewMode: "3d", sourceCounts: {}, markerIds: [] };
+  if (!window.__smartcity) window.__smartcity = { loaded: false, viewMode: "3d", variant: "scheme", sourceCounts: {}, markerIds: [] };
   return window.__smartcity;
 }
 
@@ -78,6 +111,18 @@ export function MapView(props: MapViewProps) {
   // Callbacks used inside map event handlers are read through refs (no map re-creation).
   const live = useRef(props);
   live.current = props;
+
+  const styleFor = (p: MapViewProps) =>
+    buildMapStyle({
+      glyphsUrl: `${window.location.origin}/fonts/{fontstack}/{range}.pbf`,
+      tilesUrl: `${window.location.origin}/api/tiles`,
+      mode: p.viewMode,
+      variant: p.variant,
+      satellite: p.satellite,
+      tilesVersion: p.tilesVersion,
+      coverage: p.coverage ?? EMPTY,
+      boundary: p.boundary ?? EMPTY,
+    });
 
   // ---------------------------------------------------------------- create map once
   useEffect(() => {
@@ -97,14 +142,19 @@ export function MapView(props: MapViewProps) {
       try {
         map = new lib.Map({
           container: containerRef.current,
-          style: buildMapStyle({ glyphsUrl: `${window.location.origin}/fonts/{fontstack}/{range}.pbf`, mode: live.current.viewMode }),
+          style: styleFor(live.current),
           center: INITIAL_VIEW.center,
           zoom: INITIAL_VIEW.zoom,
           pitch: pitchFor(live.current.viewMode) === 0 ? 0 : INITIAL_VIEW.pitch3d,
           bearing: INITIAL_VIEW.bearing,
           maxPitch: 70,
-          minZoom: 11,
+          minZoom: 9.5,
           maxZoom: 19,
+          // The base map covers Astana (checked against its OSM boundary) — not the whole world.
+          maxBounds: [
+            [CITY_BOUNDS[0] - 0.12, CITY_BOUNDS[1] - 0.08],
+            [CITY_BOUNDS[2] + 0.12, CITY_BOUNDS[3] + 0.08],
+          ],
           attributionControl: false,
           dragRotate: true,
           touchPitch: true,
@@ -119,7 +169,7 @@ export function MapView(props: MapViewProps) {
       window.__smartcityMap = map;
       map.addControl(new lib.AttributionControl({ compact: false, customAttribution: OSM_ATTRIBUTION }), "bottom-right");
       map.addControl(new lib.ScaleControl({ unit: "metric", maxWidth: 120 }), "bottom-left");
-      map.getCanvas().setAttribute("aria-label", "Интерактивная карта района EXPO / MEGA Silk Way");
+      map.getCanvas().setAttribute("aria-label", "Интерактивная карта Астаны; места для прогулки — в зоне рекомендаций (район EXPO / MEGA Silk Way)");
       map.getCanvas().setAttribute("role", "application");
       // Keyboard on the canvas (arrows / +/-) is MapLibre's built-in handler.
 
@@ -133,7 +183,7 @@ export function MapView(props: MapViewProps) {
       map.on("rotate", () => setBearing(map?.getBearing() ?? 0));
       map.on("error", (ev) => {
         const msg = ev.error?.message ?? "map error";
-        // Missing glyph ranges or a single tile error must not kill the map; log and continue.
+        // A missing glyph range or a single tile error must not kill the map; log and continue.
         console.warn("[map]", msg);
       });
       map.getCanvas().addEventListener("webglcontextlost", () => live.current.onFatal("Потерян контекст WebGL"));
@@ -164,17 +214,26 @@ export function MapView(props: MapViewProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- the map is created once per mount
   }, []);
 
+  // ---------------------------------------------------------------- base map variant (hybrid / scheme)
+  const shownVariant = effectiveVariant(props.variant, props.satellite);
+  useEffect(() => {
+    const map = mapRef.current;
+    debugState().variant = shownVariant;
+    if (!map || !loaded) return;
+    // A style diff swaps only what changed (satellite source, paint values); markers are DOM and stay.
+    map.setStyle(styleFor(live.current), { diff: true });
+  }, [shownVariant, props.tilesVersion, loaded]);
+
   // ---------------------------------------------------------------- data
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !loaded) return;
-    for (const id of SOURCE_IDS) {
-      const src = map.getSource(id) as GeoJSONSource | undefined;
-      const data = props.layers[id as MapLayer]?.data ?? EMPTY;
-      src?.setData(data);
-      debugState().sourceCounts[id] = data.features.length;
+    const data: Record<string, FeatureCollection> = { coverage: props.coverage ?? EMPTY, boundary: props.boundary ?? EMPTY };
+    for (const [id, fc] of Object.entries(data)) {
+      (map.getSource(id) as GeoJSONSource | undefined)?.setData(fc);
+      debugState().sourceCounts[id] = fc.features.length;
     }
-  }, [loaded, props.layers]);
+  }, [loaded, props.coverage, props.boundary]);
 
   // ---------------------------------------------------------------- 2D / 3D
   useEffect(() => {
@@ -184,7 +243,7 @@ export function MapView(props: MapViewProps) {
     for (const [id, vis] of viewModeVisibility(props.viewMode)) {
       if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis);
     }
-    map.easeTo({ pitch: pitchFor(props.viewMode), duration: props.reducedMotion ? 0 : 500 });
+    map.easeTo({ pitch: pitchFor(props.viewMode), duration: props.reducedMotion ? 0 : 600 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.viewMode, loaded]);
 
@@ -262,11 +321,17 @@ export function MapView(props: MapViewProps) {
     const center: [number, number] = [rec.coordinates.lon, rec.coordinates.lat];
     const zoom = Math.max(map.getZoom(), 16.3);
     if (props.reducedMotion) map.jumpTo({ center, zoom });
-    else map.flyTo({ center, zoom, duration: 900, essential: false });
+    // flyTo is interrupted by any user drag/zoom (MapLibre stops the animation on input).
+    else map.flyTo({ center, zoom, duration: 1100, curve: 1.3, essential: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.focusSignal, loaded]);
 
-  // ---------------------------------------------------------------- camera: fit results
+  // ---------------------------------------------------------------- camera: fit results / coverage
+  const padding = () => {
+    const w = containerRef.current?.clientWidth ?? 800;
+    const pad = Math.min(80, Math.max(40, Math.round(w * 0.08)));
+    return { top: pad + 40, bottom: pad + 30, left: pad, right: pad + 56 };
+  };
   const fitResults = () => {
     const map = mapRef.current;
     const lib = libRef.current;
@@ -274,21 +339,27 @@ export function MapView(props: MapViewProps) {
     const pts: Array<[number, number]> = props.recs.map((r) => [r.coordinates.lon, r.coordinates.lat]);
     if (props.origin) pts.push([props.origin.lon, props.origin.lat]);
     if (pts.length === 0) return;
-    const duration = props.reducedMotion ? 0 : 700;
+    const duration = props.reducedMotion ? 0 : 900;
     if (pts.length === 1) {
       map.easeTo({ center: pts[0], zoom: Math.max(map.getZoom(), 16), duration });
       return;
     }
     const b = new lib.LngLatBounds(pts[0], pts[0]);
     pts.forEach((p) => b.extend(p));
-    const w = containerRef.current?.clientWidth ?? 800;
-    const pad = Math.min(80, Math.max(40, Math.round(w * 0.08)));
-    map.fitBounds(b, { padding: { top: pad, bottom: pad + 30, left: pad, right: pad + 56 }, maxZoom: 17, duration });
+    map.fitBounds(b, { padding: padding(), maxZoom: 17, duration });
   };
   useEffect(() => {
     if (loaded && props.fitSignal > 0) fitResults();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fitSignal, loaded]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const bounds = featureBounds(props.coverage);
+    if (!map || !loaded || props.coverageFitSignal === 0 || !bounds) return;
+    map.fitBounds(bounds, { padding: padding(), maxZoom: 15.5, duration: props.reducedMotion ? 0 : 1000, pitch: pitchFor(props.viewMode) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.coverageFitSignal, loaded]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -298,6 +369,7 @@ export function MapView(props: MapViewProps) {
   }, [props.centerRequest, loaded]);
 
   const duration = props.reducedMotion ? 0 : 300;
+  const variants: BasemapVariant[] = props.satellite ? ["hybrid", "scheme"] : [];
   return (
     <div className="absolute inset-0">
       <div ref={containerRef} className="absolute inset-0" data-testid="map-canvas" />
@@ -345,7 +417,44 @@ export function MapView(props: MapViewProps) {
             <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
           </svg>
         </MapControlButton>
+        {variants.length > 1 && (
+          // Phones: one toggle in the control column (the bottom edge is taken by attribution).
+          <div className="sm:hidden">
+            <MapControlButton
+              label={shownVariant === "hybrid" ? "Подложка: гибрид (спутник на обзоре). Переключить на схему" : "Подложка: схема. Переключить на гибрид"}
+              pressed={shownVariant === "hybrid"}
+              onClick={() => props.onVariantChange(shownVariant === "hybrid" ? "scheme" : "hybrid")}
+              testId="basemap-toggle"
+            >
+              <svg aria-hidden viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+                <path d="M12 3 2 8l10 5 10-5-10-5Z" />
+                <path d="m2 13 10 5 10-5" />
+              </svg>
+            </MapControlButton>
+          </div>
+        )}
       </div>
+      {variants.length > 1 && (
+        <div
+          className="absolute bottom-9 right-3 z-10 flex rounded-control border border-stroke bg-white/95 p-1 shadow-control max-sm:hidden"
+          role="group"
+          aria-label="Подложка карты"
+          data-testid="basemap-switch"
+        >
+          {variants.map((v) => (
+            <button
+              key={v}
+              type="button"
+              aria-pressed={shownVariant === v}
+              title={v === "hybrid" ? "Спутник Sentinel-2 на обзоре города, схема на уровне улиц" : "Векторная схема по данным OSM"}
+              className="min-h-[44px] min-w-[44px] rounded-[9px] px-3 text-[13px] font-semibold text-graphite aria-pressed:bg-graphite aria-pressed:text-white"
+              onClick={() => props.onVariantChange(v)}
+            >
+              {BASEMAP_LABEL[v]}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

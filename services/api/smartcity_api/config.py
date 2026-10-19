@@ -49,12 +49,21 @@ class Settings(BaseSettings):
     rate_limit: str = "20/minute"  # POST /api/recommend, per client IP (in-memory)
     # Added by backend-rag: limits for other endpoints, body size, generation fan-in.
     rate_limit_general: str = "300/minute"  # other /api/* endpoints except health/ready
+    rate_limit_tiles: str = "3000/minute"  # /api/tiles/*: a pan or zoom loads dozens of tiles
     trust_forwarded_for: bool = False  # use X-Forwarded-For only behind a trusted proxy (e.g. web)
     max_body_bytes: int = Field(default=32768, ge=1024, le=1_048_576)
     llm_max_candidates: int = Field(default=5, ge=1, le=8)  # candidates passed to the generator
     ai_query_interpretation: bool = False  # optional LLM query paraphrase (soft only); slow on CPU
     ai_interpretation_timeout_seconds: float = 30.0
     map_cache_max_age_seconds: int = 300
+    # Tile URLs carry the archive version (?v=, from /api/basemap), so a rebuild changes the URL and a
+    # day of browser caching never mixes old and new tiles.
+    tile_cache_max_age_seconds: int = 86_400
+    # Licensing mode of this deployment. The satellite underlay (EOxCloudless 2024, CC BY-NC-SA 4.0)
+    # is non-commercial only. Fail-closed: unless APP_USAGE_MODE=noncommercial is set explicitly
+    # (.env.example does, for the hackathon demo), no satellite is offered.
+    app_usage_mode: Literal["noncommercial", "commercial"] = "commercial"
+    map_satellite: Literal["auto", "off"] = "auto"  # auto = on in noncommercial mode, off otherwise
     # CPU inference must not run in parallel unbounded (review P2-9).
     ai_max_concurrency: int = Field(default=1, ge=1, le=16)
     ai_queue_wait_seconds: float = Field(default=20.0, ge=0, le=300)

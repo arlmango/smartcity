@@ -24,7 +24,7 @@ def test_ready_reports_components_without_secrets(make_client):
     j = r.json()
     assert j["ready"] is True
     comps = j["components"]
-    assert set(comps) == {"db", "data", "map", "embeddings", "llm", "routing"}
+    assert set(comps) == {"db", "data", "map", "basemap", "embeddings", "llm", "routing"}
     assert (
         comps["db"]["status"] == "ok" and comps["data"]["status"] == "ok" and comps["map"]["status"] == "ok"
     )

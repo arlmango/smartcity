@@ -16,7 +16,8 @@ type Method = "GET" | "POST";
 interface RouteRule {
   method: Method;
   pattern: RegExp;
-  query: boolean;
+  /** true: forward the query string; a RegExp: forward it only when it matches exactly, else drop it. */
+  query: boolean | RegExp;
   timeoutMs: number;
 }
 
@@ -25,6 +26,9 @@ export const ROUTES: RouteRule[] = [
   { method: "GET", pattern: /^ready$/, query: false, timeoutMs: 15_000 },
   { method: "GET", pattern: /^coverage$/, query: false, timeoutMs: 15_000 },
   { method: "GET", pattern: /^map\/(buildings|roads|water|green|coverage)$/, query: false, timeoutMs: 30_000 },
+  { method: "GET", pattern: /^basemap(\/boundary)?$/, query: false, timeoutMs: 10_000 },
+  // ?v=<archive version> is a cache key (a rebuild changes the tile URLs); nothing else is forwarded.
+  { method: "GET", pattern: /^tiles\/(base|buildings)\/\d{1,2}\/\d{1,6}\/\d{1,6}$/, query: /^\?v=[0-9a-f]{1,32}$/, timeoutMs: 15_000 },
   { method: "GET", pattern: /^places$/, query: true, timeoutMs: 15_000 },
   { method: "GET", pattern: /^places\/[A-Za-z0-9._:~-]{1,128}$/, query: false, timeoutMs: 15_000 },
   { method: "GET", pattern: /^search$/, query: true, timeoutMs: 15_000 },
@@ -85,6 +89,18 @@ async function devMapFile(segments: string[]): Promise<Response | null> {
   }
 }
 
+/**
+ * Map data (vector tiles, GeoJSON layers) is compressed here: Node's fetch has already decoded the
+ * upstream body, and Next.js does not compress route-handler responses. Streaming endpoints (NDJSON)
+ * are never compressed, so their chunks are not held back.
+ */
+export function shouldCompress(segments: string[], upstream: Response, request: Request): boolean {
+  if (!/^(tiles|map|basemap)$/.test(segments[0] ?? "")) return false;
+  if (upstream.status !== 200) return false;
+  if (!/\bgzip\b/.test(request.headers.get("accept-encoding") ?? "")) return false;
+  return /^application\/(x-protobuf|geo\+json|json)\b/.test(upstream.headers.get("content-type") ?? "");
+}
+
 export async function proxy(request: Request, segments: string[]): Promise<Response> {
   const method = request.method.toUpperCase();
   const rule = matchRoute(method, segments);
@@ -103,7 +119,7 @@ export async function proxy(request: Request, segments: string[]): Promise<Respo
   if (rule.query) {
     const search = new URL(request.url).search;
     if (search.length > MAX_QUERY_CHARS) return json(414, "query_too_long", "Слишком длинный запрос.");
-    target.search = search;
+    if (rule.query === true || rule.query.test(search)) target.search = search;
   }
 
   const headers = new Headers();
@@ -133,8 +149,17 @@ export async function proxy(request: Request, segments: string[]): Promise<Respo
       const v = upstream.headers.get(h);
       if (v) out.set(h, v);
     }
-    if (upstream.status >= 300 && upstream.status < 400) return json(502, "bad_upstream", "API вернул неожиданное перенаправление.");
-    return new Response(upstream.body, { status: upstream.status, headers: out });
+    if (upstream.status >= 300 && upstream.status < 400 && upstream.status !== 304) return json(502, "bad_upstream", "API вернул неожиданное перенаправление.");
+    const bodyless = upstream.status === 204 || upstream.status === 304;
+    if (!bodyless && upstream.body && shouldCompress(segments, upstream, request)) {
+      out.set("content-encoding", "gzip");
+      // Different bytes than the identity body: a weak validator (the API compares ETags weakly).
+      const etag = out.get("etag");
+      if (etag && !etag.startsWith("W/")) out.set("etag", `W/${etag}`);
+      out.append("vary", "Accept-Encoding");
+      return new Response(upstream.body.pipeThrough(new CompressionStream("gzip")), { status: upstream.status, headers: out });
+    }
+    return new Response(bodyless ? null : upstream.body, { status: upstream.status, headers: out });
   } catch {
     if (request.signal.aborted) return json(499, "client_closed", "Запрос отменён.");
     if (controller.signal.aborted) return json(504, "upstream_timeout", "API не ответил вовремя.");

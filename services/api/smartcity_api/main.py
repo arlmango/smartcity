@@ -16,7 +16,7 @@ from smartcity_api.contracts import ErrorResponse
 from smartcity_api.errors import ApiError
 from smartcity_api.middleware import SmartCityMiddleware
 from smartcity_api.observability import configure_logging
-from smartcity_api.routes import places, system
+from smartcity_api.routes import places, system, tiles
 from smartcity_api.runtime import Container, build_container
 
 log = logging.getLogger("smartcity.api")
@@ -85,6 +85,7 @@ def create_app(settings: Settings | None = None, container: Container | None = N
 
     app.include_router(system.router)
     app.include_router(places.router)
+    app.include_router(tiles.router)
 
     origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
     app.add_middleware(
@@ -100,6 +101,7 @@ def create_app(settings: Settings | None = None, container: Container | None = N
         max_body_bytes=settings.max_body_bytes,
         recommend_limit=settings.rate_limit,
         general_limit=settings.rate_limit_general,
+        tiles_limit=settings.rate_limit_tiles,
         trust_forwarded_for=settings.trust_forwarded_for,
     )
     return app

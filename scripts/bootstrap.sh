@@ -12,4 +12,4 @@ fi
 log "database container"; docker compose up -d --build --wait db
 log "migrations"; (cd services/api && uv run alembic upgrade head)
 log "test databases"; "$(dirname "$0")/test_dbs.sh"
-log "bootstrap complete. Next: make models (optional local AI), make ingest, make index, make up"
+log "bootstrap complete. Next: make models (optional local AI), make ingest, make basemap, make index, make up"

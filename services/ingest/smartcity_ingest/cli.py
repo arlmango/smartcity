@@ -1,4 +1,4 @@
-"""smartcity-ingest CLI: fetch | import | build-map | index | report | landmarks | all."""
+"""smartcity-ingest CLI: fetch | import | build-map | index | report | landmarks | all | basemap."""
 
 from __future__ import annotations
 
@@ -170,6 +170,32 @@ def cmd_landmarks(s: Settings, paths: Paths, args) -> int:
     return 0 if len(out["landmarks"]) >= 5 else 1
 
 
+def cmd_basemap(s: Settings, paths: Paths, args) -> int:
+    from smartcity_ingest.basemap import build_basemap
+
+    m = build_basemap(
+        paths.data_dir,
+        user_agent=s.ingest_contact_user_agent,
+        protomaps_build=args.protomaps_build,
+        pbf=Path(args.pbf) if args.pbf else None,
+        skip_base=args.skip_base,
+    )
+    b = m["buildings"]
+    print(
+        json.dumps(
+            {
+                "base": m["base"].get("source"),
+                "buildings": b["counts"],
+                "height_source": b["height_source"],
+                "tiles": b["tiles"],
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0
+
+
 def cmd_all(s: Settings, paths: Paths, args) -> int:
     rc = cmd_fetch(s, paths, args) if not args.from_snapshot else 0
     if rc == 2:
@@ -222,6 +248,10 @@ def main(argv: list[str] | None = None) -> int:
             p.add_argument("--prune-other-models", action="store_true")
         if name == "all":
             p.add_argument("--skip-index", action="store_true", help="data, map, reports only")
+    bp = sub.add_parser("basemap", help="city-wide base map tiles (Protomaps extract + own building tiles)")
+    bp.add_argument("--protomaps-build", default=None, help="e.g. 20261018.pmtiles (default: latest listed)")
+    bp.add_argument("--pbf", default=None, help="local Kazakhstan .osm.pbf instead of the Geofabrik download")
+    bp.add_argument("--skip-base", action="store_true", help="rebuild building tiles only")
     args = ap.parse_args(argv)
     if not hasattr(args, "from_snapshot"):
         args.from_snapshot = None
@@ -245,6 +275,7 @@ def main(argv: list[str] | None = None) -> int:
         "report": cmd_report,
         "landmarks": cmd_landmarks,
         "all": cmd_all,
+        "basemap": cmd_basemap,
     }
     return handlers[args.cmd](s, paths, args)
 

@@ -3,7 +3,7 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := help
 COMPOSE := docker compose
 
-.PHONY: help doctor bootstrap models ingest index dev up down logs verify e2e smoke-live \
+.PHONY: help doctor bootstrap models ingest basemap index dev up down logs verify e2e smoke-live \
         backup restore backup-test contracts eval
 
 help: ## List targets
@@ -20,6 +20,9 @@ models: ## Pull local Ollama models (explicit: CONFIRM=1 make models; ~3.1 GB do
 
 ingest: ## Bounded OSM ingest from OSM_SOURCE_URL: fetch, import, map layers, manifest (exit 3 = partial)
 	@scripts/ingest.sh all --skip-index $(ARGS)
+
+basemap: ## City-wide map tiles: Protomaps extract + own building tiles from Geofabrik (~240 MB download, cached)
+	@scripts/ingest.sh basemap $(ARGS)
 
 index: ## Incremental embeddings index for active places (real embedding provider)
 	@scripts/index.sh

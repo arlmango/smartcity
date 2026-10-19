@@ -79,6 +79,13 @@ class _BodyTooLarge(Exception):
     pass
 
 
+def log_path(path: str) -> str:
+    """Path for access logs; tile z/x/y would reveal the viewed area, so only the tileset is kept."""
+    if path.startswith("/api/tiles/"):
+        return "/".join(path.split("/")[:4])
+    return path[:200]
+
+
 class SmartCityMiddleware:
     def __init__(
         self,
@@ -87,12 +94,14 @@ class SmartCityMiddleware:
         max_body_bytes: int,
         recommend_limit: str,
         general_limit: str,
+        tiles_limit: str = "3000/minute",
         trust_forwarded_for: bool = False,
     ) -> None:
         self.app = app
         self.max_body = max_body_bytes
         self.recommend_limiter = SlidingWindowLimiter(recommend_limit)
         self.general_limiter = SlidingWindowLimiter(general_limit)
+        self.tiles_limiter = SlidingWindowLimiter(tiles_limit)
         self.trust_xff = trust_forwarded_for
 
     def _client_key(self, scope: Scope, headers: dict[str, str]) -> str:
@@ -130,7 +139,7 @@ class SmartCityMiddleware:
                     "event": "access",
                     "request_id": request_id,
                     "method": method,
-                    "path": path[:200],
+                    "path": log_path(path),
                     "status": status_holder["status"],
                     "duration_ms": int((time.monotonic() - t0) * 1000),
                 },
@@ -138,11 +147,12 @@ class SmartCityMiddleware:
 
         # Rate limiting.
         if path.startswith("/api/") and path not in ("/api/health", "/api/ready"):
-            limiter = (
-                self.recommend_limiter
-                if path in ("/api/recommend", "/api/recommend/stream")
-                else self.general_limiter
-            )
+            if path in ("/api/recommend", "/api/recommend/stream"):
+                limiter = self.recommend_limiter
+            elif path.startswith("/api/tiles/"):
+                limiter = self.tiles_limiter
+            else:
+                limiter = self.general_limiter
             allowed, retry = limiter.hit(self._client_key(scope, headers))
             if not allowed:
                 await _send_json(

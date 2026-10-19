@@ -1,0 +1,26 @@
+{
+  "project": "desktop-1440",
+  "mapReadyMs": 3230,
+  "served": {
+    "coverage": 1
+  },
+  "counts": {
+    "coverage": 1,
+    "boundary": 1
+  },
+  "extrusionType": "fill-extrusion",
+  "extrusionVisible": "visible",
+  "rendered3d": 484,
+  "sampleHeightSources": [
+    "levels",
+    "estimate",
+    "default",
+    "height"
+  ],
+  "pitch": 55.00000000000001,
+  "center": [
+    71.41399999999942,
+    51.089000000000084
+  ],
+  "geoCalls": 0
+}

@@ -20,7 +20,7 @@
 ## Структура, которую нужно создать
 apps/web/ — UI и client integration
 services/api/ — endpoints, domain, providers, retrieval, validation
-services/ingest/ — extract, normalize, deduplicate, import, indexing
+services/ingest/ — extract, normalize, deduplicate, import, indexing; `basemap` — тайлы города (vtiles.py, roofs.py)
 packages/contracts/ — JSON Schema/OpenAPI snapshots и generated client
 infra/ — Dockerfiles, Compose, deployment templates
 scripts/ — bootstrap, ingest, index, verify, live-smoke
@@ -57,6 +57,8 @@ GET /api/health — процесс жив; без секретной конфи�
 GET /api/ready — компоненты и пригодность: db,data,map,embeddings,llm,routing; routing optional.
 GET /api/coverage — GeoJSON границ, версия, число записей, обновление.
 GET /api/map/{layer} — ограниченная карта, ETag/cache, whitelist layer.
+GET /api/tiles/{base|buildings}/{z}/{x}/{y} — векторные тайлы всей Астаны из локальных PMTiles (ADR-0002), ETag/304.
+GET /api/basemap, /api/basemap/boundary — сводка базовой карты (лицензии, покрытие, высоты, спутник по режиму) и граница города.
 GET /api/places?bbox=...&category=...&limit=... — bounded server filtering.
 GET /api/places/{id} — данные/источники одного места.
 GET /api/search?q=... — поиск своей базы, без дорогого внешнего геокодинга.

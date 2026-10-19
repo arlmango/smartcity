@@ -24,7 +24,7 @@ test("security headers + CSP: map and results work without CSP violations @mobil
 
   await waitForMap(page);
   await mapIdle(page);
-  const rendered = await page.evaluate(() => window.__smartcityMap!.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-default"] }).length);
+  const rendered = await page.evaluate(() => window.__smartcityMap!.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-approx"] }).length);
   expect(rendered).toBeGreaterThan(0); // MapLibre workers (blob:) are allowed
   await useDemoOrigin(page);
   await submit(page);

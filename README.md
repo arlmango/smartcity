@@ -21,6 +21,7 @@ make doctor                 # проверка инструментов, рес�
 make bootstrap              # .env из .env.example, зависимости, БД, миграции (модели НЕ скачиваются)
 CONFIRM=1 make models       # локальные модели Ollama (~3.1 GB): qwen2.5:3b + bge-m3
 make ingest                 # ограниченный сбор OSM (Overpass) → БД, слои карты, manifest
+make basemap                # тайлы карты всей Астаны (Protomaps + здания из Geofabrik, ~240 МБ загрузки, кэш)
 make index                  # embeddings мест (инкрементально)
 make up                     # db + api + web в Docker, ожидание healthcheck
 open http://localhost:3000

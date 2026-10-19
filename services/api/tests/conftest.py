@@ -199,7 +199,67 @@ def data_dir(tmp_path_factory) -> Path:
             json.dumps({"type": "FeatureCollection", "features": [], "SYNTHETIC": layer}), encoding="utf-8"
         )
     (d / "secret.txt").write_text("must never be served", encoding="utf-8")
+    write_basemap_fixture(d / "basemap")
     return d
+
+
+# SYNTHETIC base map: one gzip-compressed "tile" per archive at FIXTURE_TILE (EXPO area, z14).
+FIXTURE_TILE = (14, 11441, 5486)
+FIXTURE_TILE_BYTES = b"\x1a\x05SYNTH"  # opaque payload; the API never parses tile contents
+
+
+def write_pmtiles(path: Path, tiles: dict[tuple[int, int, int], bytes]) -> None:
+    import gzip
+
+    from pmtiles.tile import Compression, TileType, zxy_to_tileid
+    from pmtiles.writer import Writer
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("wb") as f:
+        w = Writer(f)
+        for tid, data in sorted((zxy_to_tileid(*k), v) for k, v in tiles.items()):
+            w.write_tile(tid, gzip.compress(data, mtime=0))
+        zooms = [k[0] for k in tiles]
+        w.finalize(
+            {
+                "tile_type": TileType.MVT,
+                "tile_compression": Compression.GZIP,
+                "min_zoom": min(zooms),
+                "max_zoom": max(zooms),
+                "min_lon_e7": 711500000,
+                "min_lat_e7": 508300000,
+                "max_lon_e7": 718500000,
+                "max_lat_e7": 513800000,
+                "center_zoom": 14,
+                "center_lon_e7": 714150000,
+                "center_lat_e7": 510900000,
+            },
+            {"name": "SYNTHETIC"},
+        )
+
+
+def write_basemap_fixture(d: Path) -> None:
+    write_pmtiles(d / "astana-base.pmtiles", {FIXTURE_TILE: FIXTURE_TILE_BYTES})
+    write_pmtiles(d / "astana-buildings.pmtiles", {FIXTURE_TILE: FIXTURE_TILE_BYTES})
+    (d / "astana-boundary.geojson").write_text(
+        json.dumps({"type": "FeatureCollection", "features": [], "SYNTHETIC": True}), encoding="utf-8"
+    )
+    manifest = {
+        "SYNTHETIC": True,
+        "bbox": [71.15, 50.83, 71.85, 51.38],
+        "licenses": {"osm": {"license": "ODbL-1.0"}},
+        "coverage": {"admin_boundary": "relation/3087155", "boundary_inside_tiles": True},
+        "base": {"source": "synthetic"},
+        "buildings": {
+            "source": "synthetic",
+            "level_height_m": 3.2,
+            "default_height_m": 10.0,
+            "height_source": {"height": 1, "levels": 2, "estimate": 3, "default": 4},
+            "counts": {"buildings": 10},
+            "landmarks": [{"osm": "way/1", "applied": True, "centroid": [71.4, 51.0]}],
+        },
+    }
+    (d / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
 
 
 def make_settings(**overrides) -> Settings:

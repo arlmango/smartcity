@@ -1432,6 +1432,64 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/basemap": {
+      "get": {
+        "description": "Coverage, provenance, licences and building height statistics of the city-wide base map.",
+        "operationId": "basemap_info_api_basemap_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Basemap Info Api Basemap Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Basemap Info"
+      }
+    },
+    "/api/basemap/boundary": {
+      "get": {
+        "operationId": "basemap_boundary_api_basemap_boundary_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/geo+json": {},
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "City administrative boundary"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Basemap Boundary"
+      }
+    },
     "/api/coverage": {
       "get": {
         "operationId": "coverage_api_coverage_get",
@@ -2821,6 +2879,114 @@
           }
         },
         "summary": "Search"
+      }
+    },
+    "/api/tiles/{tileset}/{z}/{x}/{y}": {
+      "get": {
+        "operationId": "tile_api_tiles__tileset___z___x___y__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tileset",
+            "required": true,
+            "schema": {
+              "title": "Tileset",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "z",
+            "required": true,
+            "schema": {
+              "title": "Z",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "x",
+            "required": true,
+            "schema": {
+              "title": "X",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "y",
+            "required": true,
+            "schema": {
+              "title": "Y",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "v",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^[0-9a-f]{1,32}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "V"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "application/x-protobuf": {}
+            },
+            "description": "Mapbox Vector Tile"
+          },
+          "204": {
+            "description": "No data in this tile"
+          },
+          "304": {
+            "description": "Not modified"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Tile"
       }
     }
   }

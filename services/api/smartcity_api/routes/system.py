@@ -16,6 +16,7 @@ from smartcity_api.contracts import ComponentStatus, CoverageResponse, ErrorResp
 from smartcity_api.errors import ApiError
 from smartcity_api.retrieval import repository as repo
 from smartcity_api.retrieval.landmarks import load_landmark
+from smartcity_api.routes.tiles import basemap_status
 from smartcity_api.runtime import Container
 
 router = APIRouter(prefix="/api")
@@ -92,6 +93,9 @@ def ready(request: Request) -> JSONResponse:
         comps["data"] = ComponentStatus(status="unavailable", detail="БД недоступна")
 
     comps["map"] = _map_status(c.settings.data_dir)
+    # City base map: reported, but not gating — recommendations and the fallback map work without it.
+    base_ok, base_detail = basemap_status(c.settings.data_dir)
+    comps["basemap"] = ComponentStatus(status="ok" if base_ok else "unavailable", detail=base_detail)
 
     if c.embedder is None:
         comps["embeddings"] = ComponentStatus(status="not_configured", detail="EMBEDDING_PROVIDER=none")

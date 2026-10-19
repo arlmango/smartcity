@@ -4,6 +4,7 @@
  */
 import type { z } from "zod";
 import {
+  BasemapInfoSchema,
   CoverageResponseSchema,
   ErrorResponseSchema,
   ReadyResponseSchema,
@@ -14,7 +15,8 @@ import {
   type RecommendRequest,
   type RecommendResponse,
 } from "./contracts";
-import { parseLayer, type LayerResult, type MapLayer } from "./mapData";
+import type { FeatureCollection } from "geojson";
+import { parseBoundary, parseLayer, type LayerResult, type MapLayer } from "./mapData";
 
 export type ApiErrorKind = "offline" | "network" | "http" | "invalid_response" | "aborted" | "timeout";
 
@@ -93,6 +95,24 @@ async function request<T>(path: string, schema: z.ZodType<T, z.ZodTypeDef, unkno
 
 export const getReady = (signal?: AbortSignal) => request("/api/ready", ReadyResponseSchema, { signal });
 export const getCoverage = (signal?: AbortSignal) => request("/api/coverage", CoverageResponseSchema, { signal });
+export const getBasemap = (signal?: AbortSignal) => request("/api/basemap", BasemapInfoSchema, { signal });
+
+/** Astana's administrative boundary (GeoJSON from OSM); validated like the other map layers. */
+export async function getBoundary(signal?: AbortSignal): Promise<FeatureCollection> {
+  let res: Response;
+  try {
+    res = await fetch("/api/basemap/boundary", { signal, headers: { Accept: "application/geo+json, application/json" } });
+  } catch (e) {
+    if (isAbortError(e)) throw new ApiError("aborted", "Запрос отменён.");
+    throw new ApiError("network", "Не удалось загрузить границу города.");
+  }
+  if (!res.ok) throw new ApiError("http", `Граница города недоступна (${res.status}).`, res.status);
+  try {
+    return parseBoundary(await res.json());
+  } catch {
+    throw new ApiError("invalid_response", "Граница города пришла в неверном формате.");
+  }
+}
 export const searchPlaces = (q: string, signal?: AbortSignal) =>
   request(`/api/search?${new URLSearchParams({ q }).toString()}`, SearchResponseSchema, { signal });
 

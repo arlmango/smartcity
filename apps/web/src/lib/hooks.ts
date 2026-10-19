@@ -2,7 +2,7 @@
 
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useReducer, useRef, useState, useSyncExternalStore } from "react";
-import { ApiError, getCoverage, getMapLayer, getReady, isAbortError, postRecommendStream } from "./api";
+import { ApiError, getBasemap, getBoundary, getCoverage, getMapLayer, getReady, isAbortError, postRecommendStream } from "./api";
 import type { RecommendRequest } from "./contracts";
 import { MAP_LAYERS, type LayerResult, type MapLayer } from "./mapData";
 import { initialRecommendState, recommendReducer, type RequestErrorInfo } from "./recommendState";
@@ -65,6 +65,25 @@ export function useCoverage() {
   });
 }
 
+export function useBasemap() {
+  return useQuery({
+    queryKey: ["basemap"],
+    queryFn: ({ signal }) => getBasemap(signal),
+    staleTime: Infinity,
+    retry: 1,
+  });
+}
+
+export function useBoundary(enabled: boolean) {
+  return useQuery({
+    queryKey: ["basemap", "boundary"],
+    queryFn: ({ signal }) => getBoundary(signal),
+    staleTime: Infinity,
+    retry: 1,
+    enabled,
+  });
+}
+
 export interface MapLayersState {
   layers: Partial<Record<MapLayer, LayerResult>>;
   loading: boolean;
@@ -74,9 +93,14 @@ export interface MapLayersState {
   refetch: () => void;
 }
 
-export function useMapLayers(): MapLayersState {
+/**
+ * GeoJSON layers of the recommendation area. The WebGL map draws the city from vector tiles and
+ * needs only `coverage`; the full set is loaded for the no-WebGL fallback map (`full`).
+ */
+export function useMapLayers(full = true): MapLayersState {
+  const wanted: readonly MapLayer[] = full ? MAP_LAYERS : ["coverage"];
   const results = useQueries({
-    queries: MAP_LAYERS.map((layer) => ({
+    queries: wanted.map((layer) => ({
       queryKey: ["map", layer],
       queryFn: ({ signal }: { signal: AbortSignal }) => getMapLayer(layer, signal),
       staleTime: Infinity,
@@ -88,7 +112,7 @@ export function useMapLayers(): MapLayersState {
   const errors: string[] = [];
   let dropped = 0;
   results.forEach((r, i) => {
-    const layer = MAP_LAYERS[i] as MapLayer;
+    const layer = wanted[i] as MapLayer;
     if (r.data) {
       layers[layer] = r.data;
       dropped += r.data.dropped;

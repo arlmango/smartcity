@@ -85,3 +85,23 @@ describe("RecommendRequest", () => {
     expect(RecommendRequestSchema.safeParse({ ...base, client_request_id: "bad id!" }).success).toBe(false);
   });
 });
+
+describe("GET /api/basemap contract", () => {
+  const base = { height_source: { height: 1, levels: 2, estimate: 3, default: 4 } };
+  it("accepts an enabled https satellite source and a disabled one without URLs", async () => {
+    const { BasemapInfoSchema } = await import("@/lib/contracts");
+    const on = BasemapInfoSchema.parse({
+      ...base,
+      satellite: { enabled: true, tiles: ["https://tiles.maps.eox.at/x/{z}/{y}/{x}.jpg"], maxzoom: 14, attribution: "EOX", license: "CC BY-NC-SA 4.0" },
+    });
+    expect(on.satellite?.enabled).toBe(true);
+    const off = BasemapInfoSchema.parse({ ...base, satellite: { enabled: false, reason: "commercial" } });
+    expect(off.satellite).toEqual({ enabled: false, reason: "commercial" });
+  });
+  it("rejects non-https or script satellite URLs", async () => {
+    const { BasemapInfoSchema } = await import("@/lib/contracts");
+    for (const url of ["http://x.example/{z}", "javascript:alert(1)//", "//evil/{z}", "https://evil.example/{z}", "https://tiles.maps.eox.at.evil.example/{z}"]) {
+      expect(BasemapInfoSchema.safeParse({ ...base, satellite: { enabled: true, tiles: [url], maxzoom: 14, attribution: "", license: "" } }).success).toBe(false);
+    }
+  });
+});

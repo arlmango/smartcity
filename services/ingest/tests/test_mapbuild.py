@@ -26,6 +26,28 @@ def test_building_heights_rules():
     assert bad["min_height_m"] == 0.0 and "min_height_note" in bad
 
 
+def test_building_height_estimates_by_type_and_area():
+    # Real data first, then levels, then a documented estimate — never a silent 10 m for houses/garages.
+    assert building_heights({"building": "garage"}) == {
+        "height_m": 3.0,
+        "min_height_m": 0.0,
+        "height_source": "estimate",
+        "estimate_basis": "type",
+    }
+    assert building_heights({"building": "house"})["height_m"] == 6.0
+    assert building_heights({"building": "warehouse"})["height_m"] == 8.0
+    assert building_heights({"building": "house", "building:levels": "3"})["height_source"] == "levels"
+    assert building_heights({"building": "garage", "height": "4"})["height_source"] == "height"
+    small = building_heights({"building": "yes"}, area_m2=25)
+    assert (small["height_m"], small["estimate_basis"]) == (3.0, "area")
+    assert building_heights({"building": "yes"}, area_m2=120)["height_m"] == 6.0
+    big = building_heights({"building": "yes"}, area_m2=900)
+    assert (big["height_m"], big["height_source"]) == (10.0, "default")
+    # Unknown size or an unlisted type keeps the explicit default.
+    assert building_heights({"building": "yes"})["height_source"] == "default"
+    assert building_heights({"building": "apartments"}, area_m2=60)["height_source"] == "default"
+
+
 @pytest.fixture()
 def built(tmp_path, coverage, fixture_groups, make_snapshot):
     snap = make_snapshot(fixture_groups)
@@ -56,7 +78,7 @@ def test_buildings_layer(built):
         x, y = geom.exterior.coords[0] if geom.geom_type == "Polygon" else geom.geoms[0].exterior.coords[0]
         assert 71 < x < 72 and 51 < y < 52  # [lon, lat]
     prov = m["buildings"]["height_provenance"]
-    assert prov == {"height": 1, "levels": 2, "default": 2}
+    assert sum(prov.values()) == 5 and prov["height"] == 1 and prov["levels"] == 2
     assert m["buildings"]["with_inner_rings"] == 1
     assert layers["buildings"]["metadata"]["attribution"] == "© OpenStreetMap contributors"
 

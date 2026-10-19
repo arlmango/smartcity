@@ -12,11 +12,11 @@ import {
   type RefinementKind,
   type WalkForm,
 } from "@/lib/form";
-import { useCoverage, useMapLayers, useMediaQuery, useOnline, useReady, useRecommend, useReducedMotion } from "@/lib/hooks";
+import { useBasemap, useBoundary, useCoverage, useMapLayers, useMediaQuery, useOnline, useReady, useRecommend, useReducedMotion } from "@/lib/hooks";
 import { INTEREST_LABEL } from "@/lib/labels";
 import { heightStats, pointInCoverage } from "@/lib/mapData";
 import { describeProviders, hasExternalProvider } from "@/lib/providers";
-import type { ViewMode } from "@/lib/mapStyle";
+import type { BasemapVariant, SatelliteSource, ViewMode } from "@/lib/mapStyle";
 import { newClientRequestId } from "@/lib/recommendState";
 import { ErrorCard } from "./ErrorCard";
 import { Header } from "./Header";
@@ -30,8 +30,19 @@ import { WalkFormPanel } from "./WalkFormPanel";
 
 type Sheet = "collapsed" | "half" | "full";
 
-const OUTSIDE_MSG =
-  "Вне зоны покрытия данных. Сейчас собраны места только в районе EXPO / MEGA Silk Way (пунктирная граница на карте). Выберите точку внутри неё или демо-точку.";
+const OUTSIDE_DETAIL =
+  "Карта показывает всю Астану, но база мест для прогулок пока собрана только в районе EXPO / MEGA Silk Way (зелёная пунктирная зона). Выберите точку внутри неё или демо-точку.";
+const OUTSIDE_MSG = `Вне зоны рекомендаций. ${OUTSIDE_DETAIL}`;
+
+const VARIANT_KEY = "smartcity.basemap";
+function storedVariant(): BasemapVariant | null {
+  try {
+    const v = window.localStorage.getItem(VARIANT_KEY);
+    return v === "hybrid" || v === "scheme" ? v : null;
+  } catch {
+    return null;
+  }
+}
 
 export function App() {
   const online = useOnline();
@@ -39,7 +50,29 @@ export function App() {
   const isDesktop = useMediaQuery("(min-width: 1024px)", true);
   const ready = useReady();
   const coverage = useCoverage();
-  const map = useMapLayers();
+  const [mapFatal, setMapFatal] = useState<string | null>(null);
+  // The WebGL map draws the city from vector tiles; full GeoJSON layers only for the fallback map.
+  const map = useMapLayers(!!mapFatal);
+  const basemap = useBasemap();
+  const boundary = useBoundary(!mapFatal);
+  const satellite: SatelliteSource | null = useMemo(() => {
+    const s = basemap.data?.satellite;
+    return s && s.enabled ? { tiles: s.tiles, maxzoom: s.maxzoom, attribution: s.attribution } : null;
+  }, [basemap.data]);
+  const [variant, setVariantState] = useState<BasemapVariant>("hybrid");
+  useEffect(() => {
+    const v = storedVariant();
+    if (v) setVariantState(v);
+  }, []);
+  const setVariant = useCallback((v: BasemapVariant) => {
+    setVariantState(v);
+    try {
+      window.localStorage.setItem(VARIANT_KEY, v);
+    } catch {
+      /* storage unavailable: the choice lasts for this page only */
+    }
+  }, []);
+  const [coverageFitSignal, setCoverageFitSignal] = useState(0);
   const rec = useRecommend();
 
   const [form, setFormState] = useState<WalkForm>(initialForm);
@@ -51,7 +84,6 @@ export function App() {
   const [fitSignal, setFitSignal] = useState(0);
   const [centerRequest, setCenterRequest] = useState(0);
   const [viewMode, setViewMode] = useState<ViewMode>("3d");
-  const [mapFatal, setMapFatal] = useState<string | null>(null);
   const [editing, setEditing] = useState(false);
   const [sheet, setSheet] = useState<Sheet>("half");
   const cardRefs = useRef<Map<string, HTMLElement>>(new Map());
@@ -85,7 +117,7 @@ export function App() {
     (o: Origin) => {
       const inside = pointInCoverage(o.lon, o.lat, coverageFc);
       if (inside === false) {
-        setOriginWarning(o.kind === "gps" ? `Ваше местоположение вне зоны покрытия. ${OUTSIDE_MSG}` : OUTSIDE_MSG);
+        setOriginWarning(o.kind === "gps" ? `Ваше местоположение вне зоны рекомендаций. ${OUTSIDE_DETAIL}` : OUTSIDE_MSG);
         return;
       }
       setOriginWarning(null);
@@ -160,6 +192,10 @@ export function App() {
     (id: string) => {
       setSelectedId(id);
       if (!isDesktop) setSheet((s) => (s === "collapsed" ? "half" : s));
+      // Centre the chosen place so it is never left under the panel, legend or controls; on mobile
+      // after the sheet has resized the map (the camera keeps the centre on resize).
+      if (isDesktop) setFocusSignal((n) => n + 1);
+      else window.setTimeout(() => setFocusSignal((n) => n + 1), 80);
       requestAnimationFrame(() => {
         const el = cardRefs.current.get(id);
         const box = panelScrollRef.current;
@@ -271,7 +307,7 @@ export function App() {
 
   const sheetHeight = sheet === "collapsed" ? "calc(140px + var(--safe-bottom))" : sheet === "half" ? "52%" : "100%";
   const mapBottom = sheet === "collapsed" ? "calc(140px + var(--safe-bottom))" : "52%";
-  const allLayersFailed = map.failed.length === 5;
+  const allLayersFailed = map.failed.length > 0 && Object.keys(map.layers).length === 0;
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
@@ -282,8 +318,7 @@ export function App() {
         coverage={coverage.data}
         coverageError={coverage.isError}
         ready={ready.data}
-        heights={heights}
-        buildingsLoaded={!!map.layers.buildings}
+        basemap={basemap.data}
         providerLines={providerLines}
       />
       <StatusBanners online={online} ready={ready.data} readyError={ready.isError} onRetryReady={() => void ready.refetch()} />
@@ -342,7 +377,13 @@ export function App() {
           className="max-lg:absolute max-lg:inset-x-0 max-lg:top-0 lg:relative lg:min-w-0 lg:flex-1"
           style={isDesktop ? undefined : { bottom: mapBottom }}
         >
-          {mapFatal ? (
+          {basemap.isPending && !mapFatal ? (
+            // Wait for /api/basemap (a few ms): tile URLs carry its archive version, and the satellite
+            // source depends on the licence mode — creating the map earlier would load tiles twice.
+            <div className="absolute inset-0 grid place-items-center" role="status">
+              <p className="rounded-control bg-white/90 px-4 py-2 text-sm font-semibold shadow-control">Загружаем карту…</p>
+            </div>
+          ) : mapFatal ? (
             <FallbackMap
               layers={map.layers}
               origin={form.origin}
@@ -355,7 +396,13 @@ export function App() {
             />
           ) : (
             <MapView
-              layers={map.layers}
+              coverage={coverageFc}
+              boundary={boundary.data}
+              coverageFitSignal={coverageFitSignal}
+              variant={variant}
+              satellite={satellite}
+              tilesVersion={basemap.data?.tiles_version ?? null}
+              onVariantChange={setVariant}
               origin={form.origin}
               recs={recs}
               selectedId={selectedId}
@@ -393,14 +440,27 @@ export function App() {
               </p>
             )}
             {originWarning && (
-              <p role="alert" className="pointer-events-auto rounded-control bg-warn-bg px-3 py-2 text-sm font-semibold text-warn-fg shadow-control">
-                Вне зоны покрытия данных
-              </p>
+              <div role="alert" className="pointer-events-auto flex flex-wrap items-center gap-2 rounded-control bg-warn-bg px-3 py-1.5 text-sm font-semibold text-warn-fg shadow-control">
+                <span>Вне зоны рекомендаций</span>
+                {!mapFatal && coverageFc && (
+                  <button type="button" className="min-h-[44px] rounded-[10px] px-2 underline" onClick={() => setCoverageFitSignal((n) => n + 1)}>
+                    Показать зону
+                  </button>
+                )}
+              </div>
             )}
             {map.failed.length > 0 && (
               <div role="alert" className="pointer-events-auto rounded-control bg-danger-bg px-3 py-2 text-sm text-danger-fg shadow-control">
                 {allLayersFailed ? "Не удалось загрузить данные карты." : `Не загрузились слои карты: ${map.failed.join(", ")}.`}{" "}
                 <button type="button" className="ml-1 min-h-[44px] font-semibold underline" onClick={map.refetch}>
+                  Повторить
+                </button>
+              </div>
+            )}
+            {basemap.isError && !mapFatal && (
+              <div role="alert" className="pointer-events-auto rounded-control bg-danger-bg px-3 py-2 text-sm text-danger-fg shadow-control">
+                Базовая карта города недоступна (тайлы не собраны или API не отвечает).{" "}
+                <button type="button" className="ml-1 min-h-[44px] font-semibold underline" onClick={() => void basemap.refetch()}>
                   Повторить
                 </button>
               </div>
@@ -415,7 +475,14 @@ export function App() {
           {!mapFatal && (
             // Mobile: top-left so the collapsed legend never covers the start marker near the sheet.
             <div className="absolute left-2 top-2 z-10 lg:bottom-9 lg:top-auto">
-              <HeightLegend stats={heights} defaultOpen={isDesktop} />
+              <HeightLegend
+                stats={basemap.data?.height_source ?? heights}
+                levelHeight={basemap.data?.level_height_m ?? 3.2}
+                defaultHeight={basemap.data?.default_height_m ?? 10}
+                cityWide={!!basemap.data}
+                stylised={(basemap.data?.stylised_landmarks?.length ?? 0) > 0}
+                defaultOpen={isDesktop && recs.length === 0}
+              />
             </div>
           )}
         </section>

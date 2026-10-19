@@ -18,6 +18,7 @@ dependencies = [
   "httpx==0.28.1",
   "opening-hours-py==2.1.4",
   "tzdata==2025.2",
+  "pmtiles==3.8.1",
 ]
 
 [build-system]

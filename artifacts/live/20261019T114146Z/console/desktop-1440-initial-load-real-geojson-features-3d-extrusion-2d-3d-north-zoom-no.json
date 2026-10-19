@@ -1,0 +1,15 @@
+{
+  "test": "initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke",
+  "project": "desktop-1440",
+  "consoleErrors": [
+    "[warning] [.WebGL-0x12c00444a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x12c00452800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x12c00452800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x12c00452800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5477/11443.jpg — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

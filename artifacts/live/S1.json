@@ -1,7 +1,7 @@
 {
   "scenario": "S1",
   "notes": "origin = DB location of 'Mega Silk Way'",
-  "recorded_at": "2026-10-18T21:55:14+00:00",
+  "recorded_at": "2026-10-19T11:42:33+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
@@ -41,28 +41,27 @@
   "dataset_version": "osm-20261018T200514Z",
   "retrieval": {
     "shortlist": 35,
-    "ranked_after_filters": 11,
+    "ranked_after_filters": 25,
     "semantic": "ok",
     "llm_candidate_ids": [
-      "9f26d759-b6d4-48ff-acac-db42e6771fdd",
-      "6b0c788f-0baf-4392-8152-dcee14de97d7",
-      "4b6f3bf4-1073-40d3-94d8-e218428721d7"
+      "86c60ed6-59d9-4a88-92be-9aa362ec8c0c",
+      "cb838528-f5c8-4899-af95-ab5ea53680aa",
+      "2f6b1b0d-4b62-4282-8dee-1e7a1cb3fc93",
+      "9f81722d-72a9-40e2-9a68-e3c056229b33",
+      "2c47912c-234f-401e-8a17-334aca1c657a"
     ],
     "exclusions": {
-      "budget": 10,
-      "closed": 14
+      "budget": 10
     },
     "llm_attempts": 1,
     "llm_failure": null,
-    "llm_issues": [
-      "removed_unverified_claim:kids"
-    ],
-    "prompt_version": "rec-v2"
+    "llm_issues": [],
+    "prompt_version": "rec-v3"
   },
   "result": {
     "status": "ok",
     "mode": "live_rag",
-    "message": "Нашлось 2 варианта — каждый отдельная альтернатива со своим бюджетом времени.",
+    "message": "Нашлось 3 варианта — каждый отдельная альтернатива со своим бюджетом времени.",
     "constraints_applied": {
       "hard": [
         {
@@ -102,7 +101,7 @@
     "suggested_relaxations": [],
     "recommendations": [
       {
-        "place_id": "9f26d759-b6d4-48ff-acac-db42e6771fdd",
+        "place_id": "86c60ed6-59d9-4a88-92be-9aa362ec8c0c",
         "name": "NU Park",
         "category": "park",
         "source_url": "https://www.openstreetmap.org/way/1467797207",
@@ -125,49 +124,80 @@
           "wheelchair",
           "kids"
         ],
-        "reason": "NU Park находится рядом с Mega Silk Way и является парком, что соответствует вашему желанию посетить место с интересом.",
+        "reason": "NU Park находится рядом с Mega Silk Way и является парком / сквером, что соответствует вашему желанию посетить место для прогулки.",
         "reason_source": "llm",
-        "activity_suggestion": "прогуляться по парку"
+        "activity_suggestion": "прогуляться в NU Park"
       },
       {
-        "place_id": "6b0c788f-0baf-4392-8152-dcee14de97d7",
-        "name": "Детская площадка",
-        "category": "playground",
-        "source_url": "https://www.openstreetmap.org/way/607963090",
-        "distance_m": 188,
+        "place_id": "9f81722d-72a9-40e2-9a68-e3c056229b33",
+        "name": "Starbucks",
+        "category": "cafe",
+        "source_url": "https://www.openstreetmap.org/node/9047331879",
+        "distance_m": 114,
         "timing": {
-          "outbound_min": 4,
+          "outbound_min": 3,
           "visit_min": 25,
-          "return_min": 4,
+          "return_min": 3,
           "buffer_min": 5,
-          "total_min": 38,
+          "total_min": 36,
           "estimated": true,
           "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
         },
-        "opening_status": "unknown",
+        "opening_status": "open",
         "verified_features": [
-          "kids"
+          "indoor"
         ],
         "unknown_features": [
           "socket",
           "wifi",
           "outdoor_seating",
-          "wheelchair"
+          "wheelchair",
+          "kids"
         ],
-        "reason": "Детская площадка рядом с Mega Silk Way может быть интересной для детей, хотя она не подходит для взрослых.",
+        "reason": "Starbucks также находится внутри ТРЦ Mega Silk Way и предлагает кофейню, что можно использовать для отдыха после прогулки.",
         "reason_source": "llm",
-        "activity_suggestion": "прогуляться и посмотреть детскую площадку"
+        "activity_suggestion": "посетить Starbucks"
+      },
+      {
+        "place_id": "2c47912c-234f-401e-8a17-334aca1c657a",
+        "name": "Luckee Yu",
+        "category": "food",
+        "source_url": "https://www.openstreetmap.org/node/13397061026",
+        "distance_m": 47,
+        "timing": {
+          "outbound_min": 1,
+          "visit_min": 33,
+          "return_min": 1,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "open",
+        "verified_features": [
+          "indoor"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "reason": "Luckee Yu также находится внутри ТРЦ Mega Silk Way и может быть хорошим выбором для небольшого обеденного перерыва.",
+        "reason_source": "llm",
+        "activity_suggestion": "прогуляться в Luckee Yu"
       }
     ]
   },
   "timings_ms": {
-    "parse": 6,
-    "shortlist": 27,
-    "semantic": 342,
-    "rank": 3,
-    "schedule": 1,
-    "generate": 58526,
-    "total": 58907
+    "parse": 4,
+    "shortlist": 18,
+    "semantic": 364,
+    "rank": 1,
+    "schedule": 2,
+    "generate": 44291,
+    "total": 44681
   },
-  "wall_ms": 58928
+  "wall_ms": 44697
 }

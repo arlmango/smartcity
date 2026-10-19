@@ -27,7 +27,11 @@ const tinySdfSrc = readFileSync(path.join(root, "node_modules/@mapbox/tiny-sdf/i
   "window.TinySDF = class TinySDF",
 );
 
-const STACKS = [{ name: "Manrope-Regular", weight: 400 }];
+const STACKS = [
+  { name: "Manrope-Regular", weight: 400 },
+  { name: "Manrope-SemiBold", weight: 600 },
+  { name: "Manrope-Bold", weight: 700 },
+];
 const SUBSETS = ["latin", "latin-ext", "cyrillic", "cyrillic-ext"];
 
 function parseRanges(spec) {

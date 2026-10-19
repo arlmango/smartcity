@@ -12,15 +12,17 @@ const isDev = process.env.NODE_ENV === "development";
  * CSP. Next.js App Router without per-request nonces injects inline bootstrap scripts
  * (self.__next_f.push), so script-src needs 'unsafe-inline' (no 'unsafe-eval' in production).
  * MapLibre runs its workers from blob: URLs; styles use React inline style attributes.
- * All data, glyphs and fonts are same-origin; no external hosts are allowed.
+ * All data, glyphs, fonts and vector tiles are same-origin. The only external host is the optional
+ * satellite underlay (EOX Sentinel-2 cloudless raster tiles), fetched by the browser in satellite mode.
  */
+const SATELLITE_ORIGIN = "https://tiles.maps.eox.at";
 const CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob: ${SATELLITE_ORIGIN}`,
   "font-src 'self' data:",
-  `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' ${SATELLITE_ORIGIN}${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
   "child-src 'self' blob:",
   "object-src 'none'",

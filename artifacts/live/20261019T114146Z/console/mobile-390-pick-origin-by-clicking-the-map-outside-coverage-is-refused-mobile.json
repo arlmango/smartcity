@@ -1,0 +1,11 @@
+{
+  "test": "pick origin by clicking the map; outside coverage is refused @mobile",
+  "project": "mobile-390",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5479/11442.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5475/11444.jpg — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

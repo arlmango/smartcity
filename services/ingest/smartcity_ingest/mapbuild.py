@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import re
 from collections import Counter
 from datetime import UTC, datetime
@@ -26,6 +27,32 @@ log = logging.getLogger("smartcity_ingest.mapbuild")
 
 LEVEL_HEIGHT_M = 3.2
 DEFAULT_HEIGHT_M = 10.0
+# Documented estimates (docs/DATA.md "Высоты зданий") for buildings without height / building:levels.
+# They are never presented as measurements: height_source = "estimate", estimate_basis = type | area.
+SMALL_TYPE_HEIGHT_M = 3.0
+HOUSE_TYPE_HEIGHT_M = 6.0
+LOW_LARGE_TYPE_HEIGHT_M = 8.0
+TYPE_HEIGHT_M: dict[str, float] = {
+    **dict.fromkeys(
+        (
+            "garage", "garages", "carport", "shed", "hut", "kiosk", "toilets", "greenhouse", "guardhouse",
+            "service", "cabin", "static_caravan", "bunker", "construction", "container", "allotment_house",
+        ),
+        SMALL_TYPE_HEIGHT_M,
+    ),
+    **dict.fromkeys(
+        ("house", "detached", "semidetached_house", "terrace", "bungalow", "farm", "barn", "stable"),
+        HOUSE_TYPE_HEIGHT_M,
+    ),
+    **dict.fromkeys(
+        ("industrial", "warehouse", "hangar", "retail", "supermarket", "roof", "grandstand", "pavilion",
+         "sports_hall", "manufacture", "storage_tank"),
+        LOW_LARGE_TYPE_HEIGHT_M,
+    ),
+}  # fmt: skip
+# building=yes (type unknown): footprint size class. < 40 m² — shed/garage size, < 250 m² — house size.
+AREA_SMALL_M2 = 40.0
+AREA_HOUSE_M2 = 250.0
 SIZE_BUDGET_BYTES = 15 * 1024 * 1024
 SIMPLIFY_TOLERANCE_DEG = 8e-6  # ~0.9 m in latitude, ~0.56 m in longitude at 51°N
 EXCLUDED_HIGHWAYS = {"proposed", "abandoned", "razed", "disused", "platform", "bus_stop", "elevator"}
@@ -54,14 +81,32 @@ def parse_levels(value: str | None) -> float | None:
     return v if 0 <= v < 300 else None
 
 
-def building_heights(tags: dict) -> dict:
-    """height (m) -> building:levels x 3.2 m -> 10 m default; min_height similarly -> 0."""
+def estimated_height(tags: dict, area_m2: float | None) -> tuple[float, str] | None:
+    """Documented estimate by building type, else by footprint size for building=yes; None = no basis."""
+    kind = (tags.get("building") or tags.get("building:part") or "yes").strip().lower()
+    if kind in TYPE_HEIGHT_M:
+        return TYPE_HEIGHT_M[kind], "type"
+    # Footprint size says nothing about a building:part (a small part of a tall tower): type only.
+    if kind == "yes" and area_m2 is not None and "building" in tags:
+        if area_m2 < AREA_SMALL_M2:
+            return SMALL_TYPE_HEIGHT_M, "area"
+        if area_m2 < AREA_HOUSE_M2:
+            return HOUSE_TYPE_HEIGHT_M, "area"
+    return None
+
+
+def building_heights(tags: dict, area_m2: float | None = None) -> dict:
+    """Priority: height (m) -> building:levels x 3.2 m -> documented estimate (type / footprint size) ->
+    explicit 10 m default. min_height similarly -> 0."""
     h = parse_height(tags.get("height"))
     levels = parse_levels(tags.get("building:levels"))
+    basis = None
     if h is not None:
         height, src = h, "height"
     elif levels is not None and levels > 0:
         height, src = round(levels * LEVEL_HEIGHT_M, 2), "levels"
+    elif (est := estimated_height(tags, area_m2)) is not None:
+        (height, basis), src = est, "estimate"
     else:
         height, src = DEFAULT_HEIGHT_M, "default"
     mh = parse_height(tags.get("min_height"))
@@ -73,6 +118,8 @@ def building_heights(tags: dict) -> dict:
     else:
         min_h = 0.0
     out = {"height_m": height, "min_height_m": min_h, "height_source": src}
+    if basis:
+        out["estimate_basis"] = basis
     if levels is not None:
         out["levels"] = levels if levels != int(levels) else int(levels)
     if min_h >= height:
@@ -80,6 +127,12 @@ def building_heights(tags: dict) -> dict:
         out["min_height_m"] = 0.0
         out["min_height_note"] = "min_height >= height in OSM; using 0"
     return out
+
+
+def area_m2_lonlat(g: BaseGeometry) -> float:
+    """Approximate area (m²) of a small lon/lat polygon (local equirectangular scale)."""
+    lat = g.centroid.y
+    return g.area * 111_320.0 * math.cos(math.radians(lat)) * 110_540.0
 
 
 def _feature(geom: BaseGeometry, props: dict) -> dict:
@@ -140,7 +193,7 @@ def build_buildings(elements: list[dict], cov: BaseGeometry, stats: dict) -> lis
         name = tags.get("name:ru") or tags.get("name")
         if name:
             props["name"] = name
-        props.update(building_heights(tags))
+        props.update(building_heights(tags, area_m2_lonlat(g)))
         stats[f"height_source_{props['height_source']}"] += 1
         feats.append(_feature(g, props))
     return feats
@@ -344,6 +397,7 @@ def build_map(snapshot: Snapshot, coverage: CoverageArea, out_dir: Path) -> dict
             "height_provenance": {
                 "height": stats["height_source_height"],
                 "levels": stats["height_source_levels"],
+                "estimate": stats["height_source_estimate"],
                 "default": stats["height_source_default"],
             },
             "with_inner_rings": stats["buildings_with_holes"],

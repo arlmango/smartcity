@@ -25,6 +25,8 @@ const has = (dirPrefix: string): boolean => {
 };
 
 const launchOptions = {
+  // CHROMIUM_PATH can point to another Chromium build (same convention as playwright.config.ts).
+  executablePath: process.env.CHROMIUM_PATH || undefined,
   // Software WebGL (SwiftShader via ANGLE) so MapLibre really renders in headless Chromium.
   args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"],
 };

@@ -141,3 +141,25 @@ Playwright live **24 passed / 2 skipped** (тесты привязаны к др
 Итоговый gate выполнен на `9eade71` (см. сводку выше; ранее — на `ba066fe`). Последующие коммиты — только документы
 и артефакты. Строки A01–A20 ниже ссылаются на `final-gate-3/` (ba066fe); на 9eade71 они повторно подтверждены тем же
 `make verify` + `make smoke-live` (`20261019-final/`). Риск R1 (maplibre) закрыт обновлением, `pnpm audit` — 0.
+
+## Карта всей Астаны (ADR-0002, 2026-10-19)
+Проверено на рабочем дереве поверх `4878f89` (коммит с этими изменениями — см. git log; CI — PR).
+
+| Проверка | Результат | Метод / среда | Доказательство |
+|---|---|---|---|
+| `make verify` | 11/11 exit 0: API 175, ingest 54, web unit 143, E2E 45 passed / 4 skipped (служебные) | macOS arm64, Chromium headless shell 1248 (`CHROMIUM_PATH`, Playwright 1.56 ждёт 1194, он не установлен) | `artifacts/verify/20261019T112338Z/` |
+| `make smoke-live` | PASS: API live 3/3, Playwright live 23 passed / 2 skipped; readiness db/data/map/basemap/embeddings/llm = ok | стек `make up` (localhost:3000/8000), ollama qwen2.5:3b + bge-m3 на CPU | `artifacts/live/20261019T114146Z/` |
+| Покрытие карты | граница Астаны OSM relation 3087155 (793,6 км²) целиком внутри тайлов (`boundary_inside_tiles=true`); первая вырезка (до 50,93° N) её не покрывала — исправлено | `smartcity-ingest basemap` | `data/basemap/manifest.json` |
+| Нур Алем | стилизация применена после проверок: округлость 0,997, внутри way/454857501 `museum=future`, смещение 0 м | `config/landmark_shapes.json` | manifest `buildings.landmarks` |
+| Живой сценарий на :3000 | desktop: `live_rag`, 3 карточки = 3 маркера, клик маркера → карточка и камера; mobile 390×844: 3 = 3 | Playwright + Chrome for Testing 1248 (Metal) | `artifacts/map-redesign/20261019-final/06–09` |
+| Холодная загрузка | map `load` 986 мс, готовность (тайлы загружены) 1590 мс; 46 тайлов, 279 КБ (gzip) + 9 спутниковых, 141 КБ | 1600×1000, пустой кэш, localhost | `artifacts/map-redesign/20261019-final/perf.txt` |
+| Тёплая загрузка | 864 мс, все 46 тайлов из HTTP-кэша браузера | reload той же вкладки | там же |
+| Обзор города z10.45 | 1998 мс до idle, 9 векторных тайлов + 20 спутниковых | jumpTo | там же |
+| Полёт камеры по 3 районам | 60,0 fps, медиана 16,7 мс, p95 16,7 мс, p99 16,8 мс (508 кадров); тайлы догружены через ~0,3 с после анимации | flyTo 2,5 с, rAF; GPU Apple Silicon (ANGLE/Metal) — на слабых GPU будет ниже | там же |
+| `/api/tiles` | p50 4,5 мс / p95 5,5 мс напрямую; через web-прокси с gzip p50 5,2 / p95 6,4 мс | 300 случайных тайлов z13–15, последовательно | там же |
+| 304 / кэш | `If-None-Match` → 304 через прокси; URL тайлов содержат `?v=tiles_version`; gzip-ответ — слабый ETag | curl, unit/API-тесты | `services/api/tests/test_tiles.py`, `apps/web/tests/unit/proxy.test.ts` |
+| Память | JS heap 148 МБ после обзора и трёх полётов | `performance.memory` | perf.txt |
+| Независимое ревью | 11 замечаний; исправлены все, кроме №4 (первый запрос к EOX при открытии) — это прямое следствие выбранного владельцем гибрида по умолчанию; раскрыто в «О данных», PRIVACY, ADR | агент independent-reviewer | ADR-0002 «Последствия» |
+
+Не проверено: Firefox/WebKit (браузеры не установлены); производительность на слабых/мобильных GPU (замеры только
+на Apple Silicon); CI GitHub — см. PR.

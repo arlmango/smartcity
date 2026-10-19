@@ -1,0 +1,21 @@
+{
+  "description": "Curated, checked shape overrides for the 3D map. Each one is a simplified stylisation (styl=1), not an exact model. Applied by smartcity_ingest.roofs only when every check passes; the result is recorded in data/basemap/manifest.json.",
+  "landmarks": [
+    {
+      "osm": "way/1461813334",
+      "shape": "sphere",
+      "label": "Нур Алем · стилизация",
+      "note": "Сфера павильона Нур Алем (EXPO-2017; сейчас в здании Alem.ai). В OSM часть здания размечена как roof:shape=round, height=100, roof:height=50, diameter=100. На карте — упрощённый эллипсоид по контуру и высоте из OSM, не точная модель.",
+      "parent": "way/454857501",
+      "parent_tags": {"museum": "future"},
+      "expected_center": [71.416154, 51.089314],
+      "max_offset_m": 30,
+      "min_circularity": 0.95,
+      "evidence": [
+        "OSM way/1461813334: building:part, round footprint, height=100, diameter=100 (Geofabrik kazakhstan-261018)",
+        "Inside OSM way/454857501 tagged museum=future — the Museum of Future Energy housed in Nur Alem (Wikidata Q123643894, Q123652875; neither item has coordinates)",
+        "Centre of the EXPO-2017 site; ru.wikipedia 'ЭКСПО 2017' site point is 317 m away (site-level, not the building)"
+      ]
+    }
+  ]
+}

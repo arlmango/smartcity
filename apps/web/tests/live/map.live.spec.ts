@@ -28,13 +28,16 @@ test.describe("live: map on real data", () => {
     const mapReadyMs = Date.now() - t0;
     await mapIdle(page);
 
-    // Feature counts in MapLibre sources must equal what the real API serves.
+    // The coverage outline equals what the real API serves; the city comes from real vector tiles.
     const served: Record<string, number> = {};
-    for (const layer of ["buildings", "roads", "water", "green", "coverage"]) {
+    for (const layer of ["coverage"]) {
       const res = await request.get(`/api/map/${layer}`);
       expect(res.status()).toBe(200);
       served[layer] = ((await res.json()) as { features: unknown[] }).features.length;
     }
+    const basemap = (await (await request.get("/api/basemap")).json()) as { buildings: number; coverage: { boundary_inside_tiles: boolean } };
+    expect(basemap.buildings).toBeGreaterThan(50_000);
+    expect(basemap.coverage.boundary_inside_tiles).toBe(true);
     const info3d = await page.evaluate(() => {
       const map = window.__smartcityMap!;
       const c = map.getCenter();
@@ -42,9 +45,9 @@ test.describe("live: map on real data", () => {
         counts: window.__smartcity!.sourceCounts,
         extrusionType: map.getLayer("buildings-3d")?.type,
         extrusionVisible: map.getLayoutProperty("buildings-3d", "visibility"),
-        rendered3d: map.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-default"] }).length,
+        rendered3d: map.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-approx"] }).length,
         sampleHeightSources: Array.from(
-          new Set(map.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-default"] }).map((f) => f.properties?.height_source)),
+          new Set(map.queryRenderedFeatures({ layers: ["buildings-3d", "buildings-3d-approx"] }).map((f) => f.properties?.src)),
         ),
         pitch: map.getPitch(),
         center: [c.lng, c.lat],
@@ -52,7 +55,6 @@ test.describe("live: map on real data", () => {
       };
     });
     for (const k of Object.keys(served)) expect(info3d.counts[k], `source ${k}`).toBe(served[k]);
-    expect(served.buildings).toBeGreaterThan(1000);
     expect(info3d.extrusionType).toBe("fill-extrusion");
     expect(info3d.extrusionVisible).toBe("visible");
     expect(info3d.rendered3d).toBeGreaterThan(50);
@@ -157,9 +159,17 @@ test.describe("live: map on real data", () => {
       return { x: p.x, y: p.y };
     });
     await canvas.click({ position: out });
-    await expect(page.getByText("Вне зоны покрытия данных", { exact: true })).toBeVisible();
+    const alert = page.getByRole("alert").filter({ has: page.getByRole("button", { name: "Показать зону" }) });
+    await expect(alert).toContainText("Вне зоны рекомендаций");
+    await expect(page.getByText(/Карта показывает всю Астану/)).toBeVisible();
     await expect(page.getByTestId("origin-label")).toHaveText("Точка на карте");
     await shot(page, info, "03-outside-coverage-click");
+    await alert.getByRole("button", { name: "Показать зону" }).click();
+    await page.waitForFunction(() => {
+      const m = window.__smartcityMap!;
+      const c = m.getCenter();
+      return !m.isMoving() && Math.abs(c.lng - 71.42) < 0.03 && Math.abs(c.lat - 51.09) < 0.03;
+    });
     c.flush();
   });
 

@@ -16,6 +16,8 @@ test-results/
 models/*
 !models/README.md
 data/cache/
+data/basemap/*.pmtiles
+data/basemap/*.tmp
 data/backups/
 *.log
 .DS_Store
