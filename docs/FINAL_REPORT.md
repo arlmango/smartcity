@@ -46,13 +46,12 @@ make up                        # http://localhost:3000
 | Проверка | Результат | Доказательство |
 |---|---|---|
 | Чистая установка по README в новом клоне (новые тома, модели и данные заново) | PASS | `artifacts/clean-install/20261018/01…12` |
-| `make verify` (lint, format, typecheck, unit/integration, build, deterministic E2E, secret scan, contracts) | 11/11 exit 0; API 152, ingest 43 (0 skip), web unit 110, E2E 38 | `artifacts/clean-install/20261018/verify-final/` |
-| `make smoke-live` (настоящие данные, Ollama, браузер без моков, отказ провайдера) | PASS: API live 3/3, Playwright 24 passed | `artifacts/clean-install/20261018/smoke-final/` |
+| `make verify` (lint, format, typecheck, unit/integration, build, deterministic E2E, secret scan, contracts) | 11/11 exit 0; API 155, ingest 43 (0 skip), web unit 112, E2E 38 | `artifacts/clean-install/20261018/final-gate-3/verify/` |
+| `make smoke-live` (настоящие данные, Ollama, браузер без моков, отказ провайдера) | PASS: API live 3/3 (S1, S2-relaxed, S3 — `live_rag`), Playwright 24 passed | `artifacts/clean-install/20261018/final-gate-3/smoke/` |
 | `make backup-test` | PASS (counts + checksums) | `15-backup-test.log` |
-| Eval 20 размеченных запросов | 0 нарушений hard-условий и фактов | `artifacts/eval/`, `16-eval.log` |
-| Финальный gate на итоговом commit | см. «Финальный gate» ниже | |
+| Eval 20 размеченных запросов (10 dev + 10 holdout), дважды | 0 нарушений hard-условий и фактов; 29 из 30 генераций `live_rag`, 1 честная деградация; 2 промаха ожиданий ночью (кафе закрыты) → добавлены предупреждения | `artifacts/eval/`, `artifacts/clean-install/20261018/eval/` |
 
-Производительность (Chromium headless, тот же хост): map-ready 0.8–0.9 с (cold 0.9 с), чтение API p95 < 16 мс,
+Производительность (Chromium headless, тот же хост): map-ready 0.85–0.94 с (cold 0.94 с), чтение API p95 < 16 мс,
 `/api/recommend` с генерацией на CPU 23–89 с (p50 ≈ 55 с), без генерации < 1 с.
 
 ## Агентная работа
@@ -101,4 +100,20 @@ make up                        # http://localhost:3000
    подтверждён тегом), обратный путь в бюджете каждой карточки; «Поближе / Без кафе / Только внутри» сохраняют условия.
 
 ## Финальный gate
-(заполняется ниже по факту прогона на итоговом commit)
+Выполнен в чистом клоне (отдельный compose-проект, новые тома, модели и данные заново) на commit **`ba066fe`**:
+`make verify` — 11/11 exit 0; `make smoke-live` — exit 0 (pytest live 3 passed, Playwright live 24 passed / 2 skipped
+по привязке к вьюпорту), сценарий отказа провайдера — реальный второй экземпляр API с недоступными моделями.
+Журналы: `artifacts/clean-install/20261018/final-gate-3/`.
+
+Предыдущие попытки gate сохранены честно: на `ca1d8ac` live-smoke упал из-за среды (старые процессы на тестовых портах,
+`smoke-run1-failed/ROOT_CAUSE.md`); на `c468832` — из-за реального дефекта (строгий фильтр дважды отклонял все тексты
+модели и выбор мест терялся, `final-gate-2/ROOT_CAUSE.md`), исправлено в `ba066fe` с тестами.
+
+## Статус по ACCEPTANCE
+Обязательные A01–A20 — PASS с доказательствами (docs/VERIFICATION.md); T01–T30 — PASS детерминированно, большая часть
+и вживую (T10, T12, T18, T21 вживую не воспроизводились). Открытых P0/P1 нет; независимый ревьюер закрыл свои P1/P2,
+регрессия из второго раунда исправлена. Оставшиеся ограничения перечислены выше (P2/P3). Optional, не настроено:
+пешеходный роутинг (Valhalla), внешний basemap, публичный деплой, OpenAI-compatible провайдер (нет endpoint).
+
+**Итог: DONE для обязательного MVP в локальном/приватном запуске** — с оговоркой о медленной CPU-генерации и
+перечисленных ограничениях. Публикация не выполнялась.

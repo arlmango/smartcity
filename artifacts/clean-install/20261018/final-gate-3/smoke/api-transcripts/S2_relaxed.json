@@ -1,0 +1,175 @@
+{
+  "scenario": "S2_relaxed",
+  "notes": "explicit relaxation: socket moved from required to preferred (client resent patch)",
+  "recorded_at": "2026-10-19T00:31:16+00:00",
+  "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
+  "request": {
+    "query": "Нужны кофе, тишина и розетка, есть час",
+    "origin_rounded": [
+      51.09,
+      71.42
+    ],
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [
+        "socket"
+      ],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    }
+  },
+  "providers": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen2.5:3b",
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "params": {
+        "temperature": 0.2,
+        "num_predict": 700
+      },
+      "timeout_s": 150.0
+    },
+    "embedding": {
+      "model_id": "ollama:bge-m3@790764642607",
+      "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+      "dim": 1024
+    },
+    "response_providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    }
+  },
+  "dataset_version": "osm-20261018T223058Z",
+  "retrieval": {
+    "shortlist": 58,
+    "ranked_after_filters": 33,
+    "semantic": "ok",
+    "llm_candidate_ids": [
+      "41176876-08d7-4766-bb1a-afef71d45dd1",
+      "ac61baae-2cd4-46d9-8f69-cc979b04f11d",
+      "fac82b11-18a3-4e39-b8d7-99a069e44774",
+      "91703334-614b-4c67-ac18-8a08eaa051fb",
+      "b1ed75c3-249b-4eb2-b77e-abfdaf4b98f7"
+    ],
+    "exclusions": {
+      "closed": 17,
+      "budget": 8
+    },
+    "llm_attempts": 2,
+    "llm_failure": null,
+    "llm_issues": [
+      "invalid:ни одна рекомендация не прошла проверку",
+      "reason_rejected",
+      "removed_unverified_claim:quiet",
+      "selection_kept_without_text"
+    ],
+    "prompt_version": "rec-v3"
+  },
+  "result": {
+    "status": "ok",
+    "mode": "live_rag",
+    "message": "Выбрана ближайшая к точке старта кафе для пеших прогулок.",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 60,
+          "source": "ui",
+          "label": "Время: не более 60 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Желательно: розетка (учитывается только если подтверждено)",
+        "Тишина (в данных OSM не проверяется)",
+        "Интерес: Кафе"
+      ],
+      "interpreted_query": "интересы: кафе; желательно: розетка; тишина (не проверяется)"
+    },
+    "warnings": [
+      {
+        "code": "quiet_unverified",
+        "message": "Тишину и уют по данным OSM проверить нельзя — это только пожелание"
+      },
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      },
+      {
+        "code": "llm_text_rejected",
+        "message": "Часть объяснений ИИ не прошла проверку фактов и скрыта — места и факты остаются"
+      },
+      {
+        "code": "preference_unverified:socket",
+        "message": "«розетка»: у части предложенных мест не подтверждено данными"
+      }
+    ],
+    "suggested_relaxations": [],
+    "recommendations": [
+      {
+        "place_id": "41176876-08d7-4766-bb1a-afef71d45dd1",
+        "name": "завтрак бар",
+        "category": "cafe",
+        "source_url": "https://www.openstreetmap.org/node/6408255389",
+        "distance_m": 728,
+        "timing": {
+          "outbound_min": 15,
+          "visit_min": 25,
+          "return_min": 15,
+          "buffer_min": 5,
+          "total_min": 60,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "indoor",
+          "kids"
+        ],
+        "reason": null,
+        "reason_source": "llm",
+        "activity_suggestion": null
+      }
+    ]
+  },
+  "timings_ms": {
+    "parse": 0,
+    "shortlist": 12,
+    "semantic": 261,
+    "rank": 5,
+    "schedule": 1,
+    "generate": 76104,
+    "total": 76385
+  },
+  "wall_ms": 76391
+}

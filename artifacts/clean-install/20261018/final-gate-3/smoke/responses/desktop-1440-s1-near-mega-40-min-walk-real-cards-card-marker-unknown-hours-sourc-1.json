@@ -1,0 +1,178 @@
+{
+  "test": "S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.41,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "1bcdfeb3-875f-43bd-9576-58334d363d71"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "0536b2f189344bb580e06233907099a2",
+    "client_request_id": "1bcdfeb3-875f-43bd-9576-58334d363d71",
+    "status": "ok",
+    "mode": "live_rag",
+    "dataset_version": "osm-20261018T223058Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "recommendations": [
+      {
+        "place_id": "ec894cc8-9d39-4bc2-9479-7600de6e6b1d",
+        "name": "NU Park",
+        "name_is_generic": false,
+        "category": "park",
+        "category_label": "Парк / сквер",
+        "coordinates": {
+          "lat": 51.0875249,
+          "lon": 71.39926125505968
+        },
+        "address": null,
+        "reason": "NU Park близко и подходит для прогулки, не требует посещения ресторана внутри ТРЦ.",
+        "reason_source": "llm",
+        "activity_suggestion": "прогуляться в парке",
+        "distance": {
+          "meters": 587,
+          "method": "geodesic",
+          "note": "По прямой; реальный путь по улицам длиннее"
+        },
+        "timing": {
+          "outbound_min": 12,
+          "visit_min": 11,
+          "return_min": 12,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "opening_hours_raw": null,
+        "opening_note": "Часы работы не указаны в OSM — статус неизвестен",
+        "as_of": "2026-10-18T22:30:58.137611Z",
+        "verified_features": [],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair",
+          "kids"
+        ],
+        "negative_features": [
+          {
+            "feature": "indoor",
+            "value": false,
+            "basis": "category_rule",
+            "evidence": "Правило категории: Парк / сквер — не в помещении"
+          }
+        ],
+        "website": null,
+        "source": {
+          "name": "OpenStreetMap",
+          "osm_type": "way",
+          "osm_id": 1467797207,
+          "url": "https://www.openstreetmap.org/way/1467797207",
+          "license": "ODbL-1.0",
+          "fetched_at": "2026-10-18T22:30:58.137611Z",
+          "source_updated_at": "2026-01-17T14:16:58Z"
+        },
+        "evidence": [
+          {
+            "field": "name",
+            "source_value": "name=NU Park",
+            "source_url": "https://www.openstreetmap.org/way/1467797207",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T22:30:58.137611Z"
+          },
+          {
+            "field": "category",
+            "source_value": "leisure=park",
+            "source_url": "https://www.openstreetmap.org/way/1467797207",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T22:30:58.137611Z"
+          },
+          {
+            "field": "indoor",
+            "source_value": "leisure=park",
+            "source_url": "https://www.openstreetmap.org/way/1467797207",
+            "license": "ODbL-1.0",
+            "collected_at": "2026-10-18T22:30:58.137611Z"
+          }
+        ]
+      }
+    ],
+    "message": "Парк NU Park — идеальное место для короткой пеших прогулки от Mega Silk Way.",
+    "warnings": [
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 11,
+      "shortlist": 22,
+      "semantic": 5225,
+      "rank": 3,
+      "schedule": 1,
+      "generate": 35163,
+      "total": 40427
+    }
+  },
+  "ms": 40439
+}

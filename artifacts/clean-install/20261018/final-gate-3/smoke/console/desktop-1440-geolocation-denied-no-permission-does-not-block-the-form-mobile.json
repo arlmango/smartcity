@@ -1,0 +1,8 @@
+{
+  "test": "geolocation denied (no permission) does not block the form @mobile",
+  "project": "desktop-1440",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "httpErrors": []
+}
