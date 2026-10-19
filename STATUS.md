@@ -1,22 +1,25 @@
 # Статус
 
-Обновлено: 2026-10-18 ~20:40 UTC. Этап: 3→4 — интеграция завершена, идёт QA/security и независимое ревью.
-Ветка: claude/wizardly-bardeen-py0dnc (слиты ветки агентов data-pipeline, backend-rag, frontend-map).
+Обновлено: 2026-10-19 ~00:50 UTC. Этап: 5 — итоговый gate пройден; ожидается финальная точечная перепроверка ревьюера.
+Ветка: `claude/wizardly-bardeen-py0dnc` (запушена). Итоговый gate: commit `ba066fe`.
 
-## Работает (проверено координатором на объединённой ветке)
-- Docker-стек db+api+web+ollama(profile) собирается и поднимается с healthcheck; `/api/ready`: db, data (127 мест, osm-20261018T200514Z), map, embeddings (bge-m3, dim 1024, 127/127), llm (qwen2.5:3b) — ok; routing not_configured.
-- Живой S1 через web-прокси: status ok, mode live_rag, 3 альтернативы, бюджет 38–40 из 40 мин; генерация 77 с на CPU (4 vCPU).
-- Тесты: API 107 passed (не live), ingest 40 passed (отчёт агента), web unit 95 passed, typecheck/lint ok.
-- Карта на реальных OSM-слоях: 1812 зданий, 5329 дорог; высоты 23 height / 897 levels / 892 default.
+## Готово и проверено (подробно — docs/VERIFICATION.md, docs/FINAL_REPORT.md)
+- Чистая установка по README в новом клоне: doctor → bootstrap → models (3.1 GB заново) → ingest из Overpass
+  (complete после `--retry-failed`, `osm-20261018T223058Z`, 126 мест) → index (bge-m3, 126) → up → ready.
+- `make verify` на `ba066fe`: 11/11 exit 0 (API 155, ingest 43 без skip, web unit 112, E2E 38).
+- `make smoke-live` на `ba066fe`: PASS — API live S1/S2-relaxed/S3 `live_rag`, Playwright live 24 passed,
+  сценарий отказа провайдера на реальном втором экземпляре.
+- Eval 20 запросов (дважды): 0 нарушений hard-условий и фактов.
+- `make backup-test`: PASS.
+- Агенты: data-pipeline, backend-rag, frontend-map (параллельно, worktree), qa-security, independent-reviewer (3 раунда).
 
-## В работе
-- qa-security: live Playwright без моков, failure modes, безопасность, доступность, VERIFICATION.
-- independent-reviewer: ревью требований и diff.
+## Активные процессы
+- Docker-стек `smartcityclean` (db, ollama, api, web) — запущен в чистом клоне (scratchpad). Основной стек `smartcity`
+  остановлен (`make down`, тома сохранены).
 
-## Известные ограничения
-- CPU-генерация 50–190 с на ответ; при перегрузке хоста возможен fallback retrieval_only.
-- Overpass maps.mail.ru часто отвечает 504: ingest завершается partial, повтор `--retry-failed`.
-- 66 из 127 мест — безымянные детские площадки (generic label); именованных мест 61.
+## Ограничения (не блокеры)
+CPU-генерация 25–90 с; качество текстов 3B-модели; нет пешеходного роутинга; малое покрытие; нестабильный публичный
+Overpass; maplibre advisory R1 (недостижим); Firefox/WebKit не запускались.
 
 ## Блокеры
 Нет.
