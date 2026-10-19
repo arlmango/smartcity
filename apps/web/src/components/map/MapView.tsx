@@ -4,7 +4,7 @@ import type { FeatureCollection } from "geojson";
 import type { GeoJSONSource, Map as MlMap, Marker } from "maplibre-gl";
 import { MAPLIBRE_WORKER_URL } from "@/lib/mapWorker";
 import { useEffect, useRef, useState } from "react";
-import type { Recommendation, WalkingRoute } from "@/lib/contracts";
+import type { Recommendation } from "@/lib/contracts";
 import type { Origin } from "@/lib/form";
 import {
   BASEMAP_LABEL,
@@ -21,11 +21,11 @@ import {
 } from "@/lib/mapStyle";
 import { displayName } from "../RecommendationCard";
 import { useWalkingRoute } from "./useWalkingRoute";
-import { routeCoordinates, routeFeatures } from "@/lib/walkingRoute";
+import { routeCoordinates, routeFeatures, type MapRoute } from "@/lib/walkingRoute";
 import { MapControlButton } from "./MapControlButton";
 
 export interface MapViewProps {
-  route: WalkingRoute | null;
+  route: MapRoute | null;
   coverage: FeatureCollection | undefined;
   boundary: FeatureCollection | undefined;
   origin: Origin | null;
@@ -323,14 +323,15 @@ export function MapView(props: MapViewProps) {
   // ---------------------------------------------------------------- camera: fly to selected card
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !loaded || !props.selectedId || props.focusSignal === 0) return;
-    const rec = props.recs.find((r) => r.place_id === props.selectedId);
-    if (!rec) return;
+    if (!map || !loaded || props.focusSignal === 0) return;
+    // A shown route (single place or the whole plan) is framed as a whole.
     if (props.route) {
       const bounds = featureBounds(routeFeatures(props.route));
       if (bounds) map.fitBounds(bounds, { padding: padding(), maxZoom: 17, duration: props.reducedMotion ? 0 : 900, essential: false });
       return;
     }
+    const rec = props.recs.find((r) => r.place_id === props.selectedId);
+    if (!rec) return;
     const center: [number, number] = [rec.coordinates.lon, rec.coordinates.lat];
     const zoom = Math.max(map.getZoom(), 16.3);
     if (props.reducedMotion) map.jumpTo({ center, zoom });
@@ -390,8 +391,11 @@ export function MapView(props: MapViewProps) {
       <div ref={containerRef} className="absolute inset-0" data-testid="map-canvas" />
       {props.route && (
         <div data-testid="route-legend" className="pointer-events-none absolute left-3 top-16 max-w-[220px] rounded-control bg-white/95 p-2 text-xs shadow-control">
-          <p className="font-bold">Пеший путь</p>
-          <p>А → Б · зелёная линия{props.route.return_leg ? " · обратно: фиолетовый пунктир" : ""}</p>
+          <p className="font-bold">{props.route.kind === "plan" ? "План прогулки" : "Пеший путь"}</p>
+          <p>
+            {props.route.kind === "plan" ? `Остановки ${props.route.marks.map((m) => m.letter).join(" → ")}` : "А → Б"} · зелёная линия
+            {props.route.hasReturn ? " · обратно: фиолетовый пунктир" : ""}
+          </p>
           <p>Время приблизительное. Подход к месту не проверен.</p>
         </div>
       )}

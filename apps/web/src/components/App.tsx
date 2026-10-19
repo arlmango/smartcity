@@ -16,7 +16,9 @@ import { INTEREST_LABEL } from "@/lib/labels";
 import { heightStats, pointInCoverage } from "@/lib/mapData";
 import { describeProviders, hasExternalProvider } from "@/lib/providers";
 import type { BasemapVariant, SatelliteSource, ViewMode } from "@/lib/mapStyle";
+import { withoutStop } from "@/lib/plan";
 import { newClientRequestId } from "@/lib/recommendState";
+import { mapRouteOf, mapRouteOfPlan } from "@/lib/walkingRoute";
 import { ErrorCard } from "./ErrorCard";
 import { Header } from "./Header";
 import { FallbackMap } from "./map/FallbackMap";
@@ -77,6 +79,8 @@ export function App() {
   const [pickRequested, setPickRequested] = useState(false);
   const [originWarning, setOriginWarning] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // The timebox plan and a single place are mutually exclusive selections on the map.
+  const [planShown, setPlanShown] = useState(false);
   const [focusSignal, setFocusSignal] = useState(0);
   const [fitSignal, setFitSignal] = useState(0);
   const [centerRequest, setCenterRequest] = useState(0);
@@ -95,8 +99,10 @@ export function App() {
   const routeRequest = pending ? state.request : state.responseRequest;
   const routeOriginMatches = !!form.origin && !!routeRequest &&
     form.origin.lat === routeRequest.origin.lat && form.origin.lon === routeRequest.origin.lon;
-  const selectedRoute = routeOriginMatches && !pickActive
-    ? recs.find((r) => r.place_id === selectedId)?.route ?? null : null;
+  const plan = shown?.plan ?? null;
+  const selectedRoute = !routeOriginMatches || pickActive ? null
+    : planShown && plan ? mapRouteOfPlan(plan)
+    : mapRouteOf(recs.find((r) => r.place_id === selectedId)?.route ?? null);
   // Equivalent final explanations must not restart the route/camera animation.
   const routeKey = JSON.stringify(selectedRoute);
   const activeRoute = useMemo(() => selectedRoute, [routeKey]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -111,11 +117,15 @@ export function App() {
   const resultSet = JSON.stringify(recs.map((r) => r.place_id).sort());
   const answerId = shown?.client_request_id;
   const firstRoutedId = recs.find((r) => r.route)?.place_id ?? null;
+  const hasPlan = !!plan;
+  const shownSelectedId = planShown && plan ? null : selectedId;
   useEffect(() => {
     const ids: string[] = JSON.parse(resultSet);
     setSelectedId((current) => current && ids.includes(current) ? current : firstRoutedId);
     if (ids.length) setFitSignal((n) => n + 1);
   }, [answerId, resultSet, firstRoutedId]);
+  // A new answer with a plan opens on the plan; one without a plan opens on its first place.
+  useEffect(() => setPlanShown(hasPlan), [answerId, hasPlan]);
   const setOrigin = useCallback(
     (o: Origin) => {
       const inside = pointInCoverage(o.lon, o.lat, coverageFc);
@@ -167,6 +177,17 @@ export function App() {
     setFormState(next);
     send(next, r.message);
   };
+  const onRemoveStop = (placeId: string) => {
+    // Also while explanations load: the in-flight request is aborted and replaced.
+    const base = routeRequest?.constraints ?? form.constraints;
+    const next = { ...form, constraints: withoutStop(base, placeId) };
+    setFormState(next);
+    send(next, "Убрать остановку из плана");
+  };
+  const showPlan = useCallback(() => {
+    setPlanShown(true);
+    setFocusSignal((n) => n + 1);
+  }, []);
   const onRetry = () => {
     if (state.request) rec.submit(state.request, state.pendingUserTurn ?? ""); // same client_request_id: no duplicate
   };
@@ -180,11 +201,13 @@ export function App() {
     cardRefs.current.clear();
   };
   const selectFromCard = useCallback((id: string) => {
+    setPlanShown(false);
     setSelectedId(id);
     setFocusSignal((n) => n + 1);
   }, []);
   const selectFromMap = useCallback(
     (id: string) => {
+      setPlanShown(false);
       setSelectedId(id);
       if (!isDesktop) setSheet((s) => (s === "collapsed" ? "half" : s));
       // Centre the chosen place so it is never left under the panel, legend or controls; on mobile
@@ -221,12 +244,15 @@ export function App() {
           constraints={state.request?.constraints ?? form.constraints}
           budget={state.request?.time_budget_min ?? null}
           startTime={state.request?.start_time ?? null}
-          selectedId={selectedId}
+          selectedId={shownSelectedId}
           cardRefs={cardRefs}
           busy
           pending
           cancelled={false}
           onSelect={selectFromCard}
+          planShown={planShown}
+          onShowPlan={showPlan}
+          onRemoveStop={onRemoveStop}
           onRefine={onRefine}
           onRelax={onRelax}
           onEdit={() => setEditing(true)}
@@ -255,11 +281,14 @@ export function App() {
         constraints={state.responseRequest?.constraints ?? form.constraints}
         budget={state.responseRequest?.time_budget_min ?? null}
         startTime={state.responseRequest?.start_time ?? null}
-        selectedId={selectedId}
+        selectedId={shownSelectedId}
         cardRefs={cardRefs}
         busy={false}
         cancelled={state.cancelled}
         onSelect={selectFromCard}
+        planShown={planShown}
+        onShowPlan={showPlan}
+        onRemoveStop={onRemoveStop}
         onRefine={onRefine}
         onRelax={onRelax}
         onEdit={() => setEditing(true)}
@@ -384,7 +413,7 @@ export function App() {
               layers={map.layers}
               origin={form.origin}
               recs={recs}
-              selectedId={selectedId}
+              selectedId={shownSelectedId}
               pickActive={pickActive}
               reason={mapFatal}
               onPick={onMapPick}
@@ -402,8 +431,8 @@ export function App() {
               onVariantChange={setVariant}
               onSatelliteError={() => setSatFailed(true)}
               origin={form.origin}
-              recs={recs}
-              selectedId={selectedId}
+              recs={planShown && plan ? [] : recs}
+              selectedId={shownSelectedId}
               focusSignal={focusSignal}
               fitSignal={fitSignal}
               pickActive={pickActive}

@@ -263,6 +263,8 @@ export function okResponse(clientRequestId: string, recs: Recommendation[] = [re
     warnings: [],
     suggested_relaxations: [],
     route: null,
+    plan: null,
+    plan_note: null,
     providers,
     timings_ms: { total: 1200 },
   };

@@ -6,6 +6,7 @@ import type { Constraints } from "@/lib/contracts";
 import { formatAlmaty } from "@/lib/time";
 import { AlternativeComparison } from "./AlternativeComparison";
 import { RecommendationCard } from "./RecommendationCard";
+import { WalkPlanCard } from "./WalkPlanCard";
 
 interface Props {
   response: RecommendResponse;
@@ -22,6 +23,10 @@ interface Props {
   note?: string | null;
   cancelled: boolean;
   onSelect: (id: string) => void;
+  /** The timebox plan is the selected item on the map. */
+  planShown: boolean;
+  onShowPlan: () => void;
+  onRemoveStop: (placeId: string) => void;
   onRefine: (kind: RefinementKind) => void;
   onRelax: (r: Relaxation) => void;
   onEdit: () => void;
@@ -61,6 +66,10 @@ export function ResultsPanel(props: Props) {
 
   return (
     <div className="space-y-4" data-testid="results">
+      {/* The decision first: the plan, then the summary with its caveats. */}
+      {r.plan && (
+        <WalkPlanCard plan={r.plan} shown={props.planShown} busy={props.busy && !props.pending} onShow={props.onShowPlan} onRemove={props.onRemoveStop} />
+      )}
       <section className="sc-card space-y-3 p-4" aria-labelledby="summary-h">
         <div className="flex items-start justify-between gap-2">
           <h2 id="summary-h" className="text-xl font-extrabold leading-tight" data-status={r.status}>
@@ -177,6 +186,12 @@ export function ResultsPanel(props: Props) {
           </div>
         )}
       </section>
+
+      {!r.plan && r.plan_note && (
+        <p data-testid="plan-note" className="rounded-control border border-stroke bg-white p-3 text-sm text-muted">
+          {r.plan_note}
+        </p>
+      )}
 
       <AlternativeComparison recs={recs} budget={props.budget} selectedId={props.selectedId} onSelect={props.onSelect} />
 

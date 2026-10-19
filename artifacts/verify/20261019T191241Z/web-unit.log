@@ -1,0 +1,38 @@
+
+> @smartcity/web@0.1.0 test /home/user/smartcity/apps/web
+> vitest run
+
+
+ RUN  v3.2.7 /home/user/smartcity/apps/web
+
+ ✓ tests/unit/recommendState.test.ts (13 tests) 8ms
+ ✓ tests/unit/mapStyle.test.ts (11 tests) 103ms
+ ✓ tests/unit/card.test.tsx (12 tests) 560ms
+stderr | tests/unit/api.test.ts > api client > turns an invalid response into an ApiError, not a crash
+Invalid API response /api/coverage [
+  {
+    code: [32m'invalid_type'[39m,
+    expected: [32m'number'[39m,
+    received: [32m'string'[39m,
+    path: [ [32m'place_count'[39m ],
+    message: [32m'Expected number, received string'[39m
+  }
+]
+
+ ✓ tests/unit/api.test.ts (11 tests) 77ms
+ ✓ tests/unit/contracts.test.ts (14 tests) 23ms
+ ✓ tests/unit/timeProviders.test.ts (7 tests) 9ms
+ ✓ tests/unit/mapData.test.ts (8 tests) 14ms
+ ✓ tests/unit/form.test.ts (7 tests) 8ms
+ ✓ tests/unit/format.test.ts (18 tests) 24ms
+ ✓ tests/unit/maplibreVersion.test.ts (2 tests) 4ms
+ ✓ tests/unit/walkingRoute.test.ts (8 tests) 11ms
+ ✓ tests/unit/comparison.test.tsx (2 tests) 170ms
+ ✓ tests/unit/proxy.test.ts (35 tests) 75ms
+ ✓ tests/unit/forwardedFor.test.ts (6 tests) 11ms
+
+ Test Files  14 passed (14)
+      Tests  154 passed (154)
+   Start at  19:13:21
+   Duration  5.82s (transform 890ms, setup 2.77s, collect 1.73s, tests 1.10s, environment 5.94s, prepare 1.77s)
+

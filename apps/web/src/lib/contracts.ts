@@ -187,6 +187,48 @@ export const WalkingRouteSchema = z.object({
   note: z.string(),
 });
 export type WalkingRoute = z.infer<typeof WalkingRouteSchema>;
+export type RouteLeg = z.infer<typeof RouteLegSchema>;
+
+/** Timebox plan: 2–3 stops; all distances/times come from the router (server-side), never the LLM. */
+export const PlanStopSchema = z.object({
+  place_id: z.string().min(1),
+  name: z.string().min(1),
+  name_is_generic: z.boolean(),
+  category: CategorySchema,
+  category_label: z.string(),
+  coordinates: LatLonSchema,
+  leg_in: RouteLegSchema,
+  arrive_min: int.nonnegative(),
+  visit_min: int.nonnegative(),
+  opening_status: OpeningStatusSchema,
+});
+export type PlanStop = z.infer<typeof PlanStopSchema>;
+export const WalkPlanSchema = z
+  .object({
+    stops: z.array(PlanStopSchema).min(2).max(3),
+    return_leg: RouteLegSchema.nullable(),
+    graph_version: z.string().min(1),
+    time_budget_min: int,
+    walk_min: int.nonnegative(),
+    visit_min: int.nonnegative(),
+    buffer_min: int.nonnegative(),
+    total_min: int.nonnegative(),
+    distance_m: int.nonnegative(),
+    returns_to_start: z.boolean(),
+    why: z.array(z.string()),
+    skipped: z.array(z.object({ place_id: z.string(), name: z.string(), reason: z.string() })),
+    method: z.string(),
+  })
+  .superRefine((p, ctx) => {
+    // A plan that does not add up, or does not fit, is rejected rather than shown.
+    if (p.walk_min + p.visit_min + p.buffer_min !== p.total_min || p.total_min > p.time_budget_min)
+      ctx.addIssue({ code: "custom", message: "plan totals do not add up or exceed the budget" });
+    if (p.returns_to_start !== (p.return_leg !== null))
+      ctx.addIssue({ code: "custom", message: "return leg must match returns_to_start" });
+    if (new Set(p.stops.map((s) => s.place_id)).size !== p.stops.length)
+      ctx.addIssue({ code: "custom", message: "duplicate plan stop" });
+  });
+export type WalkPlan = z.infer<typeof WalkPlanSchema>;
 
 export const RecommendationSchema = z.object({
   place_id: z.string().min(1),
@@ -248,6 +290,8 @@ export const RecommendResponseSchema = z
     warnings: z.array(WarningSchema),
     suggested_relaxations: z.array(RelaxationSchema),
     route: z.null().optional().default(null),
+    plan: WalkPlanSchema.nullable().optional().default(null),
+    plan_note: z.string().nullable().optional().default(null),
     providers: ProviderInfoSchema,
     timings_ms: z.record(z.string(), int),
   })

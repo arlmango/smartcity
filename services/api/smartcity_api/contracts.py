@@ -206,6 +206,43 @@ class RouteRequest(StrictModel):
     return_to_start: bool = True
 
 
+class PlanStop(StrictModel):
+    place_id: str
+    name: str  # from DB
+    name_is_generic: bool
+    category: Category
+    category_label: str
+    coordinates: LatLon  # from DB
+    leg_in: RouteLeg  # router leg arriving at this stop
+    arrive_min: int = Field(ge=0)  # minutes after the start (estimate)
+    visit_min: int = Field(ge=0)  # typical visit for the category (estimate, not a fact)
+    opening_status: OpeningStatus
+
+
+class PlanSkip(StrictModel):
+    place_id: str
+    name: str
+    reason: str  # Russian, user-facing
+
+
+class WalkPlan(StrictModel):
+    """Deterministic 2–3 stop plan; every distance/time comes from the router, never from the LLM."""
+
+    stops: list[PlanStop] = Field(min_length=2, max_length=3)
+    return_leg: RouteLeg | None  # last stop -> start, when return_to_start
+    graph_version: str
+    time_budget_min: int
+    walk_min: int = Field(ge=0)
+    visit_min: int = Field(ge=0)
+    buffer_min: int = Field(ge=0)
+    total_min: int = Field(ge=0)
+    distance_m: int = Field(ge=0)
+    returns_to_start: bool
+    why: list[str]  # code-generated explanation of the trade-off
+    skipped: list[PlanSkip]
+    method: str
+
+
 class Recommendation(StrictModel):
     route: WalkingRoute | None = None
     place_id: str
@@ -264,6 +301,8 @@ class RecommendResponse(StrictModel):
     warnings: list[Warning]
     suggested_relaxations: list[Relaxation]
     route: None = None  # only a real router may fill this; routing is not configured in v1
+    plan: WalkPlan | None = None
+    plan_note: str | None = None  # why no multi-stop plan is offered (Russian, user-facing)
     providers: ProviderInfo
     timings_ms: dict[str, int]
 
