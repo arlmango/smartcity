@@ -1,0 +1,23 @@
+{
+  "first_cards_ms": 3612,
+  "final_ms": 53679,
+  "mode": "live_rag",
+  "errors": [],
+  "reset": {
+    "endpoints": 0,
+    "legends": 0
+  },
+  "shortlist": 70,
+  "ranked": 34,
+  "timings_ms": {
+    "parse": 4,
+    "shortlist": 176,
+    "routing": 1819,
+    "semantic": 739,
+    "rank": 4,
+    "schedule": 1,
+    "generate": 50584,
+    "total": 53331
+  },
+  "note": "Captured before final review correction; raw screenshot files superseded by the next run."
+}

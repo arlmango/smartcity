@@ -1,0 +1,33 @@
+
+ RUN  v3.2.7 /Users/mango/Documents/Codex/2026-10-19/task-8/smartcity/apps/web
+
+ ✓ tests/unit/mapData.test.ts (8 tests) 7ms
+stderr | tests/unit/api.test.ts > api client > turns an invalid response into an ApiError, not a crash
+Invalid API response /api/coverage [
+  {
+    code: 'invalid_type',
+    expected: 'number',
+    received: 'string',
+    path: [ 'place_count' ],
+    message: 'Expected number, received string'
+  }
+]
+
+ ✓ tests/unit/timeProviders.test.ts (7 tests) 5ms
+ ✓ tests/unit/api.test.ts (11 tests) 40ms
+ ✓ tests/unit/format.test.ts (18 tests) 33ms
+ ✓ tests/unit/contracts.test.ts (14 tests) 12ms
+ ✓ tests/unit/walkingRoute.test.ts (8 tests) 6ms
+ ✓ tests/unit/mapStyle.test.ts (11 tests) 41ms
+ ✓ tests/unit/comparison.test.tsx (2 tests) 220ms
+ ✓ tests/unit/proxy.test.ts (35 tests) 42ms
+ ✓ tests/unit/card.test.tsx (12 tests) 455ms
+ ✓ tests/unit/forwardedFor.test.ts (6 tests) 8ms
+ ✓ tests/unit/maplibreVersion.test.ts (2 tests) 4ms
+ ✓ tests/unit/form.test.ts (7 tests) 42ms
+ ✓ tests/unit/recommendState.test.ts (13 tests) 10ms
+
+ Test Files  14 passed (14)
+      Tests  154 passed (154)
+   Start at  23:20:33
+   Duration  2.48s (transform 642ms, setup 2.97s, collect 1.82s, tests 925ms, environment 7.30s, prepare 1.58s)

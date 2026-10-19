@@ -1,0 +1,116 @@
+2026-10-19 17:49:39.556836174 [32;1m[INFO][0m Running valhalla_build_tiles with 1 thread(s).
+2026-10-19 17:49:39.556866383 [32;1m[INFO][0m Start stage = initialize End stage = cleanup
+2026-10-19 17:49:39.558574549 [32;1m[INFO][0m Parsing files for ways: /data/astana-pilot.osm.pbf
+2026-10-19 17:49:39.558663966 [32;1m[INFO][0m Parsing ways...
+2026-10-19 17:49:39.787301633 [32;1m[INFO][0m Clarifying and fixing cul-de-sacs...
+2026-10-19 17:49:39.803193508 [32;1m[INFO][0m Added 3 culdesac roundabouts from 5 candidates.
+2026-10-19 17:49:39.803233841 [TIMING] src/mjolnir/pbfgraphparser.cc::clarify_and_fix took 0s
+2026-10-19 17:49:39.803238216 [32;1m[INFO][0m Finished with 18094 routable ways containing 107660 nodes
+2026-10-19 17:49:39.804198008 [32;1m[INFO][0m Sorting osm access tags by way id...
+2026-10-19 17:49:39.804401216 [32;1m[INFO][0m Finished
+2026-10-19 17:49:39.804492674 [TIMING] src/mjolnir/pbfgraphparser.cc::ParseWays took 0s
+2026-10-19 17:49:39.805322424 [32;1m[INFO][0m Parsing files for relations: /data/astana-pilot.osm.pbf
+2026-10-19 17:49:39.805369799 [32;1m[INFO][0m Parsing relations...
+2026-10-19 17:49:39.811300758 [32;1m[INFO][0m Finished with 1740 simple turn restrictions
+2026-10-19 17:49:39.811311924 [32;1m[INFO][0m Finished with 0 lane connections
+2026-10-19 17:49:39.811683799 [32;1m[INFO][0m Sorting complex restrictions by from id...
+2026-10-19 17:49:39.811711174 [32;1m[INFO][0m Sorting complex restrictions by to id...
+2026-10-19 17:49:39.811736341 [32;1m[INFO][0m Finished
+2026-10-19 17:49:39.811817841 [TIMING] src/mjolnir/pbfgraphparser.cc::ParseRelations took 0s
+2026-10-19 17:49:39.812390674 [32;1m[INFO][0m Parsing files for nodes: /data/astana-pilot.osm.pbf
+2026-10-19 17:49:39.812403341 [32;1m[INFO][0m Sorting osm way node references by node id...
+2026-10-19 17:49:39.815953299 [32;1m[INFO][0m Parsing nodes...
+2026-10-19 17:49:39.871701216 [32;1m[INFO][0m Finished with 73945 nodes contained in routable ways
+2026-10-19 17:49:39.871715758 [32;1m[INFO][0m Sorting osm way node references by way index and node shape index...
+2026-10-19 17:49:39.875977508 [32;1m[INFO][0m Finished: max_osm_id 14290073101
+2026-10-19 17:49:39.875983049 [32;1m[INFO][0m Number of nodes with refs (exits) = 0
+2026-10-19 17:49:39.875984049 [32;1m[INFO][0m Number of nodes with exit_to = 0
+2026-10-19 17:49:39.875984924 [32;1m[INFO][0m Number of nodes with names = 0
+2026-10-19 17:49:39.875985924 [32;1m[INFO][0m Number of nodes with linguistics = 1
+2026-10-19 17:49:39.875986799 [32;1m[INFO][0m Number of way refs = 0
+2026-10-19 17:49:39.875987549 [32;1m[INFO][0m Number of reverse way refs = 0
+2026-10-19 17:49:39.875988466 [32;1m[INFO][0m Unique Node Strings (names, refs, etc.) = 0
+2026-10-19 17:49:39.875989341 [32;1m[INFO][0m Unique Strings (names, refs, etc.) = 423
+2026-10-19 17:49:39.876109716 [TIMING] src/mjolnir/pbfgraphparser.cc::ParseNodes took 0s
+2026-10-19 17:49:39.876132716 [32;1m[INFO][0m Sort nodes spatially within each tile using nxn grids where n = 32
+2026-10-19 17:49:39.876139549 [32;1m[INFO][0m Creating graph edges from ways...
+2026-10-19 17:49:39.880615508 [32;1m[INFO][0m Finished with 47885 graph edges
+2026-10-19 17:49:39.890919466 [32;1m[INFO][0m Sorting graph...
+2026-10-19 17:49:39.895990549 [32;1m[INFO][0m Nodes processed. Sorting begin and end nodes by edge.
+2026-10-19 17:49:39.900258258 [32;1m[INFO][0m Sorting begin and end nodes done. Populating edges...
+2026-10-19 17:49:39.901507133 [32;1m[INFO][0m Finished with 32264 graph nodes
+2026-10-19 17:49:39.901545049 [TIMING] src/mjolnir/graphbuilder.cc::BuildEdges took 0s
+2026-10-19 17:49:39.901710633 [32;1m[INFO][0m Writing tile manifest to /data/tiles/tile_manifest.json
+2026-10-19 17:49:39.901729091 [32;1m[INFO][0m Reclassifying_V2 link graph edges...
+2026-10-19 17:49:39.905025174 [32;1m[INFO][0m Class: 0 exit count = 0
+2026-10-19 17:49:39.905029633 [32;1m[INFO][0m Class: 1 exit count = 0
+2026-10-19 17:49:39.905030466 [32;1m[INFO][0m Class: 2 exit count = 22
+2026-10-19 17:49:39.905031133 [32;1m[INFO][0m Class: 3 exit count = 148
+2026-10-19 17:49:39.905031758 [32;1m[INFO][0m Class: 4 exit count = 88
+2026-10-19 17:49:39.905032341 [32;1m[INFO][0m Class: 5 exit count = 8
+2026-10-19 17:49:39.905032966 [32;1m[INFO][0m Class: 6 exit count = 30
+2026-10-19 17:49:39.905033674 [32;1m[INFO][0m Class: 7 exit count = 0
+2026-10-19 17:49:39.906068341 [32;1m[INFO][0m Finished with 249 link edges reclassified.  Turn channel count = 463
+2026-10-19 17:49:39.906117799 [TIMING] src/mjolnir/linkclassification.cc::ReclassifyLinks took 0s
+2026-10-19 17:49:39.906124466 [32;1m[INFO][0m Reclassifying ferry connection graph edges...
+2026-10-19 17:49:39.909584216 [32;1m[INFO][0m Finished ReclassifyFerryEdges: ferry_endpoint_count = 0, 0 edges reclassified
+2026-10-19 17:49:39.909651841 [TIMING] src/mjolnir/ferry_connections.cc::ReclassifyFerryConnections took 0s
+2026-10-19 17:49:39.920714591 [TIMING] src/mjolnir/graphbuilder.cc::ComputeFerrySpeeds took 0s
+2026-10-19 17:49:39.920725424 [32;1m[INFO][0m Building 2 tiles with 1 threads...
+2026-10-19 17:49:39.920974591 [33;1m[WARN][0m Time zone db /data/valhalla/tz_world.sqlite not found.  Not saving time zone information.
+2026-10-19 17:49:40.006829800 [32;1m[INFO][0m Finished
+2026-10-19 17:49:40.006849800 [TIMING] src/mjolnir/graphbuilder.cc::BuildLocalTiles took 0s
+2026-10-19 17:49:40.006852258 [32;1m[INFO][0m Node Count = 32264
+2026-10-19 17:49:40.006853258 [32;1m[INFO][0m Directed Edge Count = 95770
+2026-10-19 17:49:40.006854383 [32;1m[INFO][0m EdgeInfo Count = 47890
+2026-10-19 17:49:40.006855550 [TIMING] src/mjolnir/graphbuilder.cc::Build took 0s
+2026-10-19 17:49:40.006863758 [32;1m[INFO][0m Enhancing local graph...
+2026-10-19 17:49:40.009379883 [32;1m[INFO][0m Disabled default speeds assignment from config
+2026-10-19 17:49:40.172012133 [32;1m[INFO][0m Finished with max_density 22.742205
+2026-10-19 17:49:40.172029133 [32;1m[INFO][0m internal intersection = 676
+2026-10-19 17:49:40.172527591 [TIMING] src/mjolnir/graphenhancer.cc::Enhance took 0s
+2026-10-19 17:49:40.172546425 [32;1m[INFO][0m GraphFilter - nothing to filter. Skipping...
+2026-10-19 17:49:40.172553966 [TIMING] src/mjolnir/graphfilter.cc::Filter took 0s
+2026-10-19 17:49:40.172574508 [32;1m[INFO][0m Transit directory not found. Transit will not be added.
+2026-10-19 17:49:40.172592466 [32;1m[INFO][0m HierarchyBuilder
+2026-10-19 17:49:40.177725050 [TIMING] src/mjolnir/hierarchybuilder.cc::CreateNodeAssociations took 0s
+2026-10-19 17:49:40.179725008 [TIMING] src/mjolnir/hierarchybuilder.cc::SortSequences took 0s
+2026-10-19 17:49:40.254070008 [TIMING] src/mjolnir/hierarchybuilder.cc::FormTilesInNewLevel took 0s
+2026-10-19 17:49:40.254577758 [TIMING] src/mjolnir/hierarchybuilder.cc::RemoveUnusedLocalTiles took 0s
+2026-10-19 17:49:40.254597216 [32;1m[INFO][0m Done HierarchyBuilder
+2026-10-19 17:49:40.254603258 [TIMING] src/mjolnir/hierarchybuilder.cc::Build took 0s
+2026-10-19 17:49:40.255104883 [32;1m[INFO][0m Creating shortcuts on level 1
+2026-10-19 17:49:40.344126675 [32;1m[INFO][0m Finished with 1754 shortcuts superseding 7286 edges, average ~4 edges per shortcut
+2026-10-19 17:49:40.344136966 [32;1m[INFO][0m Creating shortcuts on level 0
+2026-10-19 17:49:40.352848133 [32;1m[INFO][0m Finished with 58 shortcuts superseding 820 edges, average ~14 edges per shortcut
+2026-10-19 17:49:40.352854883 [TIMING] src/mjolnir/shortcutbuilder.cc::Build took 0s
+2026-10-19 17:49:40.352862091 [33;1m[WARN][0m Elevation storage directory does not exist
+2026-10-19 17:49:40.353047883 [32;1m[INFO][0m Adding complex turn restrictions at level 2
+2026-10-19 17:49:40.388659758 [TIMING] src/mjolnir/restrictionbuilder.cc::HandleOnlyRestrictionProperties took 0s
+2026-10-19 17:49:40.388673508 [32;1m[INFO][0m --Forward restrictions added: 0
+2026-10-19 17:49:40.388675466 [32;1m[INFO][0m --Reverse restrictions added: 0
+2026-10-19 17:49:40.388716633 [32;1m[INFO][0m Adding complex turn restrictions at level 1
+2026-10-19 17:49:40.393963133 [TIMING] src/mjolnir/restrictionbuilder.cc::HandleOnlyRestrictionProperties took 0s
+2026-10-19 17:49:40.393971841 [32;1m[INFO][0m --Forward restrictions added: 3
+2026-10-19 17:49:40.393973008 [32;1m[INFO][0m --Reverse restrictions added: 3
+2026-10-19 17:49:40.394014925 [32;1m[INFO][0m Adding complex turn restrictions at level 0
+2026-10-19 17:49:40.394950716 [TIMING] src/mjolnir/restrictionbuilder.cc::HandleOnlyRestrictionProperties took 0s
+2026-10-19 17:49:40.394956633 [32;1m[INFO][0m --Forward restrictions added: 0
+2026-10-19 17:49:40.394957633 [32;1m[INFO][0m --Reverse restrictions added: 0
+2026-10-19 17:49:40.394958925 [32;1m[INFO][0m Finished
+2026-10-19 17:49:40.394964216 [TIMING] src/mjolnir/restrictionbuilder.cc::Build took 0s
+2026-10-19 17:49:40.394972050 [32;1m[INFO][0m Validating, finishing and binning tiles...
+2026-10-19 17:49:40.472202216 [32;1m[INFO][0m Finished
+2026-10-19 17:49:40.472213258 [32;1m[INFO][0m Binning inter-tile edges...
+2026-10-19 17:49:40.483854466 [32;1m[INFO][0m Finished
+2026-10-19 17:49:40.483866841 [33;1m[WARN][0m Possible duplicates at level: 0 = 0
+2026-10-19 17:49:40.483868341 [33;1m[WARN][0m Possible duplicates at level: 1 = 0
+2026-10-19 17:49:40.483869300 [33;1m[WARN][0m Possible duplicates at level: 2 = 0
+2026-10-19 17:49:40.483882050 [TIMING] src/mjolnir/graphvalidator.cc::Validate took 0s
+2026-10-19 17:49:40.484018758 [32;1m[INFO][0m Cleaning up temporary *.bin files within /data/tiles/
+2026-10-19 17:49:40.484878175 [TIMING] src/mjolnir/osmdata.cc::cleanup_temp_files took 0s
+2026-10-19 17:49:40.485028050 [TIMING] src/mjolnir/util.cc::build_tile_set took 0s
+MEMORY_PEAK_BYTES
+137039872
+OUTPUT_BYTES
+9917384	/data

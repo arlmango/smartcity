@@ -1,0 +1,147 @@
+[
+  {
+    "ts": "2026-10-19T18:22:47.698+00:00",
+    "level": "INFO",
+    "logger": "smartcity.recommend",
+    "msg": "recommend",
+    "event": "recommend",
+    "request_id": "b0126a6f79f14f14b8ddbdfdde84959f",
+    "status": "ok",
+    "mode": "live_rag",
+    "origin_rounded": [
+      51.09,
+      71.42
+    ],
+    "query_len": 43,
+    "budget_min": 60,
+    "shortlist": 70,
+    "ranked": 30,
+    "llm_candidate_ids": [
+      "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+      "4512f9fc-4841-451b-90d6-9f8be0d41ddd",
+      "9e84c345-b0ec-409a-9c0e-5acb57cedd79",
+      "72b260aa-a8a7-4f35-b214-1b73950028be",
+      "746968e9-3869-4b8f-84e2-39b9616000a7"
+    ],
+    "result_ids": [
+      "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+      "4512f9fc-4841-451b-90d6-9f8be0d41ddd"
+    ],
+    "semantic": "ok",
+    "exclusions": {
+      "budget": 25,
+      "closed": 15
+    },
+    "llm_attempts": 1,
+    "llm_failure": null,
+    "llm_issues": [],
+    "prompt_version": "rec-v3",
+    "timings_ms": {
+      "parse": 10,
+      "shortlist": 129,
+      "routing": 1558,
+      "semantic": 280,
+      "rank": 4,
+      "schedule": 1,
+      "generate": 25463,
+      "total": 27451
+    }
+  },
+  {
+    "ts": "2026-10-19T18:24:14.974+00:00",
+    "level": "INFO",
+    "logger": "smartcity.recommend",
+    "msg": "recommend",
+    "event": "recommend",
+    "request_id": "25285f9663a74b9dbda1ae651d234cc8",
+    "status": "ok",
+    "mode": "live_rag",
+    "origin_rounded": [
+      51.09,
+      71.42
+    ],
+    "query_len": 43,
+    "budget_min": 60,
+    "shortlist": 70,
+    "ranked": 30,
+    "llm_candidate_ids": [
+      "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+      "4512f9fc-4841-451b-90d6-9f8be0d41ddd",
+      "9e84c345-b0ec-409a-9c0e-5acb57cedd79",
+      "72b260aa-a8a7-4f35-b214-1b73950028be",
+      "746968e9-3869-4b8f-84e2-39b9616000a7"
+    ],
+    "result_ids": [
+      "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+      "4512f9fc-4841-451b-90d6-9f8be0d41ddd"
+    ],
+    "semantic": "ok",
+    "exclusions": {
+      "budget": 25,
+      "closed": 15
+    },
+    "llm_attempts": 1,
+    "llm_failure": null,
+    "llm_issues": [],
+    "prompt_version": "rec-v3",
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 26,
+      "routing": 354,
+      "semantic": 375,
+      "rank": 3,
+      "schedule": 0,
+      "generate": 8572,
+      "total": 9332
+    }
+  },
+  {
+    "ts": "2026-10-19T18:24:40.436+00:00",
+    "level": "INFO",
+    "logger": "smartcity.recommend",
+    "msg": "recommend",
+    "event": "recommend",
+    "request_id": "5844873a258b43ae9a38faee4dacad6b",
+    "status": "ok",
+    "mode": "live_rag",
+    "origin_rounded": [
+      51.09,
+      71.42
+    ],
+    "query_len": 43,
+    "budget_min": 60,
+    "shortlist": 70,
+    "ranked": 30,
+    "llm_candidate_ids": [
+      "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+      "4512f9fc-4841-451b-90d6-9f8be0d41ddd",
+      "9e84c345-b0ec-409a-9c0e-5acb57cedd79",
+      "72b260aa-a8a7-4f35-b214-1b73950028be",
+      "746968e9-3869-4b8f-84e2-39b9616000a7"
+    ],
+    "result_ids": [
+      "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+      "4512f9fc-4841-451b-90d6-9f8be0d41ddd",
+      "9e84c345-b0ec-409a-9c0e-5acb57cedd79"
+    ],
+    "semantic": "ok",
+    "exclusions": {
+      "budget": 25,
+      "closed": 15
+    },
+    "llm_attempts": 1,
+    "llm_failure": null,
+    "llm_issues": [],
+    "prompt_version": "rec-v3",
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 13,
+      "routing": 389,
+      "semantic": 484,
+      "rank": 2,
+      "schedule": 0,
+      "generate": 11258,
+      "total": 12149
+    }
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "ts": "2026-10-19T18:03:55.235+00:00",
+  "level": "INFO",
+  "logger": "smartcity.recommend",
+  "msg": "recommend",
+  "event": "recommend",
+  "request_id": "d46e3bbf0ffa4c6eb61cd066ce053b18",
+  "status": "degraded",
+  "mode": "retrieval_only",
+  "origin_rounded": [
+    51.09,
+    71.42
+  ],
+  "query_len": 43,
+  "budget_min": 60,
+  "shortlist": 70,
+  "ranked": 34,
+  "llm_candidate_ids": [
+    "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+    "4512f9fc-4841-451b-90d6-9f8be0d41ddd",
+    "9e84c345-b0ec-409a-9c0e-5acb57cedd79",
+    "d5443d73-9f96-409c-a6a3-e7d09bef602b",
+    "72b260aa-a8a7-4f35-b214-1b73950028be"
+  ],
+  "result_ids": [
+    "f3d49c52-73e3-45bf-9b88-0c32fc122918",
+    "4512f9fc-4841-451b-90d6-9f8be0d41ddd",
+    "9e84c345-b0ec-409a-9c0e-5acb57cedd79"
+  ],
+  "semantic": "ok",
+  "exclusions": {
+    "budget": 25,
+    "closed": 11
+  },
+  "llm_attempts": 1,
+  "llm_failure": "provider_timeout",
+  "llm_issues": [],
+  "prompt_version": "rec-v3",
+  "timings_ms": {
+    "parse": 6,
+    "shortlist": 216,
+    "routing": 3212,
+    "semantic": 2537,
+    "rank": 3,
+    "schedule": 9,
+    "generate": 150011,
+    "total": 156000
+  }
+}

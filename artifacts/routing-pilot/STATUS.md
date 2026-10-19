@@ -1,34 +1,41 @@
-# Pilot blocked before graph build
+# Local pedestrian pilot — built and integrated
 
-Approved official ARM64 image downloaded successfully, pinned digest:
-`sha256:58c7dd3fb256f306b00c558fb76aea9fd4fb804edd831e2b4847c26511cca507`.
-Installed image size 979291594 bytes (~934 MiB).
+User-approved volume approach succeeded after the earlier Documents bind mount failed.
+The denied bind mount was not retried; global Docker/macOS file permissions stayed unchanged.
 
-Local extract succeeded in 109.7 seconds: 2077208 bytes, 226129 nodes, 39440 complete ways,
-1744 restriction relations. Explicit reference validation passed (no dangling way nodes/restriction ways).
-See extract.json. Source PBF and original checkout unchanged. Generated PBF/config remain in
-`data/routing/pilot`; data/routing ignored by git. Reproducible config retained in config/valhalla-pilot.json.
+- Valhalla 3.8.3 ARM64, pinned official image `sha256:58c7dd3fb256f306b00c558fb76aea9fd4fb804edd831e2b4847c26511cca507`.
+- Prepared extract: 2,077,208 bytes; 226,129 nodes, 39,440 complete ways, 1,744 restriction relations.
+  No dangling way nodes/restriction ways. Original Kazakhstan PBF unchanged.
+- Build in named volume `smartcity-route-pilot-8`, network none, 2 GiB memory/swap ceiling, 2 CPUs,
+  one build thread, 900 seconds limit. Exit 0, OOMKilled=false, container elapsed 1.005 seconds.
+- Cgroup memory peak 137,039,872 bytes (130.7 MiB); final volume 9,917,384 bytes (9.46 MiB).
+  Image 979,291,594 bytes + local duplicate 2,086,696 + volume = 991,295,674 bytes, below 3 GiB.
+  These are final disk sizes; the monitor did not sample a transient peak before the quick build ended.
+- Serving only `127.0.0.1:8208` from own container `smartcity-route-local-8`, 512 MiB / 1 CPU,
+  read-only volume. Docker internal-network host forwarding did not work; the serving container uses
+  the ordinary Docker bridge with a loopback-only published port. No external route API requests.
+- Separate test API `127.0.0.1:8108`, preview `127.0.0.1:3208`. Baseline stack unchanged.
 
-Attempted action: run `valhalla_build_tiles` in container `smartcity-route-build-8`, mounting
-`/Users/mango/Documents/Codex/2026-10-19/task-8/smartcity/data/routing/pilot` to `/data`.
-Docker denied the bind mount:
-`mkdir /host_mnt/Users/mango/Documents: operation not permitted`.
-Exit 125 after 6.02 seconds. Container inspected: status=created, Running=false,
-StartedAt=0001-01-01T00:00:00Z. The graph builder never executed. No OOM or timeout.
-Memory limit 2147483648, NanoCPUs 2000000000, network=none were recorded in container configuration.
-This is Docker/macOS filesystem access, not an automatic approval-review rejection.
+## Geometry evidence
 
-Per instruction, stopped the pilot. No retry of the denied mount, no broader file-sharing permission,
-no Docker-global change, no resource increase. Baseline web/api/Ollama/DB still running on their original ports.
-No graph, routed API/UI integration, routing tests, or routing screenshots exist yet; earlier comparison
-iteration remains intact. Current config/script compile; ruff check passes. No fake line added.
+`control-audit.json` and `control-lines.geojson` retain three public control routes. Paths have
+50–98 vertices per leg and lie within 0.06 m of source OSM highway geometry sampled every 5 m.
+Outgoing routes: alley 702 m / 635.264 s; independence 708 m / 640.227 s; Mega 728 m / 661.839 s.
+Return legs were independently calculated. Shapes include bends and differ between directions.
 
-Proposed next safe step, pending parent approval: create an isolated named Docker volume, use `docker cp`
-to copy the existing 2 MiB extract/config into a stopped pilot container, then build from that volume
-under the SAME limits. This avoids requiring Docker access to the host Documents folder. Monitor combined
-image+volume+local duplicate size under 3 GiB; retain 2 GiB RAM, 2 CPUs, -j1, 900s timeout, no network during build.
-Serving should remain local-only on a separate port, with no external geolocation API.
+Mega's straight segment would cross 243.68 m of building interiors; the routed path crosses 0 m.
+The audit excludes `building=roof`: the shared start passes under OSM canopy 1461813336, tagged
+layer=1, min_height=5.9 m. This is an OSM topology check, not field validation of physical access.
+Mega destination is an object centroid, 83.76 m from the snapped network endpoint. That gap is
+shown honestly and its estimated access time is included; no invented connector/interior path is drawn.
 
-Existing Library screenshots from iteration 1 remain:
-- Desktop: libfile_eabd057d23808191bbcf02abb2a65c9c / file_0000000004bc81fbaeae496c1387d4c2
-- Mobile: libfile_e38badbeae348191b7b39a2464938cd6 / file_00000000d70081f8b19fdb3f3a8c133e
+## Reproduce
+
+Use the existing local PBF with `scripts/routing_extract.py`, copy `config/valhalla-pilot.json`
+to ignored `data/routing/pilot/valhalla.json`, then run `scripts/routing_pilot.py --name FRESH_NAME`.
+The script refuses existing volumes, uses `docker cp` for only PBF/config, never downloads,
+and bounds memory, CPU, disk and timeout; owned container is stopped on timeout/interruption.
+A rebuild was not needed after successful graph creation. Its revised cleanup is separately checked.
+
+Historical failed attempt remains in `build.log` / `build-result.json`. Successful build evidence:
+`volume-build.log` / `volume-build-result.json`. Final integration checks and screenshots: `REPORT.md`.

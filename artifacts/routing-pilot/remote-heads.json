@@ -1,0 +1,14 @@
+{
+  "repository": "https://github.com/arlmango/smartcity",
+  "checked_date": "2026-10-19",
+  "HEAD": "c4c1b8d3f5113e3ce8f71dd2df8254156204b733",
+  "claude/wizardly-bardeen-py0dnc": "c4c1b8d3f5113e3ce8f71dd2df8254156204b733",
+  "main": "7769ee001ae1a56dd2494b6d503b0da2b0bfabea",
+  "local_branch": "improve/alternatives-20261019",
+  "local_origin": "/Users/mango/smartcity",
+  "pushed": false,
+  "previous_main": "c0027c8f0298bf7315307d5372e89008e68c7bed",
+  "pr1_status": "MERGED",
+  "integration_commit": "093aaf496965c4d94bf895f917c8e19dcca2da57",
+  "publication_authorized": true
+}

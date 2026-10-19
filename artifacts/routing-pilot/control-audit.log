@@ -1,0 +1,176 @@
+[
+  {
+    "control": "alley",
+    "destination": {
+      "lat": 51.093889700000005,
+      "lon": 71.41787097941943
+    },
+    "request_ms": 23.43,
+    "legs": [
+      {
+        "direct_building_interior_m": 14.28,
+        "route_building_interior_m": 0.0,
+        "leg": 0,
+        "distance_m": 702,
+        "seconds": 635.264,
+        "shape_points": 70,
+        "snap_start_m": 16.33,
+        "snap_end_m": 2.53,
+        "max_distance_to_osm_highway_m": 0.05,
+        "osm_way_ids": [
+          622637374,
+          1126401952,
+          1126401956,
+          1452597346,
+          1452597348,
+          1460763596,
+          1460763597,
+          1461824174,
+          1461824177,
+          1461824178,
+          1461824181,
+          1461824183
+        ]
+      },
+      {
+        "direct_building_interior_m": 14.28,
+        "route_building_interior_m": 0.0,
+        "leg": 1,
+        "distance_m": 702,
+        "seconds": 635.265,
+        "shape_points": 70,
+        "snap_start_m": 2.53,
+        "snap_end_m": 16.33,
+        "max_distance_to_osm_highway_m": 0.05,
+        "osm_way_ids": [
+          622637374,
+          1126401952,
+          1126401956,
+          1452597346,
+          1452597348,
+          1460763596,
+          1460763597,
+          1461824174,
+          1461824177,
+          1461824178,
+          1461824181,
+          1461824183
+        ]
+      }
+    ]
+  },
+  {
+    "control": "independence",
+    "destination": {
+      "lat": 51.0934498,
+      "lon": 71.41756462521533
+    },
+    "request_ms": 4.31,
+    "legs": [
+      {
+        "direct_building_interior_m": 14.25,
+        "route_building_interior_m": 0.0,
+        "leg": 0,
+        "distance_m": 708,
+        "seconds": 640.227,
+        "shape_points": 98,
+        "snap_start_m": 16.33,
+        "snap_end_m": 4.85,
+        "max_distance_to_osm_highway_m": 0.05,
+        "osm_way_ids": [
+          622637374,
+          1126401951,
+          1126402593,
+          1452597346,
+          1452597348,
+          1460763595,
+          1460763596,
+          1460763597,
+          1461824174,
+          1461824177,
+          1461824178,
+          1461824181,
+          1461824183
+        ]
+      },
+      {
+        "direct_building_interior_m": 14.25,
+        "route_building_interior_m": 0.0,
+        "leg": 1,
+        "distance_m": 708,
+        "seconds": 640.227,
+        "shape_points": 98,
+        "snap_start_m": 4.85,
+        "snap_end_m": 16.33,
+        "max_distance_to_osm_highway_m": 0.06,
+        "osm_way_ids": [
+          622637374,
+          1126401951,
+          1126402593,
+          1452597346,
+          1460763595,
+          1460763596,
+          1460763597,
+          1461824174,
+          1461824177,
+          1461824178,
+          1461824181,
+          1461824183
+        ]
+      }
+    ]
+  },
+  {
+    "control": "mega",
+    "destination": {
+      "lat": 51.08908605,
+      "lon": 71.40728592973313
+    },
+    "request_ms": 5.37,
+    "legs": [
+      {
+        "direct_building_interior_m": 226.94,
+        "route_building_interior_m": 0.0,
+        "leg": 0,
+        "distance_m": 728,
+        "seconds": 661.839,
+        "shape_points": 50,
+        "snap_start_m": 16.33,
+        "snap_end_m": 83.76,
+        "max_distance_to_osm_highway_m": 0.05,
+        "osm_way_ids": [
+          607960205,
+          622637384,
+          735047351,
+          969680595,
+          1182401678,
+          1461824174,
+          1461824177,
+          1559824052
+        ]
+      },
+      {
+        "direct_building_interior_m": 226.94,
+        "route_building_interior_m": 0.0,
+        "leg": 1,
+        "distance_m": 728,
+        "seconds": 661.839,
+        "shape_points": 50,
+        "snap_start_m": 83.76,
+        "snap_end_m": 16.33,
+        "max_distance_to_osm_highway_m": 0.05,
+        "osm_way_ids": [
+          455013941,
+          607960205,
+          622637384,
+          735047351,
+          969680595,
+          1182401678,
+          1461824174,
+          1461824177,
+          1559824052
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-19T17:49:39.490946258Z",
+    "FinishedAt": "2026-10-19T17:49:40.496311716Z"
+  },
+  "peak_volume_bytes_sampled": 0,
+  "image_bytes": 979291594,
+  "local_input_bytes": 2086696
+}
