@@ -7,13 +7,22 @@ import json
 import threading
 from pathlib import Path
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel
 from sqlalchemy import text
 
-from smartcity_api.contracts import ComponentStatus, CoverageResponse, ErrorResponse, LatLon, ReadyResponse
+from smartcity_api.contracts import (
+    ComponentStatus,
+    CoverageResponse,
+    ErrorResponse,
+    LatLon,
+    ReadyResponse,
+    RouteRequest,
+    WalkingRoute,
+)
 from smartcity_api.errors import ApiError
+from smartcity_api.providers.routing import GRAPH_VERSION, RoutingError, Valhalla
 from smartcity_api.retrieval import repository as repo
 from smartcity_api.retrieval.landmarks import load_landmark
 from smartcity_api.routes.tiles import basemap_status
@@ -139,7 +148,18 @@ def ready(request: Request) -> JSONResponse:
             status="not_configured", detail="ROUTING_PROVIDER=none: расстояния по прямой (оценка)"
         )
     else:
-        comps["routing"] = ComponentStatus(status="unavailable", detail="Маршрутизатор не поддержан в v1")
+        probe = None
+        try:
+            probe = Valhalla(c.settings.routing_base_url)
+            probe.route(LatLon(lat=51.0889, lon=71.4152), LatLon(lat=51.0935, lon=71.4175), False)
+            comps["routing"] = ComponentStatus(status="ok", detail=GRAPH_VERSION + "; локальный граф EXPO")
+        except RoutingError:
+            comps["routing"] = ComponentStatus(
+                status="unavailable", detail="Локальный граф не прошёл проверку пути"
+            )
+        finally:
+            if probe:
+                probe.close()
     is_ready = all(comps[k].status == "ok" for k in ("db", "data", "map"))
     body = ReadyResponse(ready=is_ready, components=comps)
     return JSONResponse(body.model_dump(), status_code=200 if is_ready else 503)
@@ -276,11 +296,39 @@ def map_layer(layer: str, request: Request) -> Response:
     return FileResponse(path, media_type="application/geo+json", headers=headers)
 
 
-@router.post("/route", status_code=501, responses={501: {"model": ErrorResponse}})
-def route() -> JSONResponse:
-    raise ApiError(
-        501,
-        "routing_unavailable",
-        "Пешеходный маршрутизатор не подключён (ROUTING_PROVIDER=none). Расстояния показываются по прямой, "
-        "линии маршрута не строятся.",
-    )
+def require_routing(request: Request) -> None:
+    if container_of(request).settings.routing_provider == "none":
+        raise ApiError(
+            501, "routing_unavailable", "Пешеходный маршрутизатор не подключён. Линии маршрута нет."
+        )
+
+
+@router.post(
+    "/route",
+    response_model=WalkingRoute,
+    responses={501: {"model": ErrorResponse}, 422: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
+)
+def route(
+    request: Request, body: RouteRequest | None = None, _configured: None = Depends(require_routing)
+) -> WalkingRoute:
+    settings = container_of(request).settings
+    if settings.routing_provider == "none":
+        raise ApiError(
+            501, "routing_unavailable", "Пешеходный маршрутизатор не подключён. Линии маршрута нет."
+        )
+    if body is None:
+        raise ApiError(422, "invalid_route", "Нужны старт и финиш")
+    provider = None
+    try:
+        provider = Valhalla(settings.routing_base_url)
+        return provider.route(body.origin, body.destination, body.return_to_start)
+    except RoutingError as exc:
+        unavailable = exc.code in {"unavailable", "malformed", "not_local"}
+        raise ApiError(
+            503 if unavailable else 422,
+            "routing_" + exc.code,
+            "Путь не построен: граф недоступен, точка вне покрытия или нет проверенного подхода к сети.",
+        ) from None
+    finally:
+        if provider:
+            provider.close()

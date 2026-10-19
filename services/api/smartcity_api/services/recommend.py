@@ -30,6 +30,7 @@ from smartcity_api.contracts import (
     RecommendResponse,
     Relaxation,
     Timing,
+    WalkingRoute,
     Warning,
 )
 from smartcity_api.domain.budget import (
@@ -64,6 +65,8 @@ from smartcity_api.generation.prompt import (
 )
 from smartcity_api.generation.validate import CandidateFacts, LLMOutputInvalid, ValidOutput, validate_output
 from smartcity_api.providers.base import ModelIdentity, ProviderError
+from smartcity_api.providers.routing import TIMING as ROUTE_TIMING
+from smartcity_api.providers.routing import minutes as route_minutes
 from smartcity_api.retrieval import repository as repo
 from smartcity_api.retrieval.ranking import (
     W_DISTANCE,
@@ -84,6 +87,7 @@ from smartcity_api.services.enrich import (
     safe_website,
     source_ref,
 )
+from smartcity_api.services.routing import route_candidates
 
 log = logging.getLogger("smartcity.recommend")
 
@@ -102,6 +106,9 @@ class Candidate:
     place: repo.PlaceRow
     distance_m: float
     features: FeatureSummary
+    geodesic_distance_m: float | None = None
+    route: WalkingRoute | None = None
+    routing_exclusion: str | None = None
     timing: TimingCalc | None = None
     opening: OpeningResult | None = None
     score: float = 0.0
@@ -139,6 +146,8 @@ class Prepared:
     interpreted_query: str | None = None
     extra_search_text: str = ""
     extra_soft_categories: list[str] = field(default_factory=list)
+    routing_ok: bool = False
+    cancelled: threading.Event = field(default_factory=threading.Event)
 
 
 @dataclass
@@ -160,6 +169,8 @@ def _ms(t0: float) -> int:
 def hard_exclusion(c: Candidate, eff: Effective) -> str | None:
     """Deterministic hard constraints (applied before ranking and re-checked after)."""
     p = c.place
+    if c.routing_exclusion:
+        return c.routing_exclusion
     if not p.name or not p.name.strip():
         return "no_name"
     if p.pid in eff.exclude_place_ids:
@@ -172,7 +183,8 @@ def hard_exclusion(c: Candidate, eff: Effective) -> str | None:
         if c.features.value(feat) is not True:  # unknown or false never satisfies a hard requirement
             return f"required_feature:{feat}"
     max_d = eff.max_distance_m[0]
-    if max_d is not None and c.distance_m > max_d:
+    direct = c.geodesic_distance_m if c.geodesic_distance_m is not None else c.distance_m
+    if max_d is not None and direct > max_d:
         return "max_distance"
     return None
 
@@ -181,8 +193,18 @@ def schedule_exclusion(
     c: Candidate, eff: Effective, start: datetime, speed: float, detour: float
 ) -> str | None:
     info = CATEGORY_INFO[c.place.category]
-    outbound = walk_minutes(c.distance_m, speed_m_per_min=speed, detour=detour)
-    ret = outbound if eff.return_to_start else None
+    if c.routing_exclusion:
+        return c.routing_exclusion
+    outbound = (
+        route_minutes(c.route.outbound)
+        if c.route
+        else walk_minutes(c.distance_m, speed_m_per_min=speed, detour=detour)
+    )
+    ret = (
+        (route_minutes(c.route.return_leg) if c.route and c.route.return_leg else outbound)
+        if eff.return_to_start
+        else None
+    )
     timing = compute_timing(
         outbound_min=outbound,
         return_min=ret,
@@ -375,7 +397,6 @@ def no_match_message(prep: Prepared) -> str:
 
 
 def _providers(container: Container, prep: Prepared, gen_identity: ModelIdentity | None) -> ProviderInfo:
-    s = container.settings
     llm_model = None
     if container.generator is not None:
         ident = gen_identity or container.generator.identity
@@ -392,7 +413,7 @@ def _providers(container: Container, prep: Prepared, gen_identity: ModelIdentity
         embedding_provider=container.embedder.identity.provider if container.embedder is not None else None,
         embedding_model=emb_model,
         embedding_dim=emb_dim,
-        routing="none" if s.routing_provider == "none" else "valhalla",
+        routing="valhalla" if prep.routing_ok else "none",
     )
 
 
@@ -443,14 +464,19 @@ def build_card(c: Candidate, *, reason: str | None, activity: str | None, source
         reason=reason,
         reason_source=source,  # type: ignore[arg-type]
         activity_suggestion=activity,
-        distance=Distance(meters=int(round(c.distance_m)), method="geodesic", note=DISTANCE_NOTE),
+        route=c.route,
+        distance=Distance(
+            meters=int(round(c.distance_m)),
+            method="pedestrian_route" if c.route else "geodesic",
+            note="По пешеходной сети OSM; подход к точке отдельно" if c.route else DISTANCE_NOTE,
+        ),
         timing=Timing(
             outbound_min=c.timing.outbound_min,
             visit_min=c.timing.visit_min,
             return_min=c.timing.return_min,
             buffer_min=c.timing.buffer_min,
             total_min=c.timing.total_min,
-            method=TIMING_METHOD,
+            method=ROUTE_TIMING if c.route else TIMING_METHOD,
         ),
         opening_status=c.opening.status,  # type: ignore[arg-type]
         opening_hours_raw=p.opening_hours_raw,
@@ -557,16 +583,20 @@ def retrieve(container: Container, prep: Prepared) -> None:
             return_to_start=eff.return_to_start,
             min_visit_min=MIN_VISIT_ANY,
             speed_m_per_min=speed,
-            detour=detour,
+            detour=1.0 if s.routing_provider == "valhalla" else detour,
         )
         rows = repo.shortlist(session, lat=req.origin.lat, lon=req.origin.lon, radius_m=prep.reach_radius_m)
         pool: list[Candidate] = []
         for r in rows:
             d = haversine_m(req.origin.lat, req.origin.lon, r.lat, r.lon)
             if d <= prep.reach_radius_m:
-                pool.append(Candidate(place=r, distance_m=d, features=features_for(r)))
+                pool.append(Candidate(place=r, distance_m=d, geodesic_distance_m=d, features=features_for(r)))
         prep.shortlist_size = len(pool)
         prep.timings["shortlist"] = _ms(t)
+
+        route_candidates(container, prep, pool)
+        if prep.cancelled.is_set():
+            raise ClientDisconnected()
 
         # Hard filters BEFORE ranking.
         passed: list[Candidate] = []
@@ -807,6 +837,7 @@ def _facts(cands: list[Candidate]) -> tuple[list[PromptCandidate], list[Candidat
                 subcategory=c.place.subcategory,
                 description=c.place.description,
                 distance_m=int(round(c.distance_m)),
+                distance_method="pedestrian_route" if c.route else "geodesic",
                 outbound_min=c.timing.outbound_min,
                 visit_min=c.timing.visit_min,
                 total_min=c.timing.total_min,
@@ -976,15 +1007,16 @@ def _rules_interpretation(prep: Prepared) -> str | None:
 def _final_warnings(prep: Prepared, cards: list[Recommendation]) -> None:
     if not cards:
         return
-    prep.warnings.append(
-        Warning(
-            code="straight_line_estimate",
-            message=(
-                "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, "
-                "не гарантирует успеть по улицам"
-            ),
+    if not prep.routing_ok:
+        prep.warnings.append(
+            Warning(
+                code="straight_line_estimate",
+                message=(
+                    "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, "
+                    "не гарантирует успеть по улицам"
+                ),
+            )
         )
-    )
     if any(c.opening_status == "unknown" for c in cards):
         prep.warnings.append(
             Warning(
@@ -1069,7 +1101,17 @@ async def recommend(
     prep.interpreted_query = _rules_interpretation(prep)
     if not prep.eff.conflicts:
         await interpret(container, prep, is_disconnected)
-    await asyncio.to_thread(retrieve, container, prep)
+    retrieval = asyncio.create_task(asyncio.to_thread(retrieve, container, prep))
+    try:
+        while not retrieval.done():
+            await asyncio.wait({retrieval}, timeout=0.1)
+            if is_disconnected is not None and await is_disconnected():
+                raise ClientDisconnected()
+        retrieval.result()
+    finally:
+        prep.cancelled.set()
+        if not retrieval.done():
+            retrieval.add_done_callback(lambda task: task.exception() if not task.cancelled() else None)
     if prep.early is not None:
         _log(prep, prep.early, None)
         return prep.early

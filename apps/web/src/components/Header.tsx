@@ -81,7 +81,7 @@ export function Header({ coverage, coverageError, ready, basemap, providerLines 
       </div>
       <span className="rounded-full border border-stroke bg-white px-2.5 py-1 text-sm font-semibold">Астана</span>
       <p className="hidden min-w-0 flex-1 truncate text-sm text-muted md:block">
-        Короткая прогулка от выбранной точки: 1–3 реальных места из открытых данных
+        Куда сходить рядом — за ваше свободное время
       </p>
       <div className="ml-auto">
         <button
@@ -101,7 +101,7 @@ export function Header({ coverage, coverageError, ready, basemap, providerLines 
           id={panelId}
           role="dialog"
           aria-label="О данных"
-          className="absolute right-3 top-[calc(100%+6px)] z-40 w-[min(92vw,380px)] rounded-panel border border-stroke bg-white p-4 text-sm shadow-panel"
+          className="absolute right-3 top-[calc(100%+6px)] z-40 max-h-[calc(100dvh-80px)] w-[min(92vw,380px)] overflow-y-auto rounded-panel border border-stroke bg-white p-4 text-sm shadow-panel"
         >
           <h2 className="mb-2 text-base font-bold">О данных</h2>
           <dl className="grid grid-cols-[auto,1fr] gap-x-3 gap-y-1.5">

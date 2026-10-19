@@ -215,7 +215,7 @@ export function WalkFormPanel(props: Props) {
         </summary>
         <div className="space-y-1 border-t border-stroke px-3 py-2">
           <p className="pb-1 text-xs text-muted">
-            Место подойдёт, только если условие подтверждено данными OSM. Неизвестное не считается выполненным.
+            Покажем только места, где эти условия подтверждены.
           </p>
           {REQUIRED_FEATURE_OPTIONS.map((f) => (
             <label key={f} className="flex min-h-[44px] cursor-pointer items-center gap-3 text-sm">
@@ -267,7 +267,7 @@ export function WalkFormPanel(props: Props) {
             Текст запроса и выбранная точка обрабатываются внешним ИИ-провайдером (см. «О данных»).
           </p>
         )}
-        <p className="text-xs text-muted">Только места из собранной базы OSM, без выдуманных фактов. Время — оценка.</p>
+        <p className="text-xs text-muted">Время прогулки приблизительное.</p>
       </div>
     </form>
   );

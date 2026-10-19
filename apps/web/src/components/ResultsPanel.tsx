@@ -44,6 +44,10 @@ const REFINEMENTS: RefinementKind[] = ["closer", "no_cafe", "indoor_only", "othe
 export function ResultsPanel(props: Props) {
   const { response: r } = props;
   const recs = r.recommendations;
+  const diagnosticWarnings = r.warnings.filter((w) => w.code.startsWith("embeddings_") || w.code === "llm_text_rejected" || w.code === "routing_excluded");
+  const visibleWarning = (code: string, message: string) => code === "straight_line_estimate" || code === "routing_unavailable"
+    ? "Пеший путь недоступен. Оценка по прямой может занижать время в пути."
+    : code === "routing_excluded" ? "Некоторые места не показаны: не удалось построить пеший путь." : message;
   // retrieval_only also marks answers where no generation was needed (no_match, clarification):
   // the "AI unavailable" banner is shown only when places are shown without AI explanations.
   const retrievalOnly = r.mode === "retrieval_only" && recs.length > 0;
@@ -87,21 +91,26 @@ export function ResultsPanel(props: Props) {
           <p className="text-[15px] leading-relaxed">{r.message}</p>
         )}
 
-        <p className="text-sm text-muted" data-testid="hours-checked-at">
+        <details className="text-xs text-muted">
+          <summary className="min-h-[44px] cursor-pointer py-3">Подробнее о подборе</summary>
+        <p data-testid="hours-checked-at">
           {props.startTime
             ? `Часы работы проверены на время прибытия при старте ${formatAlmaty(props.startTime)} (время Астаны).`
             : "Часы работы проверены на время прибытия при старте сейчас."}
         </p>
+
+          {diagnosticWarnings.map((w) => <p key={w.code} className="mt-2">{w.message}</p>)}
+        </details>
 
         {r.warnings.length > 0 && (
           <ul className="space-y-1" aria-label="Предупреждения">
             {r.warnings
               // the banner already says it: do not repeat AI-unavailable/busy notices or the message
               .filter((w) => !(retrievalOnly && (AI_DOWN_CODES.has(w.code) || /ИИ временно недоступен/.test(w.message))))
-              .filter((w) => w.message !== r.message)
+              .filter((w) => w.message !== r.message && (!diagnosticWarnings.includes(w) || w.code === "routing_excluded"))
               .map((w, i) => (
                 <li key={`${w.code}-${i}`} className="rounded-control bg-warn-bg px-3 py-2 text-sm text-warn-fg">
-                  {w.message}
+                  {visibleWarning(w.code, w.message)}
                 </li>
               ))}
           </ul>

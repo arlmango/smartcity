@@ -89,6 +89,7 @@ class PromptCandidate:
     opening_status: str
     verified_features: list[str]
     unknown_features: list[str]
+    distance_method: str = "geodesic"
 
 
 def candidate_payload(c: PromptCandidate) -> dict:
@@ -98,7 +99,8 @@ def candidate_payload(c: PromptCandidate) -> dict:
         "category": c.category_label,
         "osm_kind": neutralize(c.subcategory, 40),
         "description": neutralize(c.description, 300),
-        "distance_m_straight_line": c.distance_m,
+        "distance_m": c.distance_m,
+        "distance_method": c.distance_method,
         "estimated_walk_min": c.outbound_min,
         "estimated_visit_min": c.visit_min,
         "opening_status": {"open": "открыто", "closed": "закрыто", "unknown": "неизвестно"}[c.opening_status],

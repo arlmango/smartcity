@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { RecommendationCard } from "@/components/RecommendationCard";
 import { ResultsPanel } from "@/components/ResultsPanel";
 import { EMPTY_CONSTRAINTS } from "@/lib/contracts";
+import { walkingRoute } from "../fixtures/walkingRoute";
 import { XSS_NAME, noMatchResponse, recA, recB, retrievalOnlyResponse } from "../fixtures/synthetic";
 
 describe("RecommendationCard", () => {
@@ -52,7 +53,7 @@ describe("RecommendationCard", () => {
     render(<RecommendationCard rec={recA} index={0} selected={false} budget={60} retrievalOnly={false} onSelect={() => {}} />);
     expect(screen.getByText("ИИ")).toBeInTheDocument();
     expect(screen.getByText("оценка")).toBeInTheDocument();
-    expect(screen.getByText("факт · OSM")).toBeInTheDocument();
+    expect(screen.getByText("по данным места")).toBeInTheDocument();
     expect(screen.getByText("Наличие розеток не подтверждено")).toBeInTheDocument();
     expect(screen.getByText("По прямой 420 м")).toBeInTheDocument();
     expect(screen.getByText("Время приблизительное")).toBeInTheDocument();
@@ -63,6 +64,17 @@ describe("RecommendationCard", () => {
   it("labels generic playground names as unnamed in OSM", () => {
     render(<RecommendationCard rec={recB} index={1} selected={false} budget={60} retrievalOnly={false} onSelect={() => {}} />);
     expect(screen.getByRole("heading", { level: 3 }).textContent).toContain("Детская площадка · без названия в OSM");
+  });
+
+  it("keeps technical route details closed while key caveats stay visible", async () => {
+    render(<RecommendationCard rec={{ ...recA, route: walkingRoute }} index={0} selected={false} budget={60} retrievalOnly={false} onSelect={() => {}} />);
+    expect(screen.getByText(/Доступность уточните перед выходом/)).toBeVisible();
+    expect(screen.getByText("Время приблизительное")).toBeVisible();
+    expect(screen.getByText("Наличие розеток не подтверждено")).toBeVisible();
+    expect(screen.getByTestId("route-details")).not.toBeVisible();
+    await userEvent.click(screen.getByText("Подробнее и источники"));
+    expect(screen.getByTestId("route-details")).toBeVisible();
+    expect(screen.getByRole("link", { name: /Источник: OpenStreetMap/ })).toBeVisible();
   });
 
   it("selects by place_id from the button", async () => {

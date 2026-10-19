@@ -1,5 +1,4 @@
 "use client";
-
 import type { FeatureCollection } from "geojson";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Relaxation } from "@/lib/contracts";
@@ -28,13 +27,10 @@ import { ProgressPanel } from "./ProgressPanel";
 import { ResultsPanel } from "./ResultsPanel";
 import { StatusBanners } from "./StatusBanners";
 import { WalkFormPanel } from "./WalkFormPanel";
-
 type Sheet = "collapsed" | "half" | "full";
-
 const OUTSIDE_DETAIL =
   "Карта показывает всю Астану, но база мест для прогулок пока собрана только в районе EXPO / MEGA Silk Way (зелёная пунктирная зона). Выберите точку внутри неё или демо-точку.";
 const OUTSIDE_MSG = `Вне зоны рекомендаций. ${OUTSIDE_DETAIL}`;
-
 export function App() {
   const online = useOnline();
   const reducedMotion = useReducedMotion();
@@ -76,7 +72,6 @@ export function App() {
   const declineSatellite = useCallback(() => setAskConsent(false), []);
   const [coverageFitSignal, setCoverageFitSignal] = useState(0);
   const rec = useRecommend();
-
   const [form, setFormState] = useState<WalkForm>(initialForm);
   const setForm = useCallback((u: (f: WalkForm) => WalkForm) => setFormState(u), []);
   const [pickRequested, setPickRequested] = useState(false);
@@ -90,33 +85,37 @@ export function App() {
   const [sheet, setSheet] = useState<Sheet>("half");
   const cardRefs = useRef<Map<string, HTMLElement>>(new Map());
   const panelScrollRef = useRef<HTMLDivElement>(null);
-
   const { state } = rec;
   const response = state.response;
   // While the model is still writing explanations, the places already found are shown (and marked).
   const pending = state.status === "loading" && !!state.preliminary;
-  const shown = pending ? state.preliminary : response;
+  const shown = state.status === "loading" ? state.preliminary : response;
   const recs = useMemo(() => shown?.recommendations ?? [], [shown]);
   const pickActive = pickRequested || !form.origin;
-
+  const routeRequest = pending ? state.request : state.responseRequest;
+  const routeOriginMatches = !!form.origin && !!routeRequest &&
+    form.origin.lat === routeRequest.origin.lat && form.origin.lon === routeRequest.origin.lon;
+  const selectedRoute = routeOriginMatches && !pickActive
+    ? recs.find((r) => r.place_id === selectedId)?.route ?? null : null;
+  // Equivalent final explanations must not restart the route/camera animation.
+  const routeKey = JSON.stringify(selectedRoute);
+  const activeRoute = useMemo(() => selectedRoute, [routeKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const coverageFc: FeatureCollection | undefined = useMemo(() => {
     if (map.layers.coverage?.data.features.length) return map.layers.coverage.data;
     if (coverage.data?.features.length) return { type: "FeatureCollection", features: coverage.data.features } as unknown as FeatureCollection;
     return undefined;
   }, [map.layers.coverage, coverage.data]);
-
   const heights = useMemo(() => heightStats(map.layers.buildings?.data), [map.layers.buildings]);
   const providerLines = useMemo(() => describeProviders(ready.data, response?.providers), [ready.data, response]);
-
   // Preserve a choice made while explanations load, if it survives the final answer.
   const resultSet = JSON.stringify(recs.map((r) => r.place_id).sort());
   const answerId = shown?.client_request_id;
+  const firstRoutedId = recs.find((r) => r.route)?.place_id ?? null;
   useEffect(() => {
     const ids: string[] = JSON.parse(resultSet);
-    setSelectedId((current) => current && ids.includes(current) ? current : null);
+    setSelectedId((current) => current && ids.includes(current) ? current : firstRoutedId);
     if (ids.length) setFitSignal((n) => n + 1);
-  }, [answerId, resultSet]);
-
+  }, [answerId, resultSet, firstRoutedId]);
   const setOrigin = useCallback(
     (o: Origin) => {
       const inside = pointInCoverage(o.lon, o.lat, coverageFc);
@@ -131,7 +130,6 @@ export function App() {
     },
     [coverageFc, setForm],
   );
-
   const onMapPick = useCallback(
     (lon: number, lat: number) => setOrigin({ lon, lat, kind: "map", label: "Точка на карте" }),
     [setOrigin],
@@ -140,7 +138,6 @@ export function App() {
     (lon: number, lat: number) => setOrigin({ lon, lat, kind: "center", label: "Центр карты" }),
     [setOrigin],
   );
-
   const send = useCallback(
     (f: WalkForm, userTurn: string) => {
       if (!f.origin) return;
@@ -153,31 +150,26 @@ export function App() {
     },
     [rec, state.context],
   );
-
   const onSubmit = () => {
     const turn =
       form.query.trim() ||
       [`Прогулка ${form.timeBudget} мин`, ...form.interests.map((i) => INTEREST_LABEL[i])].join(", ");
     send(form, turn);
   };
-
   const onRefine = (kind: RefinementKind) => {
     const base = state.responseRequest?.constraints ?? form.constraints;
     const next = { ...form, constraints: refineConstraints(kind, base, recs) };
     setFormState(next);
     send(next, REFINEMENT_LABEL[kind]);
   };
-
   const onRelax = (r: Relaxation) => {
     const next = { ...form, constraints: r.patch };
     setFormState(next);
     send(next, r.message);
   };
-
   const onRetry = () => {
     if (state.request) rec.submit(state.request, state.pendingUserTurn ?? ""); // same client_request_id: no duplicate
   };
-
   const onReset = () => {
     rec.reset();
     setFormState(initialForm);
@@ -187,12 +179,10 @@ export function App() {
     setEditing(false);
     cardRefs.current.clear();
   };
-
   const selectFromCard = useCallback((id: string) => {
     setSelectedId(id);
     setFocusSignal((n) => n + 1);
   }, []);
-
   const selectFromMap = useCallback(
     (id: string) => {
       setSelectedId(id);
@@ -213,15 +203,12 @@ export function App() {
     },
     [isDesktop, reducedMotion],
   );
-
   const startPick = () => {
     setPickRequested((v) => !v || !form.origin);
     if (!isDesktop) setSheet("collapsed");
   };
-
   const blockedReason = !online ? "Нет подключения к интернету." : state.status === "loading" ? "Идёт подбор…" : null;
   const showResults = !!response && !editing && state.status !== "loading";
-
   // ---------------------------------------------------------------- panel content
   let panel: React.ReactNode;
   if (state.status === "loading" && pending && state.preliminary) {
@@ -313,11 +300,9 @@ export function App() {
       </div>
     );
   }
-
   const sheetHeight = sheet === "collapsed" ? "calc(140px + var(--safe-bottom))" : sheet === "half" ? "52%" : "100%";
   const mapBottom = sheet === "collapsed" ? "calc(140px + var(--safe-bottom))" : "52%";
   const allLayersFailed = map.failed.length > 0 && Object.keys(map.layers).length === 0;
-
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
       <a href="#panel" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-white focus:p-2">
@@ -331,7 +316,6 @@ export function App() {
         providerLines={providerLines}
       />
       <StatusBanners online={online} ready={ready.data} readyError={ready.isError} onRetryReady={() => void ready.refetch()} />
-
       <main className="relative min-h-0 flex-1 lg:flex">
         {/* ---------------- panel (desktop: left column; mobile: bottom sheet) */}
         <aside
@@ -383,7 +367,6 @@ export function App() {
             </p>
           </div>
         </aside>
-
         {/* ---------------- map */}
         <section
           aria-label="Карта"
@@ -409,6 +392,7 @@ export function App() {
             />
           ) : (
             <MapView
+              route={activeRoute}
               coverage={coverageFc}
               boundary={boundary.data}
               coverageFitSignal={coverageFitSignal}
@@ -433,7 +417,6 @@ export function App() {
               onCenter={onCenter}
             />
           )}
-
           <div className="pointer-events-none absolute left-3 right-16 top-3 z-10 flex flex-col items-start gap-2">
             {pickActive && !mapFatal && (
               <div className="pointer-events-auto flex max-w-full flex-wrap items-center gap-2 rounded-control bg-graphite px-3 py-2 text-sm text-white shadow-control" role="status">
@@ -493,9 +476,12 @@ export function App() {
               </p>
             )}
           </div>
-
+          {activeRoute && mapFatal && (
+            <p role="status" className="absolute bottom-10 left-3 right-3 rounded-control bg-white p-2 text-xs">
+              Пеший путь рассчитан, но простая карта не отображает его линию. Длительность и ограничения — в карточке.
+            </p>
+          )}
           {askConsent && !mapFatal && <SatelliteConsent onAccept={acceptSatellite} onDecline={declineSatellite} />}
-
           {!mapFatal && (
             // Mobile: top-left so the collapsed legend never covers the start marker near the sheet.
             <div className="absolute left-2 top-2 z-10 lg:bottom-9 lg:top-auto">
@@ -505,7 +491,7 @@ export function App() {
                 defaultHeight={basemap.data?.default_height_m ?? 10}
                 cityWide={!!basemap.data}
                 stylised={(basemap.data?.stylised_landmarks?.length ?? 0) > 0}
-                defaultOpen={isDesktop && recs.length === 0}
+                defaultOpen={false}
               />
             </div>
           )}

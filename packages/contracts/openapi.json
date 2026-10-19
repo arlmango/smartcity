@@ -1137,6 +1137,16 @@
             "title": "Reason Source",
             "type": "string"
           },
+          "route": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WalkingRoute"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "source": {
             "$ref": "#/components/schemas/SourceRef"
           },
@@ -1225,6 +1235,108 @@
           "patch"
         ],
         "title": "Relaxation",
+        "type": "object"
+      },
+      "RouteGeometry": {
+        "additionalProperties": false,
+        "properties": {
+          "coordinates": {
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            "maxItems": 20000,
+            "minItems": 2,
+            "title": "Coordinates",
+            "type": "array"
+          },
+          "type": {
+            "const": "LineString",
+            "default": "LineString",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "coordinates"
+        ],
+        "title": "RouteGeometry",
+        "type": "object"
+      },
+      "RouteLeg": {
+        "additionalProperties": false,
+        "properties": {
+          "access_estimate_min": {
+            "minimum": 0.0,
+            "title": "Access Estimate Min",
+            "type": "integer"
+          },
+          "distance_m": {
+            "minimum": 0.0,
+            "title": "Distance M",
+            "type": "integer"
+          },
+          "duration_s": {
+            "minimum": 0.0,
+            "title": "Duration S",
+            "type": "integer"
+          },
+          "end_snap_m": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "End Snap M",
+            "type": "integer"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/RouteGeometry"
+          },
+          "start_snap_m": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Start Snap M",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "geometry",
+          "distance_m",
+          "duration_s",
+          "start_snap_m",
+          "end_snap_m",
+          "access_estimate_min"
+        ],
+        "title": "RouteLeg",
+        "type": "object"
+      },
+      "RouteRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "destination": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "return_to_start": {
+            "default": true,
+            "title": "Return To Start",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "origin",
+          "destination"
+        ],
+        "title": "RouteRequest",
         "type": "object"
       },
       "SearchResponse": {
@@ -1402,6 +1514,46 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "WalkingRoute": {
+        "additionalProperties": false,
+        "properties": {
+          "graph_version": {
+            "title": "Graph Version",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "outbound": {
+            "$ref": "#/components/schemas/RouteLeg"
+          },
+          "provider": {
+            "const": "valhalla",
+            "default": "valhalla",
+            "title": "Provider",
+            "type": "string"
+          },
+          "return_leg": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouteLeg"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "graph_version",
+          "outbound",
+          "return_leg",
+          "note"
+        ],
+        "title": "WalkingRoute",
         "type": "object"
       },
       "Warning": {
@@ -2503,6 +2655,16 @@
                           "title": "Reason Source",
                           "type": "string"
                         },
+                        "route": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/WalkingRoute"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
                         "source": {
                           "$ref": "#/$defs/SourceRef"
                         },
@@ -2591,6 +2753,86 @@
                         "patch"
                       ],
                       "title": "Relaxation",
+                      "type": "object"
+                    },
+                    "RouteGeometry": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "coordinates": {
+                          "items": {
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "prefixItems": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ],
+                            "type": "array"
+                          },
+                          "maxItems": 20000,
+                          "minItems": 2,
+                          "title": "Coordinates",
+                          "type": "array"
+                        },
+                        "type": {
+                          "const": "LineString",
+                          "default": "LineString",
+                          "title": "Type",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "coordinates"
+                      ],
+                      "title": "RouteGeometry",
+                      "type": "object"
+                    },
+                    "RouteLeg": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "access_estimate_min": {
+                          "minimum": 0.0,
+                          "title": "Access Estimate Min",
+                          "type": "integer"
+                        },
+                        "distance_m": {
+                          "minimum": 0.0,
+                          "title": "Distance M",
+                          "type": "integer"
+                        },
+                        "duration_s": {
+                          "minimum": 0.0,
+                          "title": "Duration S",
+                          "type": "integer"
+                        },
+                        "end_snap_m": {
+                          "maximum": 100.0,
+                          "minimum": 0.0,
+                          "title": "End Snap M",
+                          "type": "integer"
+                        },
+                        "geometry": {
+                          "$ref": "#/$defs/RouteGeometry"
+                        },
+                        "start_snap_m": {
+                          "maximum": 100.0,
+                          "minimum": 0.0,
+                          "title": "Start Snap M",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "geometry",
+                        "distance_m",
+                        "duration_s",
+                        "start_snap_m",
+                        "end_snap_m",
+                        "access_estimate_min"
+                      ],
+                      "title": "RouteLeg",
                       "type": "object"
                     },
                     "SourceRef": {
@@ -2703,6 +2945,46 @@
                       "title": "Timing",
                       "type": "object"
                     },
+                    "WalkingRoute": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "graph_version": {
+                          "title": "Graph Version",
+                          "type": "string"
+                        },
+                        "note": {
+                          "title": "Note",
+                          "type": "string"
+                        },
+                        "outbound": {
+                          "$ref": "#/$defs/RouteLeg"
+                        },
+                        "provider": {
+                          "const": "valhalla",
+                          "default": "valhalla",
+                          "title": "Provider",
+                          "type": "string"
+                        },
+                        "return_leg": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/RouteLeg"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "graph_version",
+                        "outbound",
+                        "return_leg",
+                        "note"
+                      ],
+                      "title": "WalkingRoute",
+                      "type": "object"
+                    },
                     "Warning": {
                       "additionalProperties": false,
                       "properties": {
@@ -2803,7 +3085,44 @@
     "/api/route": {
       "post": {
         "operationId": "route_api_route_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/RouteRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkingRoute"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
           "501": {
             "content": {
               "application/json": {
@@ -2812,7 +3131,17 @@
                 }
               }
             },
-            "description": "Successful Response"
+            "description": "Not Implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
           }
         },
         "summary": "Route"

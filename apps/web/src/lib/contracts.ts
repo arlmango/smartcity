@@ -168,6 +168,26 @@ export const SourceRefSchema = z.object({
 });
 export type SourceRef = z.infer<typeof SourceRefSchema>;
 
+export const RouteLegSchema = z.object({
+  geometry: z.object({
+    type: z.literal("LineString"),
+    coordinates: z.array(z.tuple([finite.min(-180).max(180), finite.min(-90).max(90)])).min(2).max(50000),
+  }),
+  distance_m: int.nonnegative(),
+  duration_s: int.nonnegative(),
+  start_snap_m: int.nonnegative(),
+  end_snap_m: int.nonnegative(),
+  access_estimate_min: int.nonnegative(),
+});
+export const WalkingRouteSchema = z.object({
+  provider: z.literal("valhalla"),
+  graph_version: z.string().min(1),
+  outbound: RouteLegSchema,
+  return_leg: RouteLegSchema.nullable(),
+  note: z.string(),
+});
+export type WalkingRoute = z.infer<typeof WalkingRouteSchema>;
+
 export const RecommendationSchema = z.object({
   place_id: z.string().min(1),
   name: z.string().min(1),
@@ -179,6 +199,7 @@ export const RecommendationSchema = z.object({
   reason: z.string().nullable(),
   reason_source: z.enum(["llm", "rules"]),
   activity_suggestion: z.string().nullable(),
+  route: WalkingRouteSchema.nullable().optional().default(null),
   distance: DistanceSchema,
   timing: TimingSchema,
   opening_status: OpeningStatusSchema,

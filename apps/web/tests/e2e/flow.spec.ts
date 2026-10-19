@@ -310,7 +310,7 @@ test.describe("deterministic: fallback & states", () => {
   test("API down → explicit banner", async ({ page }) => {
     await mockApi(page, { ready: { status: 502 } });
     await page.goto("/");
-    await expect(page.getByTestId("api-banner")).toContainText("API недоступен");
+    await expect(page.getByTestId("api-banner")).toContainText("Подбор мест сейчас недоступен");
   });
 
   test("О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights", async ({ page }) => {

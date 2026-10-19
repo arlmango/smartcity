@@ -15,7 +15,7 @@ export function AlternativeComparison({ recs, budget, selectedId, onSelect }: {
   return (
     <section aria-label="Сравнить варианты" className="space-y-2">
       <h3 className="text-base font-bold">Сравнить варианты</h3>
-      <p className="text-xs text-muted">Выберите одно место. Это отдельные варианты, а не остановки одной прогулки. Время приблизительное.</p>
+      <p className="text-xs text-muted">Выберите одно место для прогулки. Время приблизительное.</p>
       <ol className="divide-y divide-stroke border-y border-stroke">
         {recs.map((rec, index) => (
           <li key={rec.place_id}>

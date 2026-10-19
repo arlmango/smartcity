@@ -42,7 +42,7 @@ export function StatusBanners({ online, ready, readyError, onRetryReady }: Props
       )}
       {online && readyError && (
         <p role="alert" className="flex flex-wrap items-center gap-2 bg-danger-bg px-4 py-2 text-sm text-danger-fg" data-testid="api-banner">
-          <span className="font-semibold">API недоступен — подбор мест сейчас не работает.</span>
+          <span className="font-semibold">Подбор мест сейчас недоступен. Попробуйте позже.</span>
           <button type="button" className="min-h-[44px] font-semibold underline" onClick={onRetryReady}>
             Проверить снова
           </button>

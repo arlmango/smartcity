@@ -89,6 +89,12 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
         <span aria-hidden>⌖</span> {selected ? "Показано на карте" : "Показать на карте"}
       </button>
 
+      {rec.route ? (
+        <p className="mt-2 text-xs text-muted">Доступность уточните перед выходом. Подход к самому месту не проверен.</p>
+      ) : (
+        <p data-testid="route-unavailable" className="mt-2 text-xs text-muted">Пеший путь недоступен.{rec.distance.method === "geodesic" ? " Расстояние — по прямой." : " Линия пути не показана."}</p>
+      )}
+
       {/* ---- AI / estimates */}
       <div className="mt-3 space-y-2">
         <div className="rounded-control border border-dashed border-[#C5CCB8] bg-[#FAFBF6] p-3">
@@ -111,12 +117,10 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
           )}
         </div>
         {rec.activity_suggestion && (
-          <div className="rounded-control border border-dashed border-[#C5CCB8] bg-[#FAFBF6] p-3">
-            <p className="mb-1 flex items-center gap-2 text-xs font-bold text-muted">
-              Идея <span className="sc-tag-ai">оценка</span>
-            </p>
+          <details className="text-sm">
+            <summary className="min-h-[44px] cursor-pointer py-3 font-semibold">Идея для прогулки <span className="sc-tag-ai">оценка</span></summary>
             <p className="text-sm leading-relaxed">{rec.activity_suggestion}</p>
-          </div>
+          </details>
         )}
       </div>
 
@@ -126,7 +130,7 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
           <span className="font-semibold">{formatDistanceWithMethod(rec.distance.meters, rec.distance.method)}</span>
           <span className="text-xs text-muted">Время приблизительное</span>
         </p>
-        {rec.distance.note && <p className="text-xs text-muted">{rec.distance.note}</p>}
+
         <table className="mt-2 w-full text-sm">
           <caption className="sr-only">Бюджет времени (оценка)</caption>
           <tbody>
@@ -163,7 +167,8 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
           <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${OPENING_STYLE[rec.opening_status]}`}>
             {openingLabel(rec.opening_status, rec.opening_hours_raw)}
           </span>
-          <p className="mt-1 text-xs text-muted">
+          <details className="mt-1 text-xs text-muted">
+            <summary className="cursor-pointer py-2">Подробнее о часах работы</summary>
             {rec.opening_note}
             {rec.opening_hours_raw && (
               <>
@@ -171,13 +176,13 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
                 · часы в OSM: <code className="break-words rounded bg-paper px-1">{rec.opening_hours_raw}</code>
               </>
             )}
-          </p>
+          </details>
         </div>
 
         {rec.verified_features.length > 0 && (
           <div>
             <p className="mb-1 flex items-center gap-2 text-xs font-bold text-muted">
-              Подтверждено <span className="sc-tag-fact">факт · OSM</span>
+              Подтверждено <span className="sc-tag-fact">по данным места</span>
             </p>
             <ul className="space-y-1">
               {rec.verified_features.map((f) => (
@@ -217,6 +222,17 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
         )}
       </div>
 
+      <details className="mt-3 text-xs text-muted">
+        <summary className="min-h-[44px] cursor-pointer py-3 font-semibold text-graphite">Подробнее и источники</summary>
+        {rec.distance.note && <p className="mb-2">{rec.distance.note}</p>}
+        {rec.route && (
+          <div data-testid="route-details" className="mb-3 space-y-1">
+            <p>Маршрут: Valhalla · OpenStreetMap. Время приблизительное.</p>
+            <p>{rec.route.note}</p>
+            <p>От старта до дорожной сети: {rec.route.outbound.start_snap_m} м; от сети до места: {rec.route.outbound.end_snap_m} м. Эти участки не проверены и не показаны линией.</p>
+            <p className="break-all">Версия графа: {rec.route.graph_version}</p>
+          </div>
+        )}
       <footer className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-stroke pt-2.5 text-xs text-muted">
         {osmUrl ? (
           <a className="font-semibold text-graphite underline" href={osmUrl} target="_blank" rel="noopener noreferrer">
@@ -244,6 +260,7 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
           </details>
         )}
       </footer>
+      </details>
     </article>
   );
 });

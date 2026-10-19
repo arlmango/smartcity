@@ -10,7 +10,7 @@ export const STAGES: Array<{ from: number; label: string }> = [
   { from: 0, label: "Отправляем запрос" },
   { from: 2, label: "Ищем места рядом и проверяем условия" },
   { from: 6, label: "Считаем время и часы работы" },
-  { from: 10, label: "Языковая модель формулирует объяснения" },
+  { from: 10, label: "Готовим объяснения" },
 ];
 
 export function stageIndex(elapsed: number): number {
@@ -75,8 +75,7 @@ export function ProgressPanel({
         ))}
       </ol>
       <p className="text-xs text-muted">
-        Этапы примерные. Локальная модель на процессоре может отвечать 30–90 секунд; если ИИ недоступен, покажем найденные места
-        без объяснений.
+        Этапы примерные. Подбор может занять около минуты. Найденные места появятся раньше объяснений.
       </p>
       <button type="button" className="sc-btn w-full" onClick={onCancel}>
         Отменить
