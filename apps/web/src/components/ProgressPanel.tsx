@@ -21,9 +21,31 @@ export function stageIndex(elapsed: number): number {
   return idx;
 }
 
-export function ProgressPanel({ startedAt, onCancel }: { startedAt: number | null; onCancel: () => void }) {
+export function ProgressPanel({
+  startedAt,
+  onCancel,
+  compact = false,
+}: {
+  startedAt: number | null;
+  onCancel: () => void;
+  /** Places are already shown below: only the AI step is still running. */
+  compact?: boolean;
+}) {
   const elapsed = useElapsed(startedAt);
   const current = stageIndex(elapsed);
+  if (compact) {
+    return (
+      <section className="sc-card flex items-center justify-between gap-3 p-3" data-testid="progress" aria-live="polite">
+        <p className="text-sm">
+          <span className="font-semibold">ИИ готовит объяснения…</span>{" "}
+          <span className="tabular-nums text-muted">{elapsed} с</span>
+        </p>
+        <button type="button" className="sc-btn shrink-0" onClick={onCancel}>
+          Отменить
+        </button>
+      </section>
+    );
+  }
   return (
     <section className="sc-card space-y-4 p-4" aria-labelledby="progress-h" data-testid="progress">
       <div className="flex items-center justify-between gap-2">

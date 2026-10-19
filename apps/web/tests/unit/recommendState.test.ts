@@ -104,3 +104,46 @@ describe("conversation context", () => {
     expect(ctx.at(-1)!.text).toBe("a9");
   });
 });
+
+describe("preliminary places (stream) survive a model timeout", () => {
+  const pre = () => ({ ...okResponse("request-pre-1", [recB]), mode: "retrieval_only" as const });
+
+  it("stores the preliminary answer only for the active request", () => {
+    let s = start(initialRecommendState, "request-pre-1");
+    s = recommendReducer(s, { type: "preliminary", id: "request-other-9", response: okResponse("request-other-9") });
+    expect(s.preliminary).toBeNull();
+    s = recommendReducer(s, { type: "preliminary", id: "request-pre-1", response: pre() });
+    expect(s.status).toBe("loading");
+    expect(s.preliminary?.recommendations.map((r) => r.place_id)).toEqual([recB.place_id]);
+  });
+
+  it("a failure after preliminary keeps the found places with a note instead of an error", () => {
+    let s = start(initialRecommendState, "request-pre-1");
+    s = recommendReducer(s, { type: "preliminary", id: "request-pre-1", response: pre() });
+    s = recommendReducer(s, {
+      type: "failure",
+      id: "request-pre-1",
+      error: { kind: "timeout", message: "Сервер не ответил за 220 секунд.", retryable: true },
+    });
+    expect(s.status).toBe("success");
+    expect(s.error).toBeNull();
+    expect(s.response?.recommendations.map((r) => r.place_id)).toEqual([recB.place_id]);
+    expect(s.partialNote).toContain("Объяснения ИИ не получены");
+  });
+
+  it("the final answer replaces the preliminary one and clears the note", () => {
+    let s = start(initialRecommendState, "request-pre-1");
+    s = recommendReducer(s, { type: "preliminary", id: "request-pre-1", response: pre() });
+    s = recommendReducer(s, { type: "success", id: "request-pre-1", response: okResponse("request-pre-1") });
+    expect(s.preliminary).toBeNull();
+    expect(s.partialNote).toBeNull();
+    expect(s.response?.mode).toBe("live_rag");
+  });
+
+  it("a new request drops the previous preliminary answer", () => {
+    let s = start(initialRecommendState, "request-pre-1");
+    s = recommendReducer(s, { type: "preliminary", id: "request-pre-1", response: pre() });
+    s = start(s, "request-pre-2");
+    expect(s.preliminary).toBeNull();
+  });
+});

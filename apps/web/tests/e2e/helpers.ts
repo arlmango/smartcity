@@ -13,10 +13,16 @@ import {
   water,
 } from "../fixtures/synthetic";
 
-export type RecommendHandler = (
-  body: RecommendRequest,
-  n: number,
-) => { status?: number; json: unknown; delayMs?: number } | Promise<{ status?: number; json: unknown; delayMs?: number }>;
+/** A mocked recommendation answer. For the stream endpoint (used by the UI) `preliminary` is sent
+ * before the final answer, and `streamError` replaces the final answer with an error event. */
+export interface MockRecommend {
+  status?: number;
+  json: unknown;
+  delayMs?: number;
+  preliminary?: unknown;
+  streamError?: { error: string; message: string };
+}
+export type RecommendHandler = (body: RecommendRequest, n: number) => MockRecommend | Promise<MockRecommend>;
 
 export interface MockOptions {
   ready?: ReadyResponse | { status: number };
@@ -59,13 +65,27 @@ export async function mockApi(page: Page, opts: MockOptions = {}): Promise<MockS
       return json(route, v);
     }
     if (p === "/api/search") return json(route, { ...searchResult, query: url.searchParams.get("q") ?? "" });
-    if (p === "/api/recommend" && route.request().method() === "POST") {
+    if ((p === "/api/recommend" || p === "/api/recommend/stream") && route.request().method() === "POST") {
       const body = route.request().postDataJSON() as RecommendRequest;
       state.recommendBodies.push(body);
       const handler: RecommendHandler = opts.recommend ?? ((b) => ({ json: okResponse(b.client_request_id) }));
       const res = await handler(body, state.recommendBodies.length);
       if (res.delayMs) await new Promise((r) => setTimeout(r, res.delayMs));
       try {
+        if (p === "/api/recommend/stream" && (res.status ?? 200) === 200) {
+          const lines: unknown[] = [];
+          if (res.preliminary) lines.push({ event: "preliminary", response: res.preliminary });
+          lines.push(
+            res.streamError
+              ? { event: "error", error: { ...res.streamError, request_id: null } }
+              : { event: "final", response: res.json },
+          );
+          return await route.fulfill({
+            status: 200,
+            contentType: "application/x-ndjson",
+            body: lines.map((l) => JSON.stringify(l)).join("\n") + "\n",
+          });
+        }
         return await json(route, res.json, res.status ?? 200);
       } catch {
         return; // request was aborted by the page (cancel)

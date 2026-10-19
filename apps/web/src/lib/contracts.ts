@@ -318,3 +318,14 @@ export const EMPTY_CONSTRAINTS: Constraints = {
   exclude_place_ids: [],
   dropped_text_constraints: [],
 };
+
+// ------------------------------------------------------------- recommend stream (NDJSON)
+
+/** One line of POST /api/recommend/stream: optional "preliminary" (places found by retrieval
+ * before generation finishes), then "final" (same as /api/recommend) or "error". */
+export const RecommendStreamEventSchema = z.discriminatedUnion("event", [
+  z.object({ event: z.literal("preliminary"), response: RecommendResponseSchema, error: z.null().optional() }),
+  z.object({ event: z.literal("final"), response: RecommendResponseSchema, error: z.null().optional() }),
+  z.object({ event: z.literal("error"), response: z.null().optional(), error: ErrorResponseSchema }),
+]);
+export type RecommendStreamEvent = z.infer<typeof RecommendStreamEventSchema>;

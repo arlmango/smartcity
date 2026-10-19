@@ -8,7 +8,7 @@ import uuid
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Query, Request
-from fastapi.responses import Response
+from fastapi.responses import Response, StreamingResponse
 
 from smartcity_api.contracts import (
     Category,
@@ -17,6 +17,7 @@ from smartcity_api.contracts import (
     PlacesResponse,
     RecommendRequest,
     RecommendResponse,
+    RecommendStreamEvent,
     SearchResponse,
 )
 from smartcity_api.domain.categories import CATEGORY_INFO
@@ -128,3 +129,64 @@ async def recommend(body: RecommendRequest, request: Request) -> RecommendRespon
         return Response(status_code=499)
     except TimeoutError as e:
         raise ApiError(504, "timeout", "Превышено время обработки запроса. Повторите позже.") from e
+
+
+@router.post(
+    "/recommend/stream",
+    responses={
+        **ERRORS,
+        413: {"model": ErrorResponse},
+        200: {
+            "description": "NDJSON stream of RecommendStreamEvent lines: optional 'preliminary', then "
+            "'final' (or 'error')",
+            "content": {"application/x-ndjson": {"schema": RecommendStreamEvent.model_json_schema()}},
+        },
+    },
+)
+async def recommend_stream(body: RecommendRequest, request: Request) -> StreamingResponse:
+    """Same pipeline as /api/recommend, but the places found by retrieval are sent before the
+    (slow, CPU) generation finishes, so the UI can show them and keep them if the model times out."""
+    c = container_of(request)
+    request_id = getattr(request.state, "request_id", None)
+    queue: asyncio.Queue[RecommendStreamEvent | None] = asyncio.Queue()
+
+    async def on_preliminary(resp: RecommendResponse) -> None:
+        await queue.put(RecommendStreamEvent(event="preliminary", response=resp))
+
+    async def run() -> None:
+        try:
+            final = await asyncio.wait_for(
+                rec.recommend(
+                    c, body, request.is_disconnected, request_id=request_id, on_preliminary=on_preliminary
+                ),
+                timeout=c.settings.request_timeout_seconds + 10,
+            )
+            await queue.put(RecommendStreamEvent(event="final", response=final))
+        except ClientDisconnected:
+            pass
+        except TimeoutError:
+            err = ErrorResponse(
+                error="timeout", message="Превышено время обработки запроса.", request_id=request_id
+            )
+            await queue.put(RecommendStreamEvent(event="error", error=err))
+        except ApiError as e:
+            err = ErrorResponse(error=e.error, message=e.message, request_id=request_id)
+            await queue.put(RecommendStreamEvent(event="error", error=err))
+        finally:
+            await queue.put(None)
+
+    task = asyncio.create_task(run())
+
+    async def lines():
+        try:
+            while (item := await queue.get()) is not None:
+                yield item.model_dump_json() + "\n"
+        finally:
+            if not task.done():
+                task.cancel()
+
+    return StreamingResponse(
+        lines(),
+        media_type="application/x-ndjson",
+        headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"},
+    )

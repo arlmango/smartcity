@@ -133,6 +133,34 @@ test.describe("deterministic: recommendation flow (SYNTHETIC fixtures)", () => {
     await expect(page.getByText("Объяснение ИИ недоступно", { exact: false })).toBeVisible();
   });
 
+  test("model timeout after the places were found: the found places stay, with a note @mobile", async ({ page }) => {
+    await mockApi(page, {
+      recommend: (b) => ({
+        json: null,
+        preliminary: { ...retrievalOnlyResponse(b.client_request_id), status: "ok" },
+        streamError: { error: "timeout", message: "Превышено время обработки запроса." },
+      }),
+    });
+    await page.goto("/");
+    await useDemoOrigin(page);
+    await submit(page);
+    await expect(page.getByTestId("partial-note")).toContainText("Объяснения ИИ не получены");
+    await expect(page.getByTestId("rec-card")).toHaveCount(1);
+    await expect(page.getByTestId("rec-marker")).toHaveCount(1);
+  });
+
+  test("preliminary places are replaced by the final AI answer", async ({ page }) => {
+    await mockApi(page, {
+      recommend: (b) => ({ json: okResponse(b.client_request_id), preliminary: retrievalOnlyResponse(b.client_request_id) }),
+    });
+    await page.goto("/");
+    await useDemoOrigin(page);
+    await submit(page);
+    await expect(page.getByTestId("rec-card")).toHaveCount(3);
+    await expect(page.getByTestId("partial-note")).toHaveCount(0);
+    await expect(page.getByTestId("retrieval-only")).toHaveCount(0);
+  });
+
   test("provider error → error state; retry reuses the same client_request_id", async ({ page }) => {
     const api = await mockApi(page, {
       recommend: (b, n) =>

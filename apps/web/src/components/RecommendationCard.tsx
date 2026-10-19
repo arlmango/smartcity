@@ -19,6 +19,8 @@ interface Props {
   selected: boolean;
   budget: number | null;
   retrievalOnly: boolean;
+  /** The model is still writing explanations for this (preliminary) answer. */
+  pending?: boolean;
   onSelect: (placeId: string) => void;
 }
 
@@ -33,7 +35,7 @@ const OPENING_STYLE = {
 } as const;
 
 export const RecommendationCard = forwardRef<HTMLElement, Props>(function RecommendationCard(
-  { rec, index, selected, budget, retrievalOnly, onSelect },
+  { rec, index, selected, budget, retrievalOnly, pending = false, onSelect },
   ref,
 ) {
   const n = index + 1;
@@ -98,7 +100,9 @@ export const RecommendationCard = forwardRef<HTMLElement, Props>(function Recomm
             <p className="text-sm leading-relaxed">{rec.reason}</p>
           ) : (
             <p className="text-sm text-muted">
-              {retrievalOnly
+              {pending
+                ? "Объяснение ИИ готовится…"
+                : retrievalOnly
                 ? "Объяснение ИИ недоступно — место найдено поиском по базе."
                 : rec.reason_source === "llm"
                   ? "Объяснение ИИ не прошло проверку фактов и скрыто."

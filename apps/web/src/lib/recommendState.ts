@@ -22,6 +22,10 @@ export interface RecommendState {
   /** Request that produced the displayed response (refinements are derived from it). */
   responseRequest: RecommendRequest | null;
   response: RecommendResponse | null;
+  /** Places found by retrieval for the active request, before the model has answered. */
+  preliminary: RecommendResponse | null;
+  /** Set when a request failed after its preliminary places arrived: they are kept and shown. */
+  partialNote: string | null;
   error: RequestErrorInfo | null;
   startedAt: number | null;
   cancelled: boolean;
@@ -32,6 +36,7 @@ export interface RecommendState {
 
 export type RecommendAction =
   | { type: "start"; request: RecommendRequest; at: number; userTurn: string }
+  | { type: "preliminary"; id: string; response: RecommendResponse }
   | { type: "success"; id: string; response: RecommendResponse }
   | { type: "failure"; id: string; error: RequestErrorInfo }
   | { type: "cancel"; id: string }
@@ -46,6 +51,8 @@ export const initialRecommendState: RecommendState = {
   request: null,
   responseRequest: null,
   response: null,
+  preliminary: null,
+  partialNote: null,
   error: null,
   startedAt: null,
   cancelled: false,
@@ -70,11 +77,16 @@ export function recommendReducer(state: RecommendState, action: RecommendAction)
         status: "loading",
         activeId: action.request.client_request_id,
         request: action.request,
+        preliminary: null,
         error: null,
         startedAt: action.at,
         cancelled: false,
         pendingUserTurn: action.userTurn,
       };
+    case "preliminary":
+      if (state.status !== "loading" || action.id !== state.activeId) return state;
+      if (action.response.client_request_id !== action.id) return state;
+      return { ...state, preliminary: action.response };
     case "success": {
       // Stale or foreign answers never overwrite the current state (T24).
       if (state.status !== "loading" || action.id !== state.activeId) return state;
@@ -85,6 +97,8 @@ export function recommendReducer(state: RecommendState, action: RecommendAction)
         activeId: null,
         response: action.response,
         responseRequest: state.request,
+        preliminary: null,
+        partialNote: null,
         error: null,
         startedAt: null,
         context: appendContext(state.context, state.pendingUserTurn ?? "", action.response.message),
@@ -93,6 +107,21 @@ export function recommendReducer(state: RecommendState, action: RecommendAction)
     }
     case "failure":
       if (state.status !== "loading" || action.id !== state.activeId) return state;
+      if (state.preliminary) {
+        // The places were already found: keep them (e.g. the model timed out) instead of an error.
+        return {
+          ...state,
+          status: "success",
+          activeId: null,
+          response: state.preliminary,
+          responseRequest: state.request,
+          preliminary: null,
+          partialNote: `Объяснения ИИ не получены (${action.error.message}) — показаны найденные места.`,
+          error: null,
+          startedAt: null,
+          pendingUserTurn: null,
+        };
+      }
       return { ...state, status: "error", activeId: null, error: action.error, startedAt: null };
     case "cancel":
       if (state.status !== "loading" || action.id !== state.activeId) return state;
@@ -101,6 +130,7 @@ export function recommendReducer(state: RecommendState, action: RecommendAction)
         status: state.response ? "success" : "idle",
         activeId: null,
         request: state.responseRequest,
+        preliminary: null,
         startedAt: null,
         cancelled: true,
         pendingUserTurn: null,

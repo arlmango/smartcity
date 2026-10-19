@@ -32,6 +32,8 @@ export interface Captured {
 
 export interface Collectors {
   recs: Captured[];
+  /** Number of "preliminary" stream events seen (places shown before the model finished). */
+  preliminaryCount: number;
   consoleErrors: string[];
   pageErrors: string[];
   failedRequests: string[];
@@ -41,7 +43,7 @@ export interface Collectors {
 
 /** Attach evidence collectors to the page; call `flush()` at the end of the test. */
 export function collect(page: Page, info: TestInfo): Collectors {
-  const c: Collectors = { recs: [], consoleErrors: [], pageErrors: [], failedRequests: [], httpErrors: [], flush: () => {} };
+  const c: Collectors = { recs: [], preliminaryCount: 0, consoleErrors: [], pageErrors: [], failedRequests: [], httpErrors: [], flush: () => {} };
   const started = new Map<string, number>();
   page.on("console", (m) => {
     if (m.type() === "error" || m.type() === "warning") c.consoleErrors.push(`[${m.type()}] ${m.text()}`);
@@ -54,14 +56,25 @@ export function collect(page: Page, info: TestInfo): Collectors {
   page.on("response", async (res) => {
     const url = new URL(res.url());
     if (res.status() >= 400) c.httpErrors.push(`${res.request().method()} ${url.pathname} → ${res.status()}`);
-    if (url.pathname === "/api/recommend" && res.request().method() === "POST") {
+    if ((url.pathname === "/api/recommend" || url.pathname === "/api/recommend/stream") && res.request().method() === "POST") {
       const req = res.request();
       const key = req.url() + (req.postData() ?? "");
       let body: Record<string, unknown> | null = null;
       try {
-        body = (await res.json()) as Record<string, unknown>;
+        if (url.pathname.endsWith("/stream") && res.status() === 200) {
+          // NDJSON: optional "preliminary" (places before generation), then "final" or "error".
+          const events = (await res.text())
+            .split("\n")
+            .filter((l) => l.trim())
+            .map((l) => JSON.parse(l) as { event: string; response?: Record<string, unknown>; error?: Record<string, unknown> });
+          const fin = events.find((e) => e.event === "final");
+          body = fin?.response ?? (events.find((e) => e.event === "error")?.error as Record<string, unknown> | undefined) ?? null;
+          c.preliminaryCount += events.filter((e) => e.event === "preliminary").length;
+        } else {
+          body = (await res.json()) as Record<string, unknown>;
+        }
       } catch {
-        body = null;
+        body = null; // cancelled stream: no final answer
       }
       c.recs.push({ request: (req.postDataJSON() ?? {}) as Record<string, unknown>, status: res.status(), response: body, ms: Date.now() - (started.get(key) ?? Date.now()) });
     }
@@ -126,7 +139,9 @@ export async function submit(page: Page) {
 
 /** Wait for a terminal state of a live request: results or error card. */
 export async function waitForOutcome(page: Page, timeout = LIVE_REC_TIMEOUT) {
-  await expect(page.getByTestId("results").or(page.getByTestId("error-card"))).toBeVisible({ timeout });
+  // Preliminary places are rendered in "results" too, while "progress" is still shown.
+  await expect(page.getByTestId("progress")).toHaveCount(0, { timeout });
+  await expect(page.getByTestId("results").or(page.getByTestId("error-card"))).toBeVisible({ timeout: 10_000 });
 }
 
 export async function cardIds(page: Page) {

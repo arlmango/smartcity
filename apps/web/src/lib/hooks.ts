@@ -2,7 +2,7 @@
 
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useReducer, useRef, useState, useSyncExternalStore } from "react";
-import { ApiError, getCoverage, getMapLayer, getReady, isAbortError, postRecommend } from "./api";
+import { ApiError, getCoverage, getMapLayer, getReady, isAbortError, postRecommendStream } from "./api";
 import type { RecommendRequest } from "./contracts";
 import { MAP_LAYERS, type LayerResult, type MapLayer } from "./mapData";
 import { initialRecommendState, recommendReducer, type RequestErrorInfo } from "./recommendState";
@@ -119,7 +119,7 @@ export function useRecommend() {
     controllerRef.current = controller;
     const id = request.client_request_id;
     dispatch({ type: "start", request, at: Date.now(), userTurn });
-    postRecommend(request, controller.signal).then(
+    postRecommendStream(request, controller.signal, (response) => dispatch({ type: "preliminary", id, response })).then(
       (response) => dispatch({ type: "success", id, response }),
       (e: unknown) => {
         if (controller.signal.aborted || isAbortError(e)) return; // cancel handled separately

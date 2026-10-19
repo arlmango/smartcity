@@ -1033,11 +1033,37 @@ def _final_warnings(prep: Prepared, cards: list[Recommendation]) -> None:
             )
 
 
+AI_PENDING_MSG = "Места найдены поиском по базе — ИИ готовит объяснения"
+
+OnPreliminary = Callable[[RecommendResponse], Awaitable[None]] | None
+
+
+def _fallback_cards(prep: Prepared) -> list[Recommendation]:
+    """Top places by retrieval rank (no AI text); used for preliminary and AI-fallback answers."""
+    groups, caps = diversity_groups(prep.ranked, prep.eff)
+    keys = diversify([c.pid for c in prep.ranked], groups, n=MAX_RESULTS, max_per_category=2, caps=caps)
+    rk = {c.pid: c for c in prep.ranked}
+    return [build_card(rk[k], reason=None, activity=None, source="rules") for k in keys]
+
+
+def preliminary_response(container: Container, prep: Prepared) -> RecommendResponse:
+    """Places found by retrieval, shown while the model is still generating (stream endpoint)."""
+    pp = copy.copy(prep)
+    pp.warnings = [Warning(code="ai_pending", message=AI_PENDING_MSG), *prep.warnings]
+    pp.timings = dict(prep.timings)
+    cards = _fallback_cards(pp)
+    _final_warnings(pp, cards)
+    return _response(
+        container, pp, status="ok", mode="retrieval_only", recs=cards, message=AI_PENDING_MSG + "…"
+    )
+
+
 async def recommend(
     container: Container,
     req: RecommendRequest,
     is_disconnected: IsDisconnected = None,
     request_id: str | None = None,
+    on_preliminary: OnPreliminary = None,
 ) -> RecommendResponse:
     prep = start_request(container, req, request_id)
     prep.interpreted_query = _rules_interpretation(prep)
@@ -1054,6 +1080,9 @@ async def recommend(
         )
         _log(prep, resp, None)
         return resp
+
+    if on_preliminary is not None:
+        await on_preliminary(preliminary_response(container, prep))
 
     t = time.monotonic()
     outcome = await generate(container, prep, is_disconnected)
@@ -1094,10 +1123,7 @@ async def recommend(
             prep.warnings.insert(0, Warning(code="llm_busy", message=LLM_BUSY_MSG))
         else:
             prep.warnings.insert(0, Warning(code="llm_unavailable", message=LLM_UNAVAILABLE_MSG))
-        groups, caps = diversity_groups(prep.ranked, prep.eff)
-        keys = diversify([c.pid for c in prep.ranked], groups, n=MAX_RESULTS, max_per_category=2, caps=caps)
-        rk = {c.pid: c for c in prep.ranked}
-        cards = [build_card(rk[k], reason=None, activity=None, source="rules") for k in keys]
+        cards = _fallback_cards(prep)
         _final_warnings(prep, cards)
         resp = _response(
             container,

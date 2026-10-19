@@ -1773,6 +1773,975 @@
         "summary": "Recommend"
       }
     },
+    "/api/recommend/stream": {
+      "post": {
+        "description": "Same pipeline as /api/recommend, but the places found by retrieval are sent before the\n(slow, CPU) generation finishes, so the UI can show them and keep them if the model times out.",
+        "operationId": "recommend_stream_api_recommend_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "application/x-ndjson": {
+                "schema": {
+                  "$defs": {
+                    "AppliedConstraint": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "enum": [
+                            "time_budget",
+                            "return_to_start",
+                            "walking_only",
+                            "required_feature",
+                            "include_category",
+                            "exclude_category",
+                            "must_be_open",
+                            "max_distance"
+                          ],
+                          "title": "Kind",
+                          "type": "string"
+                        },
+                        "label": {
+                          "title": "Label",
+                          "type": "string"
+                        },
+                        "source": {
+                          "enum": [
+                            "ui",
+                            "text"
+                          ],
+                          "title": "Source",
+                          "type": "string"
+                        },
+                        "value": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ],
+                          "title": "Value"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "value",
+                        "source",
+                        "label"
+                      ],
+                      "title": "AppliedConstraint",
+                      "type": "object"
+                    },
+                    "Constraints": {
+                      "additionalProperties": false,
+                      "description": "Explicit user controls. These are the source of truth and override LLM guesses.",
+                      "properties": {
+                        "dropped_text_constraints": {
+                          "items": {
+                            "pattern": "^(must_be_open|max_distance|(include_category|exclude_category):(cafe|food|park|culture|attraction|playground|mall)|required_feature:(socket|wifi|outdoor_seating|wheelchair|indoor|kids))$",
+                            "type": "string"
+                          },
+                          "maxItems": 20,
+                          "title": "Dropped Text Constraints",
+                          "type": "array"
+                        },
+                        "exclude_categories": {
+                          "items": {
+                            "enum": [
+                              "cafe",
+                              "food",
+                              "park",
+                              "culture",
+                              "attraction",
+                              "playground",
+                              "mall"
+                            ],
+                            "type": "string"
+                          },
+                          "maxItems": 7,
+                          "title": "Exclude Categories",
+                          "type": "array"
+                        },
+                        "exclude_place_ids": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "maxItems": 20,
+                          "title": "Exclude Place Ids",
+                          "type": "array"
+                        },
+                        "include_categories": {
+                          "items": {
+                            "enum": [
+                              "cafe",
+                              "food",
+                              "park",
+                              "culture",
+                              "attraction",
+                              "playground",
+                              "mall"
+                            ],
+                            "type": "string"
+                          },
+                          "maxItems": 7,
+                          "title": "Include Categories",
+                          "type": "array"
+                        },
+                        "max_distance_m": {
+                          "anyOf": [
+                            {
+                              "maximum": 10000.0,
+                              "minimum": 100.0,
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Max Distance M"
+                        },
+                        "must_be_open": {
+                          "default": false,
+                          "title": "Must Be Open",
+                          "type": "boolean"
+                        },
+                        "preferred_features": {
+                          "items": {
+                            "enum": [
+                              "socket",
+                              "wifi",
+                              "outdoor_seating",
+                              "wheelchair",
+                              "indoor",
+                              "kids"
+                            ],
+                            "type": "string"
+                          },
+                          "maxItems": 6,
+                          "title": "Preferred Features",
+                          "type": "array"
+                        },
+                        "required_features": {
+                          "items": {
+                            "enum": [
+                              "socket",
+                              "wifi",
+                              "outdoor_seating",
+                              "wheelchair",
+                              "indoor",
+                              "kids"
+                            ],
+                            "type": "string"
+                          },
+                          "maxItems": 6,
+                          "title": "Required Features",
+                          "type": "array"
+                        }
+                      },
+                      "title": "Constraints",
+                      "type": "object"
+                    },
+                    "ConstraintsApplied": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "hard": {
+                          "items": {
+                            "$ref": "#/$defs/AppliedConstraint"
+                          },
+                          "title": "Hard",
+                          "type": "array"
+                        },
+                        "interpreted_query": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Interpreted Query"
+                        },
+                        "preferences": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Preferences",
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "hard",
+                        "preferences"
+                      ],
+                      "title": "ConstraintsApplied",
+                      "type": "object"
+                    },
+                    "Distance": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "meters": {
+                          "title": "Meters",
+                          "type": "integer"
+                        },
+                        "method": {
+                          "enum": [
+                            "pedestrian_route",
+                            "geodesic"
+                          ],
+                          "title": "Method",
+                          "type": "string"
+                        },
+                        "note": {
+                          "title": "Note",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "meters",
+                        "method",
+                        "note"
+                      ],
+                      "title": "Distance",
+                      "type": "object"
+                    },
+                    "ErrorResponse": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": {
+                          "title": "Error",
+                          "type": "string"
+                        },
+                        "message": {
+                          "title": "Message",
+                          "type": "string"
+                        },
+                        "request_id": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Request Id"
+                        }
+                      },
+                      "required": [
+                        "error",
+                        "message"
+                      ],
+                      "title": "ErrorResponse",
+                      "type": "object"
+                    },
+                    "EvidenceItem": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "collected_at": {
+                          "format": "date-time",
+                          "title": "Collected At",
+                          "type": "string"
+                        },
+                        "field": {
+                          "title": "Field",
+                          "type": "string"
+                        },
+                        "license": {
+                          "title": "License",
+                          "type": "string"
+                        },
+                        "source_url": {
+                          "title": "Source Url",
+                          "type": "string"
+                        },
+                        "source_value": {
+                          "title": "Source Value",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "source_value",
+                        "source_url",
+                        "license",
+                        "collected_at"
+                      ],
+                      "title": "EvidenceItem",
+                      "type": "object"
+                    },
+                    "FeatureFact": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "basis": {
+                          "enum": [
+                            "tag",
+                            "category_rule"
+                          ],
+                          "title": "Basis",
+                          "type": "string"
+                        },
+                        "evidence": {
+                          "title": "Evidence",
+                          "type": "string"
+                        },
+                        "feature": {
+                          "enum": [
+                            "socket",
+                            "wifi",
+                            "outdoor_seating",
+                            "wheelchair",
+                            "indoor",
+                            "kids"
+                          ],
+                          "title": "Feature",
+                          "type": "string"
+                        },
+                        "value": {
+                          "title": "Value",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "feature",
+                        "value",
+                        "basis",
+                        "evidence"
+                      ],
+                      "title": "FeatureFact",
+                      "type": "object"
+                    },
+                    "LatLon": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "lat": {
+                          "maximum": 90.0,
+                          "minimum": -90.0,
+                          "title": "Lat",
+                          "type": "number"
+                        },
+                        "lon": {
+                          "maximum": 180.0,
+                          "minimum": -180.0,
+                          "title": "Lon",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "lat",
+                        "lon"
+                      ],
+                      "title": "LatLon",
+                      "type": "object"
+                    },
+                    "ProviderInfo": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "embedding_dim": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Embedding Dim"
+                        },
+                        "embedding_model": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Embedding Model"
+                        },
+                        "embedding_provider": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Embedding Provider"
+                        },
+                        "llm_model": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Llm Model"
+                        },
+                        "llm_provider": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Llm Provider"
+                        },
+                        "routing": {
+                          "enum": [
+                            "none",
+                            "valhalla"
+                          ],
+                          "title": "Routing",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "llm_provider",
+                        "llm_model",
+                        "embedding_provider",
+                        "embedding_model",
+                        "embedding_dim",
+                        "routing"
+                      ],
+                      "title": "ProviderInfo",
+                      "type": "object"
+                    },
+                    "RecommendResponse": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "client_request_id": {
+                          "title": "Client Request Id",
+                          "type": "string"
+                        },
+                        "constraints_applied": {
+                          "$ref": "#/$defs/ConstraintsApplied"
+                        },
+                        "dataset_version": {
+                          "title": "Dataset Version",
+                          "type": "string"
+                        },
+                        "message": {
+                          "title": "Message",
+                          "type": "string"
+                        },
+                        "mode": {
+                          "enum": [
+                            "live_rag",
+                            "retrieval_only"
+                          ],
+                          "title": "Mode",
+                          "type": "string"
+                        },
+                        "providers": {
+                          "$ref": "#/$defs/ProviderInfo"
+                        },
+                        "recommendations": {
+                          "items": {
+                            "$ref": "#/$defs/Recommendation"
+                          },
+                          "maxItems": 3,
+                          "title": "Recommendations",
+                          "type": "array"
+                        },
+                        "request_id": {
+                          "title": "Request Id",
+                          "type": "string"
+                        },
+                        "route": {
+                          "title": "Route",
+                          "type": "null"
+                        },
+                        "status": {
+                          "enum": [
+                            "ok",
+                            "no_match",
+                            "needs_clarification",
+                            "degraded"
+                          ],
+                          "title": "Status",
+                          "type": "string"
+                        },
+                        "suggested_relaxations": {
+                          "items": {
+                            "$ref": "#/$defs/Relaxation"
+                          },
+                          "title": "Suggested Relaxations",
+                          "type": "array"
+                        },
+                        "timings_ms": {
+                          "additionalProperties": {
+                            "type": "integer"
+                          },
+                          "title": "Timings Ms",
+                          "type": "object"
+                        },
+                        "warnings": {
+                          "items": {
+                            "$ref": "#/$defs/Warning"
+                          },
+                          "title": "Warnings",
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "request_id",
+                        "client_request_id",
+                        "status",
+                        "mode",
+                        "dataset_version",
+                        "constraints_applied",
+                        "recommendations",
+                        "message",
+                        "warnings",
+                        "suggested_relaxations",
+                        "providers",
+                        "timings_ms"
+                      ],
+                      "title": "RecommendResponse",
+                      "type": "object"
+                    },
+                    "Recommendation": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "activity_suggestion": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Activity Suggestion"
+                        },
+                        "address": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Address"
+                        },
+                        "as_of": {
+                          "format": "date-time",
+                          "title": "As Of",
+                          "type": "string"
+                        },
+                        "category": {
+                          "enum": [
+                            "cafe",
+                            "food",
+                            "park",
+                            "culture",
+                            "attraction",
+                            "playground",
+                            "mall"
+                          ],
+                          "title": "Category",
+                          "type": "string"
+                        },
+                        "category_label": {
+                          "title": "Category Label",
+                          "type": "string"
+                        },
+                        "coordinates": {
+                          "$ref": "#/$defs/LatLon"
+                        },
+                        "distance": {
+                          "$ref": "#/$defs/Distance"
+                        },
+                        "evidence": {
+                          "items": {
+                            "$ref": "#/$defs/EvidenceItem"
+                          },
+                          "title": "Evidence",
+                          "type": "array"
+                        },
+                        "name": {
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "name_is_generic": {
+                          "title": "Name Is Generic",
+                          "type": "boolean"
+                        },
+                        "negative_features": {
+                          "items": {
+                            "$ref": "#/$defs/FeatureFact"
+                          },
+                          "title": "Negative Features",
+                          "type": "array"
+                        },
+                        "opening_hours_raw": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Opening Hours Raw"
+                        },
+                        "opening_note": {
+                          "title": "Opening Note",
+                          "type": "string"
+                        },
+                        "opening_status": {
+                          "enum": [
+                            "open",
+                            "closed",
+                            "unknown"
+                          ],
+                          "title": "Opening Status",
+                          "type": "string"
+                        },
+                        "place_id": {
+                          "title": "Place Id",
+                          "type": "string"
+                        },
+                        "reason": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Reason"
+                        },
+                        "reason_source": {
+                          "enum": [
+                            "llm",
+                            "rules"
+                          ],
+                          "title": "Reason Source",
+                          "type": "string"
+                        },
+                        "source": {
+                          "$ref": "#/$defs/SourceRef"
+                        },
+                        "timing": {
+                          "$ref": "#/$defs/Timing"
+                        },
+                        "unknown_features": {
+                          "items": {
+                            "enum": [
+                              "socket",
+                              "wifi",
+                              "outdoor_seating",
+                              "wheelchair",
+                              "indoor",
+                              "kids"
+                            ],
+                            "type": "string"
+                          },
+                          "title": "Unknown Features",
+                          "type": "array"
+                        },
+                        "verified_features": {
+                          "items": {
+                            "$ref": "#/$defs/FeatureFact"
+                          },
+                          "title": "Verified Features",
+                          "type": "array"
+                        },
+                        "website": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Website"
+                        }
+                      },
+                      "required": [
+                        "place_id",
+                        "name",
+                        "name_is_generic",
+                        "category",
+                        "category_label",
+                        "coordinates",
+                        "address",
+                        "reason",
+                        "reason_source",
+                        "activity_suggestion",
+                        "distance",
+                        "timing",
+                        "opening_status",
+                        "opening_hours_raw",
+                        "opening_note",
+                        "as_of",
+                        "verified_features",
+                        "unknown_features",
+                        "negative_features",
+                        "website",
+                        "source",
+                        "evidence"
+                      ],
+                      "title": "Recommendation",
+                      "type": "object"
+                    },
+                    "Relaxation": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "title": "Code",
+                          "type": "string"
+                        },
+                        "message": {
+                          "title": "Message",
+                          "type": "string"
+                        },
+                        "patch": {
+                          "$ref": "#/$defs/Constraints"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message",
+                        "patch"
+                      ],
+                      "title": "Relaxation",
+                      "type": "object"
+                    },
+                    "SourceRef": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "fetched_at": {
+                          "format": "date-time",
+                          "title": "Fetched At",
+                          "type": "string"
+                        },
+                        "license": {
+                          "default": "ODbL-1.0",
+                          "title": "License",
+                          "type": "string"
+                        },
+                        "name": {
+                          "const": "OpenStreetMap",
+                          "default": "OpenStreetMap",
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "osm_id": {
+                          "title": "Osm Id",
+                          "type": "integer"
+                        },
+                        "osm_type": {
+                          "enum": [
+                            "node",
+                            "way",
+                            "relation"
+                          ],
+                          "title": "Osm Type",
+                          "type": "string"
+                        },
+                        "source_updated_at": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Source Updated At"
+                        },
+                        "url": {
+                          "title": "Url",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "osm_type",
+                        "osm_id",
+                        "url",
+                        "fetched_at"
+                      ],
+                      "title": "SourceRef",
+                      "type": "object"
+                    },
+                    "Timing": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "buffer_min": {
+                          "title": "Buffer Min",
+                          "type": "integer"
+                        },
+                        "estimated": {
+                          "const": true,
+                          "default": true,
+                          "title": "Estimated",
+                          "type": "boolean"
+                        },
+                        "method": {
+                          "title": "Method",
+                          "type": "string"
+                        },
+                        "outbound_min": {
+                          "title": "Outbound Min",
+                          "type": "integer"
+                        },
+                        "return_min": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Return Min"
+                        },
+                        "total_min": {
+                          "title": "Total Min",
+                          "type": "integer"
+                        },
+                        "visit_min": {
+                          "title": "Visit Min",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "outbound_min",
+                        "visit_min",
+                        "return_min",
+                        "buffer_min",
+                        "total_min",
+                        "method"
+                      ],
+                      "title": "Timing",
+                      "type": "object"
+                    },
+                    "Warning": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "title": "Code",
+                          "type": "string"
+                        },
+                        "message": {
+                          "title": "Message",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "title": "Warning",
+                      "type": "object"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "description": "One NDJSON line of POST /api/recommend/stream.\n\n\"preliminary\": places found by retrieval (mode=retrieval_only, warning \"ai_pending\") sent before\ngeneration finishes; \"final\": the same answer as POST /api/recommend; \"error\": request failed.",
+                  "properties": {
+                    "error": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ErrorResponse"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "event": {
+                      "enum": [
+                        "preliminary",
+                        "final",
+                        "error"
+                      ],
+                      "title": "Event",
+                      "type": "string"
+                    },
+                    "response": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/RecommendResponse"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "event"
+                  ],
+                  "title": "RecommendStreamEvent",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "NDJSON stream of RecommendStreamEvent lines: optional 'preliminary', then 'final' (or 'error')"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Recommend Stream"
+      }
+    },
     "/api/route": {
       "post": {
         "operationId": "route_api_route_post",

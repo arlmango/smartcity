@@ -9,6 +9,7 @@ import {
   ReadyResponseSchema,
   RecommendRequestSchema,
   RecommendResponseSchema,
+  RecommendStreamEventSchema,
   SearchResponseSchema,
   type RecommendRequest,
   type RecommendResponse,
@@ -140,6 +141,108 @@ export async function postRecommend(req: RecommendRequest, signal: AbortSignal, 
       throw new ApiError("invalid_response", "Ответ сервера относится к другому запросу.");
     }
     return resp;
+  } catch (e) {
+    if (e instanceof ApiError && e.kind === "aborted" && !signal.aborted) {
+      throw new ApiError("timeout", "Сервер не ответил за 220 секунд.");
+    }
+    throw e;
+  } finally {
+    clearTimeout(timer);
+    signal.removeEventListener("abort", onAbort);
+  }
+}
+
+/**
+ * Streaming variant (POST /api/recommend/stream, NDJSON). `onPreliminary` receives the places found
+ * by retrieval as soon as the server has them (before the slow CPU generation finishes); the promise
+ * resolves with the final answer. Same timeout/cancellation semantics as postRecommend.
+ */
+export async function postRecommendStream(
+  req: RecommendRequest,
+  signal: AbortSignal,
+  onPreliminary: (r: RecommendResponse) => void,
+  timeoutMs = 220_000,
+): Promise<RecommendResponse> {
+  const body = RecommendRequestSchema.parse(req);
+  if (isOffline()) throw new ApiError("offline", "Нет подключения к интернету.");
+  const timeout = new AbortController();
+  const timer = setTimeout(() => timeout.abort(), timeoutMs);
+  const onAbort = () => timeout.abort();
+  signal.addEventListener("abort", onAbort);
+  const own = (r: RecommendResponse) => {
+    if (r.client_request_id !== req.client_request_id) {
+      throw new ApiError("invalid_response", "Ответ сервера относится к другому запросу.");
+    }
+    return r;
+  };
+  try {
+    let res: Response;
+    try {
+      res = await fetch("/api/recommend/stream", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/x-ndjson" },
+        body: JSON.stringify(body),
+        signal: timeout.signal,
+        cache: "no-store",
+      });
+    } catch (e) {
+      if (isAbortError(e)) throw new ApiError("aborted", "Запрос отменён.");
+      throw new ApiError("network", "Не удалось связаться с сервером.");
+    }
+    if (!res.ok || !res.body) {
+      let errBody: unknown = null;
+      try {
+        errBody = await res.json();
+      } catch {
+        errBody = null;
+      }
+      const err = ErrorResponseSchema.safeParse(errBody);
+      const fallback = HTTP_MESSAGES[res.status] ?? `Ошибка сервера (${res.status}).`;
+      throw new ApiError("http", err.success ? err.data.message || fallback : fallback, res.status, err.success ? err.data.error : undefined);
+    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+    const handle = (line: string): RecommendResponse | null => {
+      if (!line.trim()) return null;
+      let raw: unknown;
+      try {
+        raw = JSON.parse(line);
+      } catch {
+        throw new ApiError("invalid_response", "Сервер вернул ответ в неожиданном формате.", res.status);
+      }
+      const ev = RecommendStreamEventSchema.safeParse(raw);
+      if (!ev.success) throw new ApiError("invalid_response", "Сервер вернул ответ в неожиданном формате.", res.status);
+      if (ev.data.event === "preliminary") {
+        onPreliminary(own(ev.data.response));
+        return null;
+      }
+      if (ev.data.event === "error") {
+        const status = ev.data.error.error === "timeout" ? 504 : 500;
+        throw new ApiError("http", ev.data.error.message, status, ev.data.error.error, ev.data.error.request_id);
+      }
+      return own(ev.data.response);
+    };
+    for (;;) {
+      let chunk: ReadableStreamReadResult<Uint8Array>;
+      try {
+        chunk = await reader.read();
+      } catch (e) {
+        if (isAbortError(e) || timeout.signal.aborted) throw new ApiError("aborted", "Запрос отменён.");
+        throw new ApiError("network", "Соединение с сервером прервалось.");
+      }
+      if (chunk.done) break;
+      buf += decoder.decode(chunk.value, { stream: true });
+      let nl: number;
+      while ((nl = buf.indexOf("\n")) >= 0) {
+        const final = handle(buf.slice(0, nl));
+        buf = buf.slice(nl + 1);
+        if (final) return final;
+      }
+    }
+    const final = handle(buf);
+    if (final) return final;
+    throw new ApiError("network", "Сервер не прислал итоговый ответ.");
   } catch (e) {
     if (e instanceof ApiError && e.kind === "aborted" && !signal.aborted) {
       throw new ApiError("timeout", "Сервер не ответил за 220 секунд.");

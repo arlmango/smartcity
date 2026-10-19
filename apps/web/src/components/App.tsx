@@ -59,7 +59,10 @@ export function App() {
 
   const { state } = rec;
   const response = state.response;
-  const recs = useMemo(() => response?.recommendations ?? [], [response]);
+  // While the model is still writing explanations, the places already found are shown (and marked).
+  const pending = state.status === "loading" && !!state.preliminary;
+  const shown = pending ? state.preliminary : response;
+  const recs = useMemo(() => shown?.recommendations ?? [], [shown]);
   const pickActive = pickRequested || !form.origin;
 
   const coverageFc: FeatureCollection | undefined = useMemo(() => {
@@ -73,10 +76,10 @@ export function App() {
 
   // New answer → clear selection and fit camera to origin + results.
   useEffect(() => {
-    if (!response) return;
+    if (!shown) return;
     setSelectedId(null);
-    if (response.recommendations.length) setFitSignal((n) => n + 1);
-  }, [response]);
+    if (shown.recommendations.length) setFitSignal((n) => n + 1);
+  }, [shown]);
 
   const setOrigin = useCallback(
     (o: Origin) => {
@@ -180,7 +183,29 @@ export function App() {
 
   // ---------------------------------------------------------------- panel content
   let panel: React.ReactNode;
-  if (state.status === "loading") {
+  if (state.status === "loading" && pending && state.preliminary) {
+    panel = (
+      <div className="space-y-4">
+        <ProgressPanel startedAt={state.startedAt} onCancel={rec.cancel} compact />
+        <ResultsPanel
+          response={state.preliminary}
+          constraints={state.request?.constraints ?? form.constraints}
+          budget={state.request?.time_budget_min ?? null}
+          startTime={state.request?.start_time ?? null}
+          selectedId={selectedId}
+          cardRefs={cardRefs}
+          busy
+          pending
+          cancelled={false}
+          onSelect={selectFromCard}
+          onRefine={onRefine}
+          onRelax={onRelax}
+          onEdit={() => setEditing(true)}
+          onReset={onReset}
+        />
+      </div>
+    );
+  } else if (state.status === "loading") {
     panel = <ProgressPanel startedAt={state.startedAt} onCancel={rec.cancel} />;
   } else if (state.status === "error" && state.error && !editing) {
     panel = (
@@ -195,6 +220,7 @@ export function App() {
     panel = (
       <ResultsPanel
         response={response}
+        note={state.partialNote}
         constraints={state.responseRequest?.constraints ?? form.constraints}
         budget={state.responseRequest?.time_budget_min ?? null}
         startTime={state.responseRequest?.start_time ?? null}

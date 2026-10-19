@@ -291,3 +291,15 @@ class ErrorResponse(StrictModel):
     error: str
     message: str
     request_id: str | None = None
+
+
+class RecommendStreamEvent(StrictModel):
+    """One NDJSON line of POST /api/recommend/stream.
+
+    "preliminary": places found by retrieval (mode=retrieval_only, warning "ai_pending") sent before
+    generation finishes; "final": the same answer as POST /api/recommend; "error": request failed.
+    """
+
+    event: Literal["preliminary", "final", "error"]
+    response: RecommendResponse | None = None
+    error: ErrorResponse | None = None

@@ -138,7 +138,11 @@ class SmartCityMiddleware:
 
         # Rate limiting.
         if path.startswith("/api/") and path not in ("/api/health", "/api/ready"):
-            limiter = self.recommend_limiter if path == "/api/recommend" else self.general_limiter
+            limiter = (
+                self.recommend_limiter
+                if path in ("/api/recommend", "/api/recommend/stream")
+                else self.general_limiter
+            )
             allowed, retry = limiter.hit(self._client_key(scope, headers))
             if not allowed:
                 await _send_json(

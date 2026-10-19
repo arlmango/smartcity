@@ -49,8 +49,13 @@ test.describe("live scenarios", () => {
     await expect(page.getByRole("switch")).toBeChecked();
     await submit(page);
     await expect(page.getByTestId("progress")).toBeVisible();
+    // Places found by retrieval are shown while the CPU model is still writing explanations.
+    await expect(page.getByText("ИИ готовит объяснения…")).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByTestId("rec-card").first()).toBeVisible();
+    await shot(page, info, "09-S1-places-before-ai");
     await waitForOutcome(page);
     const r1 = lastResponse(c);
+    expect(c.preliminaryCount, "a preliminary stream event was received").toBeGreaterThan(0);
     expect(["ok", "degraded"]).toContain(r1.status);
     expect(r1.recommendations.length).toBeGreaterThan(0);
     checkInvariants(r1, 40, true);
@@ -237,13 +242,13 @@ test.describe("live scenarios", () => {
     // New, different request right away.
     await page.getByLabel("Что хочется").fill("Хочу в парк");
     await page.getByRole("button", { name: "20 мин" }).click();
-    const reqPromise = page.waitForRequest((r) => r.url().endsWith("/api/recommend") && r.method() === "POST");
+    const reqPromise = page.waitForRequest((r) => r.url().includes("/api/recommend") && r.method() === "POST");
     await submit(page);
     const second = (await reqPromise).postDataJSON() as { client_request_id: string; query: string };
     await waitForOutcome(page);
     // Wait long enough that the first (cancelled) generation would have finished if it was not aborted.
     await page.waitForTimeout(5000);
-    const shown = c.recs.filter((x) => x.status === 200);
+    const shown = c.recs.filter((x) => x.status === 200 && x.response && "recommendations" in x.response);
     expect(shown.length).toBe(1);
     expect((shown[0]!.response as { client_request_id: string }).client_request_id).toBe(second.client_request_id);
     expect(c.failedRequests.some((f) => f.includes("/api/recommend"))).toBe(true);

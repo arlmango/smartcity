@@ -30,6 +30,7 @@ export const ROUTES: RouteRule[] = [
   { method: "GET", pattern: /^search$/, query: true, timeoutMs: 15_000 },
   // Local CPU generation can take minutes; the API enforces its own REQUEST_TIMEOUT_SECONDS (200 s).
   { method: "POST", pattern: /^recommend$/, query: false, timeoutMs: 210_000 },
+  { method: "POST", pattern: /^recommend\/stream$/, query: false, timeoutMs: 210_000 },
   { method: "POST", pattern: /^route$/, query: false, timeoutMs: 30_000 },
 ];
 

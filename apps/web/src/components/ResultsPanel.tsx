@@ -15,6 +15,10 @@ interface Props {
   selectedId: string | null;
   cardRefs: React.MutableRefObject<Map<string, HTMLElement>>;
   busy: boolean;
+  /** Preliminary answer: places found by retrieval, the model is still generating. */
+  pending?: boolean;
+  /** Shown above the cards, e.g. when explanations failed after the places were found. */
+  note?: string | null;
   cancelled: boolean;
   onSelect: (id: string) => void;
   onRefine: (kind: RefinementKind) => void;
@@ -30,7 +34,7 @@ const STATUS_TITLE: Record<RecommendResponse["status"], string> = {
   needs_clarification: "Нужно уточнение",
 };
 
-const AI_DOWN_CODES = new Set(["llm_unavailable", "llm_busy"]);
+const AI_DOWN_CODES = new Set(["llm_unavailable", "llm_busy", "ai_pending"]);
 
 const SOURCE_LABEL = { ui: "из настроек", text: "из текста" } as const;
 
@@ -44,7 +48,11 @@ export function ResultsPanel(props: Props) {
   const retrievalOnly = r.mode === "retrieval_only" && recs.length > 0;
   // A busy local model is a different reason than an outage: say which one it is.
   const busy = r.warnings.find((w) => w.code === "llm_busy");
-  const bannerText = busy ? busy.message : "ИИ временно недоступен — показаны найденные места без объяснений ИИ.";
+  const bannerText = props.pending
+    ? "Места уже найдены поиском по базе — ИИ ещё готовит объяснения."
+    : busy
+      ? busy.message
+      : "ИИ временно недоступен — показаны найденные места без объяснений ИИ.";
 
   return (
     <div className="space-y-4" data-testid="results">
@@ -68,7 +76,13 @@ export function ResultsPanel(props: Props) {
           </p>
         )}
 
-        {r.message && !(retrievalOnly && (r.message === bannerText || r.message.startsWith("ИИ временно недоступен"))) && (
+        {props.note && (
+          <p role="status" data-testid="partial-note" className="rounded-control border border-warn-fg/30 bg-warn-bg p-3 text-sm font-semibold text-warn-fg">
+            {props.note}
+          </p>
+        )}
+
+        {r.message && !props.pending && !(retrievalOnly && (r.message === bannerText || r.message.startsWith("ИИ временно недоступен"))) && (
           <p className="text-[15px] leading-relaxed">{r.message}</p>
         )}
 
@@ -168,6 +182,7 @@ export function ResultsPanel(props: Props) {
                 selected={props.selectedId === rec.place_id}
                 budget={props.budget}
                 retrievalOnly={retrievalOnly}
+                pending={props.pending}
                 onSelect={props.onSelect}
               />
             </li>
