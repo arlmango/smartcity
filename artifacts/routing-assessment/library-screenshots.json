@@ -1,0 +1,6 @@
+{
+  "status": "succeeded",
+  "desktop": {"library_file_id":"libfile_eabd057d23808191bbcf02abb2a65c9c","file_id":"file_0000000004bc81fbaeae496c1387d4c2","path":"/live-final-desktop.png","version":0},
+  "mobile": {"library_file_id":"libfile_e38badbeae348191b7b39a2464938cd6","file_id":"file_00000000d70081f8b19fdb3f3a8c133e","path":"/live-final-mobile.png","version":0},
+  "local_identity_persisted": true
+}
