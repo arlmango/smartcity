@@ -7,7 +7,17 @@ API="${SMOKE_API_URL:-http://127.0.0.1:${API_PORT:-8000}}"
 WEB="${SMOKE_WEB_URL:-http://127.0.0.1:${WEB_PORT:-3000}}"
 ts=$(date -u +%Y%m%dT%H%M%SZ); out="artifacts/live/$ts"; mkdir -p "$out"
 commit=$(git rev-parse --short HEAD)
-ready=$(curl -s -m 60 "$API/api/ready"); echo "$ready" > "$out/ready.json"
+# Readiness may report a probe as still running right after a (cold) model load: wait up to 180 s
+# for every required component to be ok; the requirement itself is unchanged.
+for _ in $(seq 1 36); do
+  curl -s -m 60 "$API/api/ready" > "$out/ready.json"
+  python3 - "$out/ready.json" >/dev/null 2>&1 <<'PY' && break
+import json, sys
+c = json.load(open(sys.argv[1])).get("components", {})
+sys.exit(0 if all(c.get(k, {}).get("status") == "ok" for k in ("db", "data", "map", "embeddings", "llm")) else 1)
+PY
+  sleep 5
+done
 python3 - "$out/ready.json" <<'PY' || { echo "LIVE SMOKE: BLOCKED — API not ready or LLM/embeddings unavailable (see $out/ready.json)"; exit 2; }
 import json, sys
 r = json.load(open(sys.argv[1]))
