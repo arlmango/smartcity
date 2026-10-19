@@ -119,9 +119,12 @@ export function ResultsPanel(props: Props) {
               // the banner already says it: do not repeat AI-unavailable/busy notices or the message
               .filter((w) => !(retrievalOnly && (AI_DOWN_CODES.has(w.code) || /ИИ временно недоступен/.test(w.message))))
               .filter((w) => w.message !== r.message && (!diagnosticWarnings.includes(w) || w.code === "routing_excluded"))
-              .map((w, i) => (
-                <li key={`${w.code}-${i}`} className="rounded-control bg-warn-bg px-3 py-2 text-sm text-warn-fg">
-                  {visibleWarning(w.code, w.message)}
+              .map((w) => visibleWarning(w.code, w.message))
+              // routing_unavailable and straight_line_estimate read the same to a person: say it once.
+              .filter((text, i, all) => all.indexOf(text) === i)
+              .map((text) => (
+                <li key={text} className="rounded-control bg-warn-bg px-3 py-2 text-sm text-warn-fg">
+                  {text}
                 </li>
               ))}
           </ul>

@@ -96,6 +96,13 @@ describe("plan inside the results panel", () => {
     // Refinements stay disabled while busy: only the plan's own action is allowed.
     expect((screen.getByRole("button", { name: "Поближе" }) as HTMLButtonElement).disabled).toBe(true);
   });
+  it("router down: the straight-line caveat is said once", () => {
+    const warnings = [
+      { code: "routing_unavailable", message: "x" }, { code: "straight_line_estimate", message: "y" },
+    ];
+    render(<ResultsPanel {...props} response={{ ...okResponse("plan-test-06"), warnings }} busy={false} onRemoveStop={() => {}} />);
+    expect(screen.getAllByText(/Пеший путь недоступен\. Оценка по прямой/)).toHaveLength(1);
+  });
   it("without a plan the server's note is shown instead", () => {
     render(<ResultsPanel {...props} response={{ ...okResponse("plan-test-04"), plan_note: "SYNTHETIC: нужно хотя бы 65 мин." }} busy={false} onRemoveStop={() => {}} />);
     expect(screen.getByTestId("plan-note").textContent).toBe("SYNTHETIC: нужно хотя бы 65 мин.");

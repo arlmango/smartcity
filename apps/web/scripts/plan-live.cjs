@@ -46,11 +46,8 @@ async function settle(page) {
     const run = { viewport: vp.name, firstCardsMs, planShown, errors };
     if (planShown) {
       run.planText = await page.getByTestId("walk-plan").innerText();
-      // The line source is filled once the style is idle: poll briefly before reading it.
-      await page.waitForFunction(async () => {
-        const d = await window.__smartcityMap?.getSource("walking-route")?.getData();
-        return d?.type === "FeatureCollection" && d.features.length > 0;
-      }, {}, { timeout: 15000 }).catch(() => {});
+      // The line source is filled once the style is idle: poll (getData is async) before reading it.
+      for (let i = 0; i < 60 && !(await routeFeatures(page)); i++) await page.waitForTimeout(250);
       run.planFeatures = await routeFeatures(page);
       run.planMarks = await page.getByTestId("plan-stop-mark").count();
       if (mobile) {
