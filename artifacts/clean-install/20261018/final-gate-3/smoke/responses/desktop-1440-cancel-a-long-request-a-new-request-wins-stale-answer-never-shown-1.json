@@ -1,0 +1,85 @@
+{
+  "test": "cancel a long request; a new request wins (stale answer never shown)",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Хочу в парк",
+    "time_budget_min": 20,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "f6c45247-493c-475d-8950-2b7e7b39adff"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "ac736d15042c4122b22f177f08b47558",
+    "client_request_id": "f6c45247-493c-475d-8950-2b7e7b39adff",
+    "status": "no_match",
+    "mode": "retrieval_only",
+    "dataset_version": "osm-20261018T223058Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 20,
+          "source": "ui",
+          "label": "Время: не более 20 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Интерес: Парк / сквер"
+      ],
+      "interpreted_query": "интересы: парк / сквер"
+    },
+    "recommendations": [],
+    "message": "Подходящих мест не нашлось. Части мест не хватает 20 мин с учётом дороги с возвращением и запаса.",
+    "warnings": [],
+    "suggested_relaxations": [],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 5,
+      "semantic": 11721,
+      "rank": 0,
+      "schedule": 0,
+      "total": 11727
+    }
+  },
+  "ms": 11847
+}

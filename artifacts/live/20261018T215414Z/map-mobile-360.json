@@ -1,0 +1,32 @@
+{
+  "project": "mobile-360",
+  "mapReadyMs": 1783,
+  "served": {
+    "buildings": 1812,
+    "roads": 5329,
+    "water": 20,
+    "green": 1784,
+    "coverage": 1
+  },
+  "counts": {
+    "green": 1784,
+    "water": 20,
+    "roads": 5329,
+    "buildings": 1812,
+    "coverage": 1
+  },
+  "extrusionType": "fill-extrusion",
+  "extrusionVisible": "visible",
+  "rendered3d": 83,
+  "sampleHeightSources": [
+    "default",
+    "height",
+    "levels"
+  ],
+  "pitch": 55.00000000000001,
+  "center": [
+    71.4140000000009,
+    51.08900000000014
+  ],
+  "geoCalls": 0
+}

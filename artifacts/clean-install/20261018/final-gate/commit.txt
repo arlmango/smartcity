@@ -1,0 +1,1 @@
+d7c9821 feat(api): explain why a wished-for category is absent (closed / over budget / not nearby); clean eval evidence (0 violations)

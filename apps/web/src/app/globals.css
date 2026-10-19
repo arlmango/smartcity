@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+html,
+body {
+  height: 100%;
+  background: #f6f7f2;
+  color: #17201c;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: Manrope, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  overscroll-behavior: none;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 3px solid #17201c;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .sc-label {
+    @apply text-xs font-bold uppercase tracking-[0.12em] text-muted;
+  }
+  .sc-btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-control border border-stroke bg-white px-3 text-sm font-semibold text-graphite transition-colors hover:border-graphite/40 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .sc-btn-dark {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-control bg-graphite px-4 text-sm font-semibold text-white transition-colors hover:bg-graphite-soft disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .sc-cta {
+    @apply inline-flex min-h-[52px] w-full items-center justify-between gap-2 rounded-control bg-lime px-5 text-base font-bold text-graphite shadow-control transition-colors hover:bg-lime-deep disabled:cursor-not-allowed disabled:bg-stroke disabled:text-muted;
+  }
+  .sc-chip {
+    @apply inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-stroke bg-white px-3.5 text-sm font-medium text-graphite transition-colors hover:border-graphite/40 aria-pressed:border-graphite aria-pressed:bg-graphite aria-pressed:text-white disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .sc-input {
+    @apply w-full rounded-control border border-stroke bg-white px-3 py-2.5 text-[15px] text-graphite placeholder:text-muted focus:border-graphite focus:outline-none focus-visible:outline-[3px];
+  }
+  .sc-card {
+    @apply rounded-panel border border-stroke bg-white;
+  }
+  .sc-tag-ai {
+    @apply inline-flex items-center rounded-full bg-[#EEF1E4] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-olive;
+  }
+  .sc-tag-fact {
+    @apply inline-flex items-center rounded-full bg-ok-bg px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-ok-fg;
+  }
+}
+
+/* ---- MapLibre */
+.maplibregl-map {
+  font-family: Manrope, system-ui, sans-serif;
+}
+.maplibregl-ctrl-attrib {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+@media (max-width: 639px) {
+  /* Phones: the full credit stays visible (licences require it), just denser. */
+  .maplibregl-ctrl-attrib {
+    font-size: 10.5px;
+    line-height: 1.3;
+  }
+}
+.maplibregl-ctrl-attrib a {
+  color: #17201c !important;
+  text-decoration: underline;
+}
+.maplibregl-ctrl-scale {
+  border-color: #59645d;
+  color: #17201c;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+}
+.sc-pick-mode .maplibregl-canvas-container.maplibregl-interactive {
+  cursor: crosshair;
+}
+
+.sc-marker {
+  display: flex;
+  height: 44px;
+  width: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 3px solid #fff;
+  background: #17201c;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(23, 32, 28, 0.35);
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+.sc-marker[aria-pressed="true"] {
+  background: #d9f66f;
+  color: #17201c;
+  border-color: #17201c;
+  transform: scale(1.15);
+  z-index: 2;
+}
+.sc-origin-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.sc-origin-dot {
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 6px solid #17201c;
+  box-shadow: 0 0 0 4px rgba(23, 32, 28, 0.18);
+}
+.sc-origin-label {
+  margin-top: 4px;
+  border-radius: 8px;
+  background: #17201c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

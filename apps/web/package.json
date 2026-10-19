@@ -1,0 +1,56 @@
+{
+  "name": "@smartcity/web",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "dev": "NODE_OPTIONS='--require ./server-preload.cjs' next dev -p 3001",
+    "build": "next build",
+    "start": "node scripts/start-standalone.mjs 3000",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "glyphs": "node scripts/generate-glyphs.mjs"
+  },
+  "dependencies": {
+    "@fontsource/manrope": "5.3.0",
+    "@tanstack/react-query": "5.104.4",
+    "maplibre-gl": "6.15.0",
+    "next": "15.5.28",
+    "react": "19.1.10",
+    "react-dom": "19.1.10",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@eslint/eslintrc": "3.3.7",
+    "@mapbox/tiny-sdf": "2.3.0",
+    "@maplibre/maplibre-gl-style-spec": "26.4.4",
+    "@playwright/test": "1.56.1",
+    "@testing-library/jest-dom": "6.10.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.8",
+    "@types/geojson": "7946.0.16",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "autoprefixer": "10.6.1",
+    "eslint": "9.39.5",
+    "eslint-config-next": "15.5.28",
+    "jsdom": "26.1.0",
+    "postcss": "8.5.30",
+    "tailwindcss": "3.4.19",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": "8.5.30"
+    }
+  }
+}

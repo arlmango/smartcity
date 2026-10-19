@@ -1,0 +1,31 @@
+
+> @smartcity/web@0.1.0 build /home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web
+> next build
+
+   ▲ Next.js 15.5.28
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 2.1s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/4) ...
+   Generating static pages (1/4) 
+   Generating static pages (2/4) 
+   Generating static pages (3/4) 
+ ✓ Generating static pages (4/4)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    43.9 kB         151 kB
+├ ○ /_not-found                            992 B         103 kB
+└ ƒ /api/[...path]                         122 B         102 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/04695458-29edf4110019004d.js  54.2 kB
+  ├ chunks/952-8e9f54a6e2e5d9b9.js       45.7 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

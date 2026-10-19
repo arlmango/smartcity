@@ -1,0 +1,11 @@
+{
+  "second": "b175daba-1035-460a-95f5-02141acbf897",
+  "failed": [
+    "POST /api/recommend/stream — net::ERR_ABORTED",
+    "POST /api/recommend/stream — net::ERR_ABORTED"
+  ],
+  "statuses": [
+    0,
+    0
+  ]
+}

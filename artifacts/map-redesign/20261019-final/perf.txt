@@ -1,0 +1,11 @@
+cold load (map 'load' at 986 ms) → idle {"ms":1590,"tiles":46,"tileKB":279,"statuses":{"200":46},"eox":9,"eoxKB":141}
+jump to whole city (z10.45) → idle {"ms":1998,"tiles":9,"tileKB":108,"statuses":{"200":9},"eox":20,"eoxKB":294}
+flight [ 71.4268, 51.1284 ] anim 2513 ms; tiles settled at 2832 ms
+flight [ 71.4245, 51.1678 ] anim 2509 ms; tiles settled at 2846 ms
+flight [ 71.4162, 51.0893 ] anim 2509 ms; tiles settled at 2829 ms
+frames 508 mean fps 60.0 median ms 16.7 p95 ms 16.7 p99 ms 16.8
+3 district flights {"ms":0,"tiles":457,"tileKB":3836,"statuses":{"200":456,"204":1},"eox":38,"eoxKB":617}
+warm reload → idle {"ms":864,"tiles":46,"tileKB":-41,"statuses":{"200":46},"eox":9,"eoxKB":-3}
+JS heap MB 148
+http://127.0.0.1:8000 n=300 p50 4.5 ms p95 5.5 ms max 22.7 ms
+http://127.0.0.1:3000 n=300 p50 5.2 ms p95 6.4 ms max 21.1 ms

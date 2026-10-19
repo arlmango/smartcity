@@ -1,0 +1,67 @@
+
+Running 26 tests using 1 worker
+
+  ✓   1 [desktop-1440] › tests/live/map.live.spec.ts:12:7 › live: map on real data › initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke (19.3s)
+  ✓   2 [desktop-1440] › tests/live/map.live.spec.ts:111:7 › live: map on real data › perf: cold vs warm load and map-ready (desktop) (9.1s)
+  ✓   3 [desktop-1440] › tests/live/map.live.spec.ts:135:7 › live: map on real data › pick origin by clicking the map; outside coverage is refused @mobile (13.7s)
+  ✓   4 [desktop-1440] › tests/live/map.live.spec.ts:166:7 › live: map on real data › geolocation denied (no permission) does not block the form @mobile (6.1s)
+  ✓   5 [desktop-1440] › tests/live/map.live.spec.ts:179:7 › live: map on real data › place search over our own DB: Mega, Starbucks, nonsense (7.1s)
+  ✓   6 [desktop-1440] › tests/live/map.live.spec.ts:193:7 › live: map on real data › axe on the live initial page @mobile (4.1s)
+  ✓   7 [desktop-1440] › tests/live/map.live.spec.ts:202:7 › live: map on real data › keyboard: tab order form → map controls, focus-visible (7.0s)
+  ✓   8 [desktop-1440] › tests/live/map.live.spec.ts:244:7 › live: map on real data › reduced motion: camera jumps instead of animating (6.8s)
+  ✓   9 [desktop-1440] › tests/live/scenarios.live.spec.ts:41:7 › live scenarios › S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart (1.3m)
+  ✓  10 [desktop-1440] › tests/live/scenarios.live.spec.ts:171:7 › live scenarios › S2 coffee + quiet + socket required, 1 h → honest no_match → relaxation → resend (1.8m)
+  ✓  11 [desktop-1440] › tests/live/scenarios.live.spec.ts:206:7 › live scenarios › S3 one hour with a child, return here → budget incl. return; kids only where proven (1.9m)
+  ✓  12 [desktop-1440] › tests/live/scenarios.live.spec.ts:224:7 › live scenarios › cancel a long request; a new request wins (stale answer never shown) (21.5s)
+  ✓  13 [desktop-1440] › tests/live/scenarios.live.spec.ts:255:7 › live scenarios › XSS + prompt injection in the query: rendered as text, no invented place, no prompt leak (44.1s)
+  -  14 [desktop-1440] › tests/live/scenarios.live.spec.ts:281:7 › live scenarios › mobile: real recommendation in the bottom sheet, list/map toggle, card↔marker @mobile @rec390
+  -  15 [desktop-1440] › tests/live/scenarios.live.spec.ts:311:7 › live scenarios › no_match fast path (socket required, nothing proven) on small mobile @small
+  ✓  16 [mobile-390] › tests/live/map.live.spec.ts:12:7 › live: map on real data › initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke (19.1s)
+  ✓  17 [mobile-390] › tests/live/map.live.spec.ts:135:7 › live: map on real data › pick origin by clicking the map; outside coverage is refused @mobile (16.0s)
+  ✓  18 [mobile-390] › tests/live/map.live.spec.ts:166:7 › live: map on real data › geolocation denied (no permission) does not block the form @mobile (7.2s)
+  ✓  19 [mobile-390] › tests/live/map.live.spec.ts:193:7 › live: map on real data › axe on the live initial page @mobile (7.4s)
+  ✓  20 [mobile-390] › tests/live/scenarios.live.spec.ts:281:7 › live scenarios › mobile: real recommendation in the bottom sheet, list/map toggle, card↔marker @mobile @rec390 (46.1s)
+  ✓  21 [mobile-360] › tests/live/map.live.spec.ts:12:7 › live: map on real data › initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke (12.3s)
+  ✓  22 [mobile-360] › tests/live/map.live.spec.ts:135:7 › live: map on real data › pick origin by clicking the map; outside coverage is refused @mobile (9.6s)
+  ✓  23 [mobile-360] › tests/live/map.live.spec.ts:166:7 › live: map on real data › geolocation denied (no permission) does not block the form @mobile (4.4s)
+  ✓  24 [mobile-360] › tests/live/map.live.spec.ts:193:7 › live: map on real data › axe on the live initial page @mobile (4.8s)
+  ✓  25 [mobile-360] › tests/live/scenarios.live.spec.ts:311:7 › live scenarios › no_match fast path (socket required, nothing proven) on small mobile @small (5.0s)
+  ✘  26 [degraded-1440] › tests/live/degraded.live.spec.ts:10:7 › live: provider failure › LLM + embeddings down → banners, retrieval_only answer from the real DB @degraded (1.0m)
+
+
+  1) [degraded-1440] › tests/live/degraded.live.spec.ts:10:7 › live: provider failure › LLM + embeddings down → banners, retrieval_only answer from the real DB @degraded 
+
+    TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.
+
+       at helpers.ts:91
+
+      89 |
+      90 | export async function waitForMap(page: Page) {
+    > 91 |   await page.waitForFunction(() => window.__smartcity?.loaded === true && (window.__smartcity.sourceCounts.buildings ?? 0) > 0, null, {
+         |              ^
+      92 |     timeout: 60_000,
+      93 |   });
+      94 | }
+        at waitForMap (/tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/apps/web/tests/live/helpers.ts:91:14)
+        at /tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/apps/web/tests/live/degraded.live.spec.ts:13:21
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../artifacts/live/20261018T224900Z/test-results/degraded.live-live-provide-a6bd5-r-from-the-real-DB-degraded-degraded-1440/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../artifacts/live/20261018T224900Z/test-results/degraded.live-live-provide-a6bd5-r-from-the-real-DB-degraded-degraded-1440/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../artifacts/live/20261018T224900Z/test-results/degraded.live-live-provide-a6bd5-r-from-the-real-DB-degraded-degraded-1440/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace ../../artifacts/live/20261018T224900Z/test-results/degraded.live-live-provide-a6bd5-r-from-the-real-DB-degraded-degraded-1440/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Slow test file: [desktop-1440] › tests/live/scenarios.live.spec.ts (6.0m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 failed
+    [degraded-1440] › tests/live/degraded.live.spec.ts:10:7 › live: provider failure › LLM + embeddings down → banners, retrieval_only answer from the real DB @degraded 
+  2 skipped
+  23 passed (10.5m)

@@ -1,0 +1,3 @@
+[23:24:15] counts places,evidence,embeddings,runs + content checksums (places, embeddings): source=126,402,126,2,794d21283b070454bb7db66f1886a6c3,a012ffe0c45cecf6f7dad30d95439993 restored=126,402,126,2,794d21283b070454bb7db66f1886a6c3,a012ffe0c45cecf6f7dad30d95439993
+[23:24:15] backup-test PASS (data/backups/smartcity-20261018T232413Z.dump)
+exit=0

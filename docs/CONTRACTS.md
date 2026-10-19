@@ -77,12 +77,40 @@ validate → rules-parse текста → (LLM: интерпретация за�
 Файлы: `data/map/{layer}.geojson` + `data/map/manifest.json`, ETag = sha256 файла.
 - buildings: Polygon/MultiPolygon (с внутренними кольцами); properties: `id` ("way/123"),
   `name`?, `building`, `levels`?, `height_m` (число), `min_height_m` (число, 0 по умолчанию),
-  `height_source` ∈ {height, levels, default}. Высота: `height` (м) → иначе `building:levels`×3.2 м
-  → иначе 10 м (приближение). min_height: `min_height` → `building:min_level`×3.2 → 0.
+  `height_source` ∈ {height, levels, estimate, default}, `estimate_basis` ∈ {type, area} при estimate.
+  Высота: `height` (м) → `building:levels`×3.2 м → оценка по типу (гараж/сарай/киоск 3 м, дом 6 м,
+  склад/ангар/навес 8 м) или для building=yes по площади (< 40 м² → 3 м, < 250 м² → 6 м) → 10 м (условно).
+  min_height: `min_height` → `building:min_level`×3.2 → 0. Слои в `data/map` пересчитываются при следующем `make ingest`.
 - roads: LineString; `id`, `highway`, `name`?.
 - water: Polygon/LineString; `id`, `kind`, `name`?.
 - green: Polygon/MultiPolygon; `id`, `kind` (park, garden, grass, forest, meadow, pitch...), `name`?.
 - Координаты всегда [lon, lat]. Атрибуция «© OpenStreetMap contributors» обязательна.
+
+## 7a. Базовая карта города (ADR-0002)
+`GET /api/tiles/{tileset}/{z}/{x}/{y}[?v=<tiles_version>]`, tileset ∈ {`base`, `buildings`}, 0 ≤ z ≤ 15 (MapLibre
+перезумирует дальше). `v` (hex ≤ 32) — только ключ кэша: версия архивов из `/api/basemap`, меняется при пересборке,
+поэтому дневной кэш браузера не смешивает старые и новые тайлы; прокси пропускает только такой query.
+Источник — `data/basemap/{astana-base,astana-buildings}.pmtiles` (собираются `make basemap`, не в git). Ответ:
+200 `application/x-protobuf` (MVT без gzip; web-прокси сжимает gzip для клиента), 204 — пустой тайл, 304 по
+`If-None-Match`; `ETag` = размер/mtime архива + id тайла, `Cache-Control: public, max-age=TILE_CACHE_MAX_AGE_SECONDS
+(86400), must-revalidate`. 404 — неизвестный набор/вне диапазона, 503 `basemap_unavailable` — архивы не собраны.
+Отдельный rate limit `RATE_LIMIT_TILES` (3000/мин); в access-логе путь сокращён до `/api/tiles/{set}` (z/x/y выдают
+просматриваемый район).
+- `base`: схема Protomaps Basemap v4 (слои earth, landuse, landcover, water, roads, places, pois, boundaries).
+- `buildings`, слой `buildings`, feature id = id области osmium (way×2, relation×2+1): `h`, `mh` (м), `src` ∈ {height,
+  levels, estimate, default}, `eb` ∈ {type, area}?, `lv`?, `kind` (значение building / building:part), `part`? (1 —
+  building:part), `has_parts`? (1 — контур рисуется частями в 3D), `col`/`rcol`? (building:colour / roof:colour,
+  нормализованы в #rrggbb и смягчены к нейтральному тону), `roof`? (roof:shape), `roofed`? (1 — у корпуса есть срезы
+  крыши), `rs`? (1 — горизонтальный срез приближённой крыши/стилизации), `styl`? (1 — кураторская стилизация,
+  не точная модель), `lbl`? (подпись стилизации).
+`GET /api/basemap` → сводка `data/basemap/manifest.json`: bbox, источники, лицензии, `coverage` (граница OSM relation
+3087155, площадь, `boundary_inside_tiles`), `height_source`, `estimate_rules`, `roofs`, `stylised_landmarks`,
+`tiles_version`, `usage_mode` и `satellite` — `{enabled:true, tiles, maxzoom, attribution, license}` только при явно
+заданном `APP_USAGE_MODE=noncommercial` и `MAP_SATELLITE=auto`, иначе `{enabled:false, reason}` (по умолчанию в коде —
+`commercial`, fail-closed; `.env.example` для демо задаёт `noncommercial`). Web принимает тайлы спутника только с
+`https://tiles.maps.eox.at/`. `/api/ready` содержит компонент `basemap` (ok/unavailable), он не блокирует готовность:
+подбор мест и запасная карта работают без тайлов города. Сжатый прокси-ответ получает слабый ETag (`W/…`).
+`GET /api/basemap/boundary` → GeoJSON административной границы Астаны (OSM, упрощение ~1 м).
 
 ## 8. Конфиденциальность
 Логи: request_id, статус, длительности, число кандидатов, IDs мест; без сырого текста запроса и

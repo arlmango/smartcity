@@ -1,0 +1,5 @@
+commit: 4878f89
+date: 2026-10-19T11:52:59Z
+api: http://127.0.0.1:8000 web: http://127.0.0.1:3000
+dataset_manifest_sha256: 399a319a4111fce477ece36d65c6dd090dcfbe021779a7741bd10be2b1118f64
+overall_exit: 0

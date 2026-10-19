@@ -1,0 +1,4 @@
+smartcity-web-1	0.00%	76.61MiB / 15.72GiB
+smartcity-api-1	0.20%	79.28MiB / 15.72GiB
+smartcity-ollama-1	375.11%	4.222GiB / 15.72GiB
+smartcity-db-1	0.01%	157.8MiB / 15.72GiB

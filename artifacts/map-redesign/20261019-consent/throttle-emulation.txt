@@ -1,0 +1,3 @@
+{"emulation":"CPU x1, 390x844@3x, 150ms RTT ~9 Mbit/s; GPU NOT emulated","mapLoadMs":2950,"tilesReadyMs":2964,"flyFps":60,"frameP95ms":16.7,"frames":151}
+{"emulation":"CPU x4, 390x844@3x, 150ms RTT ~9 Mbit/s; GPU NOT emulated","mapLoadMs":3314,"tilesReadyMs":3364,"flyFps":60,"frameP95ms":16.8,"frames":151}
+{"emulation":"CPU x6, 390x844@3x, 150ms RTT ~9 Mbit/s; GPU NOT emulated","mapLoadMs":3687,"tilesReadyMs":3744,"flyFps":58.4,"frameP95ms":16.7,"frames":147}

@@ -1,0 +1,3 @@
+[21:01:59] counts places,evidence,embeddings,runs: source=127,405,127,10 restored=127,405,127,10
+[21:01:59] backup-test PASS (data/backups/smartcity-20261018T210157Z.dump)
+EXIT=0

@@ -1,0 +1,45 @@
+# SmartCity web (Next.js standalone). Build from the repository root:
+#   docker build -f infra/docker/web.Dockerfile -t smartcity-web:0.1.0 .
+# Behind a TLS-intercepting proxy (optional): pass HTTPS_PROXY as a build arg and the CA as a
+# BuildKit secret, e.g. --network host --build-arg HTTPS_PROXY=$HTTPS_PROXY --secret id=build_ca,src=/path/ca.crt
+# (the secret is never stored in an image layer).
+# Runtime: API_INTERNAL_URL (default http://api:8000) is read per request by the
+# /api/* route-handler proxy, so the same image works with any API address.
+
+ARG NODE_IMAGE=node:22.22.0-slim
+
+# ---------------------------------------------------------------- deps
+FROM ${NODE_IMAGE} AS deps
+ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH CI=1 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 NEXT_TELEMETRY_DISABLED=1
+WORKDIR /app
+COPY apps/web/package.json apps/web/pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+    --mount=type=secret,id=build_ca,required=false \
+    if [ -s /run/secrets/build_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/build_ca npm_config_cafile=/run/secrets/build_ca; fi; \
+    corepack enable && corepack prepare pnpm@10.28.0 --activate \
+    && pnpm config set store-dir /pnpm/store \
+    && pnpm install --frozen-lockfile
+
+# ---------------------------------------------------------------- build
+FROM ${NODE_IMAGE} AS build
+ENV CI=1 NEXT_TELEMETRY_DISABLED=1
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/web/ ./
+RUN node node_modules/next/dist/bin/next build
+
+# ---------------------------------------------------------------- runtime
+FROM ${NODE_IMAGE} AS runtime
+# WEB_TRUSTED_PROXY_HOPS: number of trusted reverse proxies in front of this container (0 = none).
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0 API_INTERNAL_URL=http://api:8000 WEB_TRUSTED_PROXY_HOPS=0
+WORKDIR /app
+COPY --from=build --chown=node:node /app/.next/standalone ./
+COPY --from=build --chown=node:node /app/.next/static ./.next/static
+COPY --from=build --chown=node:node /app/public ./public
+COPY --from=build --chown=node:node /app/server-preload.cjs /app/forwarded-for.cjs ./
+USER node
+EXPOSE 3000
+HEALTHCHECK --interval=10s --timeout=3s --retries=6 \
+  CMD node -e "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+# The preload rewrites X-Forwarded-For to the real client address before Next.js sees it.
+CMD ["node", "-r", "./server-preload.cjs", "server.js"]

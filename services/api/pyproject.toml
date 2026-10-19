@@ -4,7 +4,8 @@ version = "0.1.0"
 description = "SmartCity API: grounded walk recommendations for Astana (FastAPI)."
 requires-python = ">=3.12,<3.14"
 dependencies = [
-  "fastapi==0.120.0",
+  "fastapi==0.146.0",
+  "starlette==1.9.0",
   "uvicorn[standard]==0.38.0",
   "pydantic==2.12.3",
   "pydantic-settings==2.11.0",
@@ -17,6 +18,7 @@ dependencies = [
   "httpx==0.28.1",
   "opening-hours-py==2.1.4",
   "tzdata==2025.2",
+  "pmtiles==3.8.1",
 ]
 
 [build-system]

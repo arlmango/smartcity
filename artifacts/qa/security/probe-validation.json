@@ -1,0 +1,638 @@
+{
+  "api": "http://127.0.0.1:8012",
+  "web": "http://127.0.0.1:3011",
+  "marker": "QAMARK7f3a",
+  "exact_origin": {
+    "lat": 51.0912345,
+    "lon": 71.4123456
+  },
+  "results": [
+    {
+      "id": "V01",
+      "check": "lat=91 out of range",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V02",
+      "check": "lon=-181",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V03",
+      "check": "lat as string",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V04",
+      "check": "time 5 min (<10)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V05",
+      "check": "time 181 min (>180)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V06",
+      "check": "negative time",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V07",
+      "check": "query 2001 chars",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V08",
+      "check": "7 context turns (>6)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V09",
+      "check": "context turn 501 chars",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V10",
+      "check": "extra field ai_base_url (SSRF attempt)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V11",
+      "check": "extra field source_url (SSRF attempt)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V12",
+      "check": "constraint extra field provider_url",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V13",
+      "check": "travel_mode car",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V14",
+      "check": "role system in context",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V15",
+      "check": "start_time in the past (1 day)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "invalid_start_time",
+      "echoed_input": false
+    },
+    {
+      "id": "V16",
+      "check": "start_time naive (no tz)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V17",
+      "check": "bad client_request_id",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V18",
+      "check": "max_distance_m 50 (<100)",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V19",
+      "check": "unknown feature",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V20",
+      "check": "exclude_place_ids 21",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error",
+      "echoed_input": false
+    },
+    {
+      "id": "V21",
+      "check": "lat=NaN literal",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error"
+    },
+    {
+      "id": "V22",
+      "check": "lat=Infinity literal",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error"
+    },
+    {
+      "id": "V23",
+      "check": "lat=-Infinity literal",
+      "verdict": "PASS",
+      "status": 422,
+      "error": "validation_error"
+    },
+    {
+      "id": "V24",
+      "check": "malformed JSON",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V25",
+      "check": "deeply nested JSON 5000 levels (≈30 KB)",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V26",
+      "check": "body 60 KB (> MAX_BODY_BYTES 32 KiB)",
+      "verdict": "PASS",
+      "status": 413
+    },
+    {
+      "id": "V27",
+      "check": "chunked body 80 KB without Content-Length",
+      "verdict": "FAIL",
+      "status": 400
+    },
+    {
+      "id": "V28",
+      "check": "GET /api/places?bbox=nan,nan,nan,nan",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V29",
+      "check": "GET /api/places?bbox=0,0,10,10",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V30",
+      "check": "GET /api/places?bbox=71.39,51.075,71.445,51.115&limit=100000",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V31",
+      "check": "GET /api/search?q=",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V32",
+      "check": "GET /api/search?q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V33",
+      "check": "GET /api/search?q=%27%20OR%201%3D1%20--",
+      "verdict": "PASS",
+      "status": 200,
+      "items": 0
+    },
+    {
+      "id": "V34",
+      "check": "GET /api/search?q=%25",
+      "verdict": "PASS",
+      "status": 200,
+      "items": 0
+    },
+    {
+      "id": "V35",
+      "check": "GET /api/places/not-a-uuid",
+      "verdict": "PASS",
+      "status": 422
+    },
+    {
+      "id": "V36",
+      "check": "GET /api/places/00000000-0000-0000-0000-000000000000",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P01",
+      "check": "API GET /api/map/../../etc/passwd",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P02",
+      "check": "API GET /api/map/..%2f..%2fetc%2fpasswd",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P03",
+      "check": "API GET /api/map/%2e%2e%2f%2e%2e%2f.env",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P04",
+      "check": "API GET /api/map/manifest",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P05",
+      "check": "API GET /api/map/secrets",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P06",
+      "check": "API GET /api/map/buildings.geojson",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P07",
+      "check": "API GET /api/places/..%2f..%2f.env",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P08",
+      "check": "API GET /api/route?url=http://169.254.169.254/",
+      "verdict": "PASS",
+      "status": 405
+    },
+    {
+      "id": "P09",
+      "check": "API GET /api/unknown",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "P10",
+      "check": "API GET /.env",
+      "verdict": "PASS",
+      "status": 404
+    },
+    {
+      "id": "M01",
+      "check": "API PUT /api/recommend",
+      "verdict": "PASS",
+      "status": 405
+    },
+    {
+      "id": "M02",
+      "check": "API DELETE /api/places",
+      "verdict": "PASS",
+      "status": 405
+    },
+    {
+      "id": "M03",
+      "check": "API GET /api/recommend",
+      "verdict": "PASS",
+      "status": 405
+    },
+    {
+      "id": "M04",
+      "check": "API TRACE /api/health",
+      "verdict": "PASS",
+      "status": 405
+    },
+    {
+      "id": "P11",
+      "check": "POST /api/route with URL (no router configured)",
+      "verdict": "PASS",
+      "status": 501,
+      "error": "routing_unavailable"
+    },
+    {
+      "id": "I01",
+      "check": "FastAPI /docs and /openapi.json exposed on API port",
+      "verdict": "INFO",
+      "status_docs": 200,
+      "status_openapi": 200
+    },
+    {
+      "id": "W01",
+      "check": "WEB GET /api/..%2f..%2fetc%2fpasswd",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W02",
+      "check": "WEB GET /api/%2e%2e/%2e%2e/etc/passwd",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W03",
+      "check": "WEB GET /api/map/..%2fready",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W04",
+      "check": "WEB GET /api/map%2f..%2f..%2fdocs",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W05",
+      "check": "WEB GET /api/http://169.254.169.254/latest/meta-data",
+      "verdict": "PASS",
+      "status": 308,
+      "location": "/api/http:/169.254.169.254/latest/meta-data",
+      "final_status": 404
+    },
+    {
+      "id": "W06",
+      "check": "WEB GET /api//evil.example/x",
+      "verdict": "PASS",
+      "status": 308,
+      "location": "/api/evil.example/x",
+      "final_status": 404
+    },
+    {
+      "id": "W07",
+      "check": "WEB GET /api/docs",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W08",
+      "check": "WEB GET /api/openapi.json",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W09",
+      "check": "WEB GET /api/places/..%2F..%2Fdocs",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W10",
+      "check": "WEB GET /api/map/buildings/../../docs",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W11",
+      "check": "WEB GET /api/recommend",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W12",
+      "check": "WEB GET /api/%5c%5cevil.example",
+      "verdict": "PASS",
+      "status": 404,
+      "location": null,
+      "final_status": 404
+    },
+    {
+      "id": "W13",
+      "check": "WEB /api/search query 3000 chars",
+      "verdict": "PASS",
+      "status": 414
+    },
+    {
+      "id": "W14",
+      "check": "WEB PUT /api/recommend",
+      "verdict": "PASS",
+      "status": 405
+    },
+    {
+      "id": "W15",
+      "check": "WEB POST 70 KB body",
+      "verdict": "PASS",
+      "status": 413
+    },
+    {
+      "id": "W16",
+      "check": "WEB Host header spoof does not change upstream",
+      "verdict": "PASS",
+      "status": 200
+    },
+    {
+      "id": "C01",
+      "check": "CORS preflight from evil origin not allowed",
+      "verdict": "PASS",
+      "status": 400,
+      "acao": null
+    },
+    {
+      "id": "C02",
+      "check": "CORS simple GET from evil origin: no ACAO",
+      "verdict": "PASS",
+      "status": 200
+    },
+    {
+      "id": "C03",
+      "check": "CORS allowed origin http://localhost:3000 gets ACAO",
+      "verdict": "PASS",
+      "acao": "http://localhost:3000"
+    },
+    {
+      "id": "C04",
+      "check": "CORS no credentials",
+      "verdict": "PASS"
+    },
+    {
+      "id": "H-api/api/health",
+      "check": "response headers api /api/health",
+      "verdict": "INFO",
+      "headers": {
+        "server": "uvicorn"
+      },
+      "security_headers": {
+        "content-security-policy": null,
+        "x-content-type-options": null,
+        "x-frame-options": null,
+        "referrer-policy": null
+      }
+    },
+    {
+      "id": "H-api/api/ready",
+      "check": "response headers api /api/ready",
+      "verdict": "INFO",
+      "headers": {
+        "server": "uvicorn"
+      },
+      "security_headers": {
+        "content-security-policy": null,
+        "x-content-type-options": null,
+        "x-frame-options": null,
+        "referrer-policy": null
+      }
+    },
+    {
+      "id": "H-web/",
+      "check": "response headers web /",
+      "verdict": "INFO",
+      "headers": {},
+      "security_headers": {
+        "content-security-policy": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "strict-origin-when-cross-origin"
+      }
+    },
+    {
+      "id": "H-web/api/health",
+      "check": "response headers web /api/health",
+      "verdict": "INFO",
+      "headers": {},
+      "security_headers": {
+        "content-security-policy": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "strict-origin-when-cross-origin"
+      }
+    },
+    {
+      "id": "H-web/api/ready",
+      "check": "response headers web /api/ready",
+      "verdict": "INFO",
+      "headers": {},
+      "security_headers": {
+        "content-security-policy": null,
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "strict-origin-when-cross-origin"
+      }
+    },
+    {
+      "id": "X01",
+      "check": "XSS in query: JSON response, raw HTML not reflected",
+      "verdict": "PASS",
+      "status": 200,
+      "reflected_html": false,
+      "mode": "retrieval_only"
+    },
+    {
+      "id": "X02",
+      "check": "HTML/injection in conversation_context accepted as data",
+      "verdict": "PASS",
+      "status": 200
+    },
+    {
+      "id": "X03",
+      "check": "outside coverage (Almaty) → no_match/outside_coverage",
+      "verdict": "PASS",
+      "status": 200,
+      "warnings": [
+        "outside_coverage"
+      ]
+    },
+    {
+      "id": "X04",
+      "check": "10 min + only culture → empty result handled (no_match with explanation)",
+      "verdict": "PASS",
+      "status": 200,
+      "result_status": "no_match",
+      "message": "Подходящих мест не нашлось. В радиусе досягаемости (около 0 м по прямой) в нашей базе нет мест."
+    },
+    {
+      "id": "X05",
+      "check": "Unicode/emoji/CJK/Kazakh query",
+      "verdict": "PASS",
+      "status": 200,
+      "result_status": "degraded"
+    },
+    {
+      "id": "X06",
+      "check": "empty query is allowed (UI controls only)",
+      "verdict": "PASS",
+      "status": 200,
+      "result_status": "degraded"
+    },
+    {
+      "id": "X07",
+      "check": "include ∩ exclude → needs_clarification",
+      "verdict": "PASS",
+      "status": 200
+    },
+    {
+      "id": "X08",
+      "check": "text-required socket with no proven sockets → no_match",
+      "verdict": "PASS",
+      "status": 200,
+      "relax": [
+        "feature_to_preference:socket"
+      ]
+    }
+  ]
+}

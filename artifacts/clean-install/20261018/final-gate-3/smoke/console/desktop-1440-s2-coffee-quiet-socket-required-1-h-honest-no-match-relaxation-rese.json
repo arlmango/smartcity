@@ -1,0 +1,8 @@
+{
+  "test": "S2 coffee + quiet + socket required, 1 h → honest no_match → relaxation → resend",
+  "project": "desktop-1440",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "httpErrors": []
+}

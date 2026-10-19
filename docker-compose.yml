@@ -25,6 +25,9 @@ services:
   ollama:
     profiles: ["ollama"]
     image: ollama/ollama:0.12.6
+    environment:
+      # Keep models in RAM between requests: a cold load of qwen2.5:3b takes ~35 s on CPU.
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-30m}
     ports:
       - "127.0.0.1:11434:11434"
     volumes:
@@ -47,8 +50,12 @@ services:
       DATABASE_URL: postgresql+psycopg://smartcity:${POSTGRES_PASSWORD:-smartcity}@db:5432/smartcity
       DATA_DIR: /app/data
       COVERAGE_CONFIG: /app/config/coverage.geojson
-      AI_BASE_URL: ${AI_BASE_URL_DOCKER:-http://host.docker.internal:11434}
-      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL_DOCKER:-http://host.docker.internal:11434}
+      # Inside the compose network the profile `ollama` service is reachable as http://ollama:11434.
+      # For an Ollama on the host use http://host.docker.internal:11434 (and OLLAMA_HOST=0.0.0.0 there).
+      AI_BASE_URL: ${AI_BASE_URL_DOCKER:-http://ollama:11434}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL_DOCKER:-http://ollama:11434}
+      # Requests arrive through the web container's /api proxy, which sets X-Forwarded-For.
+      TRUST_FORWARDED_FOR: "true"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:

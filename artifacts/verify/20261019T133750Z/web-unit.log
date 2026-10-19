@@ -1,0 +1,37 @@
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.overrides". See https://pnpm.io/settings for the new home of each setting.
+
+> @smartcity/web@0.1.0 test /Users/mango/smartcity/apps/web
+> vitest run
+
+
+ RUN  v3.2.7 /Users/mango/smartcity/apps/web
+
+stderr | tests/unit/api.test.ts > api client > turns an invalid response into an ApiError, not a crash
+Invalid API response /api/coverage [
+  {
+    code: [32m'invalid_type'[39m,
+    expected: [32m'number'[39m,
+    received: [32m'string'[39m,
+    path: [ [32m'place_count'[39m ],
+    message: [32m'Expected number, received string'[39m
+  }
+]
+
+ ✓ tests/unit/mapData.test.ts (8 tests) 11ms
+ ✓ tests/unit/contracts.test.ts (14 tests) 16ms
+ ✓ tests/unit/recommendState.test.ts (13 tests) 6ms
+ ✓ tests/unit/form.test.ts (7 tests) 12ms
+ ✓ tests/unit/api.test.ts (11 tests) 55ms
+ ✓ tests/unit/format.test.ts (18 tests) 57ms
+ ✓ tests/unit/timeProviders.test.ts (7 tests) 13ms
+ ✓ tests/unit/mapStyle.test.ts (11 tests) 68ms
+ ✓ tests/unit/card.test.tsx (11 tests) 444ms
+ ✓ tests/unit/forwardedFor.test.ts (6 tests) 10ms
+ ✓ tests/unit/proxy.test.ts (35 tests) 48ms
+ ✓ tests/unit/maplibreVersion.test.ts (2 tests) 3ms
+
+ Test Files  12 passed (12)
+      Tests  143 passed (143)
+   Start at  18:38:12
+   Duration  2.53s (transform 732ms, setup 3.69s, collect 1.55s, tests 743ms, environment 8.07s, prepare 1.62s)
+

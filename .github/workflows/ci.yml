@@ -1,0 +1,109 @@
+name: ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    services:
+      db:
+        image: pgvector/pgvector:0.8.1-pg17-bookworm
+        env:
+          POSTGRES_USER: smartcity
+          POSTGRES_PASSWORD: smartcity
+          POSTGRES_DB: smartcity
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U smartcity" --health-interval 3s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostGIS into service container
+        run: |
+          cid=$(docker ps -q --filter ancestor=pgvector/pgvector:0.8.1-pg17-bookworm)
+          docker exec "$cid" bash -c "apt-get update && apt-get install -y --no-install-recommends postgresql-17-postgis-3=3.6.4+dfsg-2.pgdg12+1 postgresql-17-postgis-3-scripts=3.6.4+dfsg-2.pgdg12+1"
+          # db-init.sql creates both test databases (smartcity_test, smartcity_test_ingest) with extensions.
+          docker exec -i "$cid" psql -v ON_ERROR_STOP=1 -U smartcity -d smartcity < infra/docker/db-init.sql
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.32"
+          # Same interpreter as local dev and the API image (OpenAPI snapshot depends on it).
+          python-version: "3.13"
+      - run: uv sync --all-packages --frozen
+      - run: uv run ruff check services && uv run ruff format --check services
+      - name: Migrations
+        run: |
+          cd services/api
+          for db in smartcity smartcity_test smartcity_test_ingest; do
+            DATABASE_URL=postgresql+psycopg://smartcity:smartcity@localhost:5433/$db uv run alembic upgrade head
+          done
+      # Separate invocations: both suites have a top-level conftest module.
+      - run: uv run pytest services/api/tests -m "not live" -q && uv run pytest services/ingest/tests -m "not live" -q
+        env:
+          SMARTCITY_REQUIRE_DB: "1"
+      - run: uv run python -m smartcity_api.export_openapi --check
+
+  frontend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: apps/web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint && pnpm typecheck && pnpm test && pnpm build
+
+  e2e-deterministic:
+    runs-on: ubuntu-24.04
+    needs: frontend
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: apps/web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm build && pnpm test:e2e
+        env:
+          SMARTCITY_E2E_DETERMINISTIC: "1"
+
+  secrets-and-deps:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.32"
+      - run: uv run --no-project python scripts/secret_scan.py
+      - run: uvx pip-audit==2.9.0 -r <(uv export --frozen --all-packages --no-hashes --no-emit-workspace)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: cd apps/web && npx --yes pnpm@10 audit --prod --audit-level high
+
+  # Live smoke needs real models + data; it is manual and never runs for forks.
+  live-smoke:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo 'Live smoke is run locally with make smoke-live (requires Ollama models or a configured endpoint).'

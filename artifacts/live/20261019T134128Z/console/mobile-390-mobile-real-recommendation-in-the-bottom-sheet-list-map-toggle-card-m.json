@@ -1,0 +1,10 @@
+{
+  "test": "mobile: real recommendation in the bottom sheet, list/map toggle, card↔marker @mobile @rec390",
+  "project": "mobile-390",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [
+    "POST /api/recommend/stream — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

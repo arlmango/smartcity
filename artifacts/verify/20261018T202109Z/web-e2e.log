@@ -1,0 +1,50 @@
+
+> @smartcity/web@0.1.0 test:e2e /home/user/smartcity/.claude/worktrees/agent-a1d300f6a33f4d23c/apps/web
+> playwright test
+
+
+Running 35 tests using 2 workers
+
+  ✓   1 [desktop-chromium] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures) › loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile (18.0s)
+  ✓   2 [desktop-chromium] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile (23.0s)
+  ✓   3 [desktop-chromium] › tests/e2e/map.spec.ts:84:7 › deterministic: map (SYNTHETIC fixtures) › 2D/3D toggle, north reset and height legend (17.8s)
+  ✓   4 [desktop-chromium] › tests/e2e/flow.spec.ts:70:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › no_match explains and relaxation resends the server patch (12.9s)
+  ✓   5 [desktop-chromium] › tests/e2e/map.spec.ts:111:7 › deterministic: map (SYNTHETIC fixtures) › select origin by clicking the map; outside coverage is refused (11.2s)
+  ✓   6 [desktop-chromium] › tests/e2e/flow.spec.ts:91:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › quick refinements keep earlier hard conditions (16.0s)
+  ✓   7 [desktop-chromium] › tests/e2e/map.spec.ts:135:7 › deterministic: map (SYNTHETIC fixtures) › map layer failure shows an explicit error, not an empty canvas (7.3s)
+  -   9 [desktop-chromium] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓   8 [desktop-chromium] › tests/e2e/flow.spec.ts:126:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › retrieval_only shows the 'ИИ временно недоступен' banner; provider status banner from /api/ready (8.1s)
+  ✓  11 [desktop-chromium] › tests/e2e/flow.spec.ts:136:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › provider error → error state; retry reuses the same client_request_id (10.4s)
+  ✓  10 [mobile-390] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile (16.2s)
+  ✓  12 [desktop-chromium] › tests/e2e/flow.spec.ts:153:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › invalid API response becomes an error state, not a crash (3.9s)
+  ✓  13 [mobile-390] › tests/e2e/flow.spec.ts:208:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (5.0s)
+  ✓  15 [mobile-390] › tests/e2e/flow.spec.ts:232:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (5.0s)
+  ✓  14 [desktop-chromium] › tests/e2e/flow.spec.ts:161:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › long request shows progress and can be cancelled; late answer is ignored (11.7s)
+  ✓  16 [mobile-390] › tests/e2e/flow.spec.ts:293:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (10.1s)
+  ✓  17 [desktop-chromium] › tests/e2e/flow.spec.ts:176:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › needs_clarification asks a question and lets the user change conditions (7.6s)
+  ✓  18 [mobile-390] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures) › loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile (5.8s)
+  -  20 [mobile-390] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  19 [desktop-chromium] › tests/e2e/flow.spec.ts:186:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › T25: HTML in a place name is rendered as text (cards and markers) (6.1s)
+  ✓  22 [desktop-chromium] › tests/e2e/flow.spec.ts:198:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › place search sets the origin from our own base (9.9s)
+  ✓  21 [mobile-360] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile (14.3s)
+  ✓  23 [desktop-chromium] › tests/e2e/flow.spec.ts:208:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (7.8s)
+  ✓  24 [mobile-360] › tests/e2e/flow.spec.ts:208:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (5.3s)
+  ✓  25 [desktop-chromium] › tests/e2e/flow.spec.ts:219:7 › deterministic: geolocation › granted geolocation outside coverage is explained, not used (4.3s)
+  ✓  26 [mobile-360] › tests/e2e/flow.spec.ts:232:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (4.0s)
+  ✓  27 [desktop-chromium] › tests/e2e/flow.spec.ts:232:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (4.9s)
+  ✓  29 [desktop-chromium] › tests/e2e/flow.spec.ts:258:7 › deterministic: fallback & states › offline state is shown and blocks submit (5.6s)
+  ✓  28 [mobile-360] › tests/e2e/flow.spec.ts:293:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (9.9s)
+  ✓  31 [mobile-360] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures) › loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile (8.5s)
+  -  32 [mobile-360] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  30 [desktop-chromium] › tests/e2e/flow.spec.ts:270:7 › deterministic: fallback & states › API down → explicit banner (10.6s)
+  ✓  33 [desktop-chromium] › tests/e2e/flow.spec.ts:276:7 › deterministic: fallback & states › О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights (4.9s)
+  ✓  34 [desktop-chromium] › tests/e2e/flow.spec.ts:293:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (5.5s)
+  ✓  35 [desktop-chromium] › tests/e2e/flow.spec.ts:309:7 › deterministic: accessibility › keyboard only: choose demo origin, submit, open a card on the map (3.3s)
+
+  3 skipped
+  32 passed (3.4m)
+
+To open last HTML report run:
+[36m[39m
+[36m  pnpm exec playwright show-report[39m
+[36m[39m

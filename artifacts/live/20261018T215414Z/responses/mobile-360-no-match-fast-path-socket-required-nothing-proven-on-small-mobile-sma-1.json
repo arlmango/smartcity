@@ -1,0 +1,108 @@
+{
+  "test": "no_match fast path (socket required, nothing proven) on small mobile @small",
+  "project": "mobile-360",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "",
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [
+        "socket"
+      ],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "95aac122-f2b2-41b9-9f77-c2c1423be56b"
+  },
+  "status": 200,
+  "response": {
+    "request_id": "68bb844066ba42b3ac7a03bf33929820",
+    "client_request_id": "95aac122-f2b2-41b9-9f77-c2c1423be56b",
+    "status": "no_match",
+    "mode": "retrieval_only",
+    "dataset_version": "osm-20261018T200514Z",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 40,
+          "source": "ui",
+          "label": "Время: не более 40 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        },
+        {
+          "kind": "required_feature",
+          "value": "socket",
+          "source": "ui",
+          "label": "Обязательно: розетка"
+        }
+      ],
+      "preferences": [],
+      "interpreted_query": null
+    },
+    "recommendations": [],
+    "message": "Подходящих мест не нашлось. Обязательное условие «розетка» не подтверждено в данных OSM у ближайших мест — мы не выдаём неизвестное за выполненное. Можно ослабить условие — варианты ниже.",
+    "warnings": [],
+    "suggested_relaxations": [
+      {
+        "code": "feature_to_preference:socket",
+        "message": "Показать варианты, где «розетка» не подтверждено данными (условие станет пожеланием)",
+        "patch": {
+          "required_features": [],
+          "preferred_features": [
+            "socket"
+          ],
+          "include_categories": [],
+          "exclude_categories": [],
+          "must_be_open": false,
+          "max_distance_m": null,
+          "exclude_place_ids": [],
+          "dropped_text_constraints": []
+        }
+      }
+    ],
+    "route": null,
+    "providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    },
+    "timings_ms": {
+      "parse": 0,
+      "shortlist": 11,
+      "semantic": 0,
+      "rank": 0,
+      "schedule": 0,
+      "total": 13
+    }
+  },
+  "ms": 30
+}

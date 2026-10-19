@@ -1,0 +1,36 @@
+[00:03:52] == py-lint
+[00:03:52]    ok
+[00:03:52] == py-format
+[00:03:52]    ok
+[00:03:52] == py-test-api
+[00:04:03]    ok
+[00:04:03] == py-test-ingest
+[00:04:07]    ok
+[00:04:07] == web-lint
+[00:04:10]    ok
+[00:04:10] == web-typecheck
+[00:04:12]    ok
+[00:04:12] == web-unit
+[00:04:17]    ok
+[00:04:17] == web-build
+[00:04:56]    ok
+[00:04:56] == web-e2e
+[00:07:46]    ok
+[00:07:46] == secret-scan
+[00:07:47]    ok
+[00:07:47] == contracts-sync
+[00:07:49]    ok
+step	exit	log
+py-lint	0	artifacts/verify/20261019T000348Z/py-lint.log
+py-format	0	artifacts/verify/20261019T000348Z/py-format.log
+py-test-api	0	artifacts/verify/20261019T000348Z/py-test-api.log
+py-test-ingest	0	artifacts/verify/20261019T000348Z/py-test-ingest.log
+web-lint	0	artifacts/verify/20261019T000348Z/web-lint.log
+web-typecheck	0	artifacts/verify/20261019T000348Z/web-typecheck.log
+web-unit	0	artifacts/verify/20261019T000348Z/web-unit.log
+web-build	0	artifacts/verify/20261019T000348Z/web-build.log
+web-e2e	0	artifacts/verify/20261019T000348Z/web-e2e.log
+secret-scan	0	artifacts/verify/20261019T000348Z/secret-scan.log
+contracts-sync	0	artifacts/verify/20261019T000348Z/contracts-sync.log
+[00:07:49] report: artifacts/verify/20261019T000348Z
+exit=0

@@ -1,0 +1,83 @@
+{
+  "base": "http://127.0.0.1:8000",
+  "method": "sequential, concurrency 1, n=30, httpx keep-alive from the same host",
+  "loadavg": [
+    3.759765625,
+    4.9853515625,
+    6.443359375
+  ],
+  "results": {
+    "search": {
+      "path": "/api/search?q=кофе",
+      "n": 30,
+      "p50_ms": 7.5,
+      "p95_ms": 12.9,
+      "max_ms": 15.9,
+      "mean_ms": 8.7,
+      "status": {
+        "200": 30
+      },
+      "bytes": 4576
+    },
+    "places": {
+      "path": "/api/places?bbox=71.39,51.075,71.445,51.115",
+      "n": 30,
+      "p50_ms": 10.3,
+      "p95_ms": 15.4,
+      "max_ms": 17.4,
+      "mean_ms": 11.4,
+      "status": {
+        "200": 30
+      },
+      "bytes": 31257
+    },
+    "place_detail": {
+      "path": "/api/places/42c2d929-a666-4449-bd6c-050c675db457",
+      "n": 30,
+      "p50_ms": 4.0,
+      "p95_ms": 8.2,
+      "max_ms": 13.5,
+      "mean_ms": 4.6,
+      "status": {
+        "200": 30
+      },
+      "bytes": 1747
+    },
+    "map_buildings": {
+      "path": "/api/map/buildings",
+      "n": 30,
+      "p50_ms": 3.9,
+      "p95_ms": 7.4,
+      "max_ms": 11.6,
+      "mean_ms": 4.4,
+      "status": {
+        "200": 30
+      },
+      "bytes": 691922
+    },
+    "map_buildings_304": {
+      "path": "/api/map/buildings",
+      "n": 30,
+      "p50_ms": 2.2,
+      "p95_ms": 4.5,
+      "max_ms": 6.3,
+      "mean_ms": 2.3,
+      "status": {
+        "304": 30
+      },
+      "bytes": 0
+    },
+    "ready": {
+      "path": "/api/ready",
+      "n": 30,
+      "p50_ms": 4.5,
+      "p95_ms": 7.4,
+      "max_ms": 7.6,
+      "mean_ms": 5.0,
+      "status": {
+        "200": 30
+      },
+      "bytes": 614
+    }
+  }
+}

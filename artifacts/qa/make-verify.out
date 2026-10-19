@@ -1,0 +1,40 @@
+[20:21:10] == py-lint
+[20:21:10]    ok
+[20:21:10] == py-format
+[20:21:10]    ok
+[20:21:10] == py-test-api
+[20:21:18]    ok
+[20:21:18] == py-test-ingest
+[20:21:22]    ok
+[20:21:22] == web-lint
+[20:21:25]    ok
+[20:21:25] == web-typecheck
+[20:21:31]    ok
+[20:21:31] == web-unit
+[20:21:35]    ok
+[20:21:35] == web-build
+[20:22:27]    ok
+[20:22:27] == web-e2e
+[20:25:54]    ok
+[20:25:54] == secret-scan
+[20:25:55]    FAIL (1) see artifacts/verify/20261018T202109Z/secret-scan.log
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+services/api/tests/test_endpoints.py:20: openai_like_key
+secret scan: 519 files, 1 findings
+[20:25:55] == contracts-sync
+[20:25:56]    ok
+step	exit	log
+py-lint	0	artifacts/verify/20261018T202109Z/py-lint.log
+py-format	0	artifacts/verify/20261018T202109Z/py-format.log
+py-test-api	0	artifacts/verify/20261018T202109Z/py-test-api.log
+py-test-ingest	0	artifacts/verify/20261018T202109Z/py-test-ingest.log
+web-lint	0	artifacts/verify/20261018T202109Z/web-lint.log
+web-typecheck	0	artifacts/verify/20261018T202109Z/web-typecheck.log
+web-unit	0	artifacts/verify/20261018T202109Z/web-unit.log
+web-build	0	artifacts/verify/20261018T202109Z/web-build.log
+web-e2e	0	artifacts/verify/20261018T202109Z/web-e2e.log
+secret-scan	1	artifacts/verify/20261018T202109Z/secret-scan.log
+contracts-sync	0	artifacts/verify/20261018T202109Z/contracts-sync.log
+[20:25:56] report: artifacts/verify/20261018T202109Z
+make: *** [Makefile:40: verify] Error 1
+EXIT=2

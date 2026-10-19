@@ -1,0 +1,362 @@
+{
+  "purpose": "A04: reference objects matched to OSM IDs; positions computed from snapshot geometry",
+  "dataset_version": "osm-20261018T200514Z",
+  "osm_base_timestamp": "2026-10-18T20:11:41Z",
+  "generated_at": "2026-10-18T20:36:56.311823+00:00",
+  "method": "name regex over all snapshot groups; polygon centroid (shapely) or node coordinate; haversine distance (R=6371008.8 m) and initial bearing",
+  "coordinate_order": "[lon, lat]",
+  "landmarks": [
+    {
+      "key": "nur_alem",
+      "label": "Сфера EXPO: Alem.ai (павильон «Нур Алем»)",
+      "osm": "way/454857501",
+      "osm_url": "https://www.openstreetmap.org/way/454857501",
+      "name": "Alem.ai Международный центр искусственного интеллекта",
+      "tags_sample": {
+        "addr:housenumber": "В1",
+        "addr:street": "Мәңгілік Ел даңғылы",
+        "building": "office",
+        "museum": "future",
+        "name": "Alem.ai",
+        "name:kk": "Alem.ai Халықаралық Жасанды Интеллект Орталығы",
+        "name:ru": "Alem.ai Международный центр искусственного интеллекта"
+      },
+      "geometry_type": "Polygon",
+      "area_m2": 6924.0,
+      "centroid_lonlat": [
+        71.416197,
+        51.089242
+      ],
+      "inside_coverage": true,
+      "snapshot_group": "map_buildings",
+      "note": "OSM name is 'Alem.ai' (museum=future); identification with the former Nur Alem pavilion is not stated in OSM tags — verify visually against the sphere outline"
+    },
+    {
+      "key": "expo_site",
+      "label": "Выставочный центр EXPO",
+      "osm": "way/454853233",
+      "osm_url": "https://www.openstreetmap.org/way/454853233",
+      "name": "EXPO",
+      "tags_sample": {
+        "addr:housenumber": "53/1",
+        "addr:street": "Мәңгілік Ел даңғылы",
+        "amenity": "exhibition_centre",
+        "building": "yes",
+        "building:levels": "2",
+        "name": "EXPO"
+      },
+      "geometry_type": "Polygon",
+      "area_m2": 17111.2,
+      "centroid_lonlat": [
+        71.421448,
+        51.092784
+      ],
+      "inside_coverage": true,
+      "snapshot_group": "map_buildings"
+    },
+    {
+      "key": "expo_quarter",
+      "label": "Квартал ЭКСПО-2017",
+      "osm": "way/1456208623",
+      "osm_url": "https://www.openstreetmap.org/way/1456208623",
+      "name": "ЭКСПО-2017",
+      "tags_sample": {
+        "name": "ЭКСПО-2017",
+        "name:en": "EXPO-2017",
+        "name:ru": "ЭКСПО-2017",
+        "place": "quarter"
+      },
+      "geometry_type": "center (Overpass)",
+      "area_m2": null,
+      "centroid_lonlat": [
+        71.414102,
+        51.091005
+      ],
+      "inside_coverage": true,
+      "snapshot_group": "map_landmarks"
+    },
+    {
+      "key": "mega_silk_way",
+      "label": "ТРЦ MEGA Silk Way",
+      "osm": "way/499328514",
+      "osm_url": "https://www.openstreetmap.org/way/499328514",
+      "name": "Mega Silk Way",
+      "tags_sample": {
+        "addr:housenumber": "62",
+        "addr:street": "Қабанбай Батыр даңғылы",
+        "building": "yes",
+        "building:levels": "2",
+        "name": "Mega Silk Way",
+        "shop": "mall"
+      },
+      "geometry_type": "Polygon",
+      "area_m2": 69546.2,
+      "centroid_lonlat": [
+        71.407447,
+        51.089071
+      ],
+      "inside_coverage": true,
+      "snapshot_group": "poi_mall"
+    },
+    {
+      "key": "botanical_garden",
+      "label": "Ботанический сад",
+      "osm": "way/1196402246",
+      "osm_url": "https://www.openstreetmap.org/way/1196402246",
+      "name": "Ботанический сад",
+      "tags_sample": {
+        "leisure": "park",
+        "name": "Ботаникалық бақ",
+        "name:en": "Botanical Garden",
+        "name:kk": "Ботаникалық бақ",
+        "name:ru": "Ботанический сад"
+      },
+      "geometry_type": "Polygon",
+      "area_m2": 935521.0,
+      "centroid_lonlat": [
+        71.416563,
+        51.106107
+      ],
+      "inside_coverage": true,
+      "snapshot_group": "poi_park_playground"
+    },
+    {
+      "key": "nazarbayev_university",
+      "label": "Назарбаев Университет",
+      "osm": "way/424894683",
+      "osm_url": "https://www.openstreetmap.org/way/424894683",
+      "name": "Назарбаев Университет",
+      "tags_sample": {
+        "amenity": "university",
+        "name": "Назарбаев Университеті",
+        "name:en": "Nazarbayev University",
+        "name:ru": "Назарбаев Университет"
+      },
+      "geometry_type": "center (Overpass)",
+      "area_m2": null,
+      "centroid_lonlat": [
+        71.397797,
+        51.092508
+      ],
+      "inside_coverage": true,
+      "snapshot_group": "map_landmarks"
+    },
+    {
+      "key": "mangilik_el",
+      "label": "проспект Мангилик Ел",
+      "osm": [
+        "way/255969486",
+        "way/501197214",
+        "way/501197215",
+        "way/501197216",
+        "way/501197217",
+        "way/501197220",
+        "way/522977365",
+        "way/522977372",
+        "way/724874966",
+        "way/724874967",
+        "way/724875226",
+        "way/724875230",
+        "way/735043815",
+        "way/735043816",
+        "way/735043817",
+        "way/735043818",
+        "way/735043819",
+        "way/735043820",
+        "way/735043821",
+        "way/1154972681",
+        "way/1429138570",
+        "way/1429138571",
+        "way/1429138572",
+        "way/1429138573",
+        "way/1429145785",
+        "way/1446156777",
+        "way/1446612883",
+        "way/1446612884",
+        "way/1455740188",
+        "way/1455760089",
+        "way/1455760090",
+        "way/1455760091",
+        "way/1455760092",
+        "way/1527833773",
+        "way/1531638142",
+        "way/1531638144"
+      ],
+      "osm_urls_sample": [
+        "https://www.openstreetmap.org/way/255969486",
+        "https://www.openstreetmap.org/way/501197214",
+        "https://www.openstreetmap.org/way/501197215",
+        "https://www.openstreetmap.org/way/501197216",
+        "https://www.openstreetmap.org/way/501197217"
+      ],
+      "name": "проспект Мангилик Ел",
+      "tags_sample": {
+        "highway": "secondary",
+        "name": "Мәңгілік Ел даңғылы",
+        "name:kk": "Мәңгілік Ел даңғылы",
+        "name:ru": "проспект Мангилик Ел"
+      },
+      "geometry_type": "LineString (merged ways)",
+      "centroid_lonlat": [
+        71.426756,
+        51.095006
+      ],
+      "length_in_coverage_m": 9136.8,
+      "bbox_lonlat": [
+        71.415221,
+        51.063202,
+        71.434026,
+        51.115087
+      ],
+      "inside_coverage": true
+    }
+  ],
+  "checks": [
+    {
+      "from": "nur_alem",
+      "to": "expo_site",
+      "distance_m": 538.2,
+      "bearing_deg": 43.0,
+      "direction": "NE"
+    },
+    {
+      "from": "nur_alem",
+      "to": "expo_quarter",
+      "distance_m": 244.6,
+      "bearing_deg": 323.3,
+      "direction": "NW"
+    },
+    {
+      "from": "nur_alem",
+      "to": "mega_silk_way",
+      "distance_m": 611.4,
+      "bearing_deg": 268.2,
+      "direction": "W"
+    },
+    {
+      "from": "nur_alem",
+      "to": "botanical_garden",
+      "distance_m": 1875.5,
+      "bearing_deg": 0.8,
+      "direction": "N"
+    },
+    {
+      "from": "nur_alem",
+      "to": "nazarbayev_university",
+      "distance_m": 1335.4,
+      "bearing_deg": 285.8,
+      "direction": "WNW"
+    },
+    {
+      "from": "expo_site",
+      "to": "expo_quarter",
+      "distance_m": 549.9,
+      "bearing_deg": 248.9,
+      "direction": "WSW"
+    },
+    {
+      "from": "expo_site",
+      "to": "mega_silk_way",
+      "distance_m": 1061.4,
+      "bearing_deg": 247.1,
+      "direction": "WSW"
+    },
+    {
+      "from": "expo_site",
+      "to": "botanical_garden",
+      "distance_m": 1520.2,
+      "bearing_deg": 347.0,
+      "direction": "NNW"
+    },
+    {
+      "from": "expo_site",
+      "to": "nazarbayev_university",
+      "distance_m": 1652.0,
+      "bearing_deg": 268.9,
+      "direction": "W"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "mega_silk_way",
+      "distance_m": 512.1,
+      "bearing_deg": 245.2,
+      "direction": "WSW"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "botanical_garden",
+      "distance_m": 1688.0,
+      "bearing_deg": 5.8,
+      "direction": "N"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "nazarbayev_university",
+      "distance_m": 1150.9,
+      "bearing_deg": 278.4,
+      "direction": "W"
+    },
+    {
+      "from": "mega_silk_way",
+      "to": "botanical_garden",
+      "distance_m": 1998.4,
+      "bearing_deg": 18.6,
+      "direction": "NNE"
+    },
+    {
+      "from": "mega_silk_way",
+      "to": "nazarbayev_university",
+      "distance_m": 774.8,
+      "bearing_deg": 299.6,
+      "direction": "WNW"
+    },
+    {
+      "from": "botanical_garden",
+      "to": "nazarbayev_university",
+      "distance_m": 2000.9,
+      "bearing_deg": 220.9,
+      "direction": "SW"
+    },
+    {
+      "from": "nur_alem",
+      "to": "mangilik_el",
+      "distance_to_line_m": 605.2,
+      "side": "right of line direction 194°"
+    },
+    {
+      "from": "expo_site",
+      "to": "mangilik_el",
+      "distance_to_line_m": 315.5,
+      "side": "right of line direction 193°"
+    },
+    {
+      "from": "expo_quarter",
+      "to": "mangilik_el",
+      "distance_to_line_m": 788.8,
+      "side": "right of line direction 192°"
+    },
+    {
+      "from": "mega_silk_way",
+      "to": "mangilik_el",
+      "distance_to_line_m": 1217.6,
+      "side": "right of line direction 193°"
+    },
+    {
+      "from": "botanical_garden",
+      "to": "mangilik_el",
+      "distance_to_line_m": 936.0,
+      "side": "right of line direction 188°"
+    },
+    {
+      "from": "nazarbayev_university",
+      "to": "mangilik_el",
+      "distance_to_line_m": 1993.1,
+      "side": "right of line direction 193°"
+    }
+  ],
+  "not_found": [
+    "astana_arena"
+  ],
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors"
+}

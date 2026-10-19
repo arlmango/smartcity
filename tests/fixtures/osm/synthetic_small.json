@@ -1,0 +1,619 @@
+{
+ "_comment": "SYNTHETIC test fixture. Not real OSM data; names prefixed 'SYNTH'. Used only by services/ingest/tests.",
+ "osm_base_timestamp": "2025-06-01T12:00:00Z",
+ "groups": {
+  "poi_cafe_food": [
+   {
+    "type": "way",
+    "id": 9001,
+    "geometry": [
+     {
+      "lon": 71.42,
+      "lat": 51.095
+     },
+     {
+      "lon": 71.4204,
+      "lat": 51.095
+     },
+     {
+      "lon": 71.4204,
+      "lat": 51.0953
+     },
+     {
+      "lon": 71.42,
+      "lat": 51.0953
+     },
+     {
+      "lon": 71.42,
+      "lat": 51.095
+     }
+    ],
+    "tags": {
+     "amenity": "cafe",
+     "name": "SYNTH Кафе «Дубль»",
+     "building": "yes"
+    },
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1
+   },
+   {
+    "type": "node",
+    "id": 1001,
+    "lat": 51.09535,
+    "lon": 71.42045,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "cafe",
+     "name": "SYNTH Кафе Дубль",
+     "opening_hours": "Mo-Su 09:00-21:00",
+     "cuisine": "coffee_shop"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1002,
+    "lat": 51.1,
+    "lon": 71.43,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "cafe",
+     "name": "SYNTH Кафе Дубль"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1003,
+    "lat": 51.0903,
+    "lon": 71.4105,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "cafe",
+     "name": "SYNTH Кофейня в ТРЦ"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1004,
+    "lat": 51.088,
+    "lon": 71.415,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "cafe",
+     "name": "SYNTH Розеточная",
+     "power_supply": "yes",
+     "internet_access": "wlan",
+     "outdoor_seating": "no",
+     "wheelchair": "limited",
+     "addr:street": "SYNTH улица",
+     "addr:housenumber": "1"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1005,
+    "lat": 51.089,
+    "lon": 71.416,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "restaurant",
+     "name": "SYNTH Ресторан",
+     "website": "javascript:alert(1)"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1006,
+    "lat": 51.0895,
+    "lon": 71.417,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "fast_food",
+     "name": "SYNTH Бистро",
+     "website": "https://example.org/bistro",
+     "description": "SYNTH описание из тега"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1007,
+    "lat": 51.0897,
+    "lon": 71.418,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "cafe"
+    }
+   },
+   {
+    "type": "node",
+    "id": 1008,
+    "lat": 51.09,
+    "lon": 71.5,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "amenity": "cafe",
+     "name": "SYNTH Вне покрытия"
+    }
+   }
+  ],
+  "poi_culture": [
+   {
+    "type": "node",
+    "id": 1101,
+    "lat": 51.092,
+    "lon": 71.412,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "tourism": "museum",
+     "name": "SYNTH Музей"
+    }
+   }
+  ],
+  "poi_attraction": [
+   {
+    "type": "node",
+    "id": 1201,
+    "lat": 51.099,
+    "lon": 71.425,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "tourism": "artwork",
+     "name": "SYNTH Скульптура"
+    }
+   }
+  ],
+  "poi_park_playground": [
+   {
+    "type": "relation",
+    "id": 7001,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 3,
+    "tags": {
+     "type": "multipolygon",
+     "leisure": "park",
+     "name": "SYNTH Парк с прудом"
+    },
+    "members": [
+     {
+      "type": "way",
+      "ref": 8001,
+      "role": "outer",
+      "geometry": [
+       {
+        "lon": 71.4,
+        "lat": 51.08
+       },
+       {
+        "lon": 71.404,
+        "lat": 51.08
+       },
+       {
+        "lon": 71.404,
+        "lat": 51.083
+       }
+      ]
+     },
+     {
+      "type": "way",
+      "ref": 8002,
+      "role": "outer",
+      "geometry": [
+       {
+        "lon": 71.404,
+        "lat": 51.083
+       },
+       {
+        "lon": 71.4,
+        "lat": 51.083
+       },
+       {
+        "lon": 71.4,
+        "lat": 51.08
+       }
+      ]
+     },
+     {
+      "type": "way",
+      "ref": 8003,
+      "role": "inner",
+      "geometry": [
+       {
+        "lon": 71.401,
+        "lat": 51.081
+       },
+       {
+        "lon": 71.403,
+        "lat": 51.081
+       },
+       {
+        "lon": 71.403,
+        "lat": 51.082
+       },
+       {
+        "lon": 71.401,
+        "lat": 51.082
+       },
+       {
+        "lon": 71.401,
+        "lat": 51.081
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "node",
+    "id": 1301,
+    "lat": 51.085,
+    "lon": 71.405,
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1,
+    "tags": {
+     "leisure": "playground"
+    }
+   }
+  ],
+  "poi_mall": [
+   {
+    "type": "way",
+    "id": 9101,
+    "geometry": [
+     {
+      "lon": 71.41,
+      "lat": 51.09
+     },
+     {
+      "lon": 71.411,
+      "lat": 51.09
+     },
+     {
+      "lon": 71.411,
+      "lat": 51.0906
+     },
+     {
+      "lon": 71.41,
+      "lat": 51.0906
+     },
+     {
+      "lon": 71.41,
+      "lat": 51.09
+     }
+    ],
+    "tags": {
+     "shop": "mall",
+     "name": "SYNTH Молл",
+     "building": "retail"
+    },
+    "timestamp": "2025-06-01T10:00:00Z",
+    "version": 1
+   }
+  ],
+  "map_buildings": [
+   {
+    "type": "way",
+    "id": 9201,
+    "geometry": [
+     {
+      "lon": 71.43,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.4302,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.4302,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.43,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.43,
+      "lat": 51.105
+     }
+    ],
+    "tags": {
+     "building": "yes",
+     "height": "30"
+    }
+   },
+   {
+    "type": "way",
+    "id": 9202,
+    "geometry": [
+     {
+      "lon": 71.431,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.4312,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.4312,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.431,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.431,
+      "lat": 51.105
+     }
+    ],
+    "tags": {
+     "building": "apartments",
+     "building:levels": "5"
+    }
+   },
+   {
+    "type": "way",
+    "id": 9203,
+    "geometry": [
+     {
+      "lon": 71.432,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.4322,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.4322,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.432,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.432,
+      "lat": 51.105
+     }
+    ],
+    "tags": {
+     "building": "yes"
+    }
+   },
+   {
+    "type": "relation",
+    "id": 7101,
+    "tags": {
+     "type": "multipolygon",
+     "building": "yes",
+     "building:levels": "9",
+     "min_height": "3",
+     "name": "SYNTH Дом с двором"
+    },
+    "members": [
+     {
+      "type": "way",
+      "ref": 8101,
+      "role": "outer",
+      "geometry": [
+       {
+        "lon": 71.433,
+        "lat": 51.105
+       },
+       {
+        "lon": 71.434,
+        "lat": 51.105
+       },
+       {
+        "lon": 71.434,
+        "lat": 51.1056
+       },
+       {
+        "lon": 71.433,
+        "lat": 51.1056
+       },
+       {
+        "lon": 71.433,
+        "lat": 51.105
+       }
+      ]
+     },
+     {
+      "type": "way",
+      "ref": 8102,
+      "role": "inner",
+      "geometry": [
+       {
+        "lon": 71.4333,
+        "lat": 51.1052
+       },
+       {
+        "lon": 71.4337,
+        "lat": 51.1052
+       },
+       {
+        "lon": 71.4337,
+        "lat": 51.1054
+       },
+       {
+        "lon": 71.4333,
+        "lat": 51.1054
+       },
+       {
+        "lon": 71.4333,
+        "lat": 51.1052
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "way",
+    "id": 9204,
+    "geometry": [
+     {
+      "lon": 71.41,
+      "lat": 51.09
+     },
+     {
+      "lon": 71.411,
+      "lat": 51.09
+     },
+     {
+      "lon": 71.411,
+      "lat": 51.0906
+     },
+     {
+      "lon": 71.41,
+      "lat": 51.0906
+     },
+     {
+      "lon": 71.41,
+      "lat": 51.09
+     }
+    ],
+    "tags": {
+     "building": "retail",
+     "name": "SYNTH Молл"
+    }
+   },
+   {
+    "type": "way",
+    "id": 9205,
+    "geometry": [
+     {
+      "lon": 71.6,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.6002,
+      "lat": 51.105
+     },
+     {
+      "lon": 71.6002,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.6,
+      "lat": 51.1052
+     },
+     {
+      "lon": 71.6,
+      "lat": 51.105
+     }
+    ],
+    "tags": {
+     "building": "yes"
+    }
+   }
+  ],
+  "map_roads": [
+   {
+    "type": "way",
+    "id": 9301,
+    "geometry": [
+     {
+      "lon": 71.38,
+      "lat": 51.091
+     },
+     {
+      "lon": 71.42,
+      "lat": 51.091
+     }
+    ],
+    "tags": {
+     "highway": "primary",
+     "name": "SYNTH проспект"
+    }
+   },
+   {
+    "type": "way",
+    "id": 9302,
+    "geometry": [
+     {
+      "lon": 71.41,
+      "lat": 51.0915
+     },
+     {
+      "lon": 71.411,
+      "lat": 51.0915
+     }
+    ],
+    "tags": {
+     "highway": "proposed"
+    }
+   }
+  ],
+  "map_water": [
+   {
+    "type": "way",
+    "id": 9401,
+    "geometry": [
+     {
+      "lon": 71.402,
+      "lat": 51.1
+     },
+     {
+      "lon": 71.404,
+      "lat": 51.1
+     },
+     {
+      "lon": 71.404,
+      "lat": 51.101
+     },
+     {
+      "lon": 71.402,
+      "lat": 51.101
+     },
+     {
+      "lon": 71.402,
+      "lat": 51.1
+     }
+    ],
+    "tags": {
+     "natural": "water",
+     "name": "SYNTH пруд"
+    }
+   }
+  ],
+  "map_green": [
+   {
+    "type": "way",
+    "id": 9501,
+    "geometry": [
+     {
+      "lon": 71.42,
+      "lat": 51.08
+     },
+     {
+      "lon": 71.422,
+      "lat": 51.08
+     },
+     {
+      "lon": 71.422,
+      "lat": 51.081
+     },
+     {
+      "lon": 71.42,
+      "lat": 51.081
+     },
+     {
+      "lon": 71.42,
+      "lat": 51.08
+     }
+    ],
+    "tags": {
+     "landuse": "grass"
+    }
+   }
+  ],
+  "map_landmarks": []
+ }
+}

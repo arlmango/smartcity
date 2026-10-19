@@ -1,0 +1,56 @@
+
+> @smartcity/web@0.1.0 test:e2e /tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/apps/web
+> playwright test
+
+
+Running 41 tests using 2 workers
+
+  ✓   2 [desktop-chromium] › tests/e2e/csp.spec.ts:4:5 › security headers + CSP: map and results work without CSP violations @mobile (6.9s)
+  ✓   1 [desktop-chromium] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile (11.1s)
+  ✓   3 [desktop-chromium] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures) › loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile (9.5s)
+  ✓   4 [desktop-chromium] › tests/e2e/flow.spec.ts:70:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › no_match explains and relaxation resends the server patch (6.4s)
+  ✓   5 [desktop-chromium] › tests/e2e/map.spec.ts:84:7 › deterministic: map (SYNTHETIC fixtures) › 2D/3D toggle, north reset and height legend (8.9s)
+  ✓   6 [desktop-chromium] › tests/e2e/flow.spec.ts:91:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › quick refinements keep earlier hard conditions (10.8s)
+  ✓   7 [desktop-chromium] › tests/e2e/map.spec.ts:111:7 › deterministic: map (SYNTHETIC fixtures) › select origin by clicking the map; outside coverage is refused (7.6s)
+  ✓   8 [desktop-chromium] › tests/e2e/flow.spec.ts:126:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › retrieval_only shows the 'ИИ временно недоступен' banner; provider status banner from /api/ready (5.6s)
+  ✓   9 [desktop-chromium] › tests/e2e/map.spec.ts:135:7 › deterministic: map (SYNTHETIC fixtures) › map layer failure shows an explicit error, not an empty canvas (4.0s)
+  -  11 [desktop-chromium] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  10 [desktop-chromium] › tests/e2e/flow.spec.ts:136:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › provider error → error state; retry reuses the same client_request_id (6.2s)
+  ✓  12 [desktop-chromium] › tests/e2e/start-provider.spec.ts:6:7 › deterministic: start time & provider disclosure (SYNTHETIC fixtures) › start time: default omitted; chosen time sent as +05:00 and shown in summary (5.7s)
+  ✓  13 [desktop-chromium] › tests/e2e/flow.spec.ts:153:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › invalid API response becomes an error state, not a crash (6.3s)
+  ✓  14 [desktop-chromium] › tests/e2e/start-provider.spec.ts:36:7 › deterministic: start time & provider disclosure (SYNTHETIC fixtures) › О данных: local Ollama vs external provider disclosure (6.8s)
+  ✓  16 [desktop-chromium] › tests/e2e/xff.spec.ts:11:5 › spoofed X-Forwarded-For does not reach the upstream API (189ms)
+  ✓  15 [desktop-chromium] › tests/e2e/flow.spec.ts:161:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › long request shows progress and can be cancelled; late answer is ignored (7.8s)
+  ✓  17 [mobile-390] › tests/e2e/csp.spec.ts:4:5 › security headers + CSP: map and results work without CSP violations @mobile (6.0s)
+  ✓  18 [desktop-chromium] › tests/e2e/flow.spec.ts:176:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › needs_clarification asks a question and lets the user change conditions (5.0s)
+  ✓  20 [desktop-chromium] › tests/e2e/flow.spec.ts:186:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › T25: HTML in a place name is rendered as text (cards and markers) (5.8s)
+  ✓  19 [mobile-390] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile (9.4s)
+  ✓  22 [mobile-390] › tests/e2e/flow.spec.ts:208:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (3.8s)
+  ✓  21 [desktop-chromium] › tests/e2e/flow.spec.ts:198:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › place search sets the origin from our own base (6.1s)
+  ✓  23 [mobile-390] › tests/e2e/flow.spec.ts:232:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (3.4s)
+  ✓  24 [desktop-chromium] › tests/e2e/flow.spec.ts:208:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (7.5s)
+  ✓  25 [mobile-390] › tests/e2e/flow.spec.ts:293:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (6.6s)
+  ✓  26 [desktop-chromium] › tests/e2e/flow.spec.ts:219:7 › deterministic: geolocation › granted geolocation outside coverage is explained, not used (7.1s)
+  ✓  28 [desktop-chromium] › tests/e2e/flow.spec.ts:232:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (1.8s)
+  ✓  27 [mobile-390] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures) › loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile (7.2s)
+  -  30 [mobile-390] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  29 [desktop-chromium] › tests/e2e/flow.spec.ts:258:7 › deterministic: fallback & states › offline state is shown and blocks submit (2.9s)
+  ✓  31 [mobile-360] › tests/e2e/csp.spec.ts:4:5 › security headers + CSP: map and results work without CSP violations @mobile (5.9s)
+  ✓  32 [desktop-chromium] › tests/e2e/flow.spec.ts:270:7 › deterministic: fallback & states › API down → explicit banner (7.1s)
+  ✓  34 [desktop-chromium] › tests/e2e/flow.spec.ts:276:7 › deterministic: fallback & states › О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights (5.5s)
+  ✓  33 [mobile-360] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile (8.7s)
+  ✓  36 [mobile-360] › tests/e2e/flow.spec.ts:208:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (4.3s)
+  ✓  37 [mobile-360] › tests/e2e/flow.spec.ts:232:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (3.0s)
+  ✓  35 [desktop-chromium] › tests/e2e/flow.spec.ts:293:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (9.3s)
+  ✓  38 [mobile-360] › tests/e2e/flow.spec.ts:293:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (6.5s)
+  ✓  39 [desktop-chromium] › tests/e2e/flow.spec.ts:309:7 › deterministic: accessibility › keyboard only: choose demo origin, submit, open a card on the map (6.8s)
+  -  41 [mobile-360] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  40 [mobile-360] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures) › loads, initialises MapLibre with own GeoJSON sources and 3D extrusion @mobile (4.6s)
+
+  3 skipped
+  38 passed (2.7m)
+
+To open last HTML report run:
+[36m[39m
+[36m  pnpm exec playwright show-report[39m
+[36m[39m

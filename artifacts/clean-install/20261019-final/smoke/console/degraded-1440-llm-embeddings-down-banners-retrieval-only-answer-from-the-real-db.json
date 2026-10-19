@@ -1,0 +1,10 @@
+{
+  "test": "LLM + embeddings down → banners, retrieval_only answer from the real DB @degraded",
+  "project": "degraded-1440",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [
+    "POST /api/recommend/stream — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

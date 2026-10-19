@@ -1,0 +1,34 @@
+{
+  "test": "no_match fast path (socket required, nothing proven) on small mobile @small",
+  "project": "mobile-360",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "",
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [
+        "socket"
+      ],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "02d4286b-9df2-4552-8173-f9ea082afe9c"
+  },
+  "status": 0,
+  "response": null,
+  "ms": 0
+}

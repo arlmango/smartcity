@@ -1,0 +1,10 @@
+{
+  "test": "cancel a long request; a new request wins (stale answer never shown)",
+  "project": "desktop-1440",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [
+    "POST /api/recommend — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

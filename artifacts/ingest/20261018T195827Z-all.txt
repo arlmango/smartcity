@@ -1,0 +1,226 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+2026-10-18 19:58:28,637 INFO smartcity_ingest.snapshot: fetch group map_roads
+2026-10-18 19:58:29,797 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 504 Gateway Time-out"
+2026-10-18 19:58:29,798 WARNING smartcity_ingest.overpass: overpass attempt 1/3 failed: HTTP 504
+2026-10-18 19:58:59,445 INFO httpx: HTTP Request: POST https://maps.mail.ru/osm/tools/overpass/api/interpreter "HTTP/1.1 200 OK"
+2026-10-18 19:59:00,282 INFO smartcity_ingest.snapshot: group map_roads: 5310 elements, 2982088 bytes
+{
+  "snapshot": "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/data/snapshots/osm-20261018T194239Z",
+  "status": "complete",
+  "osm_base": "2026-10-18T19:57:24Z",
+  "groups": {
+    "poi_cafe_food": {
+      "status": "ok",
+      "elements": 51,
+      "bytes": 24888,
+      "error": null
+    },
+    "poi_culture": {
+      "status": "ok",
+      "elements": 3,
+      "bytes": 6325,
+      "error": null
+    },
+    "poi_attraction": {
+      "status": "ok",
+      "elements": 59,
+      "bytes": 39667,
+      "error": null
+    },
+    "poi_park_playground": {
+      "status": "ok",
+      "elements": 75,
+      "bytes": 80697,
+      "error": null
+    },
+    "poi_mall": {
+      "status": "ok",
+      "elements": 2,
+      "bytes": 5430,
+      "error": null
+    },
+    "map_buildings": {
+      "status": "ok",
+      "elements": 1812,
+      "bytes": 1321193,
+      "error": null
+    },
+    "map_roads": {
+      "status": "ok",
+      "elements": 5310,
+      "bytes": 2982088,
+      "error": null
+    },
+    "map_water": {
+      "status": "ok",
+      "elements": 20,
+      "bytes": 27782,
+      "error": null
+    },
+    "map_green": {
+      "status": "ok",
+      "elements": 1784,
+      "bytes": 1207953,
+      "error": null
+    },
+    "map_landmarks": {
+      "status": "ok",
+      "elements": 42,
+      "bytes": 12436,
+      "error": null
+    }
+  }
+}
+{
+  "run_id": "4c3f75c1-024f-44fe-8c99-d8a27b47b756",
+  "status": "complete",
+  "snapshot": "osm-20261018T194239Z",
+  "counts": {
+    "groups_ok": [
+      "poi_cafe_food",
+      "poi_culture",
+      "poi_attraction",
+      "poi_park_playground",
+      "poi_mall",
+      "map_buildings",
+      "map_roads",
+      "map_water",
+      "map_green",
+      "map_landmarks"
+    ],
+    "groups_failed": [],
+    "snapshot_complete": true,
+    "unchanged": 127,
+    "deactivated": 0,
+    "records": 127,
+    "active_places": 127,
+    "by_category": {
+      "attraction": 4,
+      "cafe": 22,
+      "culture": 3,
+      "food": 25,
+      "mall": 2,
+      "park": 5,
+      "playground": 66
+    },
+    "skipped_unnamed": 60,
+    "skipped_no_geometry": 0,
+    "skipped_outside_coverage": 3,
+    "website_rejected": 0,
+    "dedup_merges": 0,
+    "poi_groups_failed": []
+  },
+  "error": null
+}
+{
+  "counts": {
+    "buildings": 1753,
+    "roads": 5329,
+    "water": 19,
+    "green": 1776,
+    "coverage": 1
+  },
+  "total_bytes": 2613185,
+  "height_provenance": {
+    "height": 19,
+    "levels": 872,
+    "default": 862
+  },
+  "simplified": false
+}
+2026-10-18 19:59:02,715 INFO httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-10-18 19:59:17,408 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 136, in handle_request
+    raise exc
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+        self.READ_NUM_BYTES, timeout=timeout
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 126, in read
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "/usr/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadTimeout: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/api/smartcity_api/providers/http_providers.py", line 44, in _request
+    resp = client.request(method, url, **kw)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadTimeout: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/.venv/bin/smartcity-ingest", line 10, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/cli.py", line 237, in main
+    return handlers[args.cmd](s, paths, args)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/cli.py", line 184, in cmd_all
+    rc_idx = cmd_index(s, paths, args)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/cli.py", line 145, in cmd_index
+    res = run_index(eng, provider, prune_other_models=args.prune_other_models)
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/ingest/smartcity_ingest/indexer.py", line 86, in run_index
+    vecs = provider.embed([t for _, t, _ in chunk], kind="document")
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/api/smartcity_api/providers/http_providers.py", line 82, in embed
+    data = _request(
+        self._client,
+    ...<3 lines>...
+        json={"model": self.identity.model, "input": batch, "truncate": True},
+    )
+  File "/home/user/smartcity/.claude/worktrees/agent-a714a404221028d22/services/api/smartcity_api/providers/http_providers.py", line 46, in _request
+    raise ProviderTimeout(f"{what}: timeout", retryable=True) from e
+smartcity_api.providers.base.ProviderTimeout: ollama embed: timeout
+exit_code=1

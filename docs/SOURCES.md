@@ -19,4 +19,10 @@ Read-only выборка OSM; ограничения конкретного endp
 8. Ollama embeddings API: https://docs.ollama.com/api/embed
 Реальные embeddings требуют выбранной доступной модели; не заменять случайными vectors. Совместимость, ресурсы и модельную лицензию проверить отдельно.
 
+9. Protomaps daily builds: https://docs.protomaps.com/basemaps/downloads (список: https://build-metadata.protomaps.dev/builds.json), `pmtiles extract` по HTTP range: https://docs.protomaps.com/pmtiles/cli
+Проверено 2026-10-19: сборка 20261018 доступна (~139 ГБ), вырезка Астаны ≈ 10 МБ. Старые сборки удаляются — в манифесте фиксируется ключ сборки.
+10. Geofabrik Kazakhstan: https://download.geofabrik.de/asia/kazakhstan.html — `-latest` перенаправляет на датированный файл, рядом `.md5`.
+11. EOxCloudless: https://cloudless.eox.at/license-non-commercial/ (CC BY-NC-SA 4.0 для 2018–2025, CC BY 4.0 для 2016), коммерческая лицензия: https://cloudless.eox.at/license-legal/. Разрешение 10 м/пиксель, тайлы до z14.
+12. Проверка текстурированных 3D для Астаны (2026-10-19): Google Photorealistic 3D Tiles — ключ + биллинг, покрытие Астаны публично не подтверждено, общие условия Google запрещают использование с не-Google картами; Cesium ion, 2GIS MapGL, MapTiler, Mapbox, Esri World Imagery — аккаунт/ключ/подписка. Открытой LoD2/LoD3-модели Астаны не найдено. Без разрешения владельца ничего из этого не подключено.
+
 Стек и архитектура в пакете являются проектным выбором, а не утверждением, что выбранные сервисы уже доступны в аккаунте или что продукт уже реализован.

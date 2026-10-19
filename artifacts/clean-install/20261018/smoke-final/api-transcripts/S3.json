@@ -1,0 +1,205 @@
+{
+  "scenario": "S3",
+  "notes": "origin = DB location of 'Alem.ai (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
+  "recorded_at": "2026-10-18T23:08:31+00:00",
+  "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
+  "request": {
+    "query": "Хотим погулять час с ребёнком, надо вернуться сюда",
+    "origin_rounded": [
+      51.09,
+      71.42
+    ],
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "constraints": {}
+  },
+  "providers": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen2.5:3b",
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "params": {
+        "temperature": 0.2,
+        "num_predict": 700
+      },
+      "timeout_s": 150.0
+    },
+    "embedding": {
+      "model_id": "ollama:bge-m3@790764642607",
+      "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+      "dim": 1024
+    },
+    "response_providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    }
+  },
+  "dataset_version": "osm-20261018T223058Z",
+  "retrieval": {
+    "shortlist": 58,
+    "ranked_after_filters": 33,
+    "semantic": "ok",
+    "llm_candidate_ids": [
+      "96989104-1fbd-496f-ac20-b6fcc30a7848",
+      "cce04dd8-5425-45ac-bb6e-d998e5da4c83",
+      "2a334d54-d59b-4896-a733-3c58ec9c3b4a",
+      "b1ed75c3-249b-4eb2-b77e-abfdaf4b98f7",
+      "7c69e98d-662b-433f-9e7d-2a3b75418c90"
+    ],
+    "exclusions": {
+      "budget": 8,
+      "closed": 17
+    },
+    "llm_attempts": 1,
+    "llm_failure": null,
+    "llm_issues": [],
+    "prompt_version": "rec-v2"
+  },
+  "result": {
+    "status": "ok",
+    "mode": "live_rag",
+    "message": "Выбраны ближайшие места с детскими игровыми зонами для пешей прогулки с детьми.",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 60,
+          "source": "ui",
+          "label": "Время: не более 60 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        }
+      ],
+      "preferences": [
+        "Желательно: подходит детям (учитывается только если подтверждено)",
+        "Интерес: Парк / сквер",
+        "Интерес: Детская площадка"
+      ],
+      "interpreted_query": "интересы: парк / сквер, детская площадка; желательно: подходит детям"
+    },
+    "warnings": [
+      {
+        "code": "straight_line_estimate",
+        "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
+      },
+      {
+        "code": "unknown_hours",
+        "message": "Часы работы части мест неизвестны — уточните перед выходом"
+      }
+    ],
+    "suggested_relaxations": [],
+    "recommendations": [
+      {
+        "place_id": "96989104-1fbd-496f-ac20-b6fcc30a7848",
+        "name": "Детская площадка",
+        "category": "playground",
+        "source_url": "https://www.openstreetmap.org/way/1452597370",
+        "distance_m": 227,
+        "timing": {
+          "outbound_min": 5,
+          "visit_min": 25,
+          "return_min": 5,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [
+          "kids"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "reason": "Ближайшее место, которое подходит для детей и имеет детскую площадку.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить детскую площадку"
+      },
+      {
+        "place_id": "cce04dd8-5425-45ac-bb6e-d998e5da4c83",
+        "name": "Детская площадка",
+        "category": "playground",
+        "source_url": "https://www.openstreetmap.org/way/1452597371",
+        "distance_m": 238,
+        "timing": {
+          "outbound_min": 5,
+          "visit_min": 25,
+          "return_min": 5,
+          "buffer_min": 5,
+          "total_min": 40,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [
+          "kids"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "reason": "Другое ближайшее место с детской площадкой и подходящее для детей.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить детскую площадку"
+      },
+      {
+        "place_id": "2a334d54-d59b-4896-a733-3c58ec9c3b4a",
+        "name": "Детская площадка",
+        "category": "playground",
+        "source_url": "https://www.openstreetmap.org/way/607963091",
+        "distance_m": 650,
+        "timing": {
+          "outbound_min": 13,
+          "visit_min": 25,
+          "return_min": 13,
+          "buffer_min": 5,
+          "total_min": 56,
+          "estimated": true,
+          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
+        },
+        "opening_status": "unknown",
+        "verified_features": [
+          "kids"
+        ],
+        "unknown_features": [
+          "socket",
+          "wifi",
+          "outdoor_seating",
+          "wheelchair"
+        ],
+        "reason": "Ближайшее место, которое подходит для детей, но требует большего времени на прогулку.",
+        "reason_source": "llm",
+        "activity_suggestion": "Посетить детскую площадку"
+      }
+    ]
+  },
+  "timings_ms": {
+    "parse": 1,
+    "shortlist": 10,
+    "semantic": 403,
+    "rank": 4,
+    "schedule": 1,
+    "generate": 55187,
+    "total": 55607
+  },
+  "wall_ms": 55614
+}

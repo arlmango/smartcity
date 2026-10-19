@@ -1,0 +1,760 @@
+{
+  "generated_at": "2026-10-18T20:38:09.668207+00:00",
+  "dataset_version": "osm-20261018T200514Z",
+  "source": {
+    "name": "OpenStreetMap",
+    "access": "OpenStreetMap via Overpass API (read-only)",
+    "endpoint": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+    "user_agent": "SmartCity-prototype/0.1 (hackathon demo; bounded Astana extract)",
+    "editing_api_used": false,
+    "tiles_prefetched": false
+  },
+  "license": {
+    "id": "ODbL-1.0",
+    "url": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "attribution": "© OpenStreetMap contributors",
+    "attribution_url": "https://www.openstreetmap.org/copyright"
+  },
+  "coverage": {
+    "id": "astana-expo-mega-v1",
+    "name": "Астана: район EXPO / MEGA Silk Way и соседние кварталы",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            71.39,
+            51.075
+          ],
+          [
+            71.445,
+            51.075
+          ],
+          [
+            71.445,
+            51.115
+          ],
+          [
+            71.39,
+            51.115
+          ],
+          [
+            71.39,
+            51.075
+          ]
+        ]
+      ]
+    },
+    "bbox_lonlat": [
+      71.39,
+      51.075,
+      71.445,
+      51.115
+    ]
+  },
+  "snapshot": {
+    "path": "data/snapshots/osm-20261018T200514Z",
+    "status": "complete",
+    "complete": true,
+    "fetched_at": "2026-10-18T20:05:14.639966+00:00",
+    "osm_base_timestamp": "2026-10-18T20:11:41Z",
+    "osm_base_timestamp_min": "2026-10-18T20:05:35Z",
+    "retries": [
+      {
+        "at": "2026-10-18T20:13:13.156899+00:00",
+        "groups": [
+          "poi_park_playground",
+          "map_roads"
+        ]
+      }
+    ],
+    "snapshot_hash": "6d5d0b78c4cd1f44807fa2c96395ce419ffbbdaf299a1813a1bbe321ced5fb06",
+    "groups": {
+      "poi_cafe_food": {
+        "status": "ok",
+        "elements": 51,
+        "bytes": 24888,
+        "sha256": "023f1394e8c61619c35a2cdef2c2f5922675da62fd259b10323d2348a389606b",
+        "file_sha256": "0b4ba9317d048a8e8815e7b4e9529fbca04d489a243a8038766a3876118e82f8",
+        "osm_base_timestamp": "2026-10-18T20:05:35Z",
+        "attempts": 3,
+        "error": null
+      },
+      "poi_culture": {
+        "status": "ok",
+        "elements": 3,
+        "bytes": 6325,
+        "sha256": "840eaef725fcef3529b79b7945c1e181af9d500f3cc9583bbf82fba91763a280",
+        "file_sha256": "df7f4504198403618a9fabc548abdfebc817db9c313144db41d093728a37acd9",
+        "osm_base_timestamp": "2026-10-18T20:05:35Z",
+        "attempts": 1,
+        "error": null
+      },
+      "poi_attraction": {
+        "status": "ok",
+        "elements": 59,
+        "bytes": 39667,
+        "sha256": "68a9b94ab9d2d1eba299735d3b7f3a311a8092b750736fa398951054301e38e2",
+        "file_sha256": "50da67f5c18f6894675470a37930fd21a49aee433f258df0aa38fcc1b0ab1e36",
+        "osm_base_timestamp": "2026-10-18T20:07:31Z",
+        "attempts": 3,
+        "error": null
+      },
+      "poi_park_playground": {
+        "status": "ok",
+        "elements": 75,
+        "bytes": 80697,
+        "sha256": "5bafdfd494e2b992fcdad25a21d6edfd606ef4bd09910bafc8aaa2b087646ae4",
+        "file_sha256": "a0a38f554a7834e47aa8f92e17dc41b322ed2e3dcfeb4e208f0b94d14c3018fb",
+        "osm_base_timestamp": "2026-10-18T20:10:35Z",
+        "attempts": 1,
+        "error": null
+      },
+      "poi_mall": {
+        "status": "ok",
+        "elements": 2,
+        "bytes": 5430,
+        "sha256": "5387fa695f3cc93c4e474b39eb992788d7a531ecbbe68e93c208094cce9753b4",
+        "file_sha256": "5bf2842a670dfb2e086c2a2ab3677da34e8d5ec5ccff22a8f02eee4b95294d1a",
+        "osm_base_timestamp": "2026-10-18T20:08:34Z",
+        "attempts": 1,
+        "error": null
+      },
+      "map_buildings": {
+        "status": "ok",
+        "elements": 1812,
+        "bytes": 1677795,
+        "sha256": "3e92be3ff4b8fea2ba43d415887875ebadae1b8399f914b8d53a33d7db2014f8",
+        "file_sha256": "8285f279fb117f04785032a2d713fc7bad9fe0df0a589b3843e1578d328692dc",
+        "osm_base_timestamp": "2026-10-18T20:08:34Z",
+        "attempts": 1,
+        "error": null
+      },
+      "map_roads": {
+        "status": "ok",
+        "elements": 5310,
+        "bytes": 3617555,
+        "sha256": "0083eb1fdaa422e0a5161a82e497fafdc3be3dca7b98e188542dffa80daa8105",
+        "file_sha256": "2bc6b340e8f2acff437bb0d67505a22d69999cc1f1fc4b9728efd6dab065fc32",
+        "osm_base_timestamp": "2026-10-18T20:11:41Z",
+        "attempts": 1,
+        "error": null
+      },
+      "map_water": {
+        "status": "ok",
+        "elements": 20,
+        "bytes": 38619,
+        "sha256": "f50e703f4ed5f7a52b76c13eaab068658aa3e103dbc98f3af5d3aca07318c0e5",
+        "file_sha256": "8c45953f6c925723e38051b48970ab480b43518f854da48acc7489ccdc187659",
+        "osm_base_timestamp": "2026-10-18T20:10:35Z",
+        "attempts": 1,
+        "error": null
+      },
+      "map_green": {
+        "status": "ok",
+        "elements": 1784,
+        "bytes": 1601947,
+        "sha256": "410c19bcb4d2cd7f7bd92d06ae0c760961bacb3e57a09490b292436ab59b3600",
+        "file_sha256": "5bad3c4a9767dc7ae8e8c2098eb44ad85cc732125881eac8e347f474dd5d751f",
+        "osm_base_timestamp": "2026-10-18T20:10:35Z",
+        "attempts": 1,
+        "error": null
+      },
+      "map_landmarks": {
+        "status": "ok",
+        "elements": 42,
+        "bytes": 12436,
+        "sha256": "3bc73c5fdba6a7a491d322532cadd679836da6b52df09520e8fca38705bf0785",
+        "file_sha256": "a50662c2a1b39409e9ffb02586d71fc4ad522411fe27fdad98fe14beba04666e",
+        "osm_base_timestamp": "2026-10-18T20:10:35Z",
+        "attempts": 2,
+        "error": null
+      }
+    },
+    "queries": {
+      "poi_cafe_food": "[out:json][timeout:90];\n(\n  nwr[\"amenity\"~\"^(cafe|ice_cream|restaurant|fast_food)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+      "poi_culture": "[out:json][timeout:90];\n(\n  nwr[\"tourism\"~\"^(museum|gallery)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"amenity\"~\"^(theatre|cinema|arts_centre|library)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+      "poi_attraction": "[out:json][timeout:90];\n(\n  nwr[\"tourism\"~\"^(attraction|viewpoint|artwork)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"historic\"~\"^(monument|memorial)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"amenity\"=\"fountain\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+      "poi_park_playground": "[out:json][timeout:90];\n(\n  nwr[\"leisure\"~\"^(park|garden|playground)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+      "poi_mall": "[out:json][timeout:90];\n(\n  nwr[\"shop\"=\"mall\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout meta geom;",
+      "map_buildings": "[out:json][timeout:90];\n(\n  way[\"building\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"building\"][\"type\"=\"multipolygon\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+      "map_roads": "[out:json][timeout:90];\n(\n  way[\"highway\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+      "map_water": "[out:json][timeout:90];\n(\n  way[\"natural\"=\"water\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"natural\"=\"water\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"waterway\"~\"^(river|canal|stream|drain|ditch|riverbank)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"landuse\"=\"reservoir\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"leisure\"=\"swimming_area\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+      "map_green": "[out:json][timeout:90];\n(\n  way[\"leisure\"~\"^(park|garden|pitch|playground|dog_park)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"leisure\"~\"^(park|garden)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"landuse\"~\"^(grass|forest|meadow|recreation_ground|village_green|flowerbed|orchard)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"landuse\"~\"^(grass|forest|meadow|recreation_ground)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  way[\"natural\"~\"^(wood|scrub|grassland)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"natural\"~\"^(wood|scrub|grassland)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout body geom;",
+      "map_landmarks": "[out:json][timeout:90];\n(\n  nwr[\"amenity\"~\"^(university|college)$\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  nwr[\"name\"~\"EXPO|ЭКСПО|Нур Алем|Nur Alem|Нұр Әлем\",i](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n  relation[\"highway\"][\"name\"~\"Мәңгілік Ел|Мангилик Ел\"](poly:\"51.075000 71.390000 51.075000 71.445000 51.115000 71.445000 51.115000 71.390000\");\n);\nout tags center;"
+    }
+  },
+  "places": {
+    "total_rows": 127,
+    "active": 126,
+    "inactive_merged_aliases": 1,
+    "inactive_tombstones": 0,
+    "by_category": {
+      "attraction": 4,
+      "cafe": 22,
+      "culture": 3,
+      "food": 25,
+      "mall": 1,
+      "park": 5,
+      "playground": 66
+    },
+    "by_subcategory": {
+      "attraction/attraction": 2,
+      "attraction/fountain": 1,
+      "attraction/memorial": 1,
+      "cafe/cafe": 22,
+      "culture/cinema": 1,
+      "culture/museum": 1,
+      "culture/theatre": 1,
+      "food/fast_food": 6,
+      "food/restaurant": 19,
+      "mall/mall": 1,
+      "park/garden": 1,
+      "park/park": 4,
+      "playground/playground": 66
+    },
+    "per_category": {
+      "cafe": {
+        "count": 22,
+        "with_opening_hours": 12,
+        "with_website": 7,
+        "with_address": 10,
+        "generic_name": 0,
+        "polygon_geometry": 0
+      },
+      "food": {
+        "count": 25,
+        "with_opening_hours": 15,
+        "with_website": 12,
+        "with_address": 3,
+        "generic_name": 0,
+        "polygon_geometry": 0
+      },
+      "park": {
+        "count": 5,
+        "with_opening_hours": 0,
+        "with_website": 1,
+        "with_address": 0,
+        "generic_name": 0,
+        "polygon_geometry": 5
+      },
+      "culture": {
+        "count": 3,
+        "with_opening_hours": 1,
+        "with_website": 1,
+        "with_address": 2,
+        "generic_name": 0,
+        "polygon_geometry": 2
+      },
+      "attraction": {
+        "count": 4,
+        "with_opening_hours": 0,
+        "with_website": 0,
+        "with_address": 1,
+        "generic_name": 0,
+        "polygon_geometry": 3
+      },
+      "playground": {
+        "count": 66,
+        "with_opening_hours": 0,
+        "with_website": 0,
+        "with_address": 0,
+        "generic_name": 66,
+        "polygon_geometry": 65
+      },
+      "mall": {
+        "count": 1,
+        "with_opening_hours": 1,
+        "with_website": 0,
+        "with_address": 1,
+        "generic_name": 0,
+        "polygon_geometry": 1
+      }
+    },
+    "with_opening_hours": 29,
+    "without_opening_hours": 97,
+    "with_website": 21,
+    "with_address": 17,
+    "with_osm_description_tag": 0,
+    "generic_names": 66,
+    "with_aliases": 1,
+    "by_source_type": {
+      "node": 50,
+      "way": 76
+    },
+    "amenities": {
+      "socket": {
+        "unknown": 126
+      },
+      "wifi": {
+        "unknown": 118,
+        "true": 8
+      },
+      "outdoor_seating": {
+        "unknown": 124,
+        "false": 2
+      },
+      "wheelchair": {
+        "unknown": 125,
+        "true": 1
+      },
+      "indoor": {
+        "unknown": 37,
+        "true": 21,
+        "false": 68
+      },
+      "kids": {
+        "unknown": 60,
+        "true": 66
+      }
+    },
+    "amenity_basis": {
+      "indoor:category_rule": 86,
+      "indoor:tag": 3,
+      "kids:tag": 66,
+      "outdoor_seating:tag": 2,
+      "wheelchair:tag": 1,
+      "wifi:tag": 8
+    },
+    "evidence_rows": 405,
+    "source_updated_at_range": [
+      "2018-07-14T19:26:51+00:00",
+      "2026-10-12T06:17:00+00:00"
+    ],
+    "last_runs": [
+      {
+        "run_id": "30fafcb9-223b-4aeb-95a7-3dcbda20bb3f",
+        "status": "complete",
+        "started_at": "2026-10-18T20:36:47.686712+00:00",
+        "dataset_version": "osm-20261018T200514Z",
+        "counts": {
+          "records": 126,
+          "groups_ok": [
+            "poi_cafe_food",
+            "poi_culture",
+            "poi_attraction",
+            "poi_park_playground",
+            "poi_mall",
+            "map_buildings",
+            "map_roads",
+            "map_water",
+            "map_green",
+            "map_landmarks"
+          ],
+          "unchanged": 126,
+          "by_category": {
+            "cafe": 22,
+            "food": 25,
+            "mall": 1,
+            "park": 5,
+            "culture": 3,
+            "attraction": 4,
+            "playground": 66
+          },
+          "deactivated": 0,
+          "dedup_merges": 1,
+          "active_places": 126,
+          "groups_failed": [],
+          "skipped_unnamed": 60,
+          "website_rejected": 0,
+          "merged_into_alias": 0,
+          "poi_groups_failed": [],
+          "snapshot_complete": true,
+          "skipped_no_geometry": 0,
+          "skipped_outside_coverage": 3
+        },
+        "error": null
+      },
+      {
+        "run_id": "14dc9cf2-b7c3-493c-b02e-d8b1b1c7e963",
+        "status": "complete",
+        "started_at": "2026-10-18T20:36:42.465766+00:00",
+        "dataset_version": "osm-20261018T200514Z",
+        "counts": {
+          "records": 126,
+          "updated": 1,
+          "groups_ok": [
+            "poi_cafe_food",
+            "poi_culture",
+            "poi_attraction",
+            "poi_park_playground",
+            "poi_mall",
+            "map_buildings",
+            "map_roads",
+            "map_water",
+            "map_green",
+            "map_landmarks"
+          ],
+          "unchanged": 125,
+          "by_category": {
+            "cafe": 22,
+            "food": 25,
+            "mall": 1,
+            "park": 5,
+            "culture": 3,
+            "attraction": 4,
+            "playground": 66
+          },
+          "deactivated": 0,
+          "dedup_merges": 1,
+          "active_places": 126,
+          "groups_failed": [],
+          "skipped_unnamed": 60,
+          "website_rejected": 0,
+          "merged_into_alias": 1,
+          "poi_groups_failed": [],
+          "snapshot_complete": true,
+          "skipped_no_geometry": 0,
+          "skipped_outside_coverage": 3
+        },
+        "error": null
+      },
+      {
+        "run_id": "6aab66a0-e4d1-4492-b8e8-89a4f0f32a40",
+        "status": "complete",
+        "started_at": "2026-10-18T20:13:21.678834+00:00",
+        "dataset_version": "osm-20261018T200514Z",
+        "counts": {
+          "records": 127,
+          "groups_ok": [
+            "poi_cafe_food",
+            "poi_culture",
+            "poi_attraction",
+            "poi_park_playground",
+            "poi_mall",
+            "map_buildings",
+            "map_roads",
+            "map_water",
+            "map_green",
+            "map_landmarks"
+          ],
+          "unchanged": 127,
+          "by_category": {
+            "cafe": 22,
+            "food": 25,
+            "mall": 2,
+            "park": 5,
+            "culture": 3,
+            "attraction": 4,
+            "playground": 66
+          },
+          "deactivated": 0,
+          "dedup_merges": 0,
+          "active_places": 127,
+          "groups_failed": [],
+          "skipped_unnamed": 60,
+          "website_rejected": 0,
+          "poi_groups_failed": [],
+          "snapshot_complete": true,
+          "skipped_no_geometry": 0,
+          "skipped_outside_coverage": 3
+        },
+        "error": null
+      },
+      {
+        "run_id": "9d4e6722-c573-43a6-933f-f3ee2a8dc48e",
+        "status": "complete",
+        "started_at": "2026-10-18T20:13:13.551878+00:00",
+        "dataset_version": "osm-20261018T200514Z",
+        "counts": {
+          "records": 127,
+          "groups_ok": [
+            "poi_cafe_food",
+            "poi_culture",
+            "poi_attraction",
+            "poi_park_playground",
+            "poi_mall",
+            "map_buildings",
+            "map_roads",
+            "map_water",
+            "map_green",
+            "map_landmarks"
+          ],
+          "unchanged": 127,
+          "by_category": {
+            "cafe": 22,
+            "food": 25,
+            "mall": 2,
+            "park": 5,
+            "culture": 3,
+            "attraction": 4,
+            "playground": 66
+          },
+          "deactivated": 0,
+          "dedup_merges": 0,
+          "active_places": 127,
+          "groups_failed": [],
+          "skipped_unnamed": 60,
+          "website_rejected": 0,
+          "poi_groups_failed": [],
+          "snapshot_complete": true,
+          "skipped_no_geometry": 0,
+          "skipped_outside_coverage": 3
+        },
+        "error": null
+      },
+      {
+        "run_id": "507156fb-3c63-47ca-83d9-da2d67fc7bc6",
+        "status": "partial",
+        "started_at": "2026-10-18T20:12:18.586653+00:00",
+        "dataset_version": "osm-20261018T200514Z",
+        "counts": {
+          "records": 56,
+          "groups_ok": [
+            "poi_cafe_food",
+            "poi_culture",
+            "poi_attraction",
+            "poi_mall",
+            "map_buildings",
+            "map_water",
+            "map_green",
+            "map_landmarks"
+          ],
+          "unchanged": 56,
+          "by_category": {
+            "cafe": 22,
+            "food": 25,
+            "mall": 2,
+            "culture": 3,
+            "attraction": 4
+          },
+          "deactivated": 0,
+          "dedup_merges": 0,
+          "active_places": 127,
+          "groups_failed": [
+            "poi_park_playground",
+            "map_roads"
+          ],
+          "skipped_unnamed": 57,
+          "website_rejected": 0,
+          "poi_groups_failed": [
+            "poi_park_playground"
+          ],
+          "snapshot_complete": false,
+          "skipped_no_geometry": 0,
+          "skipped_outside_coverage": 2,
+          "deactivation_skipped_reason": "snapshot not complete"
+        },
+        "error": null
+      }
+    ],
+    "dedup_merges": [
+      {
+        "name": "Мега Силк Вей",
+        "merged": "node/4965336822",
+        "reason": "name prefix: 'mega silkway astana' ~ 'mega silk way'",
+        "primary": "way/499328514",
+        "distance_m": 0.0,
+        "primary_name": "Mega Silk Way"
+      }
+    ],
+    "dedup_rejected": [
+      {
+        "a": "node/5878572885",
+        "b": "node/8121843217",
+        "reason": "nodes <=15 m apart, no common name/phone/website/address",
+        "distance_m": 6.1
+      },
+      {
+        "a": "node/12093489321",
+        "b": "node/13397061028",
+        "reason": "nodes <=15 m apart, no common name/phone/website/address",
+        "distance_m": 12.8
+      }
+    ]
+  },
+  "map": {
+    "counts": {
+      "buildings": 1812,
+      "roads": 5329,
+      "water": 20,
+      "green": 1784,
+      "coverage": 1
+    },
+    "total_bytes": 2674179,
+    "buildings": {
+      "height_rule": "height (m) -> building:levels x 3.2 m -> 10 m default (approximate)",
+      "min_height_rule": "min_height -> building:min_level x 3.2 m -> 0",
+      "height_provenance": {
+        "height": 23,
+        "levels": 897,
+        "default": 892
+      },
+      "with_inner_rings": 12,
+      "skipped_no_polygon": 0,
+      "skipped_invalid": 0,
+      "clip": "kept whole when intersecting coverage"
+    },
+    "simplification": {
+      "applied": false,
+      "layers": [],
+      "tolerance_deg": null,
+      "note": "Buildings are never simplified."
+    },
+    "layers": {
+      "buildings": {
+        "file": "buildings.geojson",
+        "features": 1812,
+        "bytes": 691922,
+        "sha256": "66015611649821ac19610dd110eaa6c2bfaf41cd27910ca007a44e22f80a8855"
+      },
+      "roads": {
+        "file": "roads.geojson",
+        "features": 5329,
+        "bytes": 1367468,
+        "sha256": "0be5b02ea094e8039d29e6a09bc9cb20bce9306773227d44ef589ad9830e2442"
+      },
+      "water": {
+        "file": "water.geojson",
+        "features": 20,
+        "bytes": 12617,
+        "sha256": "7c81a6f1e4bc3d1a13cf2578c08f7e1df3609edb50bc3516a9f3bdb49998714c"
+      },
+      "green": {
+        "file": "green.geojson",
+        "features": 1784,
+        "bytes": 601603,
+        "sha256": "954fdedd3c41c76a2f4fada481b4fc4ea4bacd6cf8855fb983e8ce8968281c16"
+      },
+      "coverage": {
+        "file": "coverage.geojson",
+        "features": 1,
+        "bytes": 569,
+        "sha256": "6a5613688273f5460ed82226a3d9ac77b95ee5ef56a026e07c10cee61d7a1099"
+      }
+    }
+  },
+  "index": {
+    "model_id": "ollama:bge-m3@790764642607",
+    "provider": "ollama",
+    "model": "bge-m3",
+    "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+    "dim": 1024,
+    "document_preprocessing": "no prefix (bge-m3 dense)",
+    "text_fields": [
+      "name",
+      "category label (ru)",
+      "subcategory",
+      "cuisine",
+      "address",
+      "description"
+    ],
+    "active_places": 126,
+    "rows_for_model": 127,
+    "rows_other_models": 0,
+    "last_run": {
+      "at": "2026-10-18T20:36:51.331564+00:00",
+      "embedded": 1,
+      "skipped_unchanged": 125,
+      "pruned_other_models": 0
+    },
+    "vector_index": "exact scan (no ANN index); dataset ~10^2 rows"
+  },
+  "landmarks": {
+    "found": [
+      {
+        "key": "nur_alem",
+        "name": "Alem.ai Международный центр искусственного интеллекта",
+        "osm": "way/454857501",
+        "centroid_lonlat": [
+          71.416197,
+          51.089242
+        ]
+      },
+      {
+        "key": "expo_site",
+        "name": "EXPO",
+        "osm": "way/454853233",
+        "centroid_lonlat": [
+          71.421448,
+          51.092784
+        ]
+      },
+      {
+        "key": "expo_quarter",
+        "name": "ЭКСПО-2017",
+        "osm": "way/1456208623",
+        "centroid_lonlat": [
+          71.414102,
+          51.091005
+        ]
+      },
+      {
+        "key": "mega_silk_way",
+        "name": "Mega Silk Way",
+        "osm": "way/499328514",
+        "centroid_lonlat": [
+          71.407447,
+          51.089071
+        ]
+      },
+      {
+        "key": "botanical_garden",
+        "name": "Ботанический сад",
+        "osm": "way/1196402246",
+        "centroid_lonlat": [
+          71.416563,
+          51.106107
+        ]
+      },
+      {
+        "key": "nazarbayev_university",
+        "name": "Назарбаев Университет",
+        "osm": "way/424894683",
+        "centroid_lonlat": [
+          71.397797,
+          51.092508
+        ]
+      },
+      {
+        "key": "mangilik_el",
+        "name": "проспект Мангилик Ел",
+        "osm": [
+          "way/255969486",
+          "way/501197214",
+          "way/501197215",
+          "way/501197216",
+          "way/501197217",
+          "way/501197220",
+          "way/522977365",
+          "way/522977372",
+          "way/724874966",
+          "way/724874967",
+          "way/724875226",
+          "way/724875230",
+          "way/735043815",
+          "way/735043816",
+          "way/735043817",
+          "way/735043818",
+          "way/735043819",
+          "way/735043820",
+          "way/735043821",
+          "way/1154972681",
+          "way/1429138570",
+          "way/1429138571",
+          "way/1429138572",
+          "way/1429138573",
+          "way/1429145785",
+          "way/1446156777",
+          "way/1446612883",
+          "way/1446612884",
+          "way/1455740188",
+          "way/1455760089",
+          "way/1455760090",
+          "way/1455760091",
+          "way/1455760092",
+          "way/1527833773",
+          "way/1531638142",
+          "way/1531638144"
+        ],
+        "centroid_lonlat": [
+          71.426756,
+          51.095006
+        ]
+      }
+    ],
+    "not_found": [
+      "astana_arena"
+    ]
+  }
+}

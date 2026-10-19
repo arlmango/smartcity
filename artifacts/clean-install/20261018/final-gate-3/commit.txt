@@ -1,0 +1,1 @@
+ba066fe fix(rag): on the last attempt keep the model's valid selection when its texts fail fact checks (texts hidden, warning llm_text_rejected); never when IDs were invented

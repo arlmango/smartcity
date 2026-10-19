@@ -1,0 +1,4 @@
+ranges=100 error=RemoteProtocolError seconds=0.07
+ranges=1000 error=RemoteProtocolError seconds=0.16
+ranges=2000 error=RemoteProtocolError seconds=0.92
+ranges=4000 error=RemoteProtocolError seconds=1.04

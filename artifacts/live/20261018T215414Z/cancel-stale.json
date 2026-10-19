@@ -1,0 +1,9 @@
+{
+  "second": "833aa2f5-c0ee-4fa7-bc16-3a53dfa2c3ef",
+  "failed": [
+    "POST /api/recommend — net::ERR_ABORTED"
+  ],
+  "statuses": [
+    200
+  ]
+}

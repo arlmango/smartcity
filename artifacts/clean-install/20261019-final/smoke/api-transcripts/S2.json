@@ -1,0 +1,115 @@
+{
+  "scenario": "S2",
+  "notes": "origin = DB location of 'Alem.ai (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
+  "recorded_at": "2026-10-19T05:22:49+00:00",
+  "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
+  "request": {
+    "query": "Нужны кофе, тишина и розетка, есть час",
+    "origin_rounded": [
+      51.09,
+      71.42
+    ],
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "constraints": {}
+  },
+  "providers": {
+    "llm": {
+      "provider": "ollama",
+      "model": "qwen2.5:3b",
+      "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "params": {
+        "temperature": 0.2,
+        "num_predict": 700
+      },
+      "timeout_s": 150.0
+    },
+    "embedding": {
+      "model_id": "ollama:bge-m3@790764642607",
+      "digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+      "dim": 1024
+    },
+    "response_providers": {
+      "llm_provider": "ollama",
+      "llm_model": "qwen2.5:3b@357c53fb659c",
+      "embedding_provider": "ollama",
+      "embedding_model": "ollama:bge-m3@790764642607",
+      "embedding_dim": 1024,
+      "routing": "none"
+    }
+  },
+  "dataset_version": "osm-20261018T223058Z",
+  "retrieval": {
+    "shortlist": 58,
+    "ranked_after_filters": 0,
+    "semantic": "unused",
+    "llm_candidate_ids": [],
+    "exclusions": {
+      "required_feature:socket": 58
+    },
+    "llm_attempts": 0,
+    "llm_failure": null,
+    "llm_issues": [],
+    "prompt_version": "rec-v3"
+  },
+  "result": {
+    "status": "no_match",
+    "mode": "retrieval_only",
+    "message": "Подходящих мест не нашлось. Обязательное условие «розетка» не подтверждено в данных OSM у ближайших мест — мы не выдаём неизвестное за выполненное. Можно ослабить условие — варианты ниже.",
+    "constraints_applied": {
+      "hard": [
+        {
+          "kind": "time_budget",
+          "value": 60,
+          "source": "ui",
+          "label": "Время: не более 60 мин"
+        },
+        {
+          "kind": "return_to_start",
+          "value": true,
+          "source": "ui",
+          "label": "С возвращением в точку старта"
+        },
+        {
+          "kind": "walking_only",
+          "value": true,
+          "source": "ui",
+          "label": "Только пешком"
+        },
+        {
+          "kind": "required_feature",
+          "value": "socket",
+          "source": "text",
+          "label": "Обязательно: розетка"
+        }
+      ],
+      "preferences": [
+        "Тишина (в данных OSM не проверяется)",
+        "Интерес: Кафе"
+      ],
+      "interpreted_query": "интересы: кафе; тишина (не проверяется)"
+    },
+    "warnings": [
+      {
+        "code": "quiet_unverified",
+        "message": "Тишину и уют по данным OSM проверить нельзя — это только пожелание"
+      }
+    ],
+    "suggested_relaxations": [
+      {
+        "code": "feature_to_preference:socket",
+        "message": "Показать варианты, где «розетка» не подтверждено данными (условие станет пожеланием)"
+      }
+    ],
+    "recommendations": []
+  },
+  "timings_ms": {
+    "parse": 1,
+    "shortlist": 23,
+    "semantic": 0,
+    "rank": 0,
+    "schedule": 0,
+    "total": 28
+  },
+  "wall_ms": 36
+}

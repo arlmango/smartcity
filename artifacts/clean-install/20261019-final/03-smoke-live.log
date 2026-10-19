@@ -1,0 +1,12 @@
+components: {'db': 'ok', 'data': 'ok', 'map': 'ok', 'embeddings': 'ok', 'llm': 'ok', 'routing': 'not_configured'}
+[05:21:41] == api live scenarios (pytest -m live)
+pytest-live exit=0
+[05:26:05] == browser live scenarios (Playwright, no mocks)
+playwright-live exit=0
+commit: 9eade71
+date: 2026-10-19T05:43:42Z
+api: http://127.0.0.1:8000 web: http://127.0.0.1:3000
+dataset_manifest_sha256: eb211951f8135f9f22b449227c1c4675be518542d2a3f4991ce10a679981dd24
+overall_exit: 0
+[05:43:42] report: artifacts/live/20261019T052141Z
+exit=0

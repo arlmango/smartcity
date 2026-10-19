@@ -1,0 +1,10 @@
+# BuildKit Dockerfile-specific ignore file for infra/docker/web.Dockerfile
+# (context = repository root). Only apps/web sources go into the image.
+*
+!apps/web/
+apps/web/node_modules
+apps/web/.next
+apps/web/test-results
+apps/web/playwright-report
+apps/web/*.tsbuildinfo
+apps/web/tests

@@ -1,0 +1,26 @@
+{
+  "project": "mobile-390",
+  "mapReadyMs": 5681,
+  "served": {
+    "coverage": 1
+  },
+  "counts": {
+    "coverage": 1,
+    "boundary": 1
+  },
+  "extrusionType": "fill-extrusion",
+  "extrusionVisible": "visible",
+  "rendered3d": 120,
+  "sampleHeightSources": [
+    "default",
+    "height",
+    "levels",
+    "estimate"
+  ],
+  "pitch": 55.00000000000001,
+  "center": [
+    71.41399999999976,
+    51.08900000000031
+  ],
+  "geoCalls": 0
+}

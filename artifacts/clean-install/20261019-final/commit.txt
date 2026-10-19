@@ -1,0 +1,1 @@
+ec3647d ops: keep Ollama models loaded for 30 min (configurable) — cold load ~35 s pushed first answers past the timeout

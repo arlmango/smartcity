@@ -1,0 +1,43 @@
+{
+  "test": "S2 coffee + quiet + socket required, 1 h → honest no_match → relaxation → resend",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Нужны кофе, тишина и розетка обязательно, есть час",
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [
+        "socket"
+      ],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [
+      {
+        "role": "user",
+        "text": "Нужны кофе, тишина и розетка обязательно, есть час"
+      },
+      {
+        "role": "assistant",
+        "text": "Подходящих мест не нашлось. Обязательное условие «розетка» не подтверждено в данных OSM у ближайших мест — мы не выдаём неизвестное за выполненное. Можно ослабить условие — варианты ниже."
+      }
+    ],
+    "start_time": null,
+    "client_request_id": "d174b64c-2848-472c-b6f6-8e5174344c5a"
+  },
+  "status": 0,
+  "response": null,
+  "ms": 0
+}

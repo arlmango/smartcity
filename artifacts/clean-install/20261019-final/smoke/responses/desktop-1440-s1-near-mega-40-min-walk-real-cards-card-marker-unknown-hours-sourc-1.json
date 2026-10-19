@@ -1,0 +1,32 @@
+{
+  "test": "S1 near MEGA, 40 min walk → real cards; card↔marker; unknown hours; source/date; refinements keep hard conditions; restart",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.41,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
+    "time_budget_min": 40,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "f43e5d38-4a9e-4ed1-8918-bf0d12f2e75a"
+  },
+  "status": 0,
+  "response": null,
+  "ms": 0
+}

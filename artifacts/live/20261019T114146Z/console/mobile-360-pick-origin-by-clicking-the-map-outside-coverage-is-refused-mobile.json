@@ -1,0 +1,19 @@
+{
+  "test": "pick origin by clicking the map; outside coverage is refused @mobile",
+  "project": "mobile-360",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5476/11442.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5479/11442.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2737/5720.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2739/5720.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2736/5721.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2736/5722.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2736/5720.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2740/5720.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2735/5721.jpg — net::ERR_ABORTED",
+    "GET /wmts/1.0.0/s2cloudless-2024_3857/default/g/13/2735/5720.jpg — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

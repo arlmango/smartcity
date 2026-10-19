@@ -1,0 +1,8 @@
+{
+  "test": "pick origin by clicking the map; outside coverage is refused @mobile",
+  "project": "mobile-360",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "httpErrors": []
+}

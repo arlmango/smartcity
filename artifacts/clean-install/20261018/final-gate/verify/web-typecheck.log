@@ -1,0 +1,4 @@
+
+> @smartcity/web@0.1.0 typecheck /tmp/claude-0/-home-user-smartcity/7d7ab5ed-3fdb-5bad-933a-0a0a0558427c/scratchpad/clean/apps/web
+> tsc --noEmit
+

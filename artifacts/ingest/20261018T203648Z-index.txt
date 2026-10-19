@@ -1,0 +1,15 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+2026-10-18 20:36:48,779 INFO httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-10-18 20:36:49,596 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 20:36:51,310 INFO httpx: HTTP Request: POST http://localhost:11434/api/embed "HTTP/1.1 200 OK"
+2026-10-18 20:36:51,318 INFO smartcity_ingest.indexer: embedded 1/1
+{
+  "model_id": "ollama:bge-m3@790764642607",
+  "dim": 1024,
+  "embedded": 1,
+  "skipped": 125,
+  "pruned_other_models": 0,
+  "total_rows_for_model": 127,
+  "other_model_rows": 0
+}
+exit_code=0
