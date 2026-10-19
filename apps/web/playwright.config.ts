@@ -51,6 +51,14 @@ export default defineConfig({
       grep: /@mobile/,
       use: { ...devices["Desktop Chrome"], viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
     },
+    // Cross-browser subset (@xbrowser) when the Playwright Firefox/WebKit builds are installed:
+    // E2E_XBROWSER=1 pnpm test:e2e. Their own default launch options (no Chromium flags).
+    ...(process.env.E2E_XBROWSER
+      ? [
+          { name: "firefox", grep: /@xbrowser/, use: { ...devices["Desktop Firefox"], viewport: { width: 1440, height: 900 }, launchOptions: {} } },
+          { name: "webkit", grep: /@xbrowser/, use: { ...devices["Desktop Safari"], viewport: { width: 1440, height: 900 }, launchOptions: {} } },
+        ]
+      : []),
   ],
   webServer: {
     command: process.env.E2E_SKIP_BUILD

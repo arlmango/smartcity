@@ -1,0 +1,14 @@
+{
+  "test": "pick origin by clicking the map; outside coverage is refused @mobile",
+  "project": "mobile-360",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [
+    "GET /api/tiles/base/12/2861/1369 — net::ERR_ABORTED",
+    "GET /api/tiles/base/12/2860/1370 — net::ERR_ABORTED",
+    "GET /api/tiles/base/12/2860/1368 — net::ERR_ABORTED",
+    "GET /api/tiles/base/12/2861/1370 — net::ERR_ABORTED",
+    "GET /api/tiles/base/12/2861/1368 — net::ERR_ABORTED"
+  ],
+  "httpErrors": []
+}

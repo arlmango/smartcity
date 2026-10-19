@@ -1,7 +1,7 @@
 {
   "scenario": "S2",
   "notes": "origin = DB location of 'Alem.ai (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
-  "recorded_at": "2026-10-19T11:42:33+00:00",
+  "recorded_at": "2026-10-19T13:43:36+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Нужны кофе, тишина и розетка, есть час",
@@ -105,11 +105,11 @@
   },
   "timings_ms": {
     "parse": 1,
-    "shortlist": 11,
+    "shortlist": 9,
     "semantic": 0,
     "rank": 0,
     "schedule": 0,
-    "total": 13
+    "total": 11
   },
-  "wall_ms": 17
+  "wall_ms": 15
 }

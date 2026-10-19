@@ -1,7 +1,7 @@
 {
   "scenario": "S1",
   "notes": "origin = DB location of 'Mega Silk Way'",
-  "recorded_at": "2026-10-19T11:42:33+00:00",
+  "recorded_at": "2026-10-19T13:43:36+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Я возле Mega Silk Way, есть 40 минут, хочу немного прогуляться",
@@ -61,7 +61,7 @@
   "result": {
     "status": "ok",
     "mode": "live_rag",
-    "message": "Нашлось 3 варианта — каждый отдельная альтернатива со своим бюджетом времени.",
+    "message": "Выбраны места, подходящие под ваш запрос.",
     "constraints_applied": {
       "hard": [
         {
@@ -124,9 +124,9 @@
           "wheelchair",
           "kids"
         ],
-        "reason": "NU Park находится рядом с Mega Silk Way и является парком / сквером, что соответствует вашему желанию посетить место для прогулки.",
+        "reason": "NU Park находится рядом с Mega Silk Way и является парком / сквером, что соответствует вашему желанию посетить место с интересом.",
         "reason_source": "llm",
-        "activity_suggestion": "прогуляться в NU Park"
+        "activity_suggestion": "прогуляться в парке"
       },
       {
         "place_id": "9f81722d-72a9-40e2-9a68-e3c056229b33",
@@ -154,50 +154,20 @@
           "wheelchair",
           "kids"
         ],
-        "reason": "Starbucks также находится внутри ТРЦ Mega Silk Way и предлагает кофейню, что можно использовать для отдыха после прогулки.",
+        "reason": "Starbucks также расположено внутри ТРЦ Mega Silk Way и предлагает кофейню для отдыха.",
         "reason_source": "llm",
-        "activity_suggestion": "посетить Starbucks"
-      },
-      {
-        "place_id": "2c47912c-234f-401e-8a17-334aca1c657a",
-        "name": "Luckee Yu",
-        "category": "food",
-        "source_url": "https://www.openstreetmap.org/node/13397061026",
-        "distance_m": 47,
-        "timing": {
-          "outbound_min": 1,
-          "visit_min": 33,
-          "return_min": 1,
-          "buffer_min": 5,
-          "total_min": 40,
-          "estimated": true,
-          "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
-        },
-        "opening_status": "open",
-        "verified_features": [
-          "indoor"
-        ],
-        "unknown_features": [
-          "socket",
-          "wifi",
-          "outdoor_seating",
-          "wheelchair",
-          "kids"
-        ],
-        "reason": "Luckee Yu также находится внутри ТРЦ Mega Silk Way и может быть хорошим выбором для небольшого обеденного перерыва.",
-        "reason_source": "llm",
-        "activity_suggestion": "прогуляться в Luckee Yu"
+        "activity_suggestion": "зайти в кафе для чашки кофе"
       }
     ]
   },
   "timings_ms": {
-    "parse": 4,
-    "shortlist": 18,
-    "semantic": 364,
-    "rank": 1,
-    "schedule": 2,
-    "generate": 44291,
-    "total": 44681
+    "parse": 6,
+    "shortlist": 19,
+    "semantic": 745,
+    "rank": 3,
+    "schedule": 3,
+    "generate": 125056,
+    "total": 125841
   },
-  "wall_ms": 44697
+  "wall_ms": 125857
 }

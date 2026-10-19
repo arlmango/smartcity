@@ -146,9 +146,9 @@ export function Header({ coverage, coverageError, ready, basemap, providerLines 
           <p className="mt-2 text-[13px] leading-snug">
             <strong>Подложка.</strong> Векторные тайлы Protomaps (© OpenStreetMap contributors, ODbL).{" "}
             {sat?.enabled
-              ? "Режим «Гибрид»: на обзоре города — спутниковые снимки EOxCloudless 2024 (10 м/пиксель, CC BY-NC-SA 4.0, только некоммерческое использование); тайлы загружаются браузером с tiles.maps.eox.at."
+              ? "По умолчанию — только схема. Режим «Гибрид» включается вручную после согласия: на обзоре города — спутниковые снимки EOxCloudless 2024 (10 м/пиксель, CC BY-NC-SA 4.0, только некоммерческое использование), их браузер загружает с tiles.maps.eox.at — EOX получает IP и просматриваемую область."
               : sat
-                ? "Спутниковый слой отключён (коммерческий режим или настройка)."
+                ? "Спутниковый слой отключён (коммерческий режим или настройка): запросов к EOX нет."
                 : ""}
           </p>
           <p className="mt-2 text-[13px] leading-snug text-muted">

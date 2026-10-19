@@ -1,7 +1,7 @@
 {
   "scenario": "S3",
   "notes": "origin = DB location of 'Alem.ai (landmark way/454857501, polygon centroid from data/manifests/landmarks.json)'",
-  "recorded_at": "2026-10-19T11:44:04+00:00",
+  "recorded_at": "2026-10-19T13:48:02+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Хотим погулять час с ребёнком, надо вернуться сюда",
@@ -61,7 +61,7 @@
   "result": {
     "status": "ok",
     "mode": "live_rag",
-    "message": "Выбраны ближайшие места для прогулки с детьми и возвращения в точку старта.",
+    "message": "Выбраны ближайшие детские площадки или парк для быстрой прогулки с ребенком и возвращения к начальной точке.",
     "constraints_applied": {
       "hard": [
         {
@@ -131,9 +131,9 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Ближайшее место, подходящее для прогулки с детьми и возвращения в точку старта.",
+        "reason": "Ближайшее место с детскими площадками, что позволяет пойти и вернуться в точку старта за короткое время.",
         "reason_source": "llm",
-        "activity_suggestion": "Погулять по детской площадке"
+        "activity_suggestion": "Играть на детской площадке"
       },
       {
         "place_id": "e25dc4d5-d8da-4450-8755-e1cdd23f11c4",
@@ -160,9 +160,9 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Другое ближайшее место, подходящее для прогулки с детьми и возвращения в точку старта.",
+        "reason": "Тоже ближайшее место с детскими площадками, что позволит быстро прогуляться и вернуться в точку старта.",
         "reason_source": "llm",
-        "activity_suggestion": "Погулять по детской площадке"
+        "activity_suggestion": "Играть на детской площадке"
       },
       {
         "place_id": "9e84c345-b0ec-409a-9c0e-5acb57cedd79",
@@ -189,20 +189,20 @@
           "outdoor_seating",
           "wheelchair"
         ],
-        "reason": "Ближайшее место, подходящее для прогулки с детьми и возвращения в точку старта.",
+        "reason": "Ближайшее из доступных парка / сквера, что позволяет пойти и вернуться в точку старта за короткое время.",
         "reason_source": "llm",
-        "activity_suggestion": "Погулять по детской площадке"
+        "activity_suggestion": "Погулять по аллеям"
       }
     ]
   },
   "timings_ms": {
     "parse": 1,
-    "shortlist": 11,
-    "semantic": 401,
-    "rank": 6,
-    "schedule": 1,
-    "generate": 33033,
-    "total": 33454
+    "shortlist": 50,
+    "semantic": 7875,
+    "rank": 5,
+    "schedule": 4,
+    "generate": 106811,
+    "total": 114752
   },
-  "wall_ms": 33459
+  "wall_ms": 114761
 }

@@ -1,0 +1,702 @@
+{
+ "base": "http://127.0.0.1:3010/",
+ "hasSwitch": true,
+ "variantAtStart": "scheme",
+ "dialogText": "Включить спутниковый гибрид? Снимки загружаются браузером напрямую с сервера EOX IT Services GmbH (tiles.maps.eox.at). EOX получит ваш IP-адрес, адрес этого сайта, сведения о браузере и то, какую область карты вы смотрите — пока карта не приближена до уровня улиц, в том числе сразу после включения. EOxCloudless 2024: 10 м/пиксель, лицензия CC BY-NC-SA 4.0, только некоммерческое использование. Снимки показывают землю; здания остаются схематичными объёмами. Выбор не сохраняется: при следующем открытии снова будет схема, которая работает без спутника. Остаться на схеме Включить гибрид",
+ "variantAfterDecline": "scheme",
+ "attribution": "© OpenStreetMap contributors · Protomaps | EOxCloudless https://cloudless.eox.at by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2024), colours adjusted by SmartCity · CC BY-NC-SA 4.0",
+ "byPhase": {
+  "1-open": {
+   "local": 77,
+   "external": {}
+  },
+  "2-city-zoom": {
+   "local": 13,
+   "external": {}
+  },
+  "3-dialog-decline": {
+   "local": 18,
+   "external": {}
+  },
+  "4-after-consent": {
+   "local": 0,
+   "external": {
+    "tiles.maps.eox.at": 4
+   }
+  }
+ },
+ "requests": [
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/css/b14062f36e07422e.css"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/css/c8c284c70ea05adf.css"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/webpack-04c1c63185458024.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/04695458-29edf4110019004d.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/952-8e9f54a6e2e5d9b9.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/main-app-fe1317b6be9ef1e9.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/422-525817b0fe912e5b.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/786-1d6bf01f4273301a.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/app/layout-e7e0935028ec6128.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/394-e6568abe58f2822c.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/app/page-dc1532ba943b1db2.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-ext-400-normal.a5c383ef"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-800-normal.67e2cfc9.wof"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-600-normal.84ba124a.wof"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-ext-700-normal.5a42cea0"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-500-normal.ac925df1.wof"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-latin-800-normal.121cd4c5.woff2"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-latin-600-normal.ef413a9e.woff2"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-400-normal.1a075d0e.wof"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-cyrillic-700-normal.a3ab8973.wof"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-latin-400-normal.b69ff29f.woff2"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/media/manrope-latin-700-normal.4fc2723e.woff2"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/ready"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/coverage"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/map/coverage"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/basemap"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/basemap/boundary"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/icon.svg"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/_next/static/chunks/e206dbef.30a4dbc89e71e951.js"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/maplibre/maplibre-gl-worker.mjs"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22884/10957"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22884/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22883/10957"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22883/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22885/10957"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22885/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22884/10958"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22883/10958"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22884/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22883/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22882/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22885/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22882/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22884/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22883/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22885/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22882/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22881/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22881/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22885/10953"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22884/10957"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22884/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22883/10957"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22883/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22885/10957"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22885/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22884/10958"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22883/10958"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22884/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22883/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22882/10956"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22885/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22882/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22884/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22883/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22885/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22882/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22881/10955"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22881/10954"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22885/10953"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/fonts/Manrope-Bold/1024-1279.pbf"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/fonts/Manrope-Bold/0-255.pbf"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/fonts/Manrope-Regular/0-255.pbf"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/fonts/Manrope-Regular/1024-1279.pbf"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/fonts/Manrope-SemiBold/1024-1279.pbf"
+  },
+  {
+   "phase": "1-open",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/fonts/Manrope-SemiBold/0-255.pbf"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2861/1369"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2861/1368"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2860/1369"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2860/1368"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2862/1369"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2862/1368"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2860/1370"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/12/2859/1368"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/10/715/342"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/10/715/341"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/10/714/342"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/10/714/341"
+  },
+  {
+   "phase": "2-city-zoom",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/10/716/342"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22889/10952"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22888/10952"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22889/10953"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22889/10951"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22890/10952"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22888/10953"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22888/10951"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22890/10953"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/base/15/22890/10951"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22889/10952"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22888/10952"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22889/10953"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22889/10951"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22890/10952"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22888/10953"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22888/10951"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22890/10953"
+  },
+  {
+   "phase": "3-dialog-decline",
+   "host": "127.0.0.1:3010",
+   "local": true,
+   "path": "/api/tiles/buildings/15/22890/10951"
+  },
+  {
+   "phase": "4-after-consent",
+   "host": "tiles.maps.eox.at",
+   "local": false,
+   "path": "/wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5476/11444.jp"
+  },
+  {
+   "phase": "4-after-consent",
+   "host": "tiles.maps.eox.at",
+   "local": false,
+   "path": "/wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5475/11444.jp"
+  },
+  {
+   "phase": "4-after-consent",
+   "host": "tiles.maps.eox.at",
+   "local": false,
+   "path": "/wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5476/11445.jp"
+  },
+  {
+   "phase": "4-after-consent",
+   "host": "tiles.maps.eox.at",
+   "local": false,
+   "path": "/wmts/1.0.0/s2cloudless-2024_3857/default/g/14/5475/11445.jp"
+  }
+ ]
+}

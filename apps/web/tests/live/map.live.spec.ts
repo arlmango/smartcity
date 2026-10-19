@@ -22,11 +22,23 @@ test.describe("live: map on real data", () => {
         };
       }
     });
+    // Satellite host: never contacted before an explicit opt-in (and never in commercial mode).
+    const thirdParty: string[] = [];
+    page.on("request", (r) => {
+      const u = new URL(r.url());
+      if (!["127.0.0.1", "localhost"].includes(u.hostname) && !["data:", "blob:"].includes(u.protocol)) thirdParty.push(u.host);
+    });
     const t0 = Date.now();
     await page.goto("/");
     await waitForMap(page);
     const mapReadyMs = Date.now() - t0;
     await mapIdle(page);
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 11.5 }));
+    await mapIdle(page);
+    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 15 }));
+    await mapIdle(page);
+    expect(thirdParty, "requests to third-party hosts on first open").toEqual([]);
+    expect(await page.evaluate(() => window.__smartcity!.variant)).toBe("scheme");
 
     // The coverage outline equals what the real API serves; the city comes from real vector tiles.
     const served: Record<string, number> = {};

@@ -1,7 +1,7 @@
 {
   "scenario": "S2_relaxed",
   "notes": "explicit relaxation: socket moved from required to preferred (client resent patch)",
-  "recorded_at": "2026-10-19T11:43:30+00:00",
+  "recorded_at": "2026-10-19T13:46:07+00:00",
   "deidentified": "origin rounded to 0.01°; scenario text is a fixed test script, not a user's query",
   "request": {
     "query": "Нужны кофе, тишина и розетка, есть час",
@@ -64,21 +64,15 @@
     "exclusions": {
       "budget": 8
     },
-    "llm_attempts": 2,
-    "llm_failure": null,
-    "llm_issues": [
-      "invalid:ни одна рекомендация не прошла проверку",
-      "reason_rejected",
-      "removed_unverified_claim:quiet",
-      "removed_unverified_claim:socket",
-      "selection_kept_without_text"
-    ],
+    "llm_attempts": 1,
+    "llm_failure": "provider_timeout",
+    "llm_issues": [],
     "prompt_version": "rec-v3"
   },
   "result": {
-    "status": "ok",
-    "mode": "live_rag",
-    "message": "Нашлось 3 варианта — каждый отдельная альтернатива со своим бюджетом времени.",
+    "status": "degraded",
+    "mode": "retrieval_only",
+    "message": "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений.",
     "constraints_applied": {
       "hard": [
         {
@@ -109,16 +103,16 @@
     },
     "warnings": [
       {
+        "code": "llm_unavailable",
+        "message": "ИИ временно недоступен — показаны найденные места без сгенерированных объяснений"
+      },
+      {
         "code": "quiet_unverified",
         "message": "Тишину и уют по данным OSM проверить нельзя — это только пожелание"
       },
       {
         "code": "straight_line_estimate",
         "message": "Маршрутизатор не подключён: расстояния по прямой, время ориентировочное, не гарантирует успеть по улицам"
-      },
-      {
-        "code": "llm_text_rejected",
-        "message": "Часть объяснений ИИ не прошла проверку фактов и скрыта — места и факты остаются"
       },
       {
         "code": "preference_unverified:socket",
@@ -154,7 +148,7 @@
           "kids"
         ],
         "reason": null,
-        "reason_source": "llm",
+        "reason_source": "rules",
         "activity_suggestion": null
       },
       {
@@ -184,49 +178,48 @@
           "kids"
         ],
         "reason": null,
-        "reason_source": "llm",
+        "reason_source": "rules",
         "activity_suggestion": null
       },
       {
-        "place_id": "470ca402-037f-4279-8e54-1c88597fae13",
-        "name": "Gasteria",
-        "category": "cafe",
-        "source_url": "https://www.openstreetmap.org/node/13173517356",
-        "distance_m": 480,
+        "place_id": "d5443d73-9f96-409c-a6a3-e7d09bef602b",
+        "name": "Line Brew",
+        "category": "food",
+        "source_url": "https://www.openstreetmap.org/node/11993865901",
+        "distance_m": 93,
         "timing": {
-          "outbound_min": 10,
-          "visit_min": 25,
-          "return_min": 10,
+          "outbound_min": 2,
+          "visit_min": 40,
+          "return_min": 2,
           "buffer_min": 5,
-          "total_min": 50,
+          "total_min": 49,
           "estimated": true,
           "method": "Оценка: расстояние по прямой × 1.3, пешком 4 км/ч; запас max(5 мин, 10% дороги); длительность посещения — типичная для категории"
         },
         "opening_status": "open",
-        "verified_features": [
-          "indoor"
-        ],
+        "verified_features": [],
         "unknown_features": [
           "socket",
           "wifi",
           "outdoor_seating",
           "wheelchair",
+          "indoor",
           "kids"
         ],
         "reason": null,
-        "reason_source": "llm",
+        "reason_source": "rules",
         "activity_suggestion": null
       }
     ]
   },
   "timings_ms": {
     "parse": 0,
-    "shortlist": 9,
-    "semantic": 389,
-    "rank": 4,
+    "shortlist": 7,
+    "semantic": 402,
+    "rank": 6,
     "schedule": 1,
-    "generate": 57031,
-    "total": 57435
+    "generate": 150011,
+    "total": 150429
   },
-  "wall_ms": 57442
+  "wall_ms": 150448
 }

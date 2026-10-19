@@ -1,0 +1,14 @@
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.overrides". See https://pnpm.io/settings for the new home of each setting.
+
+Running 8 tests using 2 workers
+
+  ✓  2 [webkit] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (7.6s)
+  ✓  1 [webkit] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures and tiles) › loads city vector tiles for the visible area only, with 3D extrusion @mobile @xbrowser (11.0s)
+  ✓  3 [webkit] › tests/e2e/satellite.spec.ts:57:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › commercial mode: no switch, no EOX request at any zoom @mobile @xbrowser (4.7s)
+  ✓  4 [webkit] › tests/e2e/map.spec.ts:91:7 › deterministic: map (SYNTHETIC fixtures and tiles) › 2D/3D toggle, north reset, height legend and stylised landmark label @xbrowser (7.8s)
+  ✓  5 [webkit] › tests/e2e/satellite.spec.ts:71:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › noncommercial: starts on the scheme; declining the notice keeps it and sends nothing @xbrowser (8.8s)
+  ✓  6 [webkit] › tests/e2e/map.spec.ts:130:7 › deterministic: map (SYNTHETIC fixtures and tiles) › select origin by clicking the map; outside the recommendation zone is refused and the zone shown @xbrowser (6.3s)
+  ✓  7 [webkit] › tests/e2e/satellite.spec.ts:114:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › noncommercial: explicit consent enables the hybrid with the EOX credit; a new visit starts on the scheme again @xbrowser (10.7s)
+  ✓  8 [webkit] › tests/e2e/satellite.spec.ts:153:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › satellite unavailable: the map keeps working, the viewer is told and can return to the scheme @xbrowser (5.0s)
+
+  8 passed (40.9s)

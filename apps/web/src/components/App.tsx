@@ -23,6 +23,7 @@ import { Header } from "./Header";
 import { FallbackMap } from "./map/FallbackMap";
 import { HeightLegend } from "./map/HeightLegend";
 import { MapView } from "./map/MapView";
+import { SatelliteConsent } from "./map/SatelliteConsent";
 import { ProgressPanel } from "./ProgressPanel";
 import { ResultsPanel } from "./ResultsPanel";
 import { StatusBanners } from "./StatusBanners";
@@ -33,16 +34,6 @@ type Sheet = "collapsed" | "half" | "full";
 const OUTSIDE_DETAIL =
   "Карта показывает всю Астану, но база мест для прогулок пока собрана только в районе EXPO / MEGA Silk Way (зелёная пунктирная зона). Выберите точку внутри неё или демо-точку.";
 const OUTSIDE_MSG = `Вне зоны рекомендаций. ${OUTSIDE_DETAIL}`;
-
-const VARIANT_KEY = "smartcity.basemap";
-function storedVariant(): BasemapVariant | null {
-  try {
-    const v = window.localStorage.getItem(VARIANT_KEY);
-    return v === "hybrid" || v === "scheme" ? v : null;
-  } catch {
-    return null;
-  }
-}
 
 export function App() {
   const online = useOnline();
@@ -59,19 +50,30 @@ export function App() {
     const s = basemap.data?.satellite;
     return s && s.enabled ? { tiles: s.tiles, maxzoom: s.maxzoom, attribution: s.attribution } : null;
   }, [basemap.data]);
-  const [variant, setVariantState] = useState<BasemapVariant>("hybrid");
-  useEffect(() => {
-    const v = storedVariant();
-    if (v) setVariantState(v);
+  // Always start on the scheme: no request to the satellite host until the viewer explicitly enables
+  // the hybrid after the consent notice. Neither the choice nor the consent is stored between visits.
+  const [variant, setVariantState] = useState<BasemapVariant>("scheme");
+  const [satConsent, setSatConsent] = useState(false);
+  const [askConsent, setAskConsent] = useState(false);
+  const [satFailed, setSatFailed] = useState(false);
+  const setVariant = useCallback(
+    (v: BasemapVariant) => {
+      if (v === "hybrid" && !satConsent) {
+        setAskConsent(true);
+        return;
+      }
+      if (v === "hybrid") setSatFailed(false);
+      setVariantState(v);
+    },
+    [satConsent],
+  );
+  const acceptSatellite = useCallback(() => {
+    setSatConsent(true);
+    setAskConsent(false);
+    setSatFailed(false);
+    setVariantState("hybrid");
   }, []);
-  const setVariant = useCallback((v: BasemapVariant) => {
-    setVariantState(v);
-    try {
-      window.localStorage.setItem(VARIANT_KEY, v);
-    } catch {
-      /* storage unavailable: the choice lasts for this page only */
-    }
-  }, []);
+  const declineSatellite = useCallback(() => setAskConsent(false), []);
   const [coverageFitSignal, setCoverageFitSignal] = useState(0);
   const rec = useRecommend();
 
@@ -346,7 +348,11 @@ export function App() {
                 type="button"
                 aria-pressed={sheet !== "full"}
                 className="min-h-[44px] rounded-[10px] px-4 text-sm font-semibold aria-pressed:bg-graphite aria-pressed:text-white"
-                onClick={() => setSheet("collapsed")}
+                onClick={() => {
+                  setSheet("collapsed");
+                  // The map grows when the sheet collapses: re-fit the results once the layout has settled.
+                  if (recs.length) window.setTimeout(() => setFitSignal((n) => n + 1), 80);
+                }}
               >
                 Карта
               </button>
@@ -403,6 +409,7 @@ export function App() {
               satellite={satellite}
               tilesVersion={basemap.data?.tiles_version ?? null}
               onVariantChange={setVariant}
+              onSatelliteError={() => setSatFailed(true)}
               origin={form.origin}
               recs={recs}
               selectedId={selectedId}
@@ -457,6 +464,14 @@ export function App() {
                 </button>
               </div>
             )}
+            {satFailed && variant === "hybrid" && !mapFatal && (
+              <div role="status" className="pointer-events-auto flex flex-wrap items-center gap-2 rounded-control bg-warn-bg px-3 py-1.5 text-sm text-warn-fg shadow-control">
+                <span>Спутниковые снимки не загрузились — схема и здания работают.</span>
+                <button type="button" className="min-h-[44px] font-semibold underline" onClick={() => setVariantState("scheme")}>
+                  Только схема
+                </button>
+              </div>
+            )}
             {basemap.isError && !mapFatal && (
               <div role="alert" className="pointer-events-auto rounded-control bg-danger-bg px-3 py-2 text-sm text-danger-fg shadow-control">
                 Базовая карта города недоступна (тайлы не собраны или API не отвечает).{" "}
@@ -471,6 +486,8 @@ export function App() {
               </p>
             )}
           </div>
+
+          {askConsent && !mapFatal && <SatelliteConsent onAccept={acceptSatellite} onDecline={declineSatellite} />}
 
           {!mapFatal && (
             // Mobile: top-left so the collapsed legend never covers the start marker near the sheet.

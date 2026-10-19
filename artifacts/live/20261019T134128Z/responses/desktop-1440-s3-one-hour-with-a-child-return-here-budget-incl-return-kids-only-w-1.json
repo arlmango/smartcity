@@ -1,0 +1,32 @@
+{
+  "test": "S3 one hour with a child, return here → budget incl. return; kids only where proven",
+  "project": "desktop-1440",
+  "request": {
+    "origin": {
+      "lat": 51.09,
+      "lon": 71.42,
+      "note": "rounded to 0.01°"
+    },
+    "query": "Хотим погулять час с ребёнком, надо вернуться сюда",
+    "time_budget_min": 60,
+    "return_to_start": true,
+    "travel_mode": "walking",
+    "interests": [],
+    "constraints": {
+      "required_features": [],
+      "preferred_features": [],
+      "include_categories": [],
+      "exclude_categories": [],
+      "must_be_open": false,
+      "max_distance_m": null,
+      "exclude_place_ids": [],
+      "dropped_text_constraints": []
+    },
+    "conversation_context": [],
+    "start_time": null,
+    "client_request_id": "aef8924c-9d13-43e4-af66-1272ff39656c"
+  },
+  "status": 0,
+  "response": null,
+  "ms": 0
+}

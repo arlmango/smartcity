@@ -19,7 +19,7 @@ async function markerIds(page: Page) {
 }
 
 test.describe("deterministic: recommendation flow (SYNTHETIC fixtures)", () => {
-  test("submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile", async ({ page, isMobile }) => {
+  test("submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser", async ({ page, isMobile }) => {
     const api = await mockApi(page);
     await page.goto("/");
     await waitForMap(page);
@@ -53,7 +53,19 @@ test.describe("deterministic: recommendation flow (SYNTHETIC fixtures)", () => {
     await expect(card2).toHaveAttribute("aria-current", "true");
 
     // marker → card
-    if (isMobile) await page.getByRole("button", { name: "Карта", exact: true }).click();
+    if (isMobile) {
+      await page.getByRole("button", { name: "Карта", exact: true }).click();
+      // Opening the map re-fits the results to the grown map: every marker ends up inside the canvas.
+      const inside = () =>
+        page.evaluate(() => {
+          const c = document.querySelector(".maplibregl-canvas")!.getBoundingClientRect();
+          return [...document.querySelectorAll('[data-testid="rec-marker"]')].every((m) => {
+            const b = m.getBoundingClientRect();
+            return b.left >= c.left + 4 && b.right <= c.right - 4 && b.top >= c.top + 4 && b.bottom <= c.bottom - 4;
+          });
+        });
+      await expect.poll(inside, { timeout: 5000 }).toBe(true);
+    }
     await page.getByTestId("fit-results").click();
     await page.waitForFunction(() => !window.__smartcityMap!.isMoving());
     await page.locator('[data-testid="rec-marker"][data-place-id="synthetic-museum-3"]').click();

@@ -1,0 +1,13 @@
+{
+  "test": "initial load: real GeoJSON features, 3D extrusion, 2D/3D, north, zoom; no GPS on load @mobile @smoke",
+  "project": "mobile-390",
+  "consoleErrors": [
+    "[warning] [.WebGL-0x114004f1a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x114004efc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x114004efc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x114004efc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ],
+  "pageErrors": [],
+  "failedRequests": [],
+  "httpErrors": []
+}

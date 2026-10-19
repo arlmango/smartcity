@@ -39,6 +39,8 @@ export interface MapViewProps {
   satellite: SatelliteSource | null;
   tilesVersion: string | null;
   onVariantChange: (v: BasemapVariant) => void;
+  /** A satellite tile failed (host down, blocked); the vector map keeps working. */
+  onSatelliteError?: () => void;
   onPick: (lon: number, lat: number) => void;
   onSelectPlace: (id: string) => void;
   onFatal: (reason: string) => void;
@@ -182,6 +184,7 @@ export function MapView(props: MapViewProps) {
       });
       map.on("rotate", () => setBearing(map?.getBearing() ?? 0));
       map.on("error", (ev) => {
+        if ((ev as { sourceId?: string }).sourceId === "satellite") live.current.onSatelliteError?.();
         const msg = ev.error?.message ?? "map error";
         // A missing glyph range or a single tile error must not kill the map; log and continue.
         console.warn("[map]", msg);
@@ -329,7 +332,8 @@ export function MapView(props: MapViewProps) {
   // ---------------------------------------------------------------- camera: fit results / coverage
   const padding = () => {
     const w = containerRef.current?.clientWidth ?? 800;
-    const pad = Math.min(80, Math.max(40, Math.round(w * 0.08)));
+    // Padding applies to marker centres; markers are 44 px wide, so keep at least their radius + a gap.
+    const pad = Math.min(80, Math.max(56, Math.round(w * 0.08)));
     return { top: pad + 40, bottom: pad + 30, left: pad, right: pad + 56 };
   };
   const fitResults = () => {
@@ -446,7 +450,7 @@ export function MapView(props: MapViewProps) {
               key={v}
               type="button"
               aria-pressed={shownVariant === v}
-              title={v === "hybrid" ? "Спутник Sentinel-2 на обзоре города, схема на уровне улиц" : "Векторная схема по данным OSM"}
+              title={v === "hybrid" ? "Спутник EOxCloudless на обзоре города, схема на уровне улиц (запросит согласие)" : "Векторная схема по данным OSM"}
               className="min-h-[44px] min-w-[44px] rounded-[9px] px-3 text-[13px] font-semibold text-graphite aria-pressed:bg-graphite aria-pressed:text-white"
               onClick={() => props.onVariantChange(v)}
             >

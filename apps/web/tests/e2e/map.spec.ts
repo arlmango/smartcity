@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { basemapInfo, mapIdle, mockApi, waitForMap } from "./helpers";
+import { mapIdle, mockApi, waitForMap } from "./helpers";
 
 test.describe("deterministic: map (SYNTHETIC fixtures and tiles)", () => {
-  test("loads city vector tiles for the visible area only, with 3D extrusion @mobile", async ({ page }) => {
+  test("loads city vector tiles for the visible area only, with 3D extrusion @mobile @xbrowser", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
@@ -88,63 +88,7 @@ test.describe("deterministic: map (SYNTHETIC fixtures and tiles)", () => {
     expect(errors.filter((e) => !/Failed to load resource/.test(e))).toEqual([]);
   });
 
-  test("hybrid ↔ scheme switch: licensed satellite with attribution, choice remembered", async ({ page }) => {
-    const eox: string[] = [];
-    // 1×1 PNG instead of the real EOX tile (deterministic, offline).
-    const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==", "base64");
-    await page.route("https://tiles.maps.eox.at/**", (r) => {
-      eox.push(r.request().url());
-      return r.fulfill({ status: 200, contentType: "image/png", body: png });
-    });
-    await mockApi(page, { basemap: basemapInfo(true) });
-    await page.goto("/");
-    await waitForMap(page);
-    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 12, pitch: 0 }));
-    await mapIdle(page);
-    const sw = page.getByTestId("basemap-switch");
-    await expect(sw.getByRole("button", { name: "Гибрид" })).toHaveAttribute("aria-pressed", "true");
-    expect(await page.evaluate(() => !!window.__smartcityMap!.getSource("satellite"))).toBe(true);
-    expect(eox.length).toBeGreaterThan(0);
-    await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText("Contains modified Copernicus Sentinel data 2024");
-    await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText("CC BY-NC-SA 4.0");
-
-    // Street level: the satellite has faded out and is not rendered, so its credit disappears too.
-    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 16.5 }));
-    await mapIdle(page);
-    await expect(page.locator(".maplibregl-ctrl-attrib")).not.toContainText("Copernicus");
-    await page.evaluate(() => window.__smartcityMap!.jumpTo({ zoom: 12 }));
-    await mapIdle(page);
-    await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText("Copernicus");
-
-    await sw.getByRole("button", { name: "Схема" }).click();
-    await page.waitForFunction(() => window.__smartcity!.variant === "scheme" && !window.__smartcityMap!.getSource("satellite"));
-    // Coverage data and markers survive the style switch.
-    expect(await page.evaluate(() => window.__smartcityMap!.queryRenderedFeatures({ layers: ["coverage-fill"] }).length)).toBeGreaterThan(0);
-    await expect(page.locator(".maplibregl-ctrl-attrib")).not.toContainText("Copernicus");
-    await page.reload();
-    await waitForMap(page);
-    await expect(page.getByTestId("basemap-switch").getByRole("button", { name: "Схема" })).toHaveAttribute("aria-pressed", "true");
-  });
-
-  test("phones: basemap toggle sits in the control column, not over the credits @mobile", async ({ page, isMobile }) => {
-    test.skip(!isMobile, "phone layout only");
-    await page.route("https://tiles.maps.eox.at/**", (r) => r.fulfill({ status: 404 }));
-    await mockApi(page, { basemap: basemapInfo(true) });
-    await page.goto("/");
-    await waitForMap(page);
-    await expect(page.getByTestId("basemap-switch")).toBeHidden();
-    const toggle = page.getByTestId("basemap-toggle");
-    await expect(toggle).toHaveAttribute("aria-pressed", "true");
-    const t = (await toggle.boundingBox())!;
-    expect(t.width).toBeGreaterThanOrEqual(44);
-    const attrib = (await page.locator(".maplibregl-ctrl-attrib").boundingBox())!;
-    expect(t.y + t.height).toBeLessThan(attrib.y);
-    await toggle.click();
-    await page.waitForFunction(() => window.__smartcity!.variant === "scheme");
-    await expect(toggle).toHaveAttribute("aria-pressed", "false");
-  });
-
-  test("2D/3D toggle, north reset, height legend and stylised landmark label", async ({ page }) => {
+  test("2D/3D toggle, north reset, height legend and stylised landmark label @xbrowser", async ({ page }) => {
     await mockApi(page);
     await page.goto("/");
     await waitForMap(page);
@@ -183,7 +127,7 @@ test.describe("deterministic: map (SYNTHETIC fixtures and tiles)", () => {
     await page.waitForFunction((z) => window.__smartcityMap!.getZoom() > z + 0.5, z0);
   });
 
-  test("select origin by clicking the map; outside the recommendation zone is refused and the zone shown", async ({ page }) => {
+  test("select origin by clicking the map; outside the recommendation zone is refused and the zone shown @xbrowser", async ({ page }) => {
     await mockApi(page);
     await page.goto("/");
     await waitForMap(page);

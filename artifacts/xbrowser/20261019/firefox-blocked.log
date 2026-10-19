@@ -1,0 +1,12 @@
+[1A[2K  1) [firefox] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures and tiles) › loads city vector tiles for the visible area only, with 3D extrusion @mobile @xbrowser 
+    TimeoutError: browserType.launch: Timeout 180000ms exceeded.
+    [2m  - [pid=34415][err] sandbox_extension_issue_file_to_process failed for /Users/mango/Library/Caches/ms-playwright/firefox-1495/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  - [pid=34415][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=4.04167) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
+[1A[2K  2) [firefox] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser 
+    TimeoutError: browserType.launch: Timeout 180000ms exceeded.
+    [2m  - [pid=34416][err] sandbox_extension_issue_file_to_process failed for /Users/mango/Library/Caches/ms-playwright/firefox-1495/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  - [pid=34416][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=8.45833) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
+[1A[2K  3) [firefox] › tests/e2e/map.spec.ts:91:7 › deterministic: map (SYNTHETIC fixtures and tiles) › 2D/3D toggle, north reset, height legend and stylised landmark label @xbrowser 
+    TimeoutError: browserType.launch: Timeout 180000ms exceeded.
+    [2m  - [pid=34510][err] sandbox_extension_issue_file_to_process failed for /Users/mango/Library/Caches/ms-playwright/firefox-1495/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  - [pid=34510][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=5.66667) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
