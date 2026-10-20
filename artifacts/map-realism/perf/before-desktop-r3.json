@@ -1,0 +1,27 @@
+{
+  "label": "before-desktop-r3",
+  "base": "http://127.0.0.1:3209/",
+  "views": {},
+  "perf": {
+    "cpu1x": {
+      "frames": 60,
+      "seconds": 6.058800000000094,
+      "fps": 9.9,
+      "worstFrameMs": 267
+    },
+    "cpu4x": {
+      "frames": 39,
+      "seconds": 6.1075,
+      "fps": 6.4,
+      "worstFrameMs": 250
+    }
+  },
+  "firstIdleMs": 3323,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 61,
+  "errors": [],
+  "canvasPx": [
+    1048,
+    844
+  ]
+}

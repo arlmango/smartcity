@@ -1,0 +1,47 @@
+{
+  "label": "after-low",
+  "base": "http://127.0.0.1:3208/?detail=low",
+  "views": {
+    "city": {
+      "layers": 35,
+      "symbols": 2,
+      "zoom": 11.8,
+      "toIdleMs": 3247
+    },
+    "baiterek": {
+      "layers": 35,
+      "symbols": 8,
+      "zoom": 17.2,
+      "toIdleMs": 3683
+    },
+    "expo": {
+      "layers": 35,
+      "symbols": 17,
+      "zoom": 16.2,
+      "toIdleMs": 4459
+    }
+  },
+  "perf": {
+    "cpu1x": {
+      "frames": 43,
+      "seconds": 6.101999999999815,
+      "fps": 7,
+      "worstFrameMs": 383
+    },
+    "cpu4x": {
+      "frames": 28,
+      "seconds": 6.121899999999813,
+      "fps": 4.6,
+      "worstFrameMs": 417
+    }
+  },
+  "firstIdleMs": 3306,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 69,
+  "errors": [],
+  "canvasPx": [
+    1048,
+    844
+  ],
+  "mobilePlan": 1
+}
