@@ -32,6 +32,11 @@ test("timebox plan: shown first, card switches, plan returns, remove stop keeps 
   // Result numbers would clash with stop numbers: only the plan's stops are marked while it is shown.
   await expect(page.getByTestId("rec-marker")).toHaveCount(0);
   await expect(page.getByTestId("route-legend")).toContainText("План прогулки");
+  // Place and landmark labels yield to the walk (HTML markers take no part in label collision).
+  expect(await page.evaluate(() => ["poi-labels", "landmark-labels"].map((id) => window.__smartcityMap!.getLayoutProperty(id, "visibility"))))
+    .toEqual(["none", "none"]);
+  // The walk has a white casing so it stays readable over any background.
+  expect(await page.evaluate(() => window.__smartcityMap!.getLayer("walking-casing")?.type)).toBe("line");
   await expect(page.getByTestId("route-legend")).toContainText("обратно");
   await expect(page.locator('[data-testid="rec-card"][aria-current="true"]')).toHaveCount(0);
   await expect.poll(() => page.evaluate(async () => {

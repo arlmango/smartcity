@@ -135,3 +135,27 @@ def test_basemap_info_tolerates_missing_height_stats(make_client, tmp_path):
     (d / "basemap" / "manifest.json").write_text(json.dumps(m))
     hs = make_client(data_dir=d).get("/api/basemap").json()["height_source"]
     assert hs == {"height": 0, "levels": 0, "estimate": 0, "default": 0}
+
+
+def test_without_own_building_tiles_the_base_buildings_are_used_honestly(make_client, tmp_path):
+    from smartcity_api.routes.tiles import basemap_status
+
+    d = tmp_path / "data"
+    write_basemap_fixture(d / "basemap")
+    (d / "basemap" / "astana-buildings.pmtiles").unlink()
+    c = make_client(data_dir=d)
+    j = c.get("/api/basemap").json()
+    assert j["building_tiles"] == "base"
+    # Statistics of an archive that is not there are never presented.
+    assert j["stylised_landmarks"] == [] and j["buildings"] is None
+    assert set(j["height_source"].values()) == {0}
+    assert "Protomaps" in j["buildings_source"]
+    ok, detail = basemap_status(d)
+    assert ok and "свои тайлы зданий не собраны" in detail
+    assert c.get(f"/api/tiles/buildings/{Z}/{X}/{Y}").status_code == 503
+    assert c.get(f"/api/tiles/base/{Z}/{X}/{Y}").status_code == 200
+
+
+def test_own_building_tiles_are_reported(make_client):
+    j = make_client().get("/api/basemap").json()
+    assert j["building_tiles"] == "own"

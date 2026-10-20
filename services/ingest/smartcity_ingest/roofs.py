@@ -198,7 +198,7 @@ def sphere_on_stem(geom: BaseGeometry, props: dict, scale: float) -> list[Piece]
 
 
 def _slice_props(props: dict, base: float, top: float) -> dict:
-    keep = {k: props[k] for k in ("src", "kind", "part", "rcol", "col", "styl", "eb") if k in props}
+    keep = {k: props[k] for k in ("src", "kind", "part", "rcol", "col", "styl", "eb", "oid") if k in props}
     return {**keep, "h": round(top, 2), "mh": round(base, 2), "rs": 1}
 
 

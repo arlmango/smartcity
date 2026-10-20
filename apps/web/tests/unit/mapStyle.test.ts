@@ -11,6 +11,8 @@ import {
   type SatelliteSource,
 } from "@/lib/mapStyle";
 import { featureBounds } from "@/components/map/MapView";
+import { BASE_DEFAULT_HEIGHT_M } from "@/lib/mapStyle";
+import { hiddenBaseIds, hiddenOwnIds, landmarkModels } from "@/lib/landmarks";
 
 const GLYPHS = "http://localhost/fonts/{fontstack}/{range}.pbf";
 const TILES = "http://localhost/api/tiles";
@@ -44,7 +46,7 @@ describe("map style", () => {
     expect(bld.tiles).toEqual([`${TILES}/buildings/{z}/{x}/{y}`]);
     expect(bld.minzoom).toBe(13);
     expect(scheme.glyphs).toBe(GLYPHS);
-    expect(Object.keys(scheme.sources).sort()).toEqual(["base", "boundary", "buildings", "coverage"]);
+    expect(Object.keys(scheme.sources).sort()).toEqual(["base", "boundary", "buildings", "coverage", "landmarks"]);
     expect(JSON.stringify(scheme)).not.toMatch(/tile\.openstreetmap|api\.maptiler|mapbox\.com|eox\.at/);
   });
 
@@ -131,5 +133,60 @@ describe("coverage bounds for «Показать зону»", () => {
     };
     expect(featureBounds(fc)).toEqual([[71.39, 51.07], [71.44, 51.1]]);
     expect(featureBounds(undefined)).toBeNull();
+  });
+});
+
+describe("buildings from the base tiles, landmarks, facades and detail tiers", () => {
+  const lm = landmarkModels("high");
+  const opts = { glyphsUrl: GLYPHS, tilesUrl: TILES, landmarks: lm, hiddenOwn: hiddenOwnIds(), hiddenBase: hiddenBaseIds() };
+  const base = buildMapStyle({ ...opts, mode: "3d", buildingTiles: "base" });
+  const own = buildMapStyle({ ...opts, mode: "3d", buildingTiles: "own" });
+  const low = buildMapStyle({ ...opts, mode: "3d", buildingTiles: "base", detail: "low" });
+  const get = (s: typeof base, id: string) => s.layers.find((l) => l.id === id) as unknown as L | undefined;
+
+  it("every combination is a valid MapLibre style", () => {
+    for (const s of [base, own, low, buildMapStyle({ ...opts, mode: "2d", buildingTiles: "base", detail: "low" })]) {
+      expect(validateStyleMin(s as never)).toEqual([]);
+    }
+  });
+
+  it("without own tiles: no request to /tiles/buildings, volumes from the base tiles' OSM buildings", () => {
+    expect(base.sources.buildings).toBeUndefined();
+    expect(JSON.stringify(base)).not.toContain("/buildings/{z}");
+    const solid = get(base, "buildings-3d")!;
+    expect(solid.source).toBe("base");
+    expect((solid as unknown as Record<string, string>)["source-layer"]).toBe("buildings");
+    expect(JSON.stringify(solid.filter)).toContain('["has","height"]');
+    // Unknown height: conventional, lighter layer (the legend says «условно 10 м»).
+    expect(JSON.stringify(get(base, "buildings-3d-approx")!.paint["fill-extrusion-height"])).toContain(`["get","height"],${BASE_DEFAULT_HEIGHT_M}`);
+    expect(JSON.stringify(solid.paint["fill-extrusion-base"])).toContain('["get","min_height"]');
+    expect(get(base, "stylised-labels")).toBeUndefined();
+  });
+
+  it("hides exactly the OSM objects that landmark models replace, in 3D only", () => {
+    expect(hiddenBaseIds()).toEqual([2 ** 45 + 230401644, 2 ** 45 + 230401645, 2 ** 45 + 1461813334, 2 ** 45 + 454857501]);
+    expect(hiddenOwnIds()).toEqual(["w230401644", "w230401645", "w1461813334", "w454857501"]);
+    expect(JSON.stringify(get(base, "buildings-3d")!.filter)).toContain(String(2 ** 45 + 230401644));
+    expect(JSON.stringify(get(own, "buildings-3d")!.filter)).toContain('"w230401644"');
+    // 2D keeps the true OSM footprints.
+    expect(JSON.stringify(get(base, "buildings-2d")!.filter)).not.toContain(String(2 ** 45 + 230401644));
+    expect(get(base, "landmarks-3d")!.source).toBe("landmarks");
+    expect(get(base, "landmark-labels")!.layout["text-field"]).toEqual(["get", "lbl"]);
+  });
+
+  it("procedural facades only on high detail, from street zoom, never on estimated heights", () => {
+    const facade = get(base, "buildings-3d-facade")! as unknown as { minzoom: number; filter: unknown; paint: Record<string, unknown> };
+    expect(facade.minzoom).toBe(15);
+    expect(JSON.stringify(facade.filter)).toContain('["has","height"]');
+    expect(JSON.stringify(facade.paint["fill-extrusion-pattern"])).toContain("sc-facade-tower");
+    expect((get(base, "buildings-3d-far") as unknown as { maxzoom: number }).maxzoom).toBe(15);
+    for (const id of ["buildings-3d-facade", "buildings-3d-far", "buildings-shadow"]) expect(get(low, id)).toBeUndefined();
+    // Low detail keeps every facade-eligible wall in the plain layer.
+    expect(JSON.stringify(get(low, "buildings-3d")!.filter)).not.toContain('["!",["all"');
+  });
+
+  it("light is soft and warm, not harsh", () => {
+    const light = base.light as { intensity: number; color: string };
+    expect(light.intensity).toBeLessThanOrEqual(0.35);
   });
 });

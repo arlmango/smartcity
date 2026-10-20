@@ -435,6 +435,8 @@ export const BasemapInfoSchema = z.object({
     .optional(),
   base_source: Str,
   buildings_source: Str,
+  /** "base": no own building tiles — the map extrudes the OSM buildings of the base tiles. */
+  building_tiles: z.enum(["own", "base"]).optional().default("own"),
   level_height_m: z.number().positive().nullable().optional(),
   default_height_m: z.number().positive().nullable().optional(),
   height_source: z

@@ -177,6 +177,9 @@ def extract_buildings(
             continue
         props = building_props(tags, is_part, area_m2_lonlat(g))
         fid = int(obj.id)
+        # OSM object of the area (osmium: way id × 2, relation id × 2 + 1), so the map can hide an
+        # object that a landmark model replaces.
+        props["oid"] = f"w{fid // 2}" if fid % 2 == 0 else f"r{fid // 2}"
         if fid in watch:
             watched[fid] = (g, tags)
         rh = roofs._parse_m(tags.get("roof:height"))
@@ -379,6 +382,7 @@ def write_pmtiles(items: list[Building], bbox: tuple[float, float, float, float]
                             "kind": "String",
                             "part": "Number",
                             "has_parts": "Number",
+                            "oid": "String",
                             "col": "String",
                             "rcol": "String",
                             "roof": "String",

@@ -18,6 +18,8 @@ export function HeightLegend({
   cityWide,
   stylised,
   defaultOpen,
+  tiles = "own",
+  facades = false,
 }: {
   stats: HeightStats;
   levelHeight: number;
@@ -25,8 +27,35 @@ export function HeightLegend({
   cityWide: boolean;
   stylised: boolean;
   defaultOpen: boolean;
+  /** "base": volumes from the OSM buildings layer of the base tiles (no per-source statistics). */
+  tiles?: "own" | "base";
+  /** Procedural windows are drawn (high-detail devices). */
+  facades?: boolean;
 }) {
   const total = stats.height + stats.levels + (stats.estimate ?? 0) + stats.default;
+  const extra = `${facades ? " Окна на стенах — стилизация, не настоящие фасады." : ""} Байтерек и Нур Алем — упрощённые модели по данным OSM.`;
+  if (tiles === "base") {
+    return (
+      <details
+        className="max-w-[17rem] rounded-control border border-stroke bg-white/95 px-3 py-1.5 text-xs shadow-control"
+        open={defaultOpen}
+        data-testid="height-legend"
+      >
+        <summary className="flex min-h-[44px] cursor-pointer items-center font-bold">Высоты зданий — приблизительно</summary>
+        <p className="flex items-center gap-2 pb-1 font-semibold">
+          <span aria-hidden className="inline-block h-3 w-5 shrink-0 rounded-sm border" style={{ background: `linear-gradient(90deg, ${COLORS.buildingEstimate}, ${COLORS.buildingHeight}, #C9D3DA)`, borderColor: COLORS.buildingOutline }} />
+          Высота из OSM (height или этажи) — сплошные
+        </p>
+        <p className="flex items-center gap-2 pb-1 font-semibold">
+          <span aria-hidden className="inline-block h-3 w-5 shrink-0 rounded-sm border" style={{ background: COLORS.buildingDefault, borderColor: COLORS.buildingOutline, borderStyle: "dashed", opacity: 0.8 }} />
+          Нет данных — условно {decimal(defaultHeight)} м, светлые
+        </p>
+        <p className="pb-1.5 text-[11px] leading-snug text-muted">
+          Контуры и высоты — слой зданий OSM в базовой карте Protomaps; формы крыш в нём не переданы.{extra}
+        </p>
+      </details>
+    );
+  }
   if (total === 0) return null;
   const groups = [
     {
@@ -78,7 +107,7 @@ export function HeightLegend({
       ))}
       <p className="pb-1.5 text-[11px] leading-snug text-muted">
         {cityWide ? `${fmt(total)} контуров OSM, вся Астана.` : "Контуры OSM в районе базы."} Оценки — не измерения. Крыши
-        приближены по roof:shape, фасадов нет.{stylised ? " Нур Алем — стилизация, не точная модель." : ""}
+        приближены по roof:shape.{stylised ? " Отмеченные формы — стилизация, не точные модели." : ""}{extra}
       </p>
     </details>
   );
