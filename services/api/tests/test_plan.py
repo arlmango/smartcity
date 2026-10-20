@@ -3,6 +3,8 @@
 The fake router is a test double only; real geometry is checked against a live local Valhalla.
 """
 
+import re
+
 import pytest
 from smartcity_api.contracts import LatLon
 from smartcity_api.domain.budget import haversine_m
@@ -49,7 +51,7 @@ def test_exact_fit_with_zero_slack_passes_and_one_minute_less_fails():
     best = choose([PARK, SIGHT], legs, budget=45, back=True).best
     assert best is not None and best.total_min == 45 and best.buffer_min == 5
     tight = choose([PARK, SIGHT], legs, budget=44, back=True)
-    assert tight.best is None and tight.min_budget_two == 45
+    assert tight.best is None and tight.reasons["budget"] > 0
 
 
 def test_return_leg_counted_only_when_requested():
@@ -94,7 +96,10 @@ def test_contradictory_request_has_no_plan():
     # 15 minutes, return to start, three far places: impossible, and the planner says so.
     legs = table(sym(s0=20, s1=25, s2=30, d01=10, d02=10, d12=10))
     out = choose([PARK, SIGHT, CAFE], legs, budget=15, back=True)
-    assert out.best is None and out.min_budget_two is not None and out.min_budget_two > 15
+    assert out.best is None
+    note = no_plan_note(out, budget=15, back=True)
+    assert note.startswith("Среди найденных вариантов не удалось собрать прогулку на это время")
+    assert not re.search(r"\d+ мин", note)  # no minimum is claimed from a 5-candidate search
 
 
 def test_plan_reachable_threshold():
@@ -189,8 +194,33 @@ def test_remove_stop_recomputes_without_it(routed, origin):
     ).json()
     assert all(c["place_id"] != gone for c in again["recommendations"])
     # With 90 minutes the synthetic area still holds a plan: it must exist and not contain the place.
-    assert again["plan"] is not None, again["plan_note"]
-    assert gone not in [s["place_id"] for s in again["plan"]["stops"]]
+    plan = again["plan"]
+    assert plan is not None, again["plan_note"]
+    assert gone not in [s["place_id"] for s in plan["stops"]]
+    # "Убрать" is a new selection, not an edit of the old plan: times and the way back are recomputed
+    # for the new stop sequence, never carried over from the previous plan.
+    assert plan["returns_to_start"] is True and plan["return_leg"] is not None
+    first_leg = plan["stops"][0]["leg_in"]["geometry"]["coordinates"]
+    assert first_leg[0] == [pytest.approx(origin["lon"]), pytest.approx(origin["lat"])]
+    last = plan["stops"][-1]["coordinates"]
+    back = plan["return_leg"]["geometry"]["coordinates"]
+    assert back[0] == [pytest.approx(last["lon"]), pytest.approx(last["lat"])]
+    assert back[-1] == [pytest.approx(origin["lon"]), pytest.approx(origin["lat"])]
+    legs = [s["leg_in"] for s in plan["stops"]] + [plan["return_leg"]]
+    assert plan["walk_min"] == sum(minutes(_as_leg(x)) for x in legs)
+    assert plan["distance_m"] == sum(x["distance_m"] for x in legs)
+    assert plan["total_min"] == plan["walk_min"] + plan["visit_min"] + plan["buffer_min"] <= 90
+    clock = 0
+    for s in plan["stops"]:
+        clock += minutes(_as_leg(s["leg_in"]))
+        assert s["arrive_min"] == clock
+        clock += s["visit_min"]
+    # Consecutive legs join: each starts where the previous stop is.
+    prev = origin
+    for s in plan["stops"]:
+        start = s["leg_in"]["geometry"]["coordinates"][0]
+        assert start == [pytest.approx(prev["lon"]), pytest.approx(prev["lat"])]
+        prev = s["coordinates"]
 
 
 def test_small_budget_gives_note_not_plan(routed, origin):
@@ -257,7 +287,7 @@ def test_no_plan_note_names_the_real_obstacle():
     gone = choose([PARK, SIGHT], table(nopath), budget=120, back=True)
     assert "пеших путей" in no_plan_note(gone, budget=120, back=True)
     tight = choose([PARK, SIGHT], legs, budget=20, back=True)
-    assert "нужно хотя бы" in no_plan_note(tight, budget=20, back=True)
+    assert "Среди найденных вариантов" in no_plan_note(tight, budget=20, back=True)
 
 
 def test_skipped_reason_per_stop():

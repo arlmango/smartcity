@@ -16,7 +16,7 @@ import { INTEREST_LABEL } from "@/lib/labels";
 import { heightStats, pointInCoverage } from "@/lib/mapData";
 import { describeProviders, hasExternalProvider } from "@/lib/providers";
 import type { BasemapVariant, SatelliteSource, ViewMode } from "@/lib/mapStyle";
-import { withoutStop } from "@/lib/plan";
+import { describeRemoval, withoutStop, type PlanRemoval } from "@/lib/plan";
 import { newClientRequestId } from "@/lib/recommendState";
 import { mapRouteOf, mapRouteOfPlan } from "@/lib/walkingRoute";
 import { ErrorCard } from "./ErrorCard";
@@ -81,6 +81,7 @@ export function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   // The timebox plan and a single place are mutually exclusive selections on the map.
   const [planShown, setPlanShown] = useState(false);
+  const [removal, setRemoval] = useState<PlanRemoval | null>(null);
   const [focusSignal, setFocusSignal] = useState(0);
   const [fitSignal, setFitSignal] = useState(0);
   const [centerRequest, setCenterRequest] = useState(0);
@@ -119,6 +120,8 @@ export function App() {
   const firstRoutedId = recs.find((r) => r.route)?.place_id ?? null;
   const hasPlan = !!plan;
   const shownSelectedId = planShown && plan ? null : selectedId;
+  // Only the answer to that very "Убрать" request gets the change note.
+  const planChange = removal && shown?.client_request_id === removal.requestId ? describeRemoval(removal, plan) : null;
   useEffect(() => {
     const ids: string[] = JSON.parse(resultSet);
     setSelectedId((current) => current && ids.includes(current) ? current : firstRoutedId);
@@ -182,11 +185,14 @@ export function App() {
     // Also while explanations load: the in-flight request is aborted and replaced.
     if (!routeRequest || !routeOriginMatches) return;
     const constraints = withoutStop(routeRequest.constraints, placeId);
+    const requestId = newClientRequestId();
+    const stop = plan?.stops.find((s) => s.place_id === placeId);
+    setRemoval({ requestId, removedName: stop?.name ?? "места", previousIds: plan?.stops.map((s) => s.place_id) ?? [] });
     setFormState((f) => ({ ...f, constraints }));
     setEditing(false);
     setSelectedId(null);
     rec.submit(
-      { ...routeRequest, constraints, conversation_context: state.context.slice(-6), client_request_id: newClientRequestId() },
+      { ...routeRequest, constraints, conversation_context: state.context.slice(-6), client_request_id: requestId },
       "Убрать остановку из плана",
     );
     panelScrollRef.current?.scrollTo({ top: 0 });
@@ -259,6 +265,7 @@ export function App() {
           onSelect={selectFromCard}
           planShown={planShown}
         planStale={!routeOriginMatches}
+          planChange={planChange}
           onShowPlan={showPlan}
           onRemoveStop={onRemoveStop}
           onRefine={onRefine}
@@ -296,6 +303,7 @@ export function App() {
         onSelect={selectFromCard}
         planShown={planShown}
         planStale={!routeOriginMatches}
+          planChange={planChange}
         onShowPlan={showPlan}
         onRemoveStop={onRemoveStop}
         onRefine={onRefine}

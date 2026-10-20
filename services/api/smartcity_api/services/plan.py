@@ -58,7 +58,6 @@ class Choice:
 class Search:
     best: Choice | None = None
     feasible_with: set[int] = field(default_factory=set)
-    min_budget_two: int | None = None  # smallest budget in which any 2-stop plan would fit
     # Why sequences were rejected: overall, and per stop (only sequences containing that stop).
     reasons: Counter[str] = field(default_factory=Counter)
     stop_reasons: dict[int, Counter[str]] = field(default_factory=dict)
@@ -135,9 +134,6 @@ def choose(
                 continue
             walk = sum(h for h in hops if h is not None)
             buffer = buffer_minutes(walk, None)
-            if size == 2:
-                need = walk + buffer + sum(CATEGORY_INFO[c].min_visit_min for c in cats)
-                out.min_budget_two = need if out.min_budget_two is None else min(out.min_budget_two, need)
             alloc = allocate_visits(cats, budget - walk - buffer)
             if alloc is None:
                 out.reject(order, "budget")
@@ -169,11 +165,10 @@ def no_plan_note(search: Search, *, budget: int, back: bool) -> str:
     """Name the obstacle that actually stopped every 2–3 stop plan."""
     why = main_reason(search.reasons)
     if why == "budget":
-        need = search.min_budget_two
+        # Only the few best matches are tried, so no minimum for the whole area is claimed.
         return (
-            f"В {budget} мин не помещаются две остановки{' с возвратом к старту' if back else ''}"
-            + (f" — нужно хотя бы {need} мин." if need and need > budget else ".")
-            + " Выберите одно место из вариантов ниже или увеличьте время."
+            "Среди найденных вариантов не удалось собрать прогулку на это время"
+            f"{' с возвратом к старту' if back else ''}. Выберите одно место ниже или увеличьте время."
         )
     if why == "closed":
         return "По плану к приходу часть мест будет закрыта — выберите одно место из вариантов ниже."

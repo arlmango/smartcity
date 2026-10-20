@@ -52,8 +52,9 @@ test("timebox plan: shown first, card switches, plan returns, remove stop keeps 
   await expect(page.getByTestId("plan-stop-mark")).toHaveCount(2);
   await page.screenshot({ path: testInfo.outputPath(`plan-${testInfo.project.name}.png`) });
   // Remove a stop: same request with that place excluded; old plan geometry disappears at once.
-  await page.getByRole("button", { name: "Убрать остановку: SYNTHETIC Кафе «Тест»" }).click();
+  await page.getByRole("button", { name: "Подобрать план без остановки: SYNTHETIC Кафе «Тест»" }).click();
   await expect(page.getByTestId("plan-note")).toContainText("не помещаются две остановки");
+  await expect(page.getByTestId("plan-change")).toHaveText("Без «SYNTHETIC Кафе «Тест»» план не собрался.");
   await expect(page.getByTestId("walk-plan")).toHaveCount(0);
   await expect(page.getByTestId("plan-stop-mark")).toHaveCount(0);
   const [first, second] = mock.recommendBodies;
@@ -78,4 +79,24 @@ test("changing the start after a plan hides its line and marks it stale @mobile"
   await expect(page.getByTestId("plan-stop-mark")).toHaveCount(0);
   // No plan line is drawn, so the result markers are back rather than an empty map.
   await expect(page.getByTestId("rec-marker")).toHaveCount(3);
+});
+
+test("«Убрать» that brings in another place says so @mobile", async ({ page }) => {
+  const museumStop = { ...walkPlan.stops[0]!, place_id: "synthetic-museum-3", name: "SYNTHETIC Музей тестов", category: "culture" as const, category_label: "Культура" };
+  await mockApi(page, {
+    recommend: (body, n) => ({ json: { ...okResponse(body.client_request_id, routed),
+      plan: n === 1 ? walkPlan : { ...walkPlan, stops: [museumStop, walkPlan.stops[1]!] } } }),
+  });
+  await page.goto("/");
+  await useDemoOrigin(page);
+  await submit(page);
+  await expect(page.getByTestId("plan-remove-hint")).toBeVisible();
+  await expect(page.getByTestId("plan-change")).toHaveCount(0);
+  await page.getByRole("button", { name: "Подобрать план без остановки: SYNTHETIC Кафе «Тест»" }).click();
+  await expect(page.getByTestId("plan-change")).toContainText("В него вошли другие места: «SYNTHETIC Музей тестов»");
+  await expect(page.getByTestId("plan-stop").first()).toContainText("SYNTHETIC Музей тестов");
+  // A later ordinary request drops the note.
+  await page.getByRole("button", { name: "Изменить запрос", exact: true }).click();
+  await submit(page);
+  await expect(page.getByTestId("plan-change")).toHaveCount(0);
 });

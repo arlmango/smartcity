@@ -75,8 +75,8 @@ async function settle(page) {
       run.finalMs = Date.now() - t0;
       if (planShown) {
         const before = await page.getByTestId("plan-stop").allInnerTexts();
-        const remove = page.getByRole("button", { name: /^Убрать остановку: / }).first();
-        run.removed = (await remove.getAttribute("aria-label")).replace("Убрать остановку: ", "");
+        const remove = page.getByRole("button", { name: /^Подобрать план без остановки: / }).first();
+        run.removed = (await remove.getAttribute("aria-label")).replace("Подобрать план без остановки: ", "");
         const t1 = Date.now();
         await remove.click();
         await page.getByTestId("rec-card").first().waitFor({ timeout: 210000 });

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { RecommendResponseSchema, WalkPlanSchema } from "@/lib/contracts";
-import { minutesOf, withoutStop } from "@/lib/plan";
+import { describeRemoval, minutesOf, withoutStop } from "@/lib/plan";
 import { mapRouteOfPlan, routeFeatures } from "@/lib/walkingRoute";
 import { WalkPlanCard } from "@/components/WalkPlanCard";
 import { ResultsPanel } from "@/components/ResultsPanel";
@@ -70,7 +70,7 @@ describe("remove a stop", () => {
     expect(card.textContent).not.toMatch(/Valhalla|RAG|embedding/i);
     // unknown hours of a playground are not worth a line; open is not repeated
     expect(card.textContent).not.toMatch(/часы/i);
-    fireEvent.click(screen.getByRole("button", { name: "Убрать остановку: SYNTHETIC Кафе «Тест»" }));
+    fireEvent.click(screen.getByRole("button", { name: "Подобрать план без остановки: SYNTHETIC Кафе «Тест»" }));
     expect(onRemove).toHaveBeenCalledWith("synthetic-cafe-1");
     fireEvent.click(screen.getByRole("button", { name: "Показать план на карте" }));
     expect(onShow).toHaveBeenCalled();
@@ -89,7 +89,7 @@ describe("plan inside the results panel", () => {
     render(<ResultsPanel {...props} response={{ ...okResponse("plan-test-03"), plan: walkPlan }} busy pending onRemoveStop={onRemoveStop} />);
     const results = screen.getByTestId("results");
     expect(results.firstElementChild?.getAttribute("data-testid")).toBe("walk-plan");
-    const remove = screen.getByRole("button", { name: /^Убрать остановку: SYNTHETIC Кафе/ });
+    const remove = screen.getByRole("button", { name: /^Подобрать план без остановки: SYNTHETIC Кафе/ });
     expect((remove as HTMLButtonElement).disabled).toBe(false);
     fireEvent.click(remove);
     expect(onRemoveStop).toHaveBeenCalledWith("synthetic-cafe-1");
@@ -104,8 +104,8 @@ describe("plan inside the results panel", () => {
     expect(screen.getAllByText(/Пеший путь недоступен\. Оценка по прямой/)).toHaveLength(1);
   });
   it("without a plan the server's note is shown instead", () => {
-    render(<ResultsPanel {...props} response={{ ...okResponse("plan-test-04"), plan_note: "SYNTHETIC: нужно хотя бы 65 мин." }} busy={false} onRemoveStop={() => {}} />);
-    expect(screen.getByTestId("plan-note").textContent).toBe("SYNTHETIC: нужно хотя бы 65 мин.");
+    render(<ResultsPanel {...props} response={{ ...okResponse("plan-test-04"), plan_note: "SYNTHETIC: среди найденных вариантов не удалось собрать прогулку." }} busy={false} onRemoveStop={() => {}} />);
+    expect(screen.getByTestId("plan-note").textContent).toBe("SYNTHETIC: среди найденных вариантов не удалось собрать прогулку.");
     expect(screen.queryByTestId("walk-plan")).toBeNull();
   });
 });
@@ -115,6 +115,26 @@ describe("stale plan", () => {
     render(<WalkPlanCard plan={walkPlan} shown={false} busy={false} stale onShow={() => {}} onRemove={() => {}} />);
     expect(screen.getByTestId("plan-stale").textContent).toMatch(/Старт изменён/);
     expect(screen.queryByRole("button", { name: /Показать план/ })).toBeNull();
-    for (const b of screen.getAllByRole("button", { name: /^Убрать остановку/ })) expect((b as HTMLButtonElement).disabled).toBe(true);
+    for (const b of screen.getAllByRole("button", { name: /^Подобрать план без остановки/ })) expect((b as HTMLButtonElement).disabled).toBe(true);
+  });
+});
+
+describe("after «Убрать»", () => {
+  const removal = { requestId: "x", removedName: "SYNTHETIC Кафе «Тест»", previousIds: walkPlan.stops.map((s) => s.place_id) };
+  it("names places that joined the new plan instead of replacing silently", () => {
+    const museum = { ...walkPlan.stops[0]!, place_id: "synthetic-museum-3", name: "SYNTHETIC Музей тестов" };
+    const next = { ...walkPlan, stops: [museum, walkPlan.stops[1]!] };
+    expect(describeRemoval(removal, next)).toBe(
+      "Подобран новый план без «SYNTHETIC Кафе «Тест»». В него вошли другие места: «SYNTHETIC Музей тестов». Время и обратный путь пересчитаны.",
+    );
+  });
+  it("says when no new places joined, and when no plan could be built", () => {
+    expect(describeRemoval(removal, { ...walkPlan, stops: [walkPlan.stops[1]!, walkPlan.stops[1]!].map((s, i) => ({ ...s, place_id: i ? "synthetic-cafe-1" : s.place_id })) }))
+      .toMatch(/Новых мест в нём нет/);
+    expect(describeRemoval(removal, null)).toBe("Без «SYNTHETIC Кафе «Тест»» план не собрался.");
+  });
+  it("the card explains that «Убрать» selects anew", () => {
+    render(<WalkPlanCard plan={walkPlan} shown busy={false} onShow={() => {}} onRemove={() => {}} />);
+    expect(screen.getByTestId("plan-remove-hint").textContent).toMatch(/подбирает план заново.*могут войти другие места/);
   });
 });

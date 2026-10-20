@@ -52,7 +52,7 @@ export function WalkPlanCard({ plan, shown, busy, stale = false, onShow, onRemov
                 type="button"
                 className="min-h-[44px] shrink-0 rounded-control px-2 text-sm font-semibold underline disabled:opacity-50"
                 disabled={busy || stale}
-                aria-label={`Убрать остановку: ${displayName(s)}`}
+                aria-label={`Подобрать план без остановки: ${displayName(s)}`}
                 onClick={() => onRemove(s.place_id)}
               >
                 Убрать
@@ -67,6 +67,11 @@ export function WalkPlanCard({ plan, shown, busy, stale = false, onShow, onRemov
           </li>
         )}
       </ol>
+      {n > 1 && !stale && (
+        <p className="text-xs text-muted" data-testid="plan-remove-hint">
+          «Убрать» подбирает план заново без этого места: остальные условия сохраняются, но в план могут войти другие места.
+        </p>
+      )}
       <p className="text-xs text-muted">
         Пешком ≈ {plan.walk_min} мин, на местах ≈ {plan.visit_min} мин, запас {plan.buffer_min} мин. Время примерное: зависит от
         темпа, переходов и того, открыт ли вход.

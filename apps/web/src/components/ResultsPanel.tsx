@@ -27,6 +27,8 @@ interface Props {
   planShown: boolean;
   /** The start was changed after this answer: the plan no longer applies. */
   planStale?: boolean;
+  /** Said after "Убрать": what changed in the newly selected plan. */
+  planChange?: string | null;
   onShowPlan: () => void;
   onRemoveStop: (placeId: string) => void;
   onRefine: (kind: RefinementKind) => void;
@@ -69,6 +71,11 @@ export function ResultsPanel(props: Props) {
   return (
     <div className="space-y-4" data-testid="results">
       {/* The decision first: the plan, then the summary with its caveats. */}
+      {props.planChange && (
+        <p role="status" data-testid="plan-change" className="rounded-control border border-graphite/30 bg-white p-3 text-sm">
+          {props.planChange}
+        </p>
+      )}
       {r.plan && (
         <WalkPlanCard plan={r.plan} shown={props.planShown} busy={props.busy && !props.pending} stale={props.planStale} onShow={props.onShowPlan} onRemove={props.onRemoveStop} />
       )}
