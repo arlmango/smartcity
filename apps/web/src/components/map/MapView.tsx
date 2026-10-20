@@ -12,6 +12,7 @@ import {
   BASEMAP_LABEL,
   FACADES,
   FOCUS_HIDDEN_LABELS,
+  ROUTE_SEE_THROUGH,
   CITY_BOUNDS,
   INITIAL_VIEW,
   OSM_ATTRIBUTION,
@@ -263,6 +264,16 @@ export function MapView(props: MapViewProps) {
     if (!map || !loaded) return;
     for (const id of FOCUS_HIDDEN_LABELS) if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", focus ? "none" : "visible");
   }, [focus, loaded, shownVariant, props.buildingTiles, props.detail]);
+  const routeShown = !!props.route;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !loaded) return;
+    for (const [id, see] of ROUTE_SEE_THROUGH) {
+      if (!map.getLayer(id)) continue;
+      const opaque = id === "buildings-3d-approx" ? 0.72 : id.startsWith("buildings-3d") && shownVariant === "hybrid" ? 0.97 : 1;
+      map.setPaintProperty(id, "fill-extrusion-opacity", routeShown ? see : opaque);
+    }
+  }, [routeShown, loaded, shownVariant, props.buildingTiles, props.detail]);
 
   // ---------------------------------------------------------------- data
   useEffect(() => {

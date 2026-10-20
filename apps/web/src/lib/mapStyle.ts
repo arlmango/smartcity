@@ -873,6 +873,15 @@ export function buildMapStyle(opts: StyleOptions): StyleSpecification {
  * Place and landmark labels yield to the walk: while results or a route are on the map they are hidden,
  * because HTML markers take no part in MapLibre's label collision and would cover them (or be covered).
  */
+/** While a walk is shown, volumes become slightly see-through so a tall building never hides the line. */
+export const ROUTE_SEE_THROUGH: Array<[string, number]> = [
+  ["buildings-3d", 0.75],
+  ["buildings-3d-far", 0.75],
+  ["buildings-3d-facade", 0.75],
+  ["buildings-3d-approx", 0.6],
+  ["landmarks-3d", 0.7],
+];
+
 export const FOCUS_HIDDEN_LABELS = ["poi-labels", "poi-major", "landmark-labels", "stylised-labels", "park-labels"] as const;
 
 /** Visibility changes needed to switch the building presentation. */

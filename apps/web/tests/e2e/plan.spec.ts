@@ -37,6 +37,8 @@ test("timebox plan: shown first, card switches, plan returns, remove stop keeps 
     .toEqual(["none", "none"]);
   // The walk has a white casing so it stays readable over any background.
   expect(await page.evaluate(() => window.__smartcityMap!.getLayer("walking-casing")?.type)).toBe("line");
+  // Volumes turn slightly see-through while the walk is shown, so a tall building never hides it.
+  expect(await page.evaluate(() => window.__smartcityMap!.getPaintProperty("landmarks-3d", "fill-extrusion-opacity"))).toBeLessThan(1);
   await expect(page.getByTestId("route-legend")).toContainText("обратно");
   await expect(page.locator('[data-testid="rec-card"][aria-current="true"]')).toHaveCount(0);
   await expect.poll(() => page.evaluate(async () => {
