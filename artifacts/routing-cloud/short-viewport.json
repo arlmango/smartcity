@@ -1,0 +1,34 @@
+[
+ {
+  "viewport": "360x400",
+  "top": 317,
+  "bottom": 369,
+  "vh": 400,
+  "onTop": true,
+  "noHorizontalOverflow": true
+ },
+ {
+  "viewport": "390x460",
+  "top": 361,
+  "bottom": 413,
+  "vh": 460,
+  "onTop": true,
+  "noHorizontalOverflow": true
+ },
+ {
+  "viewport": "430x500",
+  "top": 391,
+  "bottom": 443,
+  "vh": 500,
+  "onTop": true,
+  "noHorizontalOverflow": true
+ },
+ {
+  "viewport": "740x360",
+  "top": 287,
+  "bottom": 339,
+  "vh": 360,
+  "onTop": true,
+  "noHorizontalOverflow": true
+ }
+]

@@ -2,15 +2,14 @@
 
 import { useEffect, type RefObject } from "react";
 import type { GeoJSONSource, Map as MlMap, Marker } from "maplibre-gl";
-import type { WalkingRoute } from "@/lib/contracts";
-import { routeCoordinates, routeFeatures } from "@/lib/walkingRoute";
+import { routeCoordinates, routeFeatures, type MapRoute } from "@/lib/walkingRoute";
 
 /** Reinstalls route layers after a style change; cleanup removes all stale geometry/markers. */
 export function useWalkingRoute(
   mapRef: RefObject<MlMap | null>,
   libRef: RefObject<typeof import("maplibre-gl") | null>,
   loaded: boolean,
-  route: WalkingRoute | null,
+  route: MapRoute | null,
   reducedMotion: boolean,
 ) {
   useEffect(() => {
@@ -46,16 +45,16 @@ export function useWalkingRoute(
     draw();
     map.on("style.load", draw);
     if (route) {
-      const points = route.outbound.geometry.coordinates;
-      const endpoints = [["Начало пути на дорожной сети", points[0], "А"], ["Конец пути на дорожной сети", points[points.length - 1], "Б"]] as const;
-      endpoints.forEach(([label, point, letter]) => {
-        if (!point) return;
+      route.marks.forEach(({ label, point, letter }) => {
         const el = document.createElement("div");
-        el.className = "rounded-full border-2 border-white bg-[#176447] px-1.5 text-xs font-bold text-white shadow-control";
+        // Plan stops replace the result markers on the map, so they are as prominent as those.
+        el.className = route.kind === "plan"
+          ? "grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-[#176447] text-sm font-extrabold text-white shadow-control"
+          : "rounded-full border-2 border-white bg-[#176447] px-1.5 text-xs font-bold text-white shadow-control";
         el.textContent = letter;
         el.setAttribute("role", "img");
         el.setAttribute("aria-label", label);
-        el.setAttribute("data-testid", "route-endpoint");
+        el.setAttribute("data-testid", route.kind === "plan" ? "plan-stop-mark" : "route-endpoint");
         markers.push(new lib.Marker({ element: el }).setLngLat(point).addTo(map));
       });
       const coordinates = routeCoordinates(route);

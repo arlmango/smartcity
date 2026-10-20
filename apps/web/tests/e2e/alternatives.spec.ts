@@ -33,7 +33,8 @@ test("compare alternatives evidence @mobile", async ({ page }, testInfo) => {
     return { detailedCardSpanPx: Math.round(cards[2]!.getBoundingClientRect().top - cards[0]!.getBoundingClientRect().top), comparisonHeightPx: compare ? Math.round(compare.getBoundingClientRect().height) : null };
   });
   console.log(JSON.stringify({ viewport: testInfo.project.name, baseline, ...metric }));
-  await page.screenshot({ path: `../../artifacts/iteration/${baseline ? "before" : "after"}-${testInfo.project.name}.png` });
+  // Never overwrite the committed evidence in artifacts/iteration; fresh shots go to test-results.
+  await page.screenshot({ path: testInfo.outputPath(`${baseline ? "before" : "after"}-${testInfo.project.name}.png`) });
   if (!baseline) {
     await page.getByRole("button", { name: "Начать заново", exact: true }).click();
     await expect(page.getByRole("region", { name: "Сравнить варианты" })).toHaveCount(0);

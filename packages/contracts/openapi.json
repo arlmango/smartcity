@@ -736,6 +736,103 @@
         "title": "PlacesResponse",
         "type": "object"
       },
+      "PlanSkip": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "place_id": {
+            "title": "Place Id",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "place_id",
+          "name",
+          "reason"
+        ],
+        "title": "PlanSkip",
+        "type": "object"
+      },
+      "PlanStop": {
+        "additionalProperties": false,
+        "properties": {
+          "arrive_min": {
+            "minimum": 0.0,
+            "title": "Arrive Min",
+            "type": "integer"
+          },
+          "category": {
+            "enum": [
+              "cafe",
+              "food",
+              "park",
+              "culture",
+              "attraction",
+              "playground",
+              "mall"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "category_label": {
+            "title": "Category Label",
+            "type": "string"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "leg_in": {
+            "$ref": "#/components/schemas/RouteLeg"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "name_is_generic": {
+            "title": "Name Is Generic",
+            "type": "boolean"
+          },
+          "opening_status": {
+            "enum": [
+              "open",
+              "closed",
+              "unknown"
+            ],
+            "title": "Opening Status",
+            "type": "string"
+          },
+          "place_id": {
+            "title": "Place Id",
+            "type": "string"
+          },
+          "visit_min": {
+            "minimum": 0.0,
+            "title": "Visit Min",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "place_id",
+          "name",
+          "name_is_generic",
+          "category",
+          "category_label",
+          "coordinates",
+          "leg_in",
+          "arrive_min",
+          "visit_min",
+          "opening_status"
+        ],
+        "title": "PlanStop",
+        "type": "object"
+      },
       "ProviderInfo": {
         "additionalProperties": false,
         "properties": {
@@ -946,6 +1043,27 @@
             ],
             "title": "Mode",
             "type": "string"
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WalkPlan"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "plan_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan Note"
           },
           "providers": {
             "$ref": "#/components/schemas/ProviderInfo"
@@ -1514,6 +1632,103 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "WalkPlan": {
+        "additionalProperties": false,
+        "description": "Deterministic 2–3 stop plan; every distance/time comes from the router, never from the LLM.",
+        "properties": {
+          "buffer_min": {
+            "minimum": 0.0,
+            "title": "Buffer Min",
+            "type": "integer"
+          },
+          "distance_m": {
+            "minimum": 0.0,
+            "title": "Distance M",
+            "type": "integer"
+          },
+          "graph_version": {
+            "title": "Graph Version",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "return_leg": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouteLeg"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "returns_to_start": {
+            "title": "Returns To Start",
+            "type": "boolean"
+          },
+          "skipped": {
+            "items": {
+              "$ref": "#/components/schemas/PlanSkip"
+            },
+            "title": "Skipped",
+            "type": "array"
+          },
+          "stops": {
+            "items": {
+              "$ref": "#/components/schemas/PlanStop"
+            },
+            "maxItems": 3,
+            "minItems": 2,
+            "title": "Stops",
+            "type": "array"
+          },
+          "time_budget_min": {
+            "title": "Time Budget Min",
+            "type": "integer"
+          },
+          "total_min": {
+            "minimum": 0.0,
+            "title": "Total Min",
+            "type": "integer"
+          },
+          "visit_min": {
+            "minimum": 0.0,
+            "title": "Visit Min",
+            "type": "integer"
+          },
+          "walk_min": {
+            "minimum": 0.0,
+            "title": "Walk Min",
+            "type": "integer"
+          },
+          "why": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Why",
+            "type": "array"
+          }
+        },
+        "required": [
+          "stops",
+          "return_leg",
+          "graph_version",
+          "time_budget_min",
+          "walk_min",
+          "visit_min",
+          "buffer_min",
+          "total_min",
+          "distance_m",
+          "returns_to_start",
+          "why",
+          "skipped",
+          "method"
+        ],
+        "title": "WalkPlan",
         "type": "object"
       },
       "WalkingRoute": {
@@ -2361,6 +2576,103 @@
                       "title": "LatLon",
                       "type": "object"
                     },
+                    "PlanSkip": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "name": {
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "place_id": {
+                          "title": "Place Id",
+                          "type": "string"
+                        },
+                        "reason": {
+                          "title": "Reason",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "place_id",
+                        "name",
+                        "reason"
+                      ],
+                      "title": "PlanSkip",
+                      "type": "object"
+                    },
+                    "PlanStop": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "arrive_min": {
+                          "minimum": 0.0,
+                          "title": "Arrive Min",
+                          "type": "integer"
+                        },
+                        "category": {
+                          "enum": [
+                            "cafe",
+                            "food",
+                            "park",
+                            "culture",
+                            "attraction",
+                            "playground",
+                            "mall"
+                          ],
+                          "title": "Category",
+                          "type": "string"
+                        },
+                        "category_label": {
+                          "title": "Category Label",
+                          "type": "string"
+                        },
+                        "coordinates": {
+                          "$ref": "#/$defs/LatLon"
+                        },
+                        "leg_in": {
+                          "$ref": "#/$defs/RouteLeg"
+                        },
+                        "name": {
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "name_is_generic": {
+                          "title": "Name Is Generic",
+                          "type": "boolean"
+                        },
+                        "opening_status": {
+                          "enum": [
+                            "open",
+                            "closed",
+                            "unknown"
+                          ],
+                          "title": "Opening Status",
+                          "type": "string"
+                        },
+                        "place_id": {
+                          "title": "Place Id",
+                          "type": "string"
+                        },
+                        "visit_min": {
+                          "minimum": 0.0,
+                          "title": "Visit Min",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "place_id",
+                        "name",
+                        "name_is_generic",
+                        "category",
+                        "category_label",
+                        "coordinates",
+                        "leg_in",
+                        "arrive_min",
+                        "visit_min",
+                        "opening_status"
+                      ],
+                      "title": "PlanStop",
+                      "type": "object"
+                    },
                     "ProviderInfo": {
                       "additionalProperties": false,
                       "properties": {
@@ -2464,6 +2776,27 @@
                           ],
                           "title": "Mode",
                           "type": "string"
+                        },
+                        "plan": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/WalkPlan"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "plan_note": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "title": "Plan Note"
                         },
                         "providers": {
                           "$ref": "#/$defs/ProviderInfo"
@@ -2943,6 +3276,103 @@
                         "method"
                       ],
                       "title": "Timing",
+                      "type": "object"
+                    },
+                    "WalkPlan": {
+                      "additionalProperties": false,
+                      "description": "Deterministic 2–3 stop plan; every distance/time comes from the router, never from the LLM.",
+                      "properties": {
+                        "buffer_min": {
+                          "minimum": 0.0,
+                          "title": "Buffer Min",
+                          "type": "integer"
+                        },
+                        "distance_m": {
+                          "minimum": 0.0,
+                          "title": "Distance M",
+                          "type": "integer"
+                        },
+                        "graph_version": {
+                          "title": "Graph Version",
+                          "type": "string"
+                        },
+                        "method": {
+                          "title": "Method",
+                          "type": "string"
+                        },
+                        "return_leg": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/RouteLeg"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "returns_to_start": {
+                          "title": "Returns To Start",
+                          "type": "boolean"
+                        },
+                        "skipped": {
+                          "items": {
+                            "$ref": "#/$defs/PlanSkip"
+                          },
+                          "title": "Skipped",
+                          "type": "array"
+                        },
+                        "stops": {
+                          "items": {
+                            "$ref": "#/$defs/PlanStop"
+                          },
+                          "maxItems": 3,
+                          "minItems": 2,
+                          "title": "Stops",
+                          "type": "array"
+                        },
+                        "time_budget_min": {
+                          "title": "Time Budget Min",
+                          "type": "integer"
+                        },
+                        "total_min": {
+                          "minimum": 0.0,
+                          "title": "Total Min",
+                          "type": "integer"
+                        },
+                        "visit_min": {
+                          "minimum": 0.0,
+                          "title": "Visit Min",
+                          "type": "integer"
+                        },
+                        "walk_min": {
+                          "minimum": 0.0,
+                          "title": "Walk Min",
+                          "type": "integer"
+                        },
+                        "why": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "title": "Why",
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "stops",
+                        "return_leg",
+                        "graph_version",
+                        "time_budget_min",
+                        "walk_min",
+                        "visit_min",
+                        "buffer_min",
+                        "total_min",
+                        "distance_m",
+                        "returns_to_start",
+                        "why",
+                        "skipped",
+                        "method"
+                      ],
+                      "title": "WalkPlan",
                       "type": "object"
                     },
                     "WalkingRoute": {

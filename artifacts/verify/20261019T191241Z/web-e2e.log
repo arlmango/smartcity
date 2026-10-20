@@ -1,0 +1,87 @@
+
+> @smartcity/web@0.1.0 test:e2e /home/user/smartcity/apps/web
+> playwright test
+
+
+Running 66 tests using 2 workers
+
+{"viewport":"desktop-chromium","baseline":false,"detailedCardSpanPx":1549,"comparisonHeightPx":496}
+  ✓   2 [desktop-chromium] › tests/e2e/csp.spec.ts:4:5 › security headers + CSP: map and results work without CSP violations @mobile (7.4s)
+  ✓   1 [desktop-chromium] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (10.7s)
+{"viewport":"desktop-chromium","baseline":false,"firstCardMs":1234,"finalMs":4799,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓   4 [desktop-chromium] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (8.6s)
+  ✓   3 [desktop-chromium] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (12.3s)
+  ✓   6 [desktop-chromium] › tests/e2e/flow.spec.ts:82:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › no_match explains and relaxation resends the server patch (6.8s)
+  ✓   5 [desktop-chromium] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures and tiles) › loads city vector tiles for the visible area only, with 3D extrusion @mobile @xbrowser (16.4s)
+  ✓   7 [desktop-chromium] › tests/e2e/flow.spec.ts:103:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › quick refinements keep earlier hard conditions (11.1s)
+  ✓   9 [desktop-chromium] › tests/e2e/flow.spec.ts:138:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › retrieval_only shows the 'ИИ временно недоступен' banner; provider status banner from /api/ready (5.7s)
+  ✓   8 [desktop-chromium] › tests/e2e/map.spec.ts:91:7 › deterministic: map (SYNTHETIC fixtures and tiles) › 2D/3D toggle, north reset, height legend and stylised landmark label @xbrowser (13.5s)
+  ✓  10 [desktop-chromium] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (7.1s)
+  ✓  12 [desktop-chromium] › tests/e2e/flow.spec.ts:164:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › preliminary places are replaced by the final AI answer (4.0s)
+  ✓  11 [desktop-chromium] › tests/e2e/map.spec.ts:130:7 › deterministic: map (SYNTHETIC fixtures and tiles) › select origin by clicking the map; outside the recommendation zone is refused and the zone shown @xbrowser (9.6s)
+  ✓  13 [desktop-chromium] › tests/e2e/flow.spec.ts:176:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › provider error → error state; retry reuses the same client_request_id (6.3s)
+  ✓  14 [desktop-chromium] › tests/e2e/map.spec.ts:162:7 › deterministic: map (SYNTHETIC fixtures and tiles) › failures are explicit, not an empty canvas (5.4s)
+  ✓  15 [desktop-chromium] › tests/e2e/flow.spec.ts:193:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › invalid API response becomes an error state, not a crash (5.7s)
+  ✓  16 [desktop-chromium] › tests/e2e/routing.spec.ts:7:5 › network route selection, return, reset and no graph @mobile (10.3s)
+  ✓  17 [desktop-chromium] › tests/e2e/flow.spec.ts:201:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › long request shows progress and can be cancelled; late answer is ignored (9.9s)
+  ✓  19 [desktop-chromium] › tests/e2e/flow.spec.ts:216:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › needs_clarification asks a question and lets the user change conditions (4.3s)
+  ✓  18 [desktop-chromium] › tests/e2e/routing.spec.ts:52:5 › changing start hides saved route and repeated request clears geometry @mobile (9.9s)
+  ✓  20 [desktop-chromium] › tests/e2e/flow.spec.ts:226:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › T25: HTML in a place name is rendered as text (cards and markers) (6.2s)
+  ✓  21 [desktop-chromium] › tests/e2e/satellite.spec.ts:57:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › commercial mode: no switch, no EOX request at any zoom @mobile @xbrowser (7.9s)
+  ✓  22 [desktop-chromium] › tests/e2e/flow.spec.ts:238:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › place search sets the origin from our own base (6.7s)
+  ✓  24 [desktop-chromium] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (6.5s)
+  ✓  23 [desktop-chromium] › tests/e2e/satellite.spec.ts:71:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › noncommercial: starts on the scheme; declining the notice keeps it and sends nothing @xbrowser (10.4s)
+  ✓  25 [desktop-chromium] › tests/e2e/flow.spec.ts:259:7 › deterministic: geolocation › granted geolocation outside coverage is explained, not used (5.6s)
+  ✓  27 [desktop-chromium] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (2.5s)
+  ✓  28 [desktop-chromium] › tests/e2e/flow.spec.ts:298:7 › deterministic: fallback & states › offline state is shown and blocks submit (2.8s)
+  ✓  29 [desktop-chromium] › tests/e2e/flow.spec.ts:310:7 › deterministic: fallback & states › API down → explicit banner (6.2s)
+  ✓  30 [desktop-chromium] › tests/e2e/flow.spec.ts:316:7 › deterministic: fallback & states › О данных: coverage, snapshot date, place count, OSM/ODbL, approximate heights (6.4s)
+  ✓  26 [desktop-chromium] › tests/e2e/satellite.spec.ts:114:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › noncommercial: explicit consent enables the hybrid with the EOX credit; a new visit starts on the scheme again @xbrowser (21.5s)
+  ✓  31 [desktop-chromium] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (11.0s)
+  ✓  32 [desktop-chromium] › tests/e2e/satellite.spec.ts:153:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › satellite unavailable: the map keeps working, the viewer is told and can return to the scheme @xbrowser (13.0s)
+  -  34 [desktop-chromium] › tests/e2e/satellite.spec.ts:177:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › phones: the layer toggle sits in the control column and also asks first @mobile
+  -  35 [desktop-chromium] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  33 [desktop-chromium] › tests/e2e/flow.spec.ts:353:7 › deterministic: accessibility › keyboard only: choose demo origin, submit, open a card on the map (6.3s)
+  ✓  37 [desktop-chromium] › tests/e2e/xff.spec.ts:11:5 › spoofed X-Forwarded-For does not reach the upstream API (76ms)
+  ✓  36 [desktop-chromium] › tests/e2e/start-provider.spec.ts:6:7 › deterministic: start time & provider disclosure (SYNTHETIC fixtures) › start time: default omitted; chosen time sent as +05:00 and shown in summary (5.7s)
+{"viewport":"mobile-390","baseline":false,"detailedCardSpanPx":1549,"comparisonHeightPx":480}
+  ✓  39 [desktop-chromium] › tests/e2e/start-provider.spec.ts:36:7 › deterministic: start time & provider disclosure (SYNTHETIC fixtures) › О данных: local Ollama vs external provider disclosure (5.5s)
+  ✓  38 [mobile-390] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (10.3s)
+  ✓  40 [mobile-390] › tests/e2e/csp.spec.ts:4:5 › security headers + CSP: map and results work without CSP violations @mobile (6.4s)
+{"viewport":"mobile-390","baseline":false,"firstCardMs":439,"finalMs":3769,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  41 [mobile-390] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (10.1s)
+  ✓  42 [mobile-390] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (12.8s)
+  ✓  43 [mobile-390] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures and tiles) › loads city vector tiles for the visible area only, with 3D extrusion @mobile @xbrowser (10.7s)
+  ✓  44 [mobile-390] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (4.5s)
+  ✓  46 [mobile-390] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (4.9s)
+  ✓  45 [mobile-390] › tests/e2e/routing.spec.ts:7:5 › network route selection, return, reset and no graph @mobile (8.1s)
+  ✓  47 [mobile-390] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (3.6s)
+  ✓  49 [mobile-390] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (7.7s)
+  ✓  48 [mobile-390] › tests/e2e/routing.spec.ts:52:5 › changing start hides saved route and repeated request clears geometry @mobile (9.7s)
+  -  51 [mobile-390] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  50 [mobile-390] › tests/e2e/satellite.spec.ts:57:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › commercial mode: no switch, no EOX request at any zoom @mobile @xbrowser (6.0s)
+{"viewport":"mobile-360","baseline":false,"detailedCardSpanPx":1569,"comparisonHeightPx":496}
+  ✓  52 [mobile-360] › tests/e2e/alternatives.spec.ts:4:5 › compare alternatives evidence @mobile (9.8s)
+  ✓  53 [mobile-390] › tests/e2e/satellite.spec.ts:177:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › phones: the layer toggle sits in the control column and also asks first @mobile (7.2s)
+{"viewport":"mobile-360","baseline":false,"firstCardMs":410,"finalMs":3884,"selectionRetained":true,"timing":"synthetic 2500ms generation delay; not live model latency"}
+  ✓  55 [mobile-360] › tests/e2e/csp.spec.ts:4:5 › security headers + CSP: map and results work without CSP violations @mobile (6.8s)
+  ✓  54 [mobile-360] › tests/e2e/alternatives.spec.ts:48:5 › selection survives delayed explanation @mobile (9.3s)
+  ✓  57 [mobile-360] › tests/e2e/map.spec.ts:5:7 › deterministic: map (SYNTHETIC fixtures and tiles) › loads city vector tiles for the visible area only, with 3D extrusion @mobile @xbrowser (10.8s)
+  ✓  56 [mobile-360] › tests/e2e/flow.spec.ts:22:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › submit → 1–3 cards and markers share place_id; card ↔ marker selection @mobile @xbrowser (11.1s)
+  ✓  59 [mobile-360] › tests/e2e/flow.spec.ts:148:7 › deterministic: recommendation flow (SYNTHETIC fixtures) › model timeout after the places were found: the found places stay, with a note @mobile (6.2s)
+  ✓  58 [mobile-360] › tests/e2e/routing.spec.ts:7:5 › network route selection, return, reset and no graph @mobile (9.1s)
+  ✓  60 [mobile-360] › tests/e2e/flow.spec.ts:248:7 › deterministic: geolocation › denied geolocation keeps the form usable @mobile (5.4s)
+  ✓  62 [mobile-360] › tests/e2e/flow.spec.ts:272:7 › deterministic: fallback & states › WebGL unavailable → SVG 2D fallback with picking, markers and list @mobile (2.9s)
+  ✓  61 [mobile-360] › tests/e2e/routing.spec.ts:52:5 › changing start hides saved route and repeated request clears geometry @mobile (8.7s)
+  ✓  63 [mobile-360] › tests/e2e/flow.spec.ts:337:7 › deterministic: accessibility › axe: no serious/critical violations (initial and results) @mobile (8.0s)
+  -  65 [mobile-360] › tests/e2e/screenshots.spec.ts:14:5 › capture synthetic UI states @mobile
+  ✓  64 [mobile-360] › tests/e2e/satellite.spec.ts:57:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › commercial mode: no switch, no EOX request at any zoom @mobile @xbrowser (5.4s)
+  ✓  66 [mobile-360] › tests/e2e/satellite.spec.ts:177:7 › satellite underlay: explicit opt-in only (SYNTHETIC API, EOX intercepted) › phones: the layer toggle sits in the control column and also asks first @mobile (4.9s)
+
+  4 skipped
+  62 passed (5.1m)
+
+To open last HTML report run:
+[36m[39m
+[36m  pnpm exec playwright show-report[39m
+[36m[39m

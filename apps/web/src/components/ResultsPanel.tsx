@@ -6,6 +6,7 @@ import type { Constraints } from "@/lib/contracts";
 import { formatAlmaty } from "@/lib/time";
 import { AlternativeComparison } from "./AlternativeComparison";
 import { RecommendationCard } from "./RecommendationCard";
+import { WalkPlanCard } from "./WalkPlanCard";
 
 interface Props {
   response: RecommendResponse;
@@ -22,6 +23,14 @@ interface Props {
   note?: string | null;
   cancelled: boolean;
   onSelect: (id: string) => void;
+  /** The timebox plan is the selected item on the map. */
+  planShown: boolean;
+  /** The start was changed after this answer: the plan no longer applies. */
+  planStale?: boolean;
+  /** Said after "Убрать": what changed in the newly selected plan. */
+  planChange?: string | null;
+  onShowPlan: () => void;
+  onRemoveStop: (placeId: string) => void;
   onRefine: (kind: RefinementKind) => void;
   onRelax: (r: Relaxation) => void;
   onEdit: () => void;
@@ -61,6 +70,15 @@ export function ResultsPanel(props: Props) {
 
   return (
     <div className="space-y-4" data-testid="results">
+      {/* The decision first: the plan, then the summary with its caveats. */}
+      {props.planChange && (
+        <p role="status" data-testid="plan-change" className="rounded-control border border-graphite/30 bg-white p-3 text-sm">
+          {props.planChange}
+        </p>
+      )}
+      {r.plan && (
+        <WalkPlanCard plan={r.plan} shown={props.planShown} busy={props.busy && !props.pending} stale={props.planStale} onShow={props.onShowPlan} onRemove={props.onRemoveStop} />
+      )}
       <section className="sc-card space-y-3 p-4" aria-labelledby="summary-h">
         <div className="flex items-start justify-between gap-2">
           <h2 id="summary-h" className="text-xl font-extrabold leading-tight" data-status={r.status}>
@@ -108,9 +126,12 @@ export function ResultsPanel(props: Props) {
               // the banner already says it: do not repeat AI-unavailable/busy notices or the message
               .filter((w) => !(retrievalOnly && (AI_DOWN_CODES.has(w.code) || /ИИ временно недоступен/.test(w.message))))
               .filter((w) => w.message !== r.message && (!diagnosticWarnings.includes(w) || w.code === "routing_excluded"))
-              .map((w, i) => (
-                <li key={`${w.code}-${i}`} className="rounded-control bg-warn-bg px-3 py-2 text-sm text-warn-fg">
-                  {visibleWarning(w.code, w.message)}
+              .map((w) => visibleWarning(w.code, w.message))
+              // routing_unavailable and straight_line_estimate read the same to a person: say it once.
+              .filter((text, i, all) => all.indexOf(text) === i)
+              .map((text) => (
+                <li key={text} className="rounded-control bg-warn-bg px-3 py-2 text-sm text-warn-fg">
+                  {text}
                 </li>
               ))}
           </ul>
@@ -177,6 +198,12 @@ export function ResultsPanel(props: Props) {
           </div>
         )}
       </section>
+
+      {!r.plan && r.plan_note && (
+        <p data-testid="plan-note" className="rounded-control border border-stroke bg-white p-3 text-sm text-muted">
+          {r.plan_note}
+        </p>
+      )}
 
       <AlternativeComparison recs={recs} budget={props.budget} selectedId={props.selectedId} onSelect={props.onSelect} />
 

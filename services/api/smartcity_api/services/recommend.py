@@ -31,6 +31,7 @@ from smartcity_api.contracts import (
     Relaxation,
     Timing,
     WalkingRoute,
+    WalkPlan,
     Warning,
 )
 from smartcity_api.domain.budget import (
@@ -87,6 +88,8 @@ from smartcity_api.services.enrich import (
     safe_website,
     source_ref,
 )
+from smartcity_api.services.plan import MAX_CANDIDATES as PLAN_CANDIDATES
+from smartcity_api.services.plan import build_plan, plan_reachable
 from smartcity_api.services.routing import route_candidates
 
 log = logging.getLogger("smartcity.recommend")
@@ -147,6 +150,8 @@ class Prepared:
     extra_search_text: str = ""
     extra_soft_categories: list[str] = field(default_factory=list)
     routing_ok: bool = False
+    plan: WalkPlan | None = None
+    plan_note: str | None = None
     cancelled: threading.Event = field(default_factory=threading.Event)
 
 
@@ -444,6 +449,8 @@ def _response(
         warnings=prep.warnings,
         suggested_relaxations=prep.relaxations,
         route=None,
+        plan=prep.plan if recs else None,
+        plan_note=prep.plan_note if recs else None,
         providers=_providers(container, prep, gen_identity),
         timings_ms=prep.timings,
     )
@@ -675,6 +682,12 @@ def retrieve(container: Container, prep: Prepared) -> None:
     rk = {c.pid: c for c in ranked}
     prep.llm_candidates = [rk[k] for k in top_keys]
     prep.timings["schedule"] = _ms(t)
+    if ranked:
+        # Plan pool: same ranking and diversity as the cards, limited to places whose own walk
+        # leaves room for another stop. The plan never adds places outside the ranked list.
+        near = [c.pid for c in ranked if c.timing and plan_reachable(c.timing, eff.time_budget_min)]
+        plan_keys = diversify(near, groups, n=PLAN_CANDIDATES, max_per_category=2, caps=caps)
+        build_plan(container, prep, [rk[k] for k in plan_keys])
 
     if not ranked:
         prep.relaxations = build_relaxations(prep, pool, speed, detour)

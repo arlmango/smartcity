@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import os
 from urllib.parse import urlsplit
 
 import httpx
@@ -12,7 +13,8 @@ from smartcity_api.contracts import LatLon, RouteGeometry, RouteLeg, WalkingRout
 from smartcity_api.domain.budget import haversine_m
 
 BBOX = (71.35, 51.04, 71.48, 51.15)
-GRAPH_VERSION = "astana-20261018-valhalla-3.8.3"
+# Which graph build answered; a rebuilt graph (e.g. from the committed snapshot) must say so.
+GRAPH_VERSION = os.environ.get("ROUTING_GRAPH_VERSION") or "astana-20261018-valhalla-3.8.3"
 NOTE = (
     "Пешеходный путь Valhalla по OSM от 18.10.2026. Время приблизительное, 4 км/ч. "
     "Доступность проходов сейчас не проверена. Линия заканчивается на дорожной сети: "
@@ -94,9 +96,16 @@ class Valhalla:
         self.client.close()
 
     def route(self, start: LatLon, end: LatLon, back: bool, *, timeout: float = 2.0) -> WalkingRoute:
-        if not covered(start) or not covered(end):
-            raise RoutingError("outside_coverage")
         points = [start, end, start] if back else [start, end]
+        legs = self.legs(points, timeout=timeout)
+        return WalkingRoute(
+            graph_version=GRAPH_VERSION, outbound=legs[0], return_leg=legs[1] if back else None, note=NOTE
+        )
+
+    def legs(self, points: list[LatLon], *, timeout: float = 2.0) -> list[RouteLeg]:
+        """One router call through break points; one validated leg per consecutive pair."""
+        if any(not covered(p) for p in points):
+            raise RoutingError("outside_coverage")
         try:
             response = self.client.post(
                 "/route",
@@ -119,9 +128,6 @@ class Valhalla:
             trip = data["trip"]
             if trip["status"] != 0 or len(trip["legs"]) != len(points) - 1:
                 raise RoutingError("malformed")
-            legs = [_leg(raw, points[i], points[i + 1]) for i, raw in enumerate(trip["legs"])]
-            return WalkingRoute(
-                graph_version=GRAPH_VERSION, outbound=legs[0], return_leg=legs[1] if back else None, note=NOTE
-            )
+            return [_leg(raw, points[i], points[i + 1]) for i, raw in enumerate(trip["legs"])]
         except (httpx.HTTPError, ValueError, KeyError, TypeError, ValidationError) as exc:
             raise RoutingError("unavailable" if isinstance(exc, httpx.HTTPError) else "malformed") from None
