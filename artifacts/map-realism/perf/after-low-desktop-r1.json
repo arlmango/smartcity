@@ -1,0 +1,27 @@
+{
+  "label": "after-low-desktop-r1",
+  "base": "http://127.0.0.1:3208/?detail=low",
+  "views": {},
+  "perf": {
+    "cpu1x": {
+      "frames": 43,
+      "seconds": 6.003699999999628,
+      "fps": 7.2,
+      "worstFrameMs": 283
+    },
+    "cpu4x": {
+      "frames": 31,
+      "seconds": 6.1899,
+      "fps": 5,
+      "worstFrameMs": 367
+    }
+  },
+  "firstIdleMs": 3805,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 54,
+  "errors": [],
+  "canvasPx": [
+    1048,
+    844
+  ]
+}

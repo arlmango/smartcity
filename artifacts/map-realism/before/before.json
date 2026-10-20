@@ -1,0 +1,43 @@
+{
+  "label": "before",
+  "base": "http://127.0.0.1:3208",
+  "views": {
+    "city": {
+      "layers": 31,
+      "symbols": 2,
+      "zoom": 11.8,
+      "toIdleMs": 3078
+    },
+    "baiterek": {
+      "layers": 31,
+      "symbols": 7,
+      "zoom": 17.2,
+      "toIdleMs": 3608
+    },
+    "expo": {
+      "layers": 31,
+      "symbols": 14,
+      "zoom": 16.2,
+      "toIdleMs": 3638
+    }
+  },
+  "perf": {
+    "cpu1x": {
+      "frames": 62,
+      "seconds": 6.0069999999999055,
+      "fps": 10.3,
+      "worstFrameMs": 267
+    },
+    "cpu4x": {
+      "frames": 41,
+      "seconds": 6.024100000000093,
+      "fps": 6.8,
+      "worstFrameMs": 267
+    }
+  },
+  "firstIdleMs": 4488,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 65,
+  "errors": [],
+  "mobilePlan": 1
+}

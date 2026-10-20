@@ -6,8 +6,13 @@ import { MAPLIBRE_WORKER_URL } from "@/lib/mapWorker";
 import { useEffect, useRef, useState } from "react";
 import type { Recommendation } from "@/lib/contracts";
 import type { Origin } from "@/lib/form";
+import { facadeImage } from "@/lib/facades";
+import { hiddenBaseIds, hiddenOwnIds, landmarkModels } from "@/lib/landmarks";
 import {
   BASEMAP_LABEL,
+  FACADES,
+  FOCUS_HIDDEN_LABELS,
+  ROUTE_SEE_THROUGH,
   CITY_BOUNDS,
   INITIAL_VIEW,
   OSM_ATTRIBUTION,
@@ -16,6 +21,9 @@ import {
   pitchFor,
   viewModeVisibility,
   type BasemapVariant,
+  type BuildingTiles,
+  type Detail,
+  type FacadeId,
   type SatelliteSource,
   type ViewMode,
 } from "@/lib/mapStyle";
@@ -41,6 +49,10 @@ export interface MapViewProps {
   variant: BasemapVariant;
   satellite: SatelliteSource | null;
   tilesVersion: string | null;
+  /** Own building tiles, or the OSM buildings of the base tiles (from /api/basemap). */
+  buildingTiles: BuildingTiles;
+  /** Device tier: "low" draws lighter buildings and landmarks (lib/deviceTier.ts). */
+  detail: Detail;
   onVariantChange: (v: BasemapVariant) => void;
   /** A satellite tile failed (host down, blocked); the vector map keeps working. */
   onSatelliteError?: () => void;
@@ -129,6 +141,11 @@ export function MapView(props: MapViewProps) {
       tilesVersion: p.tilesVersion,
       coverage: p.coverage ?? EMPTY,
       boundary: p.boundary ?? EMPTY,
+      buildingTiles: p.buildingTiles,
+      detail: p.detail,
+      landmarks: landmarkModels(p.detail),
+      hiddenOwn: hiddenOwnIds(),
+      hiddenBase: hiddenBaseIds(),
     });
 
   // ---------------------------------------------------------------- create map once
@@ -167,6 +184,8 @@ export function MapView(props: MapViewProps) {
           touchPitch: true,
           cooperativeGestures: false,
           fadeDuration: live.current.reducedMotion ? 0 : 300,
+          // Weak devices: fewer pixels to shade (a 3× phone screen at full density is the costliest case).
+          ...(live.current.detail === "low" ? { pixelRatio: Math.min(window.devicePixelRatio || 1, 1.5) } : {}),
         });
       } catch (e) {
         live.current.onFatal(e instanceof Error ? e.message : "Не удалось создать карту");
@@ -180,6 +199,12 @@ export function MapView(props: MapViewProps) {
       map.getCanvas().setAttribute("role", "application");
       // Keyboard on the canvas (arrows / +/-) is MapLibre's built-in handler.
 
+      // Procedural facade patterns are generated on demand when the style first asks for them.
+      map.on("styleimagemissing", (ev: { id: string }) => {
+        if ((FACADES as readonly string[]).includes(ev.id) && map && !map.hasImage(ev.id)) {
+          map.addImage(ev.id, facadeImage(ev.id as FacadeId), { pixelRatio: 1 });
+        }
+      });
       map.on("load", () => {
         if (cancelled) return;
         clearTimeout(slowTimer);
@@ -230,7 +255,25 @@ export function MapView(props: MapViewProps) {
     if (!map || !loaded) return;
     // A style diff swaps only what changed (satellite source, paint values); markers are DOM and stay.
     map.setStyle(styleFor(live.current), { diff: true });
-  }, [shownVariant, props.tilesVersion, loaded]);
+  }, [shownVariant, props.tilesVersion, props.buildingTiles, props.detail, loaded]);
+
+  // ---------------------------------------------------------------- labels yield to results and the walk
+  const focus = props.recs.length > 0 || !!props.route;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !loaded) return;
+    for (const id of FOCUS_HIDDEN_LABELS) if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", focus ? "none" : "visible");
+  }, [focus, loaded, shownVariant, props.buildingTiles, props.detail]);
+  const routeShown = !!props.route;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !loaded) return;
+    for (const [id, see] of ROUTE_SEE_THROUGH) {
+      if (!map.getLayer(id)) continue;
+      const opaque = id === "buildings-3d-approx" ? 0.72 : id.startsWith("buildings-3d") && shownVariant === "hybrid" ? 0.97 : 1;
+      map.setPaintProperty(id, "fill-extrusion-opacity", routeShown ? see : opaque);
+    }
+  }, [routeShown, loaded, shownVariant, props.buildingTiles, props.detail]);
 
   // ---------------------------------------------------------------- data
   useEffect(() => {

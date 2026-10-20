@@ -16,6 +16,7 @@ import { INTEREST_LABEL } from "@/lib/labels";
 import { heightStats, pointInCoverage } from "@/lib/mapData";
 import { describeProviders, hasExternalProvider } from "@/lib/providers";
 import type { BasemapVariant, SatelliteSource, ViewMode } from "@/lib/mapStyle";
+import { browserDetailTier } from "@/lib/deviceTier";
 import { describeRemoval, withoutStop, type PlanRemoval } from "@/lib/plan";
 import { newClientRequestId } from "@/lib/recommendState";
 import { mapRouteOf, mapRouteOfPlan } from "@/lib/walkingRoute";
@@ -36,6 +37,8 @@ const OUTSIDE_MSG = `Вне зоны рекомендаций. ${OUTSIDE_DETAIL}
 export function App() {
   const online = useOnline();
   const reducedMotion = useReducedMotion();
+  // Device tier is decided once per visit (lib/deviceTier.ts); ?detail=low|high overrides it.
+  const [detail] = useState(browserDetailTier);
   const isDesktop = useMediaQuery("(min-width: 1024px)", true);
   const ready = useReady();
   const coverage = useCoverage();
@@ -445,6 +448,8 @@ export function App() {
               variant={variant}
               satellite={satellite}
               tilesVersion={basemap.data?.tiles_version ?? null}
+              buildingTiles={basemap.data?.building_tiles ?? "own"}
+              detail={detail}
               onVariantChange={setVariant}
               onSatelliteError={() => setSatFailed(true)}
               origin={form.origin}
@@ -537,6 +542,8 @@ export function App() {
                 defaultHeight={basemap.data?.default_height_m ?? 10}
                 cityWide={!!basemap.data}
                 stylised={(basemap.data?.stylised_landmarks?.length ?? 0) > 0}
+                tiles={basemap.data?.building_tiles ?? "own"}
+                facades={detail === "high"}
                 defaultOpen={false}
               />
             </div>

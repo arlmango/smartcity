@@ -1,0 +1,27 @@
+{
+  "label": "after-low-phone-r2",
+  "base": "http://127.0.0.1:3208/",
+  "views": {},
+  "perf": {
+    "cpu1x": {
+      "frames": 75,
+      "seconds": 6.005500000000185,
+      "fps": 12.5,
+      "worstFrameMs": 167
+    },
+    "cpu4x": {
+      "frames": 50,
+      "seconds": 6.005200000000559,
+      "fps": 8.3,
+      "worstFrameMs": 200
+    }
+  },
+  "firstIdleMs": 2379,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 33,
+  "errors": [],
+  "canvasPx": [
+    585,
+    972
+  ]
+}

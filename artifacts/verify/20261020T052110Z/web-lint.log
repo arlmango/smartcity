@@ -1,0 +1,4 @@
+
+> @smartcity/web@0.1.0 lint /home/user/smartcity/apps/web
+> eslint . --max-warnings=0
+

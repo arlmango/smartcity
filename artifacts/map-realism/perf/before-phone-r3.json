@@ -1,0 +1,27 @@
+{
+  "label": "before-phone-r3",
+  "base": "http://127.0.0.1:3209/",
+  "views": {},
+  "perf": {
+    "cpu1x": {
+      "frames": 32,
+      "seconds": 6.074700000000093,
+      "fps": 5.3,
+      "worstFrameMs": 300
+    },
+    "cpu4x": {
+      "frames": 24,
+      "seconds": 6.140600000000186,
+      "fps": 3.9,
+      "worstFrameMs": 483
+    }
+  },
+  "firstIdleMs": 2766,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 30,
+  "errors": [],
+  "canvasPx": [
+    1170,
+    1944
+  ]
+}

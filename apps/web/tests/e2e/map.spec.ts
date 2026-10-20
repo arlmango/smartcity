@@ -113,10 +113,13 @@ test.describe("deterministic: map (SYNTHETIC fixtures and tiles)", () => {
 
     await page.evaluate(() => window.__smartcityMap!.jumpTo({ center: [71.416, 51.0894], zoom: 16.5 }));
     await mapIdle(page);
-    const labels = await page.evaluate(() =>
-      window.__smartcityMap!.queryRenderedFeatures({ layers: ["stylised-labels"] }).map((f) => f.properties?.lbl),
-    );
-    expect(labels).toContain("SYNTH-сфера · стилизация");
+    // The old curated stylisation in tiles without `oid` yields to the landmark model and its label.
+    const labels = await page.evaluate(() => ({
+      stylised: window.__smartcityMap!.queryRenderedFeatures({ layers: ["stylised-labels"] }).map((f) => f.properties?.lbl),
+      models: window.__smartcityMap!.queryRenderedFeatures({ layers: ["landmark-labels"] }).map((f) => f.properties?.lbl),
+    }));
+    expect(labels.stylised).not.toContain("SYNTH-сфера · стилизация");
+    expect(labels.models).toContain("Нур Алем · стилизация");
 
     await page.evaluate(() => window.__smartcityMap!.setBearing(70));
     await page.getByRole("button", { name: "На север" }).click();

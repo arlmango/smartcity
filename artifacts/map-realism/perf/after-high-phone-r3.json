@@ -1,0 +1,27 @@
+{
+  "label": "after-high-phone-r3",
+  "base": "http://127.0.0.1:3208/?detail=high",
+  "views": {},
+  "perf": {
+    "cpu1x": {
+      "frames": 27,
+      "seconds": 6.155600000000558,
+      "fps": 4.4,
+      "worstFrameMs": 317
+    },
+    "cpu4x": {
+      "frames": 19,
+      "seconds": 6.238900000000372,
+      "fps": 3,
+      "worstFrameMs": 483
+    }
+  },
+  "firstIdleMs": 3139,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "jsHeapMb": 36,
+  "errors": [],
+  "canvasPx": [
+    1170,
+    1944
+  ]
+}

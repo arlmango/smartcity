@@ -46,6 +46,15 @@ TILESETS: dict[str, str] = {
     "base": "astana-base.pmtiles",
     "buildings": "astana-buildings.pmtiles",
 }
+# Own building tiles (Geofabrik: height source, parts, roof shapes) are optional: without them the map
+# extrudes the OSM buildings already present in the Protomaps base tiles (heights where tagged).
+REQUIRED_TILESETS = ("base",)
+
+
+def building_tiles(d: Path) -> str:
+    return "own" if (d / TILESETS["buildings"]).is_file() else "base"
+
+
 MAX_TILE_ZOOM = 15
 
 
@@ -151,7 +160,9 @@ def basemap_info(request: Request) -> dict:
         m = json.loads(path.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError) as e:
         raise ApiError(503, "basemap_unavailable", "Базовая карта ещё не собрана (make basemap)") from e
-    b = m.get("buildings", {})
+    mode = building_tiles(path.parent)
+    # Height statistics, roofs and stylisations describe the own archive: never shown without it.
+    b = m.get("buildings", {}) if mode == "own" else {}
     landmarks = b.get("landmarks", [])
     stylised = [{"osm": lm["osm"], "centroid": lm.get("centroid")} for lm in landmarks if lm.get("applied")]
     return {
@@ -161,7 +172,8 @@ def basemap_info(request: Request) -> dict:
         "licenses": m.get("licenses", {}),
         "coverage": m.get("coverage", {}),
         "base_source": m.get("base", {}).get("source"),
-        "buildings_source": b.get("source"),
+        "building_tiles": mode,
+        "buildings_source": b.get("source") if mode == "own" else "Protomaps Basemap (OSM buildings layer)",
         "level_height_m": b.get("level_height_m"),
         "default_height_m": b.get("default_height_m"),
         "height_source": {
@@ -202,7 +214,13 @@ def basemap_boundary(request: Request) -> Response:
 
 def basemap_status(data_dir: Path) -> tuple[bool, str]:
     d = data_dir / "basemap"
-    missing = [f for f in (*TILESETS.values(), "manifest.json") if not (d / f).is_file()]
+    needed = [TILESETS[k] for k in REQUIRED_TILESETS] + ["manifest.json"]
+    missing = [f for f in needed if not (d / f).is_file()]
     if missing:
         return False, "Нет файлов базовой карты: " + ", ".join(missing) + " (make basemap)"
-    return True, "Тайлы базовой карты: " + ", ".join(TILESETS)
+    if building_tiles(d) == "own":
+        return True, "Тайлы базовой карты: base, buildings"
+    return (
+        True,
+        "Тайлы базовой карты: base; здания — из слоя OSM базовой карты (свои тайлы зданий не собраны)",
+    )

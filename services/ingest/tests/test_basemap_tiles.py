@@ -128,6 +128,9 @@ def test_extract_heights_roofs_and_landmark(synthetic_osm):
     assert 100 - min(p["mh"] for p in ball) == pytest.approx(80, abs=4)
     # The outline with ground-level parts is drawn by its parts in 3D.
     assert f[20 * 2][0].get("has_parts") == 1
+    # Every piece (roof slices and stylisation slices too) names its OSM object, so the map can hide
+    # an object that a landmark model replaces.
+    assert {p["oid"] for p in f[15 * 2]} == {"w15"} and {p["oid"] for p in sphere} == {"w21"}
     # Tagged colour is normalised and softened, unknown values dropped.
     assert f[30 * 2][0]["col"].startswith("#") and f[30 * 2][0]["col"] != "#000080"
 
