@@ -5,7 +5,8 @@
 OpenStreetMap: с бюджетом времени (дорога, визит, обратный путь, запас), статусом часов работы,
 источниками и честными пометками о неизвестном.
 
-- Карта: MapLibre GL на собственных GeoJSON-слоях из OSM (улицы, вода, зелень, контуры зданий с 3D-высотами и их происхождением). Без внешних тайлов и ключей.
+- Карта: MapLibre GL на локальных векторных тайлах всей Астаны (Protomaps по OSM, `make basemap`) и слоях района из OSM; 3D-здания с источником высоты, упрощённые модели Байтерека и Нур Алем, лёгкий режим для слабых устройств и 2D. Без внешних тайлов и ключей. Подробно: [docs/MAP_REALISM.md](docs/MAP_REALISM.md).
+- Маршруты (необязательно): локальный пешеходный граф Valhalla и «Прогулка на время» — план 2–3 остановок; запуск в [submission/README.md](submission/README.md), отчёт [docs/TIMEBOX.md](docs/TIMEBOX.md).
 - Поиск: гибридный — геофильтр и жёсткие условия, lexical + semantic (embeddings bge-m3, pgvector), RRF.
 - RAG: генерация объяснений локальной моделью (Ollama, qwen2.5:3b) только по найденным кандидатам; сервер проверяет ID и подставляет все факты из БД.
 
@@ -21,7 +22,8 @@ make doctor                 # проверка инструментов, рес�
 make bootstrap              # .env из .env.example, зависимости, БД, миграции (модели НЕ скачиваются)
 CONFIRM=1 make models       # локальные модели Ollama (~3.1 GB): qwen2.5:3b + bge-m3
 make ingest                 # ограниченный сбор OSM (Overpass) → БД, слои карты, manifest
-make basemap                # тайлы карты всей Астаны (Protomaps + здания из Geofabrik, ~240 МБ загрузки, кэш)
+make basemap                # тайлы карты всей Астаны (Protomaps + здания из Geofabrik, ~240 МБ загрузки, кэш);
+                            # пересоберите тайлы до 20.10.2026: в них нет метки oid (см. submission/README.md)
 make index                  # embeddings мест (инкрементально)
 make up                     # db + api + web в Docker, ожидание healthcheck
 open http://localhost:3000
